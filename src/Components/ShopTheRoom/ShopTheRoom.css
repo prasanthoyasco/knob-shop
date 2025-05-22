@@ -1,16 +1,16 @@
-.shop-room-section {
+.shop-the-room__section {
   padding: 30px 10px;
   background-color: #f5f3ef;
   text-align: center;
 }
 
-.section-title {
+.shop-the-room__title {
   font-size: 24px;
   font-weight: 600;
   margin-bottom: 30px;
 }
 
-.room-container {
+.shop-the-room__room-container {
   position: relative;
   display: inline-block;
   max-width: 100%;
@@ -18,18 +18,18 @@
   overflow: hidden;
 }
 
-.room-image {
+.shop-the-room__image {
   width: 100%;
   height: auto;
   border-radius: 12px;
 }
 
-.hotspot {
+.shop-the-room__hotspot {
   position: absolute;
   transform: translate(-50%, -50%);
 }
 
-.dot {
+.shop-the-room__dot {
   width: 20px;
   height: 20px;
   background-color: #000;
@@ -39,7 +39,7 @@
   z-index: 2;
 }
 
-.product-card {
+.shop-the-room__card {
   position: absolute;
   top: -120px;
   left: 30px;
@@ -55,39 +55,39 @@
   z-index: 1;
 }
 
-.product-card img {
+.shop-the-room__card img {
   width: 60px;
   height: 60px;
   object-fit: contain;
 }
 
-.product-info {
+.shop-the-room__info {
   text-align: left;
 }
 
-.product-category {
+.shop-the-room__category {
   font-size: 10px;
   color: #888;
   margin: 0;
 }
 
-.product-title {
+.shop-the-room__product-title {
   font-size: 14px;
   margin: 2px 0;
 }
 
-.product-price {
+.shop-the-room__price {
   font-size: 13px;
   font-weight: bold;
   color: #000;
   margin: 0;
 }
 
-.btn-container {
+.shop-the-room__btn-container {
   margin-top: 30px;
 }
 
-.check-products-btn {
+.shop-the-room__check-btn {
   padding: 10px 24px;
   background-color: #000;
   color: white;
@@ -98,6 +98,6 @@
   transition: background-color 0.3s ease;
 }
 
-.check-products-btn:hover {
+.shop-the-room__check-btn:hover {
   background-color: #333;
 }
