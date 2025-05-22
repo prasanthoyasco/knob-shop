@@ -14,9 +14,10 @@ import './SingleCarosal.css';
 const carouselData = [
   {
     image: singleCarosal1,
-    subtit:'Cabinets & Storage',
-    title: 'DOOR STEEL LOCKER UNIT ALMIRAH',
-    description: 'Bench suitable for living room Lorem ipsum dolor sit amet consectetur...',
+    subtit:'Welcome to ',
+    subtitbold:'Knobs shop!',
+    title: 'Crafted for Creators. Trusted by Pros.',
+    description: 'Trusted by architects, builders & carpenters for quality and style.',
   },
   {
     image: singleCarosal2,
@@ -53,8 +54,8 @@ const singleCarosal = () => {
               style={{ backgroundImage: `url(${item.image})` }}
             >
              <div className="custom-single-carousel-overlay">
-              <h5 className="custom-carousel-subtitle">{item.subtit}</h5>
-              <h2 className="custom-carousel-title">{item.title}</h2>
+              <h5 className="custom-carousel-subtitle">{item.subtit}<strong>{item.subtitbold}</strong></h5>
+              <h2 className="custom-single-carousel-title text-uppercase">{item.title}</h2>
               <p className="custom-carousel-description">{item.description}</p>
               <button className="custom-carousel-button">SHOP NOW</button>
             </div>

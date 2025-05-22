@@ -25,7 +25,7 @@
 .custom-carousel-overlay {
     position: absolute;
     right: 20%;
-    width: 40%;
+    width: 45%;
     height: 100%;
     background: white;
     padding: 1rem 8rem 1rem 5rem;
@@ -42,11 +42,7 @@
   text-transform: uppercase;
   color: #888;
   animation: fadeIn 0.5s ease forwards;
-<<<<<<< HEAD
-  margin-bottom: 0.5rem !important;
-=======
   margin-bottom: 1rem !important;
->>>>>>> 4a3c774 (Initial commit with local changes)
 }
 
 .custom-carousel-title {
