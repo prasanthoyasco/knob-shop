@@ -25,7 +25,13 @@ const helpContent = [
 ]
 function Footer() {
   return (
-    <div style={{backgroundColor:"#F8F8F8"}}>
+    <div className='footer'>
+      <div className='logo-background'></div>
+      <div className='footer-bottom-background'></div>
+      <div className='footer-buliding-background'></div>
+      <div className='footer-hall-background'></div>
+      <div className='footer-right-top-background'></div>
+      <div className='footer-right-down-background'></div>
     <div className='footer-container'>
       <div className='footer-logo-text'>
         <img src={footerImage} className='footer-logo'/>

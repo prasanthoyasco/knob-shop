@@ -2,8 +2,92 @@
     display: flex;
     justify-content: space-around;
 }
+.footer-right-down-background{
+    background-image: url(../../Assets/b4.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    position: absolute;
+    top: 56%;
+    right: 2%;
+    width: 60px;
+    height: 200px;
+    z-index: 0;
+    pointer-events: none; /* Allow clicks to pass through */
+}
+.footer-right-top-background{
+    background-image: url(../../Assets/b5.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    position: absolute;
+    top: -31%;
+    right: 3%;
+    width: 449px;
+    height: 164px;
+    z-index: 0;
+    pointer-events: none; /* Allow clicks to pass through */
+}
+.footer-hall-background{
+    background-image: url(../../Assets/b2.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    position: absolute;
+    top: 40%;
+    right: 40%;
+    width: 550px;
+    height: 250px;
+    z-index: 0;
+    pointer-events: none; /* Allow clicks to pass through */
+}
+.footer-buliding-background{
+    background-image: url(../../Assets/b1.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    position: absolute;
+    top: 35%;
+    right: 78%;
+    width: 108px;
+    height:270px;
+    z-index: 0;
+    pointer-events: none; /* Allow clicks to pass through */
+}
+.footer-bottom-background{
+    background-image: url(../../Assets/backgroundleft.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    position: absolute;
+    top: 72%;
+    right: 81%;
+    width: 19%;
+    height: 32%;
+    z-index: 0;
+    pointer-events: none; /* Allow clicks to pass through */
+}
+.logo-background {
+    background-image: url(../../Assets/logobackground.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    position: absolute;
+    top: -12%;
+    right: 79%;
+    width: 19%;
+    height: 32%;
+    z-index: 0;
+    pointer-events: none; /* Allow clicks to pass through */
+}
+
+.footer{
+    background-color:#F8F8F8;
+    position: relative;
+    z-index: 1;
+}
 .footer-container h2{
-    color: #B3B3B3;
+    color: #B3B3B3 !important;
 }
 .footer-logo img {
     width: 146.01px;
@@ -19,7 +103,7 @@
     font-size: 18px;
     line-height: auto;
     letter-spacing: 0%;
-    margin-top: 30px;
+    margin-top: 30px !important;
 }
 .shop-content{
     display: flex;
