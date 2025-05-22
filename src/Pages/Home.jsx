@@ -17,6 +17,7 @@ import OurServices from '../Components/OurServices/OurServices';
 import FAQ from '../Components/FAQ/FAQ';
 import Testimonals from '../Components/Testimonals/Testimonals';
 import Brand from '../Components/Brand/Brand';
+import EssentialsSection from "../Components/EssentialsSection/EssentialsSection";
 
 export const Home = () => {
   const products = [
@@ -87,6 +88,7 @@ export const Home = () => {
       <ShelfHighlight/>
       <SingleCarosal/>
       <TrendingProducts/>
+      <EssentialsSection/>
       <Brand/>
       <Testimonals/>
       <FAQ/>

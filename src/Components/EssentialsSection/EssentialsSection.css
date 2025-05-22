@@ -1,0 +1,82 @@
+.essential-card {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  min-height: 400px;
+  max-height: 400px;
+  transition: box-shadow 0.3s ease;
+  background-color: #fff;
+}
+.essentials-bg-img{
+    background: url('../../Assets/EssentialsSectionBG.jpg') no-repeat;
+    background-position: center;
+    background-size: cover;
+    min-height: 600px;
+}
+.essentials-bg-img .card{
+    border-radius: 2px;
+}
+.card-body a{
+    text-decoration: none;
+    color: #000;
+}
+.essential-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: var(--bg-image);
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  z-index: 0;
+}
+.stroke-text {
+  color: transparent !important;
+  -webkit-text-stroke: 1.5px #000; /* Black stroke */
+  text-stroke: 1.5px #000; /* Fallback for other engines */
+}
+
+.essential-card:hover::before {
+  opacity: 1;
+}
+
+.essential-card .card-body {
+  position: relative;
+  z-index: 1;
+  height: inherit;
+  background-color: rgba(0, 0, 0, 0);
+  transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+.essential-card:hover .card-body {
+  background-color: rgba(0, 0, 0, 0.253);
+  color: #fff !important;
+}
+.essential-card:hover .card-body h1{
+  -webkit-text-stroke: 1.5px #fff; /* Black stroke */
+  text-stroke: 1.5px #fff; /* Fallback for other engines */
+}
+.essential-card:hover .card-body .text{
+  color: #ffffff !important;
+}
+
+.essential-card:hover a {
+  color: #fff !important;
+}
+.mt-5{
+    margin-top: .5rem !important;
+}
+.w-80{
+    width: 80% !important;
+}
+.dark-btn{
+    color: #000;
+    background-color: #fff;
+    border: 0;
+    transition: all 0.3s ease-in-out;
+}
+.dark-btn:hover{
+     color: #fff;
+    background-color: #000;
+}
