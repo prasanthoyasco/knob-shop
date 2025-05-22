@@ -82,7 +82,7 @@
 .shop-button {
   background-color: #000000;
   color: #fff;
-  width: 25%; /* Set width as per request */
+  width: fit-content;
   padding: 12px 10px; /* Specific padding as per request */
   border: none;
   text-transform: uppercase;
