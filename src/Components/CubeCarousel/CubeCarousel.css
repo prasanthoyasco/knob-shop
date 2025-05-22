@@ -25,14 +25,15 @@
 .cube-image {
   height: 100%;
   object-fit: contain;
-  border-radius: 10px;
 }
 
 .cube-image.left {
+  border-radius: 10px 0px 0px 10px;
   animation: fadeInLeft 1.2s ease both;
 }
 
 .cube-image.right {
+  border-radius: 0px 10px 10px 0px;
   animation: fadeInRight 1.2s ease both;
 }
 
@@ -144,4 +145,7 @@
     opacity: 1;
     transform: translateX(0);
   }
+}
+.cube-carousel-wrapper .custom-swiper-button-prev {
+  left:20px
 }
