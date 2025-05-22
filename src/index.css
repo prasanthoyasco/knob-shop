@@ -5,18 +5,8 @@
     --color-text-inactive: #ADADAD;
     --color-text-light: #e5e5e5;
 }
-<<<<<<< HEAD
 body{
   margin: 0;
-=======
-@font-face {
-  font-family: 'Aksara'; 
-  src: local('Aksara-normal'), url('./Fonts/Fontspring-DEMO-aksara-regular.otf') format('opentype');
-  font-weight: normal;
-  font-style: normal;
-}
-body{
->>>>>>> 4a3c774 (Initial commit with local changes)
   padding: auto;
   box-sizing: border-box;
   background-color: #FFFFFF;
