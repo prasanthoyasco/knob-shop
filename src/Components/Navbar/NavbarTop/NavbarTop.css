@@ -1,7 +1,7 @@
 .navbar-top-container {
     display: flex;
     justify-content: space-around;
-    background-color: rgb(234, 232, 232);
+    background-color: #ECECEC;
     height: 40px;
     padding: 10px;
     flex-wrap: wrap; /* Allows wrapping on small screens */
