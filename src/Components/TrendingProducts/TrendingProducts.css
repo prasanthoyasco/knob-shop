@@ -49,12 +49,10 @@
 }
 
 /* Hide scrollbar */
-.product-scroll-container::-webkit-scrollbar {
-  display: none;
-}
+
 .product-scroll-container {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+  
+  scrollbar-width: 10px;
 }
 
 /* Scroll buttons */

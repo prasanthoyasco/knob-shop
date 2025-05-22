@@ -36,6 +36,9 @@ const ProductCard = ({ product }) => {
   <div className="image-wrapper position-relative">
   <img src={image} alt={title} className="card-img-top default-img" />
   <img src={product.hoverImage} alt={title} className="card-img-top hover-img position-absolute top-0 start-0" />
+  <div className="hover-button-wrapper">
+    <button className="hover-button">Choose Option</button>
+  </div>
 </div>
 
 
@@ -43,12 +46,13 @@ const ProductCard = ({ product }) => {
     <h5 className="card-title">{title}</h5>
 
     <p className="mb-1">
-      <strong style={{ color: "#222" }}>
-        ₹ {(price ? +price : 0).toLocaleString("en-IN")}
-      </strong>{" "}
+     
       <del className="text-muted ms-2">
         ₹ {oldPrice.toLocaleString("en-IN")}
-      </del>
+      </del>{" "}
+       <strong style={{ color: "#D6791F" }}>
+        ₹ {(price ? +price : 0).toLocaleString("en-IN")}
+      </strong>
     </p>
     <p className="text-success mb-2">
       You Save ₹ {(oldPrice - price).toLocaleString("en-IN")}
