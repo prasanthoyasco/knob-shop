@@ -12,12 +12,12 @@ import ShelfHighlight from "../Components/ShelfHighlight/ShelfHighlight";
 import CubeCarousel from "../Components/CubeCarousel/CubeCarousel";
 import TrendingProducts from "../Components/TrendingProducts/TrendingProducts";
 import Footer from '../Components/Footer/Footer';
-import Location from '../Components/Location/Location';
 import OurServices from '../Components/OurServices/OurServices';
 import FAQ from '../Components/FAQ/FAQ';
 import Testimonals from '../Components/Testimonals/Testimonals';
 import Brand from '../Components/Brand/Brand';
 import EssentialsSection from "../Components/EssentialsSection/EssentialsSection";
+import LocationMap from "../Components/LocationMap/LocationMap";
 
 export const Home = () => {
   const products = [
@@ -93,7 +93,7 @@ export const Home = () => {
       <Testimonals/>
       <FAQ/>
       <OurServices/>
-      <Location/>
+      <LocationMap/>
       <Footer/>
       </>
   )
