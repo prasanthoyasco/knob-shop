@@ -49,9 +49,10 @@
   }
   
   .faq-question {
-    width: 513px;
+    width: 530px;
     height: 74px;
-    font-weight: 600;
+    font-size: 22px;
+    line-height: 22px;
     cursor: pointer;
     display: flex;
     justify-content: space-between;
@@ -62,16 +63,18 @@
   
   .faq-question:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   }
   
   .faq-question span {
     font-size: 1.5rem;
     margin-left: 10px;
   }
+  .faq-answer{
+    margin-bottom: 25px;
+  }
   
   .faq-answer p {
-    font-size: 14px;
+    font-size: 15px;
     color: #444;
     line-height: 24px;
     width: 450px;

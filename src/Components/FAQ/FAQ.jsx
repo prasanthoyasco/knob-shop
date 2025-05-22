@@ -4,19 +4,19 @@ import faqImage from '../../Assets/FAQ-image.png';
 
 const faqData = [
   {
-    question: "What materials are used in your furniture?",
-    answer: "We use high-quality solid wood, engineered wood, metal, and premium upholstery depending on the design and functionality of each product."
+    question: "Do you offer any discounts or promotions?",
+    answer: "Limit rock sail forest whiten army lump bad such separate he walk trade widower feather tongue substance bath wet hill "
   },
   {
-    question: "Do you offer customization options?",
+    question: "What types of products do you offer?",
     answer: "Yes, we offer customization in terms of size, fabric, color, and finish for selected furniture pieces."
   },
   {
-    question: "How long does delivery take?",
+    question: "How can i provide feedback about my experience?",
     answer: "Standard delivery takes 7–10 business days, while customized items may take up to 3–4 weeks."
   },
   {
-    question: "What materials are used in your furniture?",
+    question: "Do you offer customer supoort?",
     answer: "We use high-quality solid wood, engineered wood, metal, and premium upholstery depending on the design and functionality of each product."
   },
 ];
