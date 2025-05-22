@@ -7,26 +7,26 @@ const testimonials = [
   {
     imgage: testinomalImage1,
     name: "Aarav Mehta",
-    location: "Mumbai, India",
-    message: "The craftsmanship is exceptional! My solid wood dining table was delivered on time and looks exactly like the picture. Highly recommended!"
+    profession : "Expert",
+    message: "“My family built with Hallmark 16 years ago. Quality house still to this day, so this really helped us to make a decision.”"
   },
   {
     imgage: testinomalImage2,
     name: "Sneha Kapoor",
-    location: "Bangalore, India",
-    message: "From custom sizing to fabric selection, the team helped me build the perfect sofa. It's beautiful, comfortable, and fits perfectly in my living room."
+    profession: "Senior client",
+    message: "“These are the most beautiful cabinets!! So well made. The contractor installing them said they’re some of the best he’s ever seen. Everyone that sees them wants to know where I bought them.”"
   },
   {
     imgage: testinomalImage1,
     name: "Raj Singh",
-    location: "Delhi, India",
-    message: "Absolutely love the design and finish. Will definitely shop again!"
+    profession: "Expert",
+    message: "My family built with Hallmark 16 years ago. Quality house still to this day, so this really helped us to make a decision."
   },
   {
     imgage: testinomalImage2,
     name: "Priya Desai",
-    location: "Chennai, India",
-    message: "Their team was so helpful and the delivery was quick!"
+    profession: "Senior client",
+    message: "These are the most beautiful cabinets!! So well made. The contractor installing them said they’re some of the best he’s ever seen. Everyone that sees them wants to know where I bought them."
   },
 ];
 
@@ -83,7 +83,8 @@ function Testimonals() {
         <div className='testimonal-left-content'>
           <h1>READ WHAT</h1>
           <h1>OUR CLIENTS THINK</h1>
-          <p>We can already call over 5,000 people our customer, When you are coming</p>
+          <div style={{marginTop:"20px"}}>
+          <p>We can already call over 5,000 people our customer, When you are coming</p></div>
           <button>DISCOVER NOW</button>
         </div>
 
@@ -94,7 +95,7 @@ function Testimonals() {
                 <img src={item.imgage} className='testimonal-image' alt={item.name} />
                 <p className='testimonial-message'>“{item.message}”</p>
                 <p className='testimonial-name'>{item.name}</p>
-                <p className='testimonial-location'>{item.location}</p>
+                <p className='testimonial-location'>{item.profession}</p>
               </div>
             ))}
           </div>
