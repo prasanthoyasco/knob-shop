@@ -6,6 +6,8 @@ import p2 from '../Assets/product-category/p2.png'
 import p3 from '../Assets/product-category/p3.png'
 import p4 from '../Assets/product-category/p4.png'
 import p5 from '../Assets/product-category/p5.png'
+import left from '../Assets/left-image-interior.jpg'
+import right from '../Assets/right-image-interior.jpg'
 import CollectionsCarosal from "../Components/CollectionsCarosal/CollectionsCarosal";
 import SingleCarosal from "../Components/singleCarosal/SingleCarosal";
 import ShelfHighlight from "../Components/ShelfHighlight/ShelfHighlight";
@@ -18,6 +20,7 @@ import FAQ from '../Components/FAQ/FAQ';
 import Testimonals from '../Components/Testimonals/Testimonals';
 import Brand from '../Components/Brand/Brand';
 import EssentialsSection from "../Components/EssentialsSection/EssentialsSection";
+import ParallaxSection from "../Components/ParallaxSection/ParallaxSection";
 
 export const Home = () => {
   const products = [
@@ -89,6 +92,16 @@ export const Home = () => {
       <SingleCarosal/>
       <TrendingProducts/>
       <EssentialsSection/>
+      <ParallaxSection
+      rotation={10}
+      title="Check over 10,000 Inspirations"
+      subtitle="See our latest inspirations"
+      buttonText="Check now"
+      buttonLink="/pages/inspired"
+      leftImage={left}
+      rightImage={right}
+    />
+
       <Brand/>
       <Testimonals/>
       <FAQ/>

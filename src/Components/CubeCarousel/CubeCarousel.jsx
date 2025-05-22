@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Navigation, EffectFade, Autoplay } from 'swiper/modules';
-import { IoIosArrowBack,IoIosArrowForward  } from "react-icons/io";
+import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 
 import 'swiper/css';
 import 'swiper/css/effect-fade';
@@ -43,24 +43,44 @@ const carouselData = [
 ];
 
 const CubeCarousel = () => {
+  const prevRef = useRef(null);
+  const nextRef = useRef(null);
+
   return (
     <div className="cube-carousel-wrapper">
-      <div className="flex-grow-1 text-center my-4"> {/* Added flex-grow-1 and text-center */}
-          <h2 className="h5 text-uppercase fw-medium product-head">
-            New & Tradition Collection
-          </h2>
-        </div>
+      <div className="flex-grow-1 text-center my-4">
+        <h2 className="h5 text-uppercase fw-medium product-head">
+          New & Tradition Collection
+        </h2>
+      </div>
+
       <Swiper
-        modules={[Navigation, EffectFade,Pagination,Autoplay]}
+        modules={[Navigation, EffectFade, Pagination, Autoplay]}
         loop={true}
-         navigation={{
-          nextEl: '.custom-swiper-button-next',
-          prevEl: '.custom-swiper-button-prev',
-        }}
-        autoplay={{ delay: 4000 }}
+        autoplay={{ delay: 4000, disableOnInteraction: false }}
         effect="fade"
-         pagination={{ clickable: true }} 
         fadeEffect={{ crossFade: true }}
+        navigation={{
+          nextEl: nextRef.current,
+          prevEl: prevRef.current,
+        }}
+        onInit={(swiper) => {
+          swiper.params.navigation.prevEl = prevRef.current;
+          swiper.params.navigation.nextEl = nextRef.current;
+          swiper.navigation.init();
+          swiper.navigation.update();
+        }}
+        pagination={{
+          clickable: true,
+          renderBullet: (index, className) => `
+            <span class="${className}">
+              <svg class="progress-ring" viewBox="0 0 24 24">
+                <circle class="progress-ring__circle" cx="12" cy="12" r="10" />
+                <circle class="progress-ring__dot" cx="12" cy="12" r="4" />
+              </svg>
+            </span>
+          `,
+        }}
         className="cube-swiper"
       >
         {carouselData.map((item, idx) => (
@@ -77,9 +97,9 @@ const CubeCarousel = () => {
             </div>
           </SwiperSlide>
         ))}
-        
-                <div className="custom-swiper-button-prev"><IoIosArrowBack /></div>
-                <div className="custom-swiper-button-next"> <IoIosArrowForward  /></div>
+
+        <div className="custom-swiper-button-prev" ref={prevRef}><IoIosArrowBack /></div>
+        <div className="custom-swiper-button-next" ref={nextRef}><IoIosArrowForward /></div>
       </Swiper>
     </div>
   );

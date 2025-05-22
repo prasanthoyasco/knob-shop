@@ -1,0 +1,85 @@
+.parallax-section {
+  position: relative;
+  overflow: hidden;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: white;
+}
+
+.parallax-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  max-width: 600px;
+  padding: 1rem;
+  opacity: 0;
+  transform: translateY(60px);
+  transition: all 0.8s ease;
+}
+
+.parallax-content.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.parallax-img {
+  position: absolute;
+  bottom: 0;
+  width: 300px;
+  height: auto;
+  object-fit: cover;
+  border-radius: 16px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  transform: translateY(100px) rotate(0deg);
+  transition: transform 1s ease;
+  z-index: 1;
+}
+
+.parallax-img.left {
+  left: 40px;
+}
+
+.parallax-img.right {
+  right: 40px;
+}
+
+.parallax-img.visible-left {
+  transform: translateY(0px) rotate(5deg);
+}
+
+.parallax-img.visible-right {
+  transform: translateY(0px) rotate(-5deg);
+}
+
+.parallax-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.parallax-subtitle {
+  font-size: 1.2rem;
+  margin-bottom: 1.5rem;
+}
+
+.parallax-button {
+  display: inline-block;
+  background-color: black;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 500;
+}
+.front-layer{
+    display: flex;
+    height: 688px;
+    width: 100%;
+    margin: auto;
+}
+
+.front-layer img{
+    max-width: 300px;
+}
