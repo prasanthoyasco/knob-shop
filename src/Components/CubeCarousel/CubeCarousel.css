@@ -1,6 +1,5 @@
 .cube-carousel-wrapper {
   width: 100%;
-  margin: 2rem auto;
   position: relative;
 }
 
@@ -148,4 +147,7 @@
 }
 .cube-carousel-wrapper .custom-swiper-button-prev {
   left:20px
+}
+.cube-carousel-wrapper .custom-swiper-button-next {
+  right:20px
 }

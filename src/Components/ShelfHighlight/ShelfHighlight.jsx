@@ -4,7 +4,7 @@ import './ShelfHighlight.css'; // optional for additional styles
 
 const ShelfHighlight = () => {
   return (
-    <div className="container-fluid pt-3 bg-light-blue">
+    <div className="container-fluid pt-3 mt-3 bg-light-blue">
       <div className="container">
         <div className="row align-items-center">
           {/* Left Text Content */}
