@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import ProductCard from "../ProductCard/ProductCard";
-import { IoIosArrowRoundForward, IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
+// import { IoIosArrowRoundForward, IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 import "./TrendingProducts.css";
 
 import chair from "../../Assets/chair-acc-3.jpg";
@@ -97,19 +97,19 @@ const TrendingProducts = () => {
     return () => clearInterval(autoScrollRef.current);
   }, []);
 
-  const handleScrollLeft = () => {
-    const el = scrollRef.current;
-    if (el) {
-      el.scrollBy({ left: -300, behavior: "smooth" });
-    }
-  };
+  // const handleScrollLeft = () => {
+  //   const el = scrollRef.current;
+  //   if (el) {
+  //     el.scrollBy({ left: -300, behavior: "smooth" });
+  //   }
+  // };
 
-  const handleScrollRight = () => {
-    const el = scrollRef.current;
-    if (el) {
-      el.scrollBy({ left: 300, behavior: "smooth" });
-    }
-  };
+  // const handleScrollRight = () => {
+  //   const el = scrollRef.current;
+  //   if (el) {
+  //     el.scrollBy({ left: 300, behavior: "smooth" });
+  //   }
+  // };
 
   return (
     <section className="container-fluied mx-4 py-5 trending-products">

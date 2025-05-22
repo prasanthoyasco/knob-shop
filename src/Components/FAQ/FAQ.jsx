@@ -36,7 +36,7 @@ function FAQ() {
         <h1>YOU HAVE DIFFERENT QUESTIONS?</h1>
         <p>Our team will answer all your questions.</p>
         <p>We ensure a quick response.</p>
-        <hr/>
+        
         <div className="faq-list">
           {faqData.map((item, index) => (
             <div key={index}>

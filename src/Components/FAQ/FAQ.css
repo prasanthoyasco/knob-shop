@@ -79,7 +79,7 @@
     transition: color 0.3s ease;
   }
   
-  hr {
+  .faq-content hr {
     border-top: 1px solid #A0A0A0;
     width: 500px;
     margin: 0;
