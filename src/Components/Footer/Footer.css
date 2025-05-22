@@ -34,8 +34,8 @@
     background-size: cover;
     background-position: center;
     position: absolute;
-    top: 40%;
-    right: 40%;
+    top: 44%;
+    right: 25%;
     width: 550px;
     height: 250px;
     z-index: 0;
@@ -206,12 +206,13 @@
 .footer-search-box-text input {
     width: 300px;
     height: 52px;
-    padding: 7px;
+    padding-left: 30px;
     border-top-left-radius: 30px;
     border-bottom-left-radius: 30px;
-    border: 1px solid #d9d6d6;
-    background-color: #f5f5f5;
+    border: 1px solid #444444;
+    background-color: white;
     transition: border-color 0.3s ease;
+    margin-top: 20px;
 }
 .footer-search-box-text input:focus {
     outline: none;
@@ -234,8 +235,8 @@
     margin-top: 20px;
 }
 .email-section-footer p{
-    width: 350px;
-    font-size: 16px;
+    width: 355px;
+    font-size: 16px !important;
     letter-spacing: 0%;
     line-height: auto;
     color: #222321;
@@ -254,6 +255,7 @@
     line-height: auto;
     letter-spacing: 0%;
     color: #000000;
+    font-weight: bolder;
 }
 @media (max-width: 1024px) {
     .footer-container {
