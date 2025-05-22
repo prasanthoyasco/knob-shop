@@ -1,0 +1,201 @@
+.navbar-bottom-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 50px;
+    animation: fadeIn 0.5s ease forwards;
+     position: relative;
+    z-index: 10;
+}
+.navbar-bottom-container a{
+    margin-bottom: 0 !important;
+    cursor: pointer;
+}
+
+
+.vertical-line {
+    border: 1px solid black;
+    height: 30px;
+    width: 2px;
+    animation: fadeIn 0.5s ease forwards;
+}
+
+.navbar-bottom-text-icon {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    animation: fadeIn 0.5s ease forwards;
+    position: relative; /* keep for dropdown positioning */
+}
+
+.navbar-bottom-text-icon i {
+    margin: 3px;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+/* Hover effect on icons */
+.navbar-bottom-text-icon i:hover {
+    color: #e18436; 
+}
+
+.a-tag-container {
+    display: flex;
+    gap: 30px;
+    animation: fadeIn 0.5s ease forwards;
+}
+
+.a-tag-text-icon {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    position: relative; /* needed for dropdown */
+    transition: transform 0.3s ease;
+    animation: fadeIn 0.5s ease forwards;
+}
+
+.a-tag-text-icon i {
+    margin: 3px;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+/* Hover effect on a-tag icons */
+.a-tag-text-icon:hover a,
+.a-tag-text-icon:hover i {
+    color: #e18436 !important; /* Apply color directly to both p and i on hover */
+}
+.a-tag-text-icon:hover i {
+  transform: rotate(180deg);
+}
+
+.today-deal-image {
+    height: 30px;
+    cursor: pointer;
+    animation: fadeIn 0.5s ease forwards;
+}
+
+/* Dropdown styles kept as is */
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 30px;
+    background-color: white;
+    box-shadow: 0px 4px 8px rgba(0,0,0,0.1);
+    border-radius: 5px;
+    padding: 10px 0;
+    z-index: 10000000 !important;
+    min-width: 150px;
+    animation: fadeInDropdown 0.3s ease forwards;
+}
+
+.a-tag-text-icon:hover .dropdown-menu {
+    display: block;
+}
+
+.dropdown-item {
+    padding: 8px 20px;
+    font-size: 14px;
+    color: black;
+    white-space: nowrap;
+    transition: background-color 0.3s ease;
+}
+
+.dropdown-item:hover {
+    background-color: #f2f2f2;
+     color: #e18436 !important;
+    cursor: pointer;
+}
+
+
+.navbar-borrom-categories-container {
+    position: relative;
+}
+
+.category-dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 35px;
+    left: 0;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    padding: 10px 0;
+    z-index: 100;
+    border-radius: 4px;
+    min-width: 200px;
+    animation: fadeInDropdown 0.3s ease forwards;
+}
+
+.navbar-bottom-text-icon:hover .category-dropdown-menu {
+    display: block;
+}
+
+.category-dropdown-menu a.dropdown-item {
+    display: block;
+    padding: 10px 20px;
+    color: black;
+    text-decoration: none;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.category-dropdown-menu a.dropdown-item:hover {
+    background-color: #f2f2f2;
+}
+
+/* Responsive tweaks, no alignment changes */
+@media (max-width: 768px) {
+    .navbar-bottom-container {
+        padding: 0 20px;
+    }
+
+    .a-tag-container {
+        gap: 30px;
+    }
+    
+    .navbar-bottom-text-icon {
+        gap: 6px;
+    }
+}
+
+@media (max-width: 480px) {
+    .navbar-bottom-container {
+        padding: 0 10px;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .a-tag-container {
+        gap: 15px;
+        flex-wrap: wrap;
+    }
+
+    .navbar-bottom-text-icon {
+        gap: 5px;
+    }
+
+    .vertical-line {
+        display: none; /* hide vertical line on small screens for cleaner look */
+    }
+}
+
+/* Fade-in animation keyframes */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Dropdown fade in */
+@keyframes fadeInDropdown {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

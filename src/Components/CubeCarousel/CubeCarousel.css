@@ -1,0 +1,158 @@
+.cube-carousel-wrapper {
+  width: 100%;
+  margin: 2rem auto;
+  position: relative;
+}
+
+.cube-swiper {
+  width: 100%;
+  height: 100%;
+}
+
+.cube-carousel-slide {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 450px;
+  background-color: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+  padding: 1rem;
+  gap: 1rem;
+}
+
+.cube-image {
+  height: 100%;
+  object-fit: contain;
+  border-radius: 10px;
+}
+
+.cube-image.left {
+<<<<<<< HEAD
+  animation: fadeInLeft 1.2s ease both;
+}
+
+.cube-image.right {
+  animation: fadeInRight 1.2s ease both;
+=======
+  animation: fadeInLeft 1.5s ease both;
+}
+
+.cube-image.right {
+  animation: fadeInRight 1.5s ease both;
+>>>>>>> 4a3c774 (Initial commit with local changes)
+}
+
+
+.cube-content {
+  width: 50%;
+  text-align: left;
+<<<<<<< HEAD
+  padding: 1rem;
+=======
+>>>>>>> 4a3c774 (Initial commit with local changes)
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.cube-subtitle {
+  text-transform: uppercase;
+  font-size: 0.6rem;
+  color: #888;
+  margin-bottom: 0.5rem !important;
+  animation: fadeInUp 1.4s ease both;
+}
+
+.cube-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 1rem !important;
+  animation: fadeInUp 1.6s ease both;
+}
+
+.cube-description {
+  font-size: .8rem;
+  color: #444;
+  margin-bottom: 1.5rem !important;
+  animation: fadeInUp 1.8s ease both;
+}
+
+.cube-button {
+  background: #000;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  text-transform: uppercase;
+  font-weight: 500;
+  animation: fadeInUp 2s ease both;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+@media (max-width: 768px) {
+  .cube-carousel-slide {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .cube-image {
+    width: 100%;
+    height: 200px;
+  }
+
+  .cube-content {
+    width: 100%;
+    text-align: center;
+    padding: 1rem 0;
+  }
+}
+.swiper-pagination {
+  position: absolute;
+  bottom: 10px;
+  left: 0;
+  width: 100%;
+  text-align: center;
+}
+
+.swiper-pagination-bullet {
+  background: #000;
+  opacity: 0.5;
+  transition: 0.3s;
+}
+
+.swiper-pagination-bullet-active {
+  background: #000;
+  opacity: 1;
+}
+
+@keyframes fadeInLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-40px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeInRight {
+  0% {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}

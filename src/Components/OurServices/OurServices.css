@@ -1,0 +1,99 @@
+.our-service-container{
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+    padding: 40px;
+}
+.service-image-heading-para-content {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+    height: 154px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .service-image-heading-para-content:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    height: 180px;
+  }
+
+.service-image-heading-para-content p {
+    width: 200px;
+    font-size: 17.25px;
+    color: #000000;
+    transition: color 0.3s ease;
+  }
+  
+  .service-image-heading-para-content:hover p {
+    color: #333;
+  }
+
+  .service-image-heading-para-content img {
+    width: 70px;
+    height: 70px;
+    margin-bottom: 20px;
+    transition: transform 0.3s ease;
+  }
+  
+  .service-image-heading-para-content:hover img {
+    transform: scale(1.1);
+  }
+
+.service-image-heading-para-content p {
+    width: 200px;
+    font-size: 17.25px;
+    color: #000000;
+    transition: color 0.3s ease;
+  }
+  
+  .service-image-heading-para-content:hover p {
+    color: #333;
+  }
+@media (max-width: 1024px) {
+    .our-service-container {
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2rem;
+      padding: 30px 20px;
+    }
+  
+    .service-image-heading-para-content {
+      width: 250px;
+      height: auto;
+      margin-bottom: 20px;
+    }
+  
+    .service-image-heading-para-content p {
+      width: 100%;
+      font-size: 16px;
+    }
+  }
+  
+  @media (max-width: 600px) {
+    .our-service-container {
+      flex-direction: column;
+      align-items: center;
+      padding: 20px 10px;
+    }
+  
+    .service-image-heading-para-content {
+      width: 90%;
+      max-width: 300px;
+    }
+  
+    .service-image-heading-para-content img {
+      width: 60px;
+      height: 60px;
+    }
+  
+    .service-image-heading-para-content h6 {
+      font-size: 16px;
+    }
+  
+    .service-image-heading-para-content p {
+      font-size: 14.5px;
+    }
+  }
+  

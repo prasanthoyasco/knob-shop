@@ -1,0 +1,21 @@
+.bg-light-blue {
+  background-color: #e1e7f5; /* adjust to match actual tone */
+}
+
+.shelf-highlight-image {
+  max-width: 90%;
+  height: auto;
+  object-fit: contain;
+}
+
+.ctn{
+    background-color: #000;
+    color: #fff !important;
+    padding: 0.75rem 1.5rem;
+    border-radius: 3px;
+    border: none;
+    cursor: pointer;
+    animation: fadeIn 0.5s ease forwards;
+    text-transform: uppercase;
+    font-weight: 500;
+}

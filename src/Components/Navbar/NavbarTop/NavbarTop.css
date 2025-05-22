@@ -1,0 +1,57 @@
+.navbar-top-container {
+    display: flex;
+    justify-content: space-around;
+    background-color: rgb(234, 232, 232);
+    height: 40px;
+    padding: 10px;
+    flex-wrap: wrap; /* Allows wrapping on small screens */
+    animation: fadeInTop 0.6s ease-in-out;
+}
+
+/* Phone and Mail */
+.navbar-top-phone-number,
+.navbar-top-mail-id,
+.navbar-top-facebook-insta-icon-div,
+.navbar-top-facebook-insta-icon {
+    display: flex;
+    gap: 10px;
+    animation: fadeInTop 0.6s ease-in-out;
+}
+
+/* Facebook and Insta icons wrapper gap remains 30px */
+.navbar-top-facebook-insta-icon-div {
+    gap: 50px;
+}
+
+/* Animation keyframes */
+@keyframes fadeInTop {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .navbar-top-container {
+        height: auto; /* Allow height to grow */
+        padding: 15px 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .navbar-top-container {
+        padding: 10px;
+    }
+
+    .navbar-top-phone-number,
+    .navbar-top-mail-id,
+    .navbar-top-facebook-insta-icon-div {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+}
