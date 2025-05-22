@@ -29,29 +29,18 @@
 }
 
 .cube-image.left {
-<<<<<<< HEAD
   animation: fadeInLeft 1.2s ease both;
 }
 
 .cube-image.right {
   animation: fadeInRight 1.2s ease both;
-=======
-  animation: fadeInLeft 1.5s ease both;
-}
-
-.cube-image.right {
-  animation: fadeInRight 1.5s ease both;
->>>>>>> 4a3c774 (Initial commit with local changes)
 }
 
 
 .cube-content {
   width: 50%;
   text-align: left;
-<<<<<<< HEAD
   padding: 1rem;
-=======
->>>>>>> 4a3c774 (Initial commit with local changes)
 }
 
 @keyframes fadeInUp {

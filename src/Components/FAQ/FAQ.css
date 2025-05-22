@@ -79,11 +79,7 @@
     transition: color 0.3s ease;
   }
   
-<<<<<<< HEAD
   hr {
-=======
-  .faq-list hr {
->>>>>>> 4a3c774 (Initial commit with local changes)
     border-top: 1px solid #A0A0A0;
     width: 500px;
     margin: 0;
@@ -128,7 +124,7 @@
       max-width: 500px;
     }
   
-    hr {
+   .faq-content hr {
       width: 100%;
       max-width: 500px;
     }

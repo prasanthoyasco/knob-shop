@@ -97,7 +97,6 @@ const TrendingProducts = () => {
     return () => clearInterval(autoScrollRef.current);
   }, []);
 
-<<<<<<< HEAD
   const handleScrollLeft = () => {
     const el = scrollRef.current;
     if (el) {
@@ -111,21 +110,6 @@ const TrendingProducts = () => {
       el.scrollBy({ left: 300, behavior: "smooth" });
     }
   };
-=======
-  // const handleScrollLeft = () => {
-  //   const el = scrollRef.current;
-  //   if (el) {
-  //     el.scrollBy({ left: -300, behavior: "smooth" });
-  //   }
-  // };
-
-  // const handleScrollRight = () => {
-  //   const el = scrollRef.current;
-  //   if (el) {
-  //     el.scrollBy({ left: 300, behavior: "smooth" });
-  //   }
-  // };
->>>>>>> 4a3c774 (Initial commit with local changes)
 
   return (
     <section className="container-fluied mx-4 py-5 trending-products">
@@ -171,15 +155,9 @@ const TrendingProducts = () => {
 
           {/* Products */}
           <div className="position-relative">
-<<<<<<< HEAD
              {/*<button className="scroll-button left" onClick={handleScrollLeft}>
               <IoIosArrowBack size={18} />
             </button>*/}
-=======
-            {/* <button className="scroll-button left" onClick={handleScrollLeft}>
-              <IoIosArrowBack size={18} />
-            </button> */}
->>>>>>> 4a3c774 (Initial commit with local changes)
             <div
               ref={scrollRef}
               className="product-scroll-container"
@@ -194,11 +172,7 @@ const TrendingProducts = () => {
             </div>
             {/* <button className="scroll-button right" onClick={handleScrollRight}>
               <IoIosArrowForward size={18} />
-<<<<<<< HEAD
            </button>*/}
-=======
-            </button> */}
->>>>>>> 4a3c774 (Initial commit with local changes)
           </div>
         </div>
       </div>

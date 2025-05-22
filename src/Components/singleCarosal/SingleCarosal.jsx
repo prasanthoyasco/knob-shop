@@ -9,22 +9,13 @@ import 'swiper/css/pagination';
 import singleCarosal1 from '../../Assets/single-carosal1.jpg';
 import singleCarosal2 from '../../Assets/single-carosal2.jpg';
 import singleCarosal3 from '../../Assets/single-carosal3.jpg';
-<<<<<<< HEAD
 import './SingleCarosal.css';
-=======
-import './singleCarosal.css';
->>>>>>> 4a3c774 (Initial commit with local changes)
 
 const carouselData = [
   {
     image: singleCarosal1,
-<<<<<<< HEAD
     subtit:'Cabinets & Storage',
     title: 'DOOR STEEL LOCKER UNIT ALMIRAH',
-=======
-    subtit:'Welcome to Knobs shop!',
-    title: 'Crafted for Creators. Trusted by Pros.',
->>>>>>> 4a3c774 (Initial commit with local changes)
     description: 'Bench suitable for living room Lorem ipsum dolor sit amet consectetur...',
   },
   {
@@ -63,11 +54,7 @@ const singleCarosal = () => {
             >
              <div className="custom-single-carousel-overlay">
               <h5 className="custom-carousel-subtitle">{item.subtit}</h5>
-<<<<<<< HEAD
               <h2 className="custom-carousel-title">{item.title}</h2>
-=======
-              <h2 className="custom-single-carousel-title text-uppercase">{item.title}</h2>
->>>>>>> 4a3c774 (Initial commit with local changes)
               <p className="custom-carousel-description">{item.description}</p>
               <button className="custom-carousel-button">SHOP NOW</button>
             </div>
