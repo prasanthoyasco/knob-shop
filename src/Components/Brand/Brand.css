@@ -1,21 +1,46 @@
 /* Base Styles */
 .brands-container {
     text-align: center;
-    margin: 10px 10px 0px 40px;
+    margin-top: 5%;
     padding: 20px;
     opacity: 0;
     transform: translateY(30px);
     animation: fadeInUp 1s ease forwards;
+
+  }
+  .brand-carousel {
+    margin-top: 3%;
+    margin-bottom: 3%;
+    padding: 0 20px;
   }
   
+  .brand-slide {
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .brand-slide img {
+    width: 147px;
+    height: 125px;
+    object-fit: contain;
+  }
+  
+  .brand-images{
+    margin-top: 3%;
+    margin-bottom: 3%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+  }
   .brands-container img {
-    width: 100%;
+    width: 147px;
+    height: 125px;
     margin-bottom: 20px;
     transition: transform 0.4s ease, box-shadow 0.4s ease;
   }
   .brands-container img:hover {
     transform: scale(1.05);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
   }
   
   .brands-container button {
