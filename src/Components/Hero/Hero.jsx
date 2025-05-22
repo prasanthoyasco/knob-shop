@@ -101,7 +101,7 @@ const Hero = () => {
                 <h2 className="title">{slide.title}</h2>
                 <p className="description">{slide.description}</p>
                 <button className="shop-btn">SHOP NOW</button>
-                <div className="slide-number">{slide.number}</div>
+                <div className="slide-number d-flex align-items-center"><div className="horizantal-line"></div>{slide.number}</div>
               </div>
             </div>
           </SwiperSlide>

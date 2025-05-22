@@ -32,11 +32,11 @@
 
 .navbar-middle-search-box-icon input {
     width: 400px;
-    padding: 5px 15px;
-    border-top-left-radius: 20px;
-    border-bottom-left-radius: 20px;
-    border: 1px solid #d9d6d6;
-    background-color: #f5f5f5;
+    padding: 9px 15px;
+    border-top-left-radius: 22px;
+    border-bottom-left-radius: 22px;
+    border: 1px solid #DFDFDF;
+    background-color: #F8F8F8;
     transition: border-color 0.3s ease;
 }
 
@@ -49,10 +49,10 @@
 .navbar-middle-search-box-icon i {
     background-color: black;
     color: white;
-    border: 1px solid black;
-    padding: 6px 24px 6px 24px;
-    border-top-right-radius: 20px;
-    border-bottom-right-radius: 20px;
+    border: 1.5px solid black;
+    padding: 10px 24px 10px 24px;
+    border-top-right-radius: 22px;
+    border-bottom-right-radius: 22px;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.3s ease;
 }

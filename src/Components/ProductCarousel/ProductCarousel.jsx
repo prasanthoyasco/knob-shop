@@ -11,7 +11,7 @@ const ProductCarouselSwiper = ({ products = [] }) => {
   const nextRef = useRef(null);
 
   return (
-    <section className="py-1 bg-white my-4 container-fluid"> {/* Changed container-fluied to container-fluid */}
+    <section className="py-1 bg-white mt-3 container-fluid"> {/* Changed container-fluied to container-fluid */}
       <div className="d-flex align-items-center my-4 px-2"> {/* Removed justify-content-between */}
         <div className="flex-grow-1 text-center"> {/* Added flex-grow-1 and text-center */}
           <h2 className="h5 text-uppercase fw-semibold product-head" style={{marginLeft:"5rem"}}>
@@ -75,6 +75,7 @@ const ProductCarouselSwiper = ({ products = [] }) => {
           </SwiperSlide>
         ))}
       </Swiper>
+     <div className="d-flex justify-content-center mt-4"> <button className="ctn big-ctn">Shop Now</button></div>
     </section>
   );
 };

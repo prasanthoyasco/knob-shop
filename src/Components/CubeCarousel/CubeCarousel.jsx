@@ -1,6 +1,7 @@
 import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Navigation, EffectFade, Autoplay } from 'swiper/modules';
+import { IoIosArrowBack,IoIosArrowForward  } from "react-icons/io";
 
 import 'swiper/css';
 import 'swiper/css/effect-fade';
@@ -47,6 +48,10 @@ const CubeCarousel = () => {
       <Swiper
         modules={[Navigation, EffectFade,Pagination,Autoplay]}
         loop={true}
+         navigation={{
+          nextEl: '.custom-swiper-button-next',
+          prevEl: '.custom-swiper-button-prev',
+        }}
         autoplay={{ delay: 4000 }}
         effect="fade"
          pagination={{ clickable: true }} 
@@ -67,6 +72,9 @@ const CubeCarousel = () => {
             </div>
           </SwiperSlide>
         ))}
+        
+                <div className="custom-swiper-button-prev"><IoIosArrowBack /></div>
+                <div className="custom-swiper-button-next"> <IoIosArrowForward  /></div>
       </Swiper>
     </div>
   );

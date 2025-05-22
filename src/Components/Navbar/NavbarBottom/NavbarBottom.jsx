@@ -1,6 +1,7 @@
 import React from "react";
 import "./NavbarBottom.css";
 import todayDealImage from "../../../Assets/today-deal.png";
+import sbc_icon from '../../../Assets/shop-by-category-icon.svg'
 const navbarContent = [
   {
     href: "living-room",
@@ -53,7 +54,7 @@ function NavbarBottom() {
     <div className="navbar-bottom-container">
       <div className="navbar-borrom-categories-container">
         <div className="navbar-bottom-text-icon">
-          <i className="bi bi-text-left" style={{ fontSize: "20px" }}></i>
+          <img src={sbc_icon} alt="hamburger-menu" />
           <p>Shop By Categories</p>
           <i className="bi bi-chevron-down"></i>
           <div className="vertical-line"></div>

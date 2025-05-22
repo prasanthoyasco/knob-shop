@@ -14,8 +14,10 @@
 
 
 .vertical-line {
-    border: 1px solid black;
-    height: 30px;
+    border: 1px solid #6C6C6C;
+    height: 40px;
+    background-color: #6C6C6C;
+    border-radius: 10px;
     width: 2px;
     animation: fadeIn 0.5s ease forwards;
 }
@@ -34,8 +36,12 @@
 }
 
 /* Hover effect on icons */
-.navbar-bottom-text-icon i:hover {
+.navbar-bottom-text-icon:hover p{
+    color: #e18436 !important;
+}
+.navbar-bottom-text-icon:hover i{
     color: #e18436; 
+    transform: rotate(180deg);
 }
 
 .a-tag-container {
