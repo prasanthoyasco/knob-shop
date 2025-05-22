@@ -27,10 +27,11 @@ const ProductCard = ({ product }) => {
     </span>
   )}
 
-  <div className="position-absolute top-0 end-0 m-2 d-flex align-items-center bg-white rounded px-2 py-1 shadow-sm">
-    <FaStar className="text-warning me-1" size={12} />
-    <span className="small">{rating}</span>
-  </div>
+  <div className="position-absolute top-0 end-0 m-2 d-flex align-items-center bg-white rounded px-2 py-1 shadow-sm rating-overlay">
+  <FaStar className="text-warning me-1" size={12} />
+  <span className="small">{rating}</span>
+</div>
+
 
   <div className="image-wrapper position-relative">
   <img src={image} alt={title} className="card-img-top default-img" />

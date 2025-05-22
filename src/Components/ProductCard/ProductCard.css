@@ -104,8 +104,16 @@
   overflow: hidden;
 }
 
-.image-wrapper img {
-  transition: opacity 0.3s ease;
+.image-wrapper .default-img,
+.image-wrapper .hover-img {
+  z-index: 1;
+  position: relative;
+}
+
+.product-card .badge,
+.product-card .rating-overlay {
+  z-index: 2;
+  position: absolute;
 }
 
 .default-img {
