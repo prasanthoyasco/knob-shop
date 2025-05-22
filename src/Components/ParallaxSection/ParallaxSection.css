@@ -1,85 +1,120 @@
+/* --- Start of new/updated CSS from user's snippet --- */
 .parallax-section {
-  position: relative;
-  overflow: hidden;
+  min-height: 350vh; /* Crucial for extended scroll area */
+  position: relative; /* Ensure proper positioning for children */
+}
+.wt-parallax__content {
+  position: sticky;
   height: 100vh;
+  top: 0;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: white;
+  /* background: var(--color-custom-background); - not defined, using existing */
+  /* margin-top:var(--section-gap-top); margin-bottom:var(--section-gap-bottom); - using Tailwind gap */
 }
-
-.parallax-content {
-  position: relative;
-  z-index: 2;
-  text-align: center;
-  max-width: 600px;
-  padding: 1rem;
-  opacity: 0;
-  transform: translateY(60px);
-  transition: all 0.8s ease;
+.wt-parallax__content .hero__button--gap {
+  margin-block: 16px; /* calc(var(--gap, 8px) * 2) = 16px */
 }
-
-.parallax-content.visible {
-  opacity: 1;
-  transform: translateY(0);
+.wt-parallax__content .hero__button--gap:last-child {
+  margin-block-end: 0;
 }
-
-.parallax-img {
+.wt-parallax__content .hero__button--gap:first-child {
+  margin-block-start: 0;
+}
+.wt-parallax__additional {
   position: absolute;
-  bottom: 0;
-  width: 300px;
+  bottom: 16px; /* calc(var(--gap, 8px) * 2) = 16px */
+  width: 2%;
+  left: 50%;
+  transform: translate(-50%);
+  text-align: center;
+  color: var(--color-custom-text, var(--color-text, inherit));
+  transition: opacity 1s ease;
+  z-index: 10;
+}
+@media (min-width: 1200px){
+  .wt-parallax__additional{
+    bottom: 16px; /* calc(var(--gap, 8px) * 2) = 16px */
+  }
+}
+@keyframes icon-bounce{
+  0%,to{transform:translateY(0)}
+  50%{transform:translateY(-4px)}
+}
+.wt-parallax__additional__icon{
+  animation: icon-bounce 1s ease-in-out infinite;
+}
+.wt-parallax__img {
+  display: block;
+  border-radius: 8px; /* Assuming var(--border-radius) is around 8px */
+  transition: transform .1s ease;
+  width: 60vw;
+  max-width: 460px;
   height: auto;
-  object-fit: cover;
-  border-radius: 16px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
-  transform: translateY(100px) rotate(0deg);
-  transition: transform 1s ease;
-  z-index: 1;
+}
+@media (min-width: 900px){
+  .wt-parallax__img{
+    width: 70vw;
+  }
+}
+.wt-parallax__gallery {
+  margin: auto;
+  padding: 20vh 32px 100vh; /* calc(var(--gap, 8px) * 4) = 32px */
+  overflow: hidden;
+  /* Position relative to the section, allowing scroll */
+  position: absolute; /* Changed to absolute to allow content to stick */
+  top: 100 !important;
+  left: 0;
+  width: 100%;
+  height: 100%; /* Spans the full 350vh of the section */
+  display: flex; /* To center the ul */
+  justify-content: center;
+}
+@media (min-width: 1800px){
+  .wt-parallax__gallery{
+    max-width: 1440px; /* Using a common max-width */
+    overflow: visible;
+  }
+}
+.wt-parallax__gallery__list {
+  display: flex;
+  flex-direction: column;
+  gap: 20vh;
+  width: 100%; /* Ensure list takes full width for item alignment */
+  align-items: center; /* Center items initially */
+}
+.wt-parallax__gallery__item {
+  display: flex;
+  width: 100%; /* Allow item to take full width for justify-content */
+}
+.wt-parallax__gallery__item--even { /* Using a specific class for even items */
+  justify-content: flex-end;
+}
+.wt-parallax .hero__text {
+  max-width: 800px;
+}
+.wt-parallax .scroll-trigger {
+  width: 100%;
+}
+/* --- End of new/updated CSS from user's snippet --- */
+
+/* Original custom styles for root and scroll-snap */
+.parallax-section {
+  scroll-snap-align: start; /* Optional: for snapping to sections */
 }
 
-.parallax-img.left {
-  left: 40px;
+.hero__overlay{
+text-align: center;
 }
 
-.parallax-img.right {
-  right: 40px;
+.big-ctn{
+    cursor: pointer;
+    position: relative;
+    padding: 0.7rem 3rem !important;
+    text-decoration: none;
+    z-index: 2001;
 }
-
-.parallax-img.visible-left {
-  transform: translateY(0px) rotate(5deg);
-}
-
-.parallax-img.visible-right {
-  transform: translateY(0px) rotate(-5deg);
-}
-
-.parallax-title {
-  font-size: 2.5rem;
-  font-weight: bold;
-  margin-bottom: 1rem;
-}
-
-.parallax-subtitle {
-  font-size: 1.2rem;
-  margin-bottom: 1.5rem;
-}
-
-.parallax-button {
-  display: inline-block;
-  background-color: black;
-  color: white;
-  padding: 0.75rem 1.5rem;
-  border-radius: 8px;
-  text-decoration: none;
-  font-weight: 500;
-}
-.front-layer{
-    display: flex;
-    height: 688px;
-    width: 100%;
-    margin: auto;
-}
-
-.front-layer img{
-    max-width: 300px;
+.hero__title{
+    font-size: 8rem;
 }

@@ -1,53 +1,120 @@
-// ParallaxSection.jsx
-import { useEffect, useRef } from "react";
-import { motion, useAnimation, useInView, useScroll, useTransform } from "framer-motion";
-import './ParallaxSection.css'
+import React, { useRef, useEffect, useCallback } from 'react';
+import './ParallaxSection.css';
 
-const ParallaxSection = ({ title, subtitle, buttonText, buttonLink, leftImage, rightImage }) => {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true });
+const ArrowDownIcon = () => (
+  <svg className="svg-icon svg-icon--arrow-down w-12 h-12 text-white" aria-hidden="true" focusable="false" role="presentation" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72">
+    <g transform="rotate(-90 -0.00000157361 72)">
+      <g>
+        <rect x="0" y="72" fill="none" height="72" width="72"></rect>
+        <path d="m48.688,81.162l0.876,0.876a1.487,1.487 0 0 1 0,2.1l-24.222,24.225l24.223,24.223a1.487,1.487 0 0 1 0,2.1l-0.876,0.876a1.487,1.487 0 0 1 -2.1,0l-26.154,-26.148a1.487,1.487 0 0 1 0,-2.1l26.151,-26.153a1.487,1.487 0 0 1 2.1,0l0.002,0.001z"></path>
+      </g>
+    </g>
+  </svg>
+);
 
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start end", "end start"],
-  });
+const ParallaxSection = ({
+  text = 'See our latest inspirations',
+  title = 'Check over 10,000 Inspirations',
+  buttonText = 'Check now',
+  buttonLink = '/pages/inspired',
+  leftImage,
+  rightImage,
+  rotation = 10,
+  sectionId = 'template--24640570294456__parallax_EPkUDw',
+}) => {
+  const sectionRef = useRef(null);
+  const leftImgRef = useRef(null);
+  const rightImgRef = useRef(null);
 
-  const leftY = useTransform(scrollYProgress, [0, 1], [100, 0]);
-  const rightY = useTransform(scrollYProgress, [0, 1], [100, 0]);
-  const leftRotate = useTransform(scrollYProgress, [0, 1], [15, 0]);
-  const rightRotate = useTransform(scrollYProgress, [0, 1], [-15, 0]);
+  const rotateImagesOnScroll = useCallback(() => {
+    if (!sectionRef.current || !leftImgRef.current || !rightImgRef.current) return;
+
+    const sectionRect = sectionRef.current.getBoundingClientRect();
+    const viewportHeight = window.innerHeight;
+    const scrollProgress = (viewportHeight - sectionRect.top) / (viewportHeight + sectionRect.height);
+    const clampedProgress = Math.max(0, Math.min(1, scrollProgress));
+    const maxRotation = parseInt(rotation, 10) || 10;
+
+    [
+      { ref: leftImgRef.current, reverse: true },
+      { ref: rightImgRef.current, reverse: false },
+    ].forEach(({ ref, reverse }) => {
+      const angle = clampedProgress * maxRotation * (reverse ? -1 : 1);
+      window.requestAnimationFrame(() => {
+        ref.style.transform = `translate3d(0px, 0px, 0px) rotate(${angle}deg)`;
+      });
+    });
+  }, [rotation]);
+
+  useEffect(() => {
+    window.addEventListener('scroll', rotateImagesOnScroll);
+    rotateImagesOnScroll();
+    return () => window.removeEventListener('scroll', rotateImagesOnScroll);
+  }, [rotateImagesOnScroll]);
 
   return (
-    <section ref={ref} className="relative overflow-hidden h-[100vh] flex items-center justify-center bg-white">
-      {/* Images - Background Layer */}
-     <div className="front-layer">
-         <motion.img
-        src={leftImage}
-        style={{ y: leftY, rotate: leftRotate }}
-        className="absolute left-10 bottom-0 w-64 object-cover rounded-xl shadow-xl z-10"
-        alt="Left"
-      />
-      <motion.img
-        src={rightImage}
-        style={{ y: rightY, rotate: rightRotate }}
-        className="absolute right-10 bottom-0 w-64 object-cover rounded-xl shadow-xl z-10"
-        alt="Right"
-      />
-     </div>
+    <section
+      className="parallax-section"
+      data-rotation={rotation}
+      ref={sectionRef}
+    >
+      <div className="wt-parallax__content" data-section-id={sectionId}>
+        <div className="scroll-trigger animate--slide-in disabled-on-mobile rich-text">
+          <div className="hero__wrapper">
+            <div className="hero hero--video-background">
+              <div className="hero__pic-container disabled-on-mobile"></div>
+              <div className="hero__overlay hero__overlay--center hero__overlay--mobile--" href={buttonLink}>
+                <div className="hero__overlay__content hero__overlay__content--center hero__overlay__content--mobile-- rte">
+                  <div className="hero__text rte">
+                    <p>{text}</p>
+                  </div>
+                  <h2 className="hero__title hero">{title}</h2>
+                  <div className="hero__button--gap">
+                    <a href={buttonLink} aria-label={buttonText} className="hero__button--primary ctn big-ctn ">
+                      <span>{buttonText}</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="wt-parallax__additional">
+          <div className="wt-parallax__additional__icon">
+            <ArrowDownIcon />
+          </div>
+        </div>
+      </div>
 
-      {/* Foreground Text */}
-      <motion.div
-        initial={{ opacity: 0, y: 60 }}
-        animate={inView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.8 }}
-        className="text-center z-20 max-w-xl px-6"
-      >
-        <h2 className="text-4xl font-bold mb-4">{title}</h2>
-        <p className="text-lg mb-6">{subtitle}</p>
-        <a href={buttonLink} className="bg-black text-white px-6 py-3 rounded-lg inline-block">
-          {buttonText}
-        </a>
-      </motion.div>
+      {/* Background Gallery */}
+      <div className="wt-parallax__gallery">
+        <ul className="wt-parallax__gallery__list">
+          <li className="wt-parallax__gallery__item">
+            <a href="/collections/chairs" tabIndex="0">
+              <img
+                src={leftImage}
+                loading="lazy"
+                className="wt-parallax__img wt-parallax__img--odd"
+                alt="Left"
+                ref={leftImgRef}
+                onError={(e) => { e.target.src = 'https://placehold.co/600x400/FF0000/FFFFFF?text=Image+Error'; }}
+              />
+            </a>
+          </li>
+          <li className="wt-parallax__gallery__item wt-parallax__gallery__item--even">
+            <a href="/collections/dining-room" tabIndex="0">
+              <img
+                src={rightImage}
+                loading="lazy"
+                className="wt-parallax__img wt-parallax__img--even"
+                alt="Right"
+                ref={rightImgRef}
+                onError={(e) => { e.target.src = 'https://placehold.co/600x400/FF0000/FFFFFF?text=Image+Error'; }}
+              />
+            </a>
+          </li>
+        </ul>
+      </div>
     </section>
   );
 };

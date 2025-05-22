@@ -6,21 +6,23 @@ import p2 from '../Assets/product-category/p2.png'
 import p3 from '../Assets/product-category/p3.png'
 import p4 from '../Assets/product-category/p4.png'
 import p5 from '../Assets/product-category/p5.png'
-import left from '../Assets/left-image-interior.jpg'
-import right from '../Assets/right-image-interior.jpg'
+import left from '../Assets/left-image-interior.png'
+import right from '../Assets/right-image-interior.png'
 import CollectionsCarosal from "../Components/CollectionsCarosal/CollectionsCarosal";
 import SingleCarosal from "../Components/singleCarosal/SingleCarosal";
 import ShelfHighlight from "../Components/ShelfHighlight/ShelfHighlight";
 import CubeCarousel from "../Components/CubeCarousel/CubeCarousel";
 import TrendingProducts from "../Components/TrendingProducts/TrendingProducts";
 import Footer from '../Components/Footer/Footer';
-import Location from '../Components/Location/Location';
 import OurServices from '../Components/OurServices/OurServices';
 import FAQ from '../Components/FAQ/FAQ';
 import Testimonals from '../Components/Testimonals/Testimonals';
 import Brand from '../Components/Brand/Brand';
 import EssentialsSection from "../Components/EssentialsSection/EssentialsSection";
+import LocationMap from "../Components/LocationMap/LocationMap";
 import ParallaxSection from "../Components/ParallaxSection/ParallaxSection";
+import DealOfTheDay from "../Components/DealOfTheDay/DealOfTheDay";
+import ShopTheRoom from "../Components/ShopTheRoom/ShopTheRoom";
 
 export const Home = () => {
   const products = [
@@ -94,19 +96,20 @@ export const Home = () => {
       <EssentialsSection/>
       <ParallaxSection
       rotation={10}
-      title="Check over 10,000 Inspirations"
+      title="Check over 50,000 Products"
       subtitle="See our latest inspirations"
       buttonText="Check now"
       buttonLink="/pages/inspired"
       leftImage={left}
       rightImage={right}
     />
-
+    <DealOfTheDay/>
+    <ShopTheRoom/>
       <Brand/>
       <Testimonals/>
       <FAQ/>
       <OurServices/>
-      <Location/>
+      <LocationMap/>
       <Footer/>
       </>
   )

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Pagination } from 'swiper/modules';
+import { Pagination, Navigation, EffectFade, Autoplay } from 'swiper/modules';
 import { IoIosArrowBack,IoIosArrowForward  } from "react-icons/io";
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -37,11 +37,14 @@ const singleCarosal = () => {
   return (
     <div className="custom-carousel-container mt-4">
       <Swiper
-        modules={[Navigation, Pagination]}
+        modules={[Navigation, Pagination,Autoplay]}
+        autoplay={{ delay: 4000, disableOnInteraction: false }}
         navigation={{
           nextEl: '.custom-swiper-button-next',
           prevEl: '.custom-swiper-button-prev',
         }}
+        effect="fade"
+        fadeEffect={{ crossFade: true }}
         slidesPerView="auto"
         pagination={{ clickable: true }}
         loop={true}

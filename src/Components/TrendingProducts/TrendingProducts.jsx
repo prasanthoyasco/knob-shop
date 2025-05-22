@@ -5,8 +5,11 @@ import "./TrendingProducts.css";
 
 import chair from "../../Assets/chair-acc-3.jpg";
 import chair2 from "../../Assets/chair-acc-main.jpg";
-import bed from "../../Assets/bed.png";
-import locker from "../../Assets/locker.png";
+import sofa from "../../Assets/sofa.jpg";
+import sofa2 from "../../Assets/sofo2.jpg";
+import sofa3 from "../../Assets/sofo3.jpg";
+import bchair from "../../Assets/bchair.jpg";
+import bchair1 from "../../Assets/bchair1.jpg";
 
 const tabs = [
   "All Products",
@@ -23,18 +26,18 @@ const products = [
     oldPrice: 23599,
     discount: 5,
     rating: 4.9,
-    image: locker,
-    hoverImage: locker
+    image: bchair,
+    hoverImage: bchair1
   },
   {
     id: 2,
-    title: "Ergonomic Office Chair",
+    title: "Ergonomic Sofa",
     price: 16290,
     oldPrice: 19412,
     discount: 25,
     rating: 4.9,
-    image: chair,
-    hoverImage: chair2
+    image: sofa,
+    hoverImage: sofa3
   },
   {
     id: 3,
@@ -43,18 +46,18 @@ const products = [
     oldPrice: 17997,
     discount: 47,
     rating: 4.9,
-    image: bed,
-    hoverImage: bed
+    image: chair,
+    hoverImage: chair2
   },
   {
     id: 4,
-    title: "Modern Wooden Chair",
+    title: "Modern Wooden Sofa",
     price: 12290,
     oldPrice: 14412,
     discount: 15,
     rating: 4.8,
-    image: chair,
-    hoverImage: chair2
+    image: sofa2,
+    hoverImage: sofa3
   },
   {
     id: 5,
@@ -63,8 +66,8 @@ const products = [
     oldPrice: 23997,
     discount: 19,
     rating: 4.9,
-    image: bed,
-    hoverImage: bed
+    image: sofa,
+    hoverImage: sofa2
   },
 ];
 
