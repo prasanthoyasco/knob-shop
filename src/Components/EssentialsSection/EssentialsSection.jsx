@@ -29,7 +29,7 @@ export default function EssentialsSection() {
   return (
     <section className="p-5 bg-light essentials-bg-img d-flex align-items-center justify-content-center">
       <div className="d-flex align-items-center flex-column">
-        <div className="container mx-4 d-flex align-items-center ">
+        <div className="container-flued mx-4 d-flex align-items-center ">
              <div className="row d-flex align-items-center">
         <div className="mb-4 col-3 ">
           <h2 className="h4 fw-semibold text-dark">Essential Details, Elevated Living</h2>
@@ -46,7 +46,7 @@ export default function EssentialsSection() {
                 <div className="card-body position-relative z-1">
                  <div className='d-flex flex-column'>
                      <div className='my-2'><h1 className="display-1 fw-bold stroke-text my-4">{card.number}</h1></div>
-                  <div className='mt-5 d-flex flex-column gap-2 w-80'><h5 className="h2 card-title fw-semibold text">{card.title}</h5>
+                  <div className='mt-5 d-flex flex-column gap-2 w-fit'><h5 className="h2 card-title fw-semibold text">{card.title}</h5>
                   <p className="card-text small text">{card.description}</p>
                   <a href="#" className="text-decoration-underline text fw-medium small">Read More</a></div>
                  </div>

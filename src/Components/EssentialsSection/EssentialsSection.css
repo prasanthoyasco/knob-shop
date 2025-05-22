@@ -67,8 +67,8 @@
 .mt-5{
     margin-top: .5rem !important;
 }
-.w-80{
-    width: 80% !important;
+.w-fit{
+    width: fit-content !important;
 }
 .dark-btn{
     color: #000;
