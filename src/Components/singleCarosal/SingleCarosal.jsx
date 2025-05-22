@@ -35,7 +35,7 @@ const carouselData = [
 
 const singleCarosal = () => {
   return (
-    <div className="custom-carousel-container">
+    <div className="custom-carousel-container mt-4">
       <Swiper
         modules={[Navigation, Pagination]}
         navigation={{

@@ -22,10 +22,11 @@
      animation: fadeIn 0.5s ease forwards;
 }
 .big-ctn{
-  padding: 0.75rem 3.5rem !important;
-  font-size: 1rem;
+  padding: 0.5rem 3rem !important;
+  font-size: .9rem;
   font-weight: 400 !important;
   letter-spacing: 1px;
+  border-radius: 3px !important;
   transition: all 0.2s ease-in-out;
 }
 .big-ctn:hover{

@@ -45,6 +45,11 @@ const carouselData = [
 const CubeCarousel = () => {
   return (
     <div className="cube-carousel-wrapper">
+      <div className="flex-grow-1 text-center my-4"> {/* Added flex-grow-1 and text-center */}
+          <h2 className="h5 text-uppercase fw-medium product-head">
+            New & Tradition Collection
+          </h2>
+        </div>
       <Swiper
         modules={[Navigation, EffectFade,Pagination,Autoplay]}
         loop={true}
