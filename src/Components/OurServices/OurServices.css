@@ -10,6 +10,8 @@
 }
 .service-image-heading-para-content {
     align-items: center;
+    cursor: pointer;
+    user-select: none;
     display: flex;
     flex-direction: column;
     width: 250px;
@@ -19,8 +21,8 @@
   
   .service-image-heading-para-content:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-    height: 180px;
+    /* box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); */
+    /* height: 180px; */
   }
 
 .service-image-heading-para-content p {

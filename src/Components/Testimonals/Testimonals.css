@@ -37,13 +37,13 @@
   
   /* Index-based custom styles */
   .card-0 {
-    position: absolute;
-    right: 9%;
-    top: 5%;
-    height: 400px;
-    width: 293px;
     text-align: center;
-
+    position: absolute;
+    left: 0;
+    top: 25%;
+    min-height: 400px;
+    padding: 15px;
+    width: 45%;
   }
   .testimonal-image{
     height: 75px;
@@ -105,15 +105,15 @@
   .card-1 {
     text-align: center;
     position: absolute;
-    right: 53%;
-    top: 25%;
-    height: 400px;
-    width: 29xpx;
+    right: 10%;
+    top: 5%;
+    min-height: 400px;
+    width: 40%;
 
   }
   .testimonial-content{
     position: relative; /* This contains absolutely positioned .card-0 and .card-1 */
-  width: 100%;
+  width: 50%;
   height: 100%;
   }
   

@@ -30,24 +30,46 @@
 }
 
 .shop-the-room__dot {
-  width: 20px;
-  height: 20px;
-  background-color: #000;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
-  border: 2px solid white;
+  border: 2px dotted #f3f3f3;
   cursor: pointer;
   z-index: 2;
+  position: relative;
+  animation: pulse 1.5s infinite ease-in-out;
 }
+.shop-the-room_inner_dot{
+  width: 20px;
+  height: 20px;
+  border: 7px solid #c4c4c4;
+  position: absolute;
+  left: 10%;
+  top:10%;
+  border-radius: 50%;
+}
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
 
 .shop-the-room__card {
   position: absolute;
-  top: -120px;
-  left: 30px;
   background: white;
-  padding: 12px;
+  padding: 8px;
   width: 220px;
   border-radius: 6px;
-  border: 2px solid #007BFF;
   box-shadow: 0 5px 15px rgba(0,0,0,0.1);
   display: flex;
   gap: 10px;
@@ -55,20 +77,59 @@
   z-index: 1;
 }
 
+/* Centered default */
+.shop-the-room__card.align-center {
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* Aligned to left of dot */
+.shop-the-room__card.align-left {
+  left: 0;
+  transform: translateX(-45%);
+}
+
+/* Aligned to right of dot */
+.shop-the-room__card.align-right {
+  left: auto;
+  right: 0;
+  transform: translateX(45%);
+}
+
+/* Arrow stays in center */
+.shop-the-room__card::before {
+  content: '';
+  position: absolute;
+  bottom: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 10px;
+  border-style: solid;
+  border-color: white transparent transparent transparent;
+}
+
+.shop-the-room-image-wrapper{
+  background-color: #d6d6d6;
+  
+  border-radius: 3px;
+}
+
 .shop-the-room__card img {
-  width: 60px;
-  height: 60px;
+  width: 100%;
   object-fit: contain;
+  padding: 10px;
+  border-radius: 3px;
 }
 
 .shop-the-room__info {
   text-align: left;
+  width:100%;
 }
 
 .shop-the-room__category {
   font-size: 10px;
-  color: #888;
-  margin: 0;
+  color: #888 !important;
+  margin: 0 !important;
 }
 
 .shop-the-room__product-title {
@@ -79,8 +140,8 @@
 .shop-the-room__price {
   font-size: 13px;
   font-weight: bold;
-  color: #000;
-  margin: 0;
+  color: #d6791f !important;
+  margin: 0 !important;
 }
 
 .shop-the-room__btn-container {

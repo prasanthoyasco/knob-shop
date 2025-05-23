@@ -8,8 +8,9 @@
   }
   
   .faq-image {
-    width: 536px;
-    height: auto;
+    width: 50%;
+    max-width: 600px;
+    max-height: 600px;
     border-radius: 12px;
     flex-shrink: 0;
     object-fit: cover;
@@ -23,12 +24,19 @@
     flex: 1;
     max-width: 600px;
     margin-top: 3%;
+    margin-left: 3%;
   }
   
-  .faq-content h6 {
-    font-weight: bold;
+  .faq-content h5 {
+    font-weight: normal;
     font-size: 20px;
-    letter-spacing: 6%;
+    letter-spacing: 1px;
+    margin-bottom: 0.5rem;
+  }
+    .faq-content h6 {
+    font-weight:600;
+    font-size: 20px;
+    letter-spacing: 1px;
     margin-bottom: 0.5rem;
   }
   
@@ -36,7 +44,8 @@
     font-size: 38px;
     margin-bottom: 1rem;
     width: 488px;
-    letter-spacing: 4%;
+    font-weight: 700;
+    letter-spacing: 2px;
   }
   
   .faq-content p {

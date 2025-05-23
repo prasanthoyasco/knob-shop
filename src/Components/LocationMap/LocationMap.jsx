@@ -3,7 +3,7 @@ import "./LocationMap.css";
 
 const LocationMap = () => {
   return (
-    <div className="map-wrapper">
+    <div className="map-wrapper mt-4">
       <div className="map-container">
         <iframe
           title="Google Map"

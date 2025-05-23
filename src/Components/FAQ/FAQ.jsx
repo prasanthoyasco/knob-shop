@@ -32,7 +32,7 @@ function FAQ() {
     <div className='Faq-container'>
       <img src={faqImage} className='faq-image' alt="FAQ Visual" />
       <div className='faq-content'>
-        <h6>FAQ's</h6>
+        <h5>FAQ's</h5>
         <h1>YOU HAVE DIFFERENT QUESTIONS?</h1>
         <p>Our team will answer all your questions.</p>
         <p>We ensure a quick response.</p>

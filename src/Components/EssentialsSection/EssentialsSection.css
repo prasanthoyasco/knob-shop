@@ -4,6 +4,7 @@
   cursor: pointer;
   min-height: 400px;
   max-height: 400px;
+  border-radius: 5px !important;
   transition: box-shadow 0.3s ease;
   background-color: #fff;
 }
@@ -64,9 +65,7 @@
 .essential-card:hover a {
   color: #fff !important;
 }
-.mt-5{
-    margin-top: .5rem !important;
-}
+
 .w-fit{
     width: fit-content !important;
 }
