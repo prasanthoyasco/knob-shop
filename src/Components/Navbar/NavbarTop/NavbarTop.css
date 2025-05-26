@@ -47,11 +47,12 @@
     .navbar-top-container {
         padding: 10px;
     }
-
-    .navbar-top-phone-number,
-    .navbar-top-mail-id,
-    .navbar-top-facebook-insta-icon-div {
-        flex-wrap: wrap;
-        justify-content: center;
+    .navbar-top-offer{
+        font-size: smaller;
+    }
+.navbar-top-phone-number,
+.navbar-top-facebook-insta-icon-div,
+    .navbar-top-mail-id{
+        display: none;
     }
 }

@@ -7,7 +7,7 @@ const testimonials = [
   {
     imgage: testinomalImage1,
     name: "Aarav Mehta",
-    profession : "Expert",
+    profession: "Expert",
     message: "“My family built with Hallmark 16 years ago. Quality house still to this day, so this really helped us to make a decision.”"
   },
   {
@@ -32,7 +32,7 @@ const testimonials = [
 
 function Testimonals() {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 1024); // Keep this for mobile logic
 
   useEffect(() => {
     const handleResize = () => {
@@ -45,6 +45,7 @@ function Testimonals() {
   }, []);
 
   // Number of cards to show at once
+  // This will be 2 on desktop (>= 1024px) and 1 on mobile (< 1024px)
   const cardsToShow = isMobile ? 1 : 2;
 
   const handlePrev = () => {
@@ -83,8 +84,8 @@ function Testimonals() {
         <div className='testimonal-left-content'>
           <h1>READ WHAT</h1>
           <h1>OUR CLIENTS THINK</h1>
-          <div style={{marginTop:"20px"}}>
-          <p>We can already call over 5,000 people our customer, When you are coming</p></div>
+          <div style={{ marginTop: "20px" }}>
+            <p>We can already call over 5,000 people our customer, When you are coming</p></div>
           <button>DISCOVER NOW</button>
         </div>
 
@@ -100,6 +101,10 @@ function Testimonals() {
             ))}
           </div>
         </div>
+        <div className='next-prev-icon d-md-none'>
+        <i className="bi bi-chevron-left" onClick={handlePrev}></i>
+        <i className="bi bi-chevron-right" onClick={handleNext}></i>
+      </div>
       </div>
     </>
   );

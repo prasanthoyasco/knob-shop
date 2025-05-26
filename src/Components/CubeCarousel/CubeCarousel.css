@@ -1,3 +1,4 @@
+/* Base Styles */
 .cube-carousel-wrapper {
   width: 100%;
   position: relative;
@@ -36,13 +37,13 @@
   animation: fadeInRight 1.2s ease both;
 }
 
-
 .cube-content {
   width: 50%;
   text-align: left;
   padding: 1rem;
 }
 
+/* Text & Button Animations */
 @keyframes fadeInUp {
   0% {
     opacity: 0;
@@ -70,7 +71,7 @@
 }
 
 .cube-description {
-  font-size: .8rem;
+  font-size: 0.8rem;
   color: #444;
   margin-bottom: 1.5rem !important;
   animation: fadeInUp 1.8s ease both;
@@ -88,23 +89,7 @@
   border-radius: 5px;
 }
 
-@media (max-width: 768px) {
-  .cube-carousel-slide {
-    flex-direction: column;
-    height: auto;
-  }
-
-  .cube-image {
-    width: 100%;
-    height: 200px;
-  }
-
-  .cube-content {
-    width: 100%;
-    text-align: center;
-    padding: 1rem 0;
-  }
-}
+/* Swiper Pagination */
 .swiper-pagination {
   position: absolute;
   bottom: 10px;
@@ -113,46 +98,6 @@
   text-align: center;
 }
 
-.swiper-pagination-bullet {
-  background: #000;
-  opacity: 0.5;
-  transition: 0.3s;
-}
-
-.swiper-pagination-bullet-active {
-  background: #000;
-  opacity: 1;
-}
-
-@keyframes fadeInLeft {
-  0% {
-    opacity: 0;
-    transform: translateX(-40px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes fadeInRight {
-  0% {
-    opacity: 0;
-    transform: translateX(40px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-.cube-carousel-wrapper .custom-swiper-button-prev {
-  left:20px
-}
-.cube-carousel-wrapper .custom-swiper-button-next {
-  right:20px
-}
-
-/* Custom pagination bullets */
 .swiper-pagination-bullet {
   display: inline-block;
   margin: 0 5px;
@@ -179,7 +124,6 @@
   transition: fill 0.3s;
 }
 
-/* Active state */
 .swiper-pagination-bullet-active .progress-ring__circle {
   stroke: #000;
 }
@@ -187,7 +131,7 @@
   fill: #000;
 }
 
-/* Optional: style navigation buttons if needed */
+/* Navigation Buttons */
 .custom-swiper-button-prev,
 .custom-swiper-button-next {
   position: absolute;
@@ -206,4 +150,114 @@
 }
 .custom-swiper-button-next {
   right: 10px;
+}
+
+/* Animations for desktop images */
+@keyframes fadeInLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-40px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeInRight {
+  0% {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* --- Mobile Specific Styles --- */
+@media (max-width: 768px) {
+  .cube-carousel-slide {
+    flex-direction: column; /* Stack items vertically */
+    height: 450px; /* Keep a fixed height or adjust as needed for mobile */
+    justify-content: flex-end; /* Push content to the bottom */
+    padding: 0; /* Remove initial padding */
+    background-size: cover; /* Cover the entire area */
+    background-position: left center; /* Align image to the left */
+    background-repeat: no-repeat; /* Do not repeat the background image */
+  }
+
+  .cube-image.left {
+    display: none; /* Hide the left image element on mobile */
+  }
+
+  .cube-image.right {
+    display: none; /* Hide the right image element on mobile */
+  }
+
+  /* Set the left image as background for each slide */
+  .swiper-slide:nth-child(1) .cube-carousel-slide {
+    background-image: url('../../Assets/collectionCarosal1left.jpg');
+  }
+  .swiper-slide:nth-child(2) .cube-carousel-slide {
+    background-image: url('../../Assets/collectionCarosal2left.jpg');
+  }
+  .swiper-slide:nth-child(3) .cube-carousel-slide {
+    background-image: url('../../Assets/collectionCarosal3left.jpg');
+  }
+  /* Add more .swiper-slide:nth-child(X) for additional slides if needed */
+
+  .cube-content {
+    width: 100%;
+    text-align: left; /* Align text to the left as requested */
+    padding: 20px; /* Add padding for content on mobile */
+    background: rgba(255, 255, 255, 0.8); /* Semi-transparent background for readability */
+    border-radius: 0 0 8px 8px; /* Rounded bottom corners */
+    box-sizing: border-box; /* Include padding in width */
+    position: absolute; /* Position over the background */
+    bottom: 0; /* Stick to the bottom */
+    left: 0;
+  }
+
+  .cube-subtitle {
+    font-size: 0.75rem;
+    margin-bottom: 0.25rem !important;
+  }
+
+  .cube-title {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem !important;
+  }
+
+  .cube-description {
+    font-size: 0.75rem;
+    margin-bottom: 1rem !important;
+  }
+
+  .cube-button {
+    width: auto; /* Auto width */
+    padding: 0.6rem 1.2rem;
+    font-size: 0.8rem;
+  }
+
+  /* Adjust pagination and navigation for better mobile experience */
+  .custom-swiper-button-prev,
+  .custom-swiper-button-next {
+    top: 50%; /* Center vertically */
+    transform: translateY(-50%);
+    font-size: 18px; /* Smaller arrows */
+    padding: 6px;
+    background: rgba(255, 255, 255, 0.7); /* Slightly transparent background */
+  }
+
+  .custom-swiper-button-prev {
+    left: 5px;
+  }
+  .custom-swiper-button-next {
+    right: 5px;
+  }
+
+  .swiper-pagination {
+    bottom: 5px; /* Move pagination higher */
+  }
 }

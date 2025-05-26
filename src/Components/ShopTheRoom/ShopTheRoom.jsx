@@ -82,7 +82,7 @@ const ShopTheRoom = () => {
                 <div
                   className={`shop-the-room__card ${cardClass}`}
                   ref={ref}
-                  style={{ top: `-${heightOffset}px` }}
+                  style={{ top: `-${heightOffset}px`,cursor:'pointer' }}
                 >
                   <div className="w-50 shop-the-room-image-wrapper">
                     <img src={item.image} alt={item.title} />

@@ -118,3 +118,11 @@ text-align: center;
 .hero__title{
     font-size: 8rem;
 }
+@media (max-width: 768px) {
+  .hero__title{
+    font-size: 4rem;
+  }
+  .wt-parallax__additional{
+    width: 10%;
+  }
+}

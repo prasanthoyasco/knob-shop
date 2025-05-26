@@ -86,6 +86,7 @@ export const Home = () => {
   return (
   <>
    <NavbarTop/>
+   {/* <Navbar/> */}
       <Hero/>
       <ProductCarousel products={products} />;
       {/* <CollectionsCarosal/> */}

@@ -21,3 +21,8 @@
     text-transform: uppercase;
     font-weight: 500;
 }
+@media (max-width: 768px) {
+  .shelf-highlight-image {
+margin-left: 0 !important;
+}
+}
