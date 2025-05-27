@@ -78,7 +78,7 @@ const Hero = () => {
             </span>
             `,
         }}
-        // autoplay={{ delay: 3000, disableOnInteraction: false }}
+        autoplay={{ delay: 3000, disableOnInteraction: false }}
         effect="fade"
         loop={true}
       >

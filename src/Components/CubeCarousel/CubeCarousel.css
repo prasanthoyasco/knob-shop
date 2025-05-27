@@ -177,6 +177,10 @@
 
 /* --- Mobile Specific Styles --- */
 @media (max-width: 768px) {
+  .cube-carousel-wrapper {
+    width: 95% !important;
+    margin: auto;
+  }
   .cube-carousel-slide {
     flex-direction: column; /* Stack items vertically */
     height: 450px; /* Keep a fixed height or adjust as needed for mobile */
@@ -238,6 +242,8 @@
     width: auto; /* Auto width */
     padding: 0.6rem 1.2rem;
     font-size: 0.8rem;
+    font-size: 0.6rem !important;
+    margin-bottom: 1rem !important;
   }
 
   /* Adjust pagination and navigation for better mobile experience */

@@ -285,8 +285,9 @@
   }
 
   .shop-the-room__check-btn {
-    font-size: 12px;
-    padding: 8px 16px;
+   padding: 9px 12px;
+        border-radius: 2px;
+        font-size: 14px !important;
   }
 }
 
@@ -322,8 +323,9 @@
   }
 
   .shop-the-room__check-btn {
-    padding: 7px 15px;
-    font-size: 11px;
+   padding: 9px 12px;
+        border-radius: 2px;
+        font-size: 13px !important;
   }
 }
 
@@ -354,7 +356,8 @@
   }
 
   .shop-the-room__check-btn {
-    padding: 6px 12px;
-    font-size: 10px;
+   padding: 9px 12px;
+        border-radius: 2px;
+        font-size: 12px !important;
   }
 }

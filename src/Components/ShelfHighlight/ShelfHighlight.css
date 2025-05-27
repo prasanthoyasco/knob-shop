@@ -25,4 +25,10 @@
   .shelf-highlight-image {
 margin-left: 0 !important;
 }
+.lead {
+  font-size: 0.8rem;
+}
+.ctn{
+  font-size: 12px;
+}
 }

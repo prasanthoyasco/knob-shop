@@ -274,10 +274,12 @@
   }
 
   .slide-number {
-    position: static; /* Position normally within the flow */
+    position: absolute; /* Position normally within the flow */
     transform: none; /* Remove transform for centering */
     color: #e2e2e2;
-    margin-top: 20px; /* Add space above it if needed */
+    bottom: 0;
+        left: 45%;
+        font-size: 14px;
     justify-content: center; /* Center horizontally */
   }
 
@@ -285,7 +287,7 @@
     border: 1px solid #e2e2e2;
     height: 2px;
     background-color: #e2e2e2;
-    width: 30px;
+    width: 20px;
   }
 
   .custom-nav {
@@ -305,6 +307,10 @@
   .lighting-home-slider .swiper-pagination {
     margin-top: 10px; /* Reduce space for pagination */
   }
+  .progress-ring {
+    width: 15px !important;
+    height: 15px !important;
+}
 }
 
 /* For very small mobile screens (e.g., less than 480px) */

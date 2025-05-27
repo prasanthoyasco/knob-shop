@@ -83,9 +83,11 @@
       margin: 10px 10px 0px 20px;
     }
   
-    .brands-container button {
-      width: 100%;
-      max-width: 237px;
+        .brands-container button {
+        width: 100%;
+        max-width: 137px;
+        height: 40px;
+        font-size: 12px;
     }
   
     .brands-container img {
