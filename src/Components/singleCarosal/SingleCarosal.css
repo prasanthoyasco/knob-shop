@@ -1,12 +1,20 @@
+/* Default styles (Desktop Design) - NO CHANGES HERE */
+.custom-carousel-container {
+  margin-top: 4rem; /* Adjust as needed */
+  position: relative;
+  overflow: hidden; /* Ensure nothing overflows */
+}
+
 .custom-single-swiper {
   width: 97%;
   height: 100%;
   border-radius: 5px;
+  margin: 0 auto; /* Center the swiper */
 }
 
 .custom-single-swiper .swiper-slide {
-    width: 1110px !important;
-    flex-shrink: 0;
+  width: 1110px !important; /* Keep original desktop slide width */
+  flex-shrink: 0;
 }
 
 .custom-single-carousel-slide-bg {
@@ -18,17 +26,20 @@
   justify-content: flex-end;
   padding: 0 4rem;
   z-index: 1;
+  background-size: cover; /* Ensure background covers */
+  background-position: center; /* Center the background image */
+  background-repeat: no-repeat;
 }
 
 .custom-single-carousel-slide-bg::before {
-  content: '';
+  content: "";
   position: absolute;
-  top: 0; 
+  top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   background-image: inherit;
-  background-size: contain;
+  background-size: contain; /* Keep original contain for desktop */
   background-position: left;
   background-repeat: no-repeat;
   transition: transform 0.6s ease;
@@ -39,24 +50,256 @@
   transform: scale(1.1);
 }
 
-
-
-.custom-single-carousel-overlay{
-    position: absolute;
-    right: 0;
-    width: 45%;
-    height: 100%;
-    background: white;
-    padding: 1rem 2rem 1rem 2rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-    z-index: 2;
+.custom-single-carousel-overlay {
+  position: absolute;
+  right: 0;
+  width: 45%;
+  height: 100%;
+  background: white;
+  padding: 1rem 2rem 1rem 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  z-index: 2;
+  box-sizing: border-box; /* Include padding in width calculation */
 }
-.custom-single-carousel-title{
+
+.custom-carousel-subtitle {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.custom-carousel-subtitle strong {
+  font-weight: bold;
+}
+
+.custom-single-carousel-title {
   font-size: 1.8rem;
   font-weight: 600;
   animation: fadeIn 0.5s ease forwards;
   margin-bottom: 1rem !important;
+}
+
+.custom-carousel-description {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin-bottom: 1.5rem;
+}
+
+.custom-carousel-button {
+  background-color: #000;
+  color: #fff;
+  padding: 0.8rem 1.5rem;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+.custom-carousel-button:hover {
+  background-color: #333;
+}
+
+/* Swiper Navigation Arrows */
+.custom-swiper-button-prev,
+.custom-swiper-button-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  cursor: pointer;
+  background-color: rgba(255, 255, 255, 0.7); /* Slightly transparent white */
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: #333;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.custom-swiper-button-prev {
+  left: 10px; /* Adjust as needed */
+}
+
+.custom-swiper-button-next {
+  right: 10px; /* Adjust as needed */
+}
+
+.custom-swiper-button-prev:hover,
+.custom-swiper-button-next:hover {
+  background-color: #fff;
+  color: #e18436; /* Accent color on hover */
+}
+
+/* Swiper Pagination */
+.custom-single-swiper .swiper-pagination-bullet {
+  background-color: #888;
+  opacity: 0.7;
+}
+
+.custom-single-swiper .swiper-pagination-bullet-active {
+  background-color: #000;
+  opacity: 1;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+/* Responsive Design - Only apply changes below certain breakpoints */
+
+/* Tablets and larger phones (max-width: 1199px) */
+@media (max-width: 1199px) {
+  .custom-single-swiper .swiper-slide {
+    width: 100% !important; /* Make slides take full width on smaller screens */
+  }
+
+  .custom-single-carousel-slide-bg {
+    height: 400px; /* Slightly reduced height */
+    padding: 0 2rem;
+  }
+
+  .custom-single-carousel-slide-bg::before {
+    background-size: cover; /* Ensure background covers on smaller screens */
+    background-position: center; /* Center the background image */
+  }
+
+  .custom-single-carousel-overlay {
+    width: 55%; /* Allow overlay to take more width */
+    padding: 1rem; /* Reduced padding */
+  }
+
+  .custom-carousel-subtitle {
+    font-size: 0.9rem;
+  }
+
+  .custom-single-carousel-title {
+    font-size: 1.5rem;
+  }
+
+  .custom-carousel-description {
+    font-size: 0.85rem;
+  }
+
+  .custom-carousel-button {
+    padding: 0.7rem 1.2rem;
+    font-size: 0.8rem;
+  }
+
+  .custom-swiper-button-prev,
+  .custom-swiper-button-next {
+    width: 35px;
+    height: 35px;
+    font-size: 1.3rem;
+  }
+}
+
+/* Mobile devices (max-width: 767px) */
+@media (max-width: 767px) {
+  .custom-single-carousel-slide-bg {
+    flex-direction: column; /* Stack image and overlay vertically */
+    height: auto; /* Allow height to adjust */
+    padding: 20px; /* Add vertical padding */
+    justify-content: center; /* Center content vertically */
+    background-position: center; /* Center background image */
+  }
+
+  .custom-single-carousel-slide-bg::before {
+    transform: none; /* Remove hover effect on mobile */
+  }
+
+  .custom-single-carousel-slide-bg:hover::before {
+    transform: none; /* Disable hover scale on mobile */
+  }
+
+  .custom-single-carousel-overlay {
+    position: static; /* Remove absolute positioning */
+    width: 100%; /* Take full width */
+    height: auto; /* Adjust height based on content */
+    padding: 1.5rem 1rem; /* More balanced padding */
+    text-align: center; /* Center align text */
+    background: rgba(0, 0, 0, 0.548); /* Slightly transparent white background */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+    border-radius: 5px;
+    margin-top: 20px; /* Space between background and overlay */
+    align-items: center; /* Center content horizontally */
+  }
+
+  .custom-carousel-subtitle {
+    color: #ebebeb !important;
+    font-size: 0.85rem;
+  }
+
+  .custom-single-carousel-title {
+    font-size: 1.3rem;
+    color: #FFF !important;
+    margin-bottom: 0.8rem !important;
+  }
+
+  .custom-carousel-description {
+    font-size: 0.8rem;
+    color: #ebebeb !important;
+    margin-bottom: 1rem;
+  }
+
+  .custom-carousel-button {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.8rem;
+  }
+
+  .custom-swiper-button-prev,
+  .custom-swiper-button-next {
+    display: none; /* Hide navigation buttons on small mobile screens */
+  }
+
+  /* Adjust pagination for mobile */
+  .custom-single-swiper .swiper-pagination {
+    margin-top: 10px;
+  }
+}
+
+/* Smaller mobile devices (max-width: 480px) */
+@media (max-width: 480px) {
+  .custom-single-carousel-slide-bg {
+    min-height: 300px;
+    background-size: contain;
+    background-position: center right;
+    padding: 15px;
+  }
+
+  .custom-single-carousel-overlay {
+    padding: 1rem 0.8rem;
+  }
+
+  .custom-carousel-subtitle {
+    font-size: 0.8rem;
+  }
+
+  .custom-single-carousel-title {
+    font-size: 1.1rem;
+  }
+
+  .custom-carousel-description {
+    font-size: 0.75rem;
+  }
+
+  .custom-carousel-button {
+    padding: 0.5rem 1rem;
+    font-size: 0.75rem;
+  }
 }

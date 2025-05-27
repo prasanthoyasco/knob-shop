@@ -26,7 +26,6 @@
 
 .shop-the-room__hotspot {
   position: absolute;
-  /* transform: translate(-50%, -50%); */
 }
 
 .shop-the-room__dot {
@@ -62,18 +61,22 @@
 
 @keyframes pulse {
   0% {
-    -webkit-transform: scale(.1, .1);
+    -webkit-transform: scale(0.1, 0.1);
     opacity: 0;
   }
   50% {
     opacity: 1;
   }
   100% {
-   -webkit-transform: scale(1.2, 1.2);
+    -webkit-transform: scale(1.2, 1.2);
     opacity: 0;
   }
 }
-
+.shop-the-room__card.bottom::before {
+  top: -15px;
+  bottom: auto;
+  border-color: transparent transparent white transparent;
+}
 
 .shop-the-room__card {
   position: absolute;
@@ -81,33 +84,29 @@
   padding: 8px;
   width: 220px;
   border-radius: 6px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
   display: flex;
   gap: 10px;
   align-items: center;
   z-index: 1;
 }
 
-/* Centered default */
 .shop-the-room__card.align-center {
   left: 50%;
   transform: translateX(-50%);
 }
 
-/* Aligned to left of dot */
 .shop-the-room__card.align-left {
   left: 0;
   transform: translateX(-45%);
 }
 
-/* Aligned to right of dot */
 .shop-the-room__card.align-right {
   left: auto;
   right: 0;
   transform: translateX(45%);
 }
 
-/* Arrow stays in center */
 .shop-the-room__card::before {
   content: '';
   position: absolute;
@@ -119,9 +118,8 @@
   border-color: white transparent transparent transparent;
 }
 
-.shop-the-room-image-wrapper{
+.shop-the-room-image-wrapper {
   background-color: #d6d6d6;
-  
   border-radius: 3px;
 }
 
@@ -134,7 +132,7 @@
 
 .shop-the-room__info {
   text-align: left;
-  width:100%;
+  width: 100%;
 }
 
 .shop-the-room__category {
@@ -172,4 +170,191 @@
 
 .shop-the-room__check-btn:hover {
   background-color: #333;
+}
+
+/* ---------- Responsive Styles ---------- */
+
+/* Tablets */
+@media (max-width: 991px) {
+  .shop-the-room__title {
+    font-size: 22px;
+    margin-bottom: 25px;
+  }
+
+  .shop-the-room__dot {
+    width: 25px;
+    height: 25px;
+  }
+
+  .shop-the-room_inner_dot {
+    width: 15px;
+    height: 15px;
+    border-width: 5px;
+  }
+
+  .shop-the-room__card {
+    width: 200px;
+    padding: 6px;
+    gap: 8px;
+  }
+
+  .shop-the-room__card::before {
+    bottom: -16px;
+    border-width: 8px;
+  }
+
+  .shop-the-room__category {
+    font-size: 9px;
+  }
+
+  .shop-the-room__product-title {
+    font-size: 13px;
+  }
+
+  .shop-the-room__price {
+    font-size: 12px;
+  }
+
+  .shop-the-room__check-btn {
+    padding: 9px 20px;
+    font-size: 13px;
+  }
+}
+
+/* Tablets and Phones */
+@media (max-width: 767px) {
+  .shop-the-room__room-container {
+    padding: 0 10px;
+    overflow-x:visible !important;
+  }
+
+  .shop-the-room__card {
+    width: 95vw !important;
+    max-width: 160px !important;
+    z-index: 2;
+    flex-direction: row;
+    align-items: center;
+    text-align: center;
+    padding: 6px;
+    gap: 6px;
+  }
+
+  .shop-the-room__card.align-center,
+  .shop-the-room__card.align-left,
+  .shop-the-room__card.align-right {
+    left: 50% !important;
+    right: auto !important;
+    transform: translateX(-50%) !important;
+  }
+
+  .shop-the-room__card::before {
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+  }
+
+  .shop-the-room-image-wrapper {
+    width: 60% !important;
+    margin: 0 auto;
+  }
+  .shop-the-room__card img {
+    height: 50px;
+    padding: 4px;
+}
+
+  .shop-the-room__info {
+    text-align: left;
+  }
+
+  .shop-the-room__product-title {
+    font-size: 9px;
+  }
+
+  .shop-the-room__price {
+    font-size: 11px;
+  }
+
+  .shop-the-room__dot {
+    width: 22px;
+    height: 22px;
+  }
+
+  .shop-the-room_inner_dot {
+    width: 13px;
+    height: 13px;
+    border-width: 4px;
+  }
+
+  .shop-the-room__check-btn {
+    font-size: 12px;
+    padding: 8px 16px;
+  }
+}
+
+/* Small phones */
+@media (max-width: 479px) {
+  .shop-the-room__title {
+    font-size: 9cqmin;
+    margin-bottom: 15px;
+  }
+
+  .shop-the-room__dot {
+    width: 20px;
+    height: 20px;
+  }
+
+  .shop-the-room_inner_dot {
+    width: 12px;
+    height: 12px;
+    border-width: 3px;
+  }
+
+  .shop-the-room__card {
+    width: 160px;
+    padding: 4px;
+  }
+
+  .shop-the-room__product-title {
+    font-size: 9px;
+  }
+
+  .shop-the-room__price {
+    font-size: 10px;
+  }
+
+  .shop-the-room__check-btn {
+    padding: 7px 15px;
+    font-size: 11px;
+  }
+}
+
+/* Ultra-small phones */
+@media (max-width: 420px) {
+  .shop-the-room__card {
+    max-width: 150px;
+    font-size: 11px;
+  }
+
+  .shop-the-room__product-title {
+    font-size: 11px;
+  }
+
+  .shop-the-room__price {
+    font-size: 10px;
+  }
+
+  .shop-the-room__dot {
+    width: 18px;
+    height: 18px;
+  }
+
+  .shop-the-room_inner_dot {
+    width: 10px;
+    height: 10px;
+    border-width: 3px;
+  }
+
+  .shop-the-room__check-btn {
+    padding: 6px 12px;
+    font-size: 10px;
+  }
 }

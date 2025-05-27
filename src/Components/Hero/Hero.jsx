@@ -1,7 +1,7 @@
 import { Swiper, SwiperSlide } from "swiper/react";
-import {useRef} from "react";
+import { useRef } from "react";
 import { Navigation, Pagination, Autoplay, EffectFade } from "swiper/modules";
-import { IoIosArrowBack,IoIosArrowForward  } from "react-icons/io";
+import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -43,8 +43,6 @@ const slides = [
 const Hero = () => {
   const prevRef = useRef(null);
   const nextRef = useRef(null);
-  // No need for swiperInstance state if using onInit for navigation setup
-  // const [swiperInstance, setSwiperInstance] = useState(null); 
 
   return (
     <div className="lighting-home-slider">
@@ -60,28 +58,27 @@ const Hero = () => {
 
       <Swiper
         modules={[Navigation, Pagination, Autoplay, EffectFade]}
-        // Use onInit to ensure refs are available when Swiper sets up navigation
         onInit={(swiper) => {
-          if (swiper.params.navigation) { // Check if navigation module is enabled
+          if (swiper.params.navigation) {
             swiper.params.navigation.prevEl = prevRef.current;
             swiper.params.navigation.nextEl = nextRef.current;
             swiper.navigation.init();
             swiper.navigation.update();
           }
         }}
-        navigation={true} // Enable the navigation module
+        navigation={true}
         pagination={{
           clickable: true,
           renderBullet: (index, className) => `
             <span class="${className}">
-                <svg class="progress-ring" viewBox="0 0 24 24">
+              <svg class="progress-ring" viewBox="0 0 24 24">
                 <circle class="progress-ring__circle" cx="12" cy="12" r="10" />
                 <circle class="progress-ring__dot" cx="12" cy="12" r="5" />
-                </svg>
+              </svg>
             </span>
             `,
         }}
-        autoplay={{ delay: 3000, disableOnInteraction: false }}
+        // autoplay={{ delay: 3000, disableOnInteraction: false }}
         effect="fade"
         loop={true}
       >

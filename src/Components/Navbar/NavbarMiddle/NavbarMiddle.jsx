@@ -45,7 +45,6 @@ function NavbarMiddle() { // Added menuOpen and setMenuOpen as props
           </div>
         </div>
       </div>
-     
       <hr />
     </>
   );

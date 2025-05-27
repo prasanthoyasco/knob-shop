@@ -106,6 +106,12 @@
 }
 
 @media (max-width: 768px) {
+  .custom-tabs{
+    gap: 0.5rem !important;
+  }
+  .custom-tabs .nav-item .nav-link {
+    font-size: 0.75rem !important;
+  }
   .left-text {
     display: none !important;
   }

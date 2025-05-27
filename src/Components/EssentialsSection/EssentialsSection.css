@@ -1,3 +1,4 @@
+/* Default styles (Desktop Design) - NO CHANGES HERE */
 .essential-card {
   position: relative;
   overflow: hidden;
@@ -8,18 +9,18 @@
   transition: box-shadow 0.3s ease;
   background-color: #fff;
 }
-.essentials-bg-img{
-    background: url('../../Assets/EssentialsSectionBG.jpg') no-repeat;
-    background-position: center;
-    background-size: cover;
-    min-height: 600px;
+.essentials-bg-img {
+  background: url('../../Assets/EssentialsSectionBG.jpg') no-repeat;
+  background-position: center;
+  background-size: cover;
+  min-height: 600px;
 }
-.essentials-bg-img .card{
-    border-radius: 2px;
+.essentials-bg-img .card {
+  border-radius: 2px;
 }
-.card-body a{
-    text-decoration: none;
-    color: #000;
+.card-body a {
+  text-decoration: none;
+  color: #000;
 }
 .essential-card::before {
   content: "";
@@ -54,11 +55,11 @@
   background-color: rgba(0, 0, 0, 0.253);
   color: #fff !important;
 }
-.essential-card:hover .card-body h1{
+.essential-card:hover .card-body h1 {
   -webkit-text-stroke: 1.5px #fff; /* Black stroke */
   text-stroke: 1.5px #fff; /* Fallback for other engines */
 }
-.essential-card:hover .card-body .text{
+.essential-card:hover .card-body .text {
   color: #ffffff !important;
 }
 
@@ -66,16 +67,143 @@
   color: #fff !important;
 }
 
-.w-fit{
-    width: fit-content !important;
+.w-fit {
+  width: fit-content !important;
 }
-.dark-btn{
-    color: #000;
-    background-color: #fff;
-    border: 0;
-    transition: all 0.3s ease-in-out;
+.dark-btn {
+  color: #000;
+  background-color: #fff;
+  border: 0;
+  transition: all 0.3s ease-in-out;
 }
-.dark-btn:hover{
-     color: #fff;
-    background-color: #000;
+.dark-btn:hover {
+  color: #fff;
+  background-color: #000;
+}
+
+
+/* Responsive Design - Only apply changes below certain breakpoints */
+
+/* For screens smaller than 1200px (e.g., larger tablets/smaller desktops) */
+@media (max-width: 1199px) {
+  .essentials-bg-img {
+    padding: 3rem 1.5rem !important; /* Adjust padding */
+    min-height: auto; /* Allow height to adjust */
+  }
+
+  .essentials-bg-img .row {
+    flex-wrap: wrap; /* Allow items to wrap */
+    justify-content: center; /* Center items when wrapped */
+  }
+
+  .essentials-bg-img .col-3 {
+    flex: 0 0 45%; /* Make the main text column take more width */
+    max-width: 45%; /* Ensure max-width matches flex-basis */
+    margin-bottom: 2rem !important; /* Add space below text column */
+    text-align: center; /* Center text */
+  }
+
+  .essentials-bg-img .col-md-3 {
+    flex: 0 0 45%; /* Make cards take 45% width for two columns */
+    max-width: 45%;
+    margin-bottom: 1.5rem; /* Adjust margin between cards */
+  }
+
+  .essential-card {
+    min-height: 350px; /* Adjust card height */
+    max-height: 350px;
+  }
+
+  .essential-card .card-body .stroke-text {
+    font-size: 4rem; /* Adjust number font size */
+  }
+
+  .essential-card .card-body h5 {
+    font-size: 1.3rem; /* Adjust title font size */
+  }
+
+  .essential-card .card-body p {
+    font-size: 0.8rem; /* Adjust description font size */
+  }
+}
+
+/* For screens smaller than 768px (e.g., tablets in portrait and most mobile phones) */
+@media (max-width: 767px) {
+  .essentials-bg-img {
+    padding: 2rem 1rem !important; /* Further reduce padding */
+  }
+
+  .essentials-bg-img .col-3 {
+    flex: 0 0 90%; /* Main text column takes almost full width */
+    max-width: 90%;
+    margin-bottom: 1.5rem !important;
+  }
+
+  .essentials-bg-img .col-md-3 {
+    flex: 0 0 90%; /* Cards take almost full width, one per row */
+    max-width: 90%;
+    margin-bottom: 1.2rem;
+  }
+
+  .essential-card {
+    min-height: 300px; /* Further adjust card height */
+    max-height: 300px;
+  }
+
+  .essential-card .card-body .stroke-text {
+    font-size: 6rem; /* Smaller number font size */
+    margin-bottom: 0.5rem !important;
+    text-align: center !important;
+  }
+
+  .essential-card .card-body h5 {
+    font-size: 1.1rem; /* Smaller title font size */
+  }
+
+  .essential-card .card-body p {
+    font-size: 0.75rem; /* Smaller description font size */
+  }
+
+  .essential-card .card-body .mt-5 {
+    margin-top: 1.5rem !important; /* Adjust top margin for content inside card */
+    text-align: center !important;
+    width: 100% !important;
+  }
+
+  .dark-btn {
+    padding: 10px 20px; /* Adjust button padding */
+    font-size: 0.85rem; /* Adjust button font size */
+  }
+}
+
+/* For very small mobile screens (e.g., less than 480px) */
+@media (max-width: 479px) {
+  .essentials-bg-img {
+    padding: 1.5rem 0.5rem !important; /* Minimal padding */
+  }
+
+  .essentials-bg-img .col-3 {
+    flex: 0 0 95%; /* Even wider text column */
+    max-width: 95%;
+  }
+
+  .essentials-bg-img .col-md-3 {
+    flex: 0 0 95%; /* Even wider cards */
+    max-width: 95%;
+  }
+
+  .essential-card {
+    min-height: 280px; /* Smallest card height */
+    max-height: 280px;
+  }
+
+  .essential-card .card-body .stroke-text {
+    font-size: 2.5rem;
+    font-size: 3.5rem;
+    text-align: center !important;
+  }
+
+  .essential-card .card-body h5 {
+    font-size: 1rem;
+  }
 }

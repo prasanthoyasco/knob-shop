@@ -1,3 +1,4 @@
+/* Default styles (Desktop Design) - NO CHANGES HERE */
 .deal-container {
   display: flex;
   flex-wrap: wrap;
@@ -105,21 +106,137 @@
 .shop-button:hover {
   background-color: #222; /* Slightly lighter black on hover */
 }
-.shop-button:hover img{
-    transform:rotate(90deg); ;
+.shop-button:hover img {
+  transform: rotate(90deg);
 }
 
-/* General responsive adjustments for the button if needed */
-@media (max-width: 768px) {
+
+/* Responsive Design - Only apply changes below certain breakpoints */
+
+/* For screens smaller than 992px (e.g., tablets in landscape) */
+@media (max-width: 991px) {
+  .deal-container {
+    flex-direction: column; /* Stack image and content vertically */
+    min-height: auto; /* Allow height to adjust based on content */
+  }
+
+  .deal-image {
+    flex: 1 1 100%; /* Image takes full width */
+    min-height: 300px; /* Adjust height for tablets */
+  }
+
+  .deal-content {
+    flex: 1 1 100%; /* Content takes full width */
+    padding: 30px; /* Reduced padding */
+    text-align: center; /* Center align text content */
+  }
+
+  .deal-content h2 {
+    font-size: 24px;
+    margin-bottom: 15px;
+  }
+
+  .deal-content p {
+    font-size: 15px;
+    margin-bottom: 25px;
+  }
+
+  .deal-content::after {
+    width: 150px; /* Smaller watermark */
+    height: 135px;
+    opacity: 0.3; /* More subtle opacity */
+    top: 10px; /* Adjust position */
+    right: 10px;
+  }
+
+  .countdown-timer {
+    justify-content: center; /* Center the timer segments */
+    gap: 15px; /* Reduce gap */
+    margin-bottom: 25px;
+  }
+
+  .time-value {
+    font-size: 28px;
+  }
+
+  .time-label {
+    font-size: 11px;
+  }
+
   .shop-button {
-    width: 50%; /* Adjust width for smaller screens */
-    padding: 10px 20px 10px 8px;
+    margin: 0 auto; /* Center the button on its own line */
+    padding: 10px 12px;
+    font-size: 0.9rem;
   }
 }
 
-@media (max-width: 480px) {
+/* For screens smaller than 768px (e.g., tablets in portrait and most mobile phones) */
+@media (max-width: 767px) {
+  .deal-image {
+    min-height: 250px; /* Further reduce image height */
+  }
+
+  .deal-content {
+    padding: 25px; /* Even less padding */
+  }
+
+  .deal-content h2 {
+    font-size: 22px;
+    margin-bottom: 10px;
+  }
+
+  .deal-content p {
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+
+  .countdown-timer {
+    gap: 10px; /* Smaller gap for timer */
+    margin-bottom: 20px;
+  }
+
+  .time-value {
+    font-size: 24px;
+  }
+
+  .time-label {
+    font-size: 10px;
+  }
+
   .shop-button {
-    width: 80%; /* Adjust width for very small screens */
-    padding: 8px 16px 8px 6px;
+    padding: 8px 10px;
+    font-size: 0.8rem;
+  }
+}
+
+/* For very small mobile screens (e.g., less than 480px) */
+@media (max-width: 479px) {
+  .deal-image {
+    min-height: 200px; /* Smallest image height */
+  }
+
+  .deal-content {
+    padding: 20px;
+  }
+
+  .deal-content h2 {
+    font-size: 20px;
+  }
+
+  .deal-content p {
+    font-size: 13px;
+  }
+
+  .time-value {
+    font-size: 20px;
+  }
+
+  .time-label {
+    font-size: 9px;
+  }
+
+  .shop-button {
+    padding: 6px 8px;
+    font-size: 0.75rem;
   }
 }

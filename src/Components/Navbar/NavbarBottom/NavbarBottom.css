@@ -1,207 +1,317 @@
 .navbar-bottom-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 50px;
-    animation: fadeIn 0.5s ease forwards;
-     position: relative;
-    z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 50px;
+  animation: fadeIn 0.5s ease forwards;
+  position: relative;
+  z-index: 10;
 }
-.navbar-bottom-container a{
-    margin-bottom: 0 !important;
-    cursor: pointer;
+.navbar-bottom-container a {
+  margin-bottom: 0 !important;
+  cursor: pointer;
 }
-
 
 .vertical-line {
-    border: 1px solid #6C6C6C;
-    height: 40px;
-    background-color: #6C6C6C;
-    border-radius: 10px;
-    width: 2px;
-    animation: fadeIn 0.5s ease forwards;
+  border: 1px solid #6c6c6c;
+  height: 40px;
+  background-color: #6c6c6c;
+  border-radius: 10px;
+  width: 2px;
+  animation: fadeIn 0.5s ease forwards;
 }
 
 .navbar-bottom-text-icon {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    animation: fadeIn 0.5s ease forwards;
-    position: relative; /* keep for dropdown positioning */
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  animation: fadeIn 0.5s ease forwards;
+  position: relative; /* keep for dropdown positioning */
 }
 
 .navbar-bottom-text-icon i {
-    margin: 3px;
-    transition: color 0.3s ease, transform 0.3s ease;
+  margin: 3px;
+  transition: color 0.3s ease, transform 0.3s ease;
 }
 
 /* Hover effect on icons */
-.navbar-bottom-text-icon:hover p{
-    color: #e18436 !important;
+.navbar-bottom-text-icon:hover p {
+  color: #e18436 !important;
 }
-.navbar-bottom-text-icon:hover i{
-    color: #e18436; 
-    transform: rotate(180deg);
+.navbar-bottom-text-icon:hover i {
+  color: #e18436;
+  transform: rotate(180deg);
 }
 
 .a-tag-container {
-    display: flex;
-    gap: 30px;
-    animation: fadeIn 0.5s ease forwards;
+  display: flex !important;
+  gap: 30px;
+  animation: fadeIn 0.5s ease forwards;
 }
 
 .a-tag-text-icon {
-    display: flex;
-    align-items: center;
-    gap: 3px;
-    position: relative; /* needed for dropdown */
-    transition: transform 0.3s ease;
-    animation: fadeIn 0.5s ease forwards;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  position: relative; /* needed for dropdown */
+  transition: transform 0.3s ease;
+  animation: fadeIn 0.5s ease forwards;
 }
 
 .a-tag-text-icon i {
-    margin: 3px;
-    transition: color 0.3s ease, transform 0.3s ease;
+  margin: 3px;
+  transition: color 0.3s ease, transform 0.3s ease;
 }
 /* Hover effect on a-tag icons */
 .a-tag-text-icon:hover a,
 .a-tag-text-icon:hover i {
-    color: #e18436 !important; /* Apply color directly to both p and i on hover */
+  color: #e18436 !important; /* Apply color directly to both p and i on hover */
 }
 .a-tag-text-icon:hover i {
   transform: rotate(180deg);
 }
 
 .today-deal-image {
-    height: 30px;
-    cursor: pointer;
-    animation: fadeIn 0.5s ease forwards;
+  height: 30px;
+  cursor: pointer;
+  animation: fadeIn 0.5s ease forwards;
 }
 
 /* Dropdown styles kept as is */
 .dropdown-menu {
-    display: none;
-    position: absolute;
-    top: 30px;
-    background-color: white;
-    box-shadow: 0px 4px 8px rgba(0,0,0,0.1);
-    border-radius: 5px;
-    padding: 10px 0;
-    z-index: 10000000 !important;
-    min-width: 150px;
-    animation: fadeInDropdown 0.3s ease forwards;
+  display: none;
+  position: absolute;
+  top: 30px;
+  background-color: white;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  padding: 10px 0;
+  z-index: 10000000 !important;
+  min-width: 150px;
+  animation: fadeInDropdown 0.3s ease forwards;
 }
 
 .a-tag-text-icon:hover .dropdown-menu {
-    display: block;
+  display: block;
 }
 
 .dropdown-item {
-    padding: 8px 20px;
-    font-size: 14px;
-    color: black;
-    white-space: nowrap;
-    transition: background-color 0.3s ease;
+  padding: 8px 20px;
+  font-size: 14px;
+  color: black;
+  white-space: nowrap;
+  transition: background-color 0.3s ease;
 }
 
 .dropdown-item:hover {
-    background-color: #f2f2f2;
-     color: #e18436 !important;
-    cursor: pointer;
+  background-color: #f2f2f2;
+  color: #e18436 !important;
+  cursor: pointer;
 }
 
-
 .navbar-borrom-categories-container {
-    position: relative;
+  position: relative;
 }
 
 .category-dropdown-menu {
-    display: none;
-    position: absolute;
-    top: 35px;
-    left: 0;
-    background-color: white;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    padding: 10px 0;
-    z-index: 100;
-    border-radius: 4px;
-    min-width: 200px;
-    animation: fadeInDropdown 0.3s ease forwards;
+  display: none;
+  position: absolute;
+  top: 35px;
+  left: 0;
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 10px 0;
+  z-index: 100;
+  border-radius: 4px;
+  min-width: 200px;
+  animation: fadeInDropdown 0.3s ease forwards;
 }
 
 .navbar-bottom-text-icon:hover .category-dropdown-menu {
-    display: block;
+  display: block;
 }
 
 .category-dropdown-menu a.dropdown-item {
-    display: block;
-    padding: 10px 20px;
-    color: black;
-    text-decoration: none;
-    font-size: 14px;
-    transition: background-color 0.3s ease;
+  display: block;
+  padding: 10px 20px;
+  color: black;
+  text-decoration: none;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
 }
 
 .category-dropdown-menu a.dropdown-item:hover {
-    background-color: #f2f2f2;
+  background-color: #f2f2f2;
 }
 
 /* Responsive tweaks, no alignment changes */
 @media (max-width: 768px) {
-    .navbar-bottom-container {
-        padding: 0 20px;
-    }
+  .navbar-bottom-container {
+    padding: 0 20px;
+  }
 
-    .a-tag-container {
-        gap: 30px;
-    }
-    
-    .navbar-bottom-text-icon {
-        gap: 6px;
-    }
+  .a-tag-container {
+    gap: 30px;
+  }
+
+  .navbar-bottom-text-icon {
+    gap: 6px;
+  }
 }
 
 @media (max-width: 480px) {
-    .navbar-bottom-container {
-        padding: 0 10px;
-        flex-wrap: wrap;
-        gap: 10px;
-    }
+  .navbar-bottom-container {
+    padding: 0 10px;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
 
-    .a-tag-container {
-        gap: 15px;
-        flex-wrap: wrap;
-    }
+  .a-tag-container {
+    gap: 15px;
+    flex-wrap: wrap;
+  }
 
-    .navbar-bottom-text-icon {
-        gap: 5px;
-    }
+  .navbar-bottom-text-icon {
+    gap: 5px;
+  }
 
-    .vertical-line {
-        display: none; /* hide vertical line on small screens for cleaner look */
-    }
+  .vertical-line {
+    display: none; /* hide vertical line on small screens for cleaner look */
+  }
 }
 
 /* Fade-in animation keyframes */
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(-10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Dropdown fade in */
 @keyframes fadeInDropdown {
-    from {
-        opacity: 0;
-        transform: translateY(-5px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+/* Utility visibility classes */
+.desktop-only {
+  display: block;
+}
+
+.mobile-only {
+  display: none;
+}
+/* Mobile-only hamburger icon */
+.hamburger-icon {
+  background: none;
+  border: none;
+  font-size: 28px;
+  cursor: pointer;
+  color: #333;
+  padding: 0;
+  margin-left: auto;
+}
+
+@media (min-width: 769px) {
+  .hamburger-icon {
+    display: none;
+  }
+}
+
+.mobile-navbar-content {
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+  background-color: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  position: absolute; /* Position the menu to overlap content */
+  top: 100%; /* Position below the navbar-bottom-container */
+  left: 0;
+  width: 100%;
+  z-index: 99; /* Ensure it's above other content but below any fixed header */
+  animation: fadeInDropdown 0.3s ease forwards; /* Reuse fade-in animation */
+}
+
+.mobile-nav-item {
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.mobile-nav-item:last-child {
+  border-bottom: none; /* No border for the last item */
+}
+
+.mobile-nav-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  font-weight: bold;
+  color: #333;
+  cursor: pointer;
+}
+
+.mobile-nav-item-header a {
+  text-decoration: none;
+  color: #333;
+  flex-grow: 1; /* Allow the link to take available space */
+}
+
+.mobile-nav-item-header i {
+  font-size: 18px;
+  transition: transform 0.3s ease;
+}
+
+.mobile-nav-item-header i.rotate {
+  transform: rotate(180deg);
+}
+
+.mobile-subitems {
+  padding-left: 15px;
+  padding-top: 5px;
+  animation: fadeInDropdown 0.3s ease forwards;
+}
+
+.mobile-subitems .dropdown-item {
+  padding: 8px 0;
+  display: block;
+  color: #555;
+  font-size: 14px;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.mobile-subitems .dropdown-item:hover {
+  color: #e18436; /* Hover color for sub-items */
+}
+
+/* Ensure desktop elements are hidden on mobile */
+@media (max-width: 768px) {
+  .desktop-only {
+    display: none !important;
+  }
+
+  .mobile-only {
+    display: block !important;
+  }
+
+  .today-deal-image {
+    display: none !important;
+  }
+}
+@media (max-width: 1200px) {
+.a-tag-container{
+    font-size: 14px !important;
+    gap: 15px;
+}
 }

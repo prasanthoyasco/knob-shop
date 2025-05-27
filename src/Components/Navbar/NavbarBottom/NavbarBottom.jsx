@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import "./NavbarBottom.css";
 import todayDealImage from "../../../Assets/today-deal.png";
-import sbc_icon from '../../../Assets/shop-by-category-icon.svg'
+import sbc_icon from "../../../Assets/shop-by-category-icon.svg";
+
 const navbarContent = [
   {
     href: "living-room",
@@ -18,26 +19,10 @@ const navbarContent = [
     text: "Lightning",
     subItems: ["Ceiling Lights", "Wall Lamps", "Table Lamps"],
   },
-  {
-    href: "sale",
-    text: "Sale",
-    subItems: [],
-  },
-  {
-    href: "about-us",
-    text: "About Us",
-    subItems: [],
-  },
-  {
-    href: "blog",
-    text: "Blog",
-    subItems: [],
-  },
-  {
-    href: "contact-us",
-    text: "Contact Us",
-    subItems: [],
-  },
+  { href: "sale", text: "Sale", subItems: [] },
+  { href: "about-us", text: "About Us", subItems: [] },
+  { href: "blog", text: "Blog", subItems: [] },
+  { href: "contact-us", text: "Contact Us", subItems: [] },
 ];
 
 const categoryItem = [
@@ -49,17 +34,27 @@ const categoryItem = [
   { text: "Living room" },
   { text: "Study & Home oofice" },
 ];
+
 function NavbarBottom() {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [openCategory, setOpenCategory] = useState(null); // State to manage which category's sub-items are open
+
+  // Function to toggle sub-items
+  const toggleCategory = (categoryText) => {
+    setOpenCategory(openCategory === categoryText ? null : categoryText);
+  };
+
   return (
     <div className="navbar-bottom-container">
+      {/* Shop By Categories - desktop only */}
       <div className="navbar-borrom-categories-container">
         <div className="navbar-bottom-text-icon">
-          <img src={sbc_icon} alt="hamburger-menu" />
+          <img src={sbc_icon} alt="hamburger-menu" className="desktop-only" />
+          <i className="bi bi-grid-3x3-gap-fill mobile-only"></i>
           <p>Shop By Categories</p>
-          <i className="bi bi-chevron-down"></i>
-          <div className="vertical-line"></div>
+          <i className="bi bi-chevron-down mobile-only"></i>
+          <div className="vertical-line desktop-only"></div>
 
-          {/* Dropdown on hover for categories */}
           <div className="category-dropdown-menu">
             {categoryItem.map((cat, index) => (
               <a
@@ -76,15 +71,14 @@ function NavbarBottom() {
         </div>
       </div>
 
-      <div className="a-tag-container">
+      {/* Main navbar links - desktop only */}
+      <div className="a-tag-container desktop-only">
         {navbarContent.map((item, index) => (
           <div className="a-tag-text-icon" key={index}>
-            <a>{item.text}  </a>
+            <a>{item.text}</a>
             {item.subItems?.length > 0 && (
               <i className="bi bi-chevron-down"></i>
             )}
-        
-            {/* Dropdown on hover */}
             {item.subItems?.length > 0 && (
               <div className="dropdown-menu">
                 {item.subItems.map((subItem, subIndex) => (
@@ -98,7 +92,57 @@ function NavbarBottom() {
         ))}
       </div>
 
-      <img src={todayDealImage} className="today-deal-image" />
+      {/* Today's Deal - hidden on mobile */}
+      <img
+        src={todayDealImage}
+        className="today-deal-image desktop-only"
+        alt="Today's Deal"
+      />
+      <button
+        className="hamburger-icon mobile-only"
+        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+      >
+        <i className="bi bi-list"></i>
+      </button>
+
+      {/* Mobile Menu Content */}
+      {mobileMenuOpen && (
+        <div className="mobile-navbar-content mobile-only">
+                 {/* Main Navbar Links for Mobile */}
+          {navbarContent.map((item, index) => (
+            <div key={index} className="mobile-nav-item">
+              <div
+                className="mobile-nav-item-header"
+                onClick={() => toggleCategory(item.text)}
+              >
+                <a href={`/${item.href}`}>{item.text}</a>
+                {item.subItems?.length > 0 && (
+                  <i
+                    className={`bi bi-chevron-down ${
+                      openCategory === item.text ? "rotate" : ""
+                    }`}
+                  ></i>
+                )}
+              </div>
+              {item.subItems?.length > 0 && openCategory === item.text && (
+                <div className="mobile-subitems">
+                  {item.subItems.map((sub, subIndex) => (
+                    <a
+                      key={subIndex}
+                      href={`/${item.href}/${sub
+                        .toLowerCase()
+                        .replace(/\s+/g, "-")}`}
+                      className="dropdown-item"
+                    >
+                      {sub}
+                    </a>
+                  ))}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

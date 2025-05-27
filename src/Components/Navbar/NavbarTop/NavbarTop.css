@@ -22,7 +22,9 @@
 .navbar-top-facebook-insta-icon-div {
     gap: 50px;
 }
-
+.navbar-mob-middle-search-box-icon{
+    display: none;
+}
 /* Animation keyframes */
 @keyframes fadeInTop {
     from {
@@ -36,21 +38,30 @@
 }
 
 /* Responsive styles */
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
     .navbar-top-container {
         height: auto; /* Allow height to grow */
         padding: 15px 10px;
+        background-color: #fff !important;
+    }
+    .navbar-top-phone-number,
+.navbar-top-offer,
+.navbar-top-facebook-insta-icon-div,
+    .navbar-top-mail-id{
+        display: none;
     }
 }
 
 @media (max-width: 480px) {
     .navbar-top-container {
-        padding: 10px;
+        padding: 5px;
+        background-color: #fff !important;
     }
     .navbar-top-offer{
         font-size: smaller;
     }
 .navbar-top-phone-number,
+.navbar-top-offer,
 .navbar-top-facebook-insta-icon-div,
     .navbar-top-mail-id{
         display: none;

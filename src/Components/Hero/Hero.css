@@ -3,29 +3,30 @@
   background-color: #ffffff;
   position: relative;
   z-index: 0;
-  overflow: visible;
+  overflow: hidden; /* Changed from visible to hidden to prevent content overflow */
 }
 
 .lighting-home-slider .swiper-pagination {
   position: relative;
   text-align: center;
   margin-top: 15px;
-  z-index: 10; /* Ensure it's visible above background */
+  z-index: 10;
 }
 
 .slide-content {
   display: flex;
-  justify-content: space-between;
+  justify-content: left; /* Changed to center for mobile */
   align-items: center;
   padding: 60px 100px;
   min-height: 500px;
   position: relative;
-  background: url('../../Assets/bg.jpg') no-repeat right center;
-  background-size: contain;
+  /* background image set inline in JS for dynamic backgrounds */
+  text-align: center; /* Align text to center by default */
 }
 
 .left-section {
-  max-width: 40%;
+  max-width: 60%; /* Increased max-width for better text display on larger screens */
+  text-align: left; /* Ensure text alignment is centered within this section */
 }
 
 .offer {
@@ -70,9 +71,9 @@
 }
 
 .horizantal-line {
-  border: 1px solid #6C6C6C;
+  border: 1px solid #6c6c6c;
   height: 2px;
-  background-color: #6C6C6C;
+  background-color: #6c6c6c;
   border-radius: 10px;
   width: 40px;
   margin-right: 5px;
@@ -81,26 +82,13 @@
 .slide-number {
   position: absolute;
   bottom: 30px;
-  left: 100px;
+  left: 50%; /* Center horizontally */
+  transform: translateX(-50%); /* Adjust for perfect centering */
   font-size: 20px;
   padding-bottom: 5px;
-}
-
-.right-section {
-  position: relative;
-  display: flex;
-  align-items: flex-end;
-  gap: 40px;
-}
-
-.lamps-img {
-  width: 250px;
-  height: auto;
-}
-
-.stand-img {
-  width: 120px;
-  height: auto;
+  display: flex; /* Ensure horizontal line and number are in a row */
+  align-items: center;
+  justify-content: center; /* Center content within slide-number */
 }
 
 /* Swiper custom controls */
@@ -191,4 +179,147 @@
 
 .custom-nav-btn:hover {
   background-color: #eee;
+}
+
+/* Fade-in animation keyframes */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* --- Responsive Adjustments --- */
+
+/* For screens smaller than 1200px (e.g., tablets in landscape) */
+@media (max-width: 1199px) {
+  .slide-content {
+    padding: 40px 60px;
+    min-height: 450px;
+    text-align: center;
+  }
+
+  .left-section {
+    text-align: center;
+    max-width: 70%; /* Allow text to take more width */
+  }
+
+  .title {
+    font-size: 32px;
+  }
+
+  .description {
+    font-size: 14px;
+  }
+
+  .slide-number {
+    bottom: 20px;
+  }
+}
+
+/* For screens smaller than 768px (e.g., tablets in portrait and most mobile phones) */
+@media (max-width: 767px) {
+  .slide-content {
+    padding: 30px 20px;
+    min-height: 400px;
+    background-position: center right !important;
+    justify-content: center;
+    flex-direction: column; /* Stack text and image vertically */
+    text-align: center; /* Center align text */
+  }
+
+  .left-section {
+    text-align: center;
+    max-width: 90%; /* Text takes almost full width */
+    z-index: 1;
+    margin-bottom: 20px; /* Space between text and potentially a bottom image */
+  }
+  .slide-content::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.329); /* Black with 40% opacity */
+    z-index: 1; /* Place it between the background and text */
+  }
+
+  .offer {
+    font-size: 12px;
+    color: #e4e4e4 !important;
+  }
+
+  .title {
+    font-size: 28px;
+    color: #fff !important;
+    margin-bottom: 15px !important;
+  }
+
+  .description {
+    font-size: 13px;
+    color: #dfdfdf !important;
+    margin-bottom: 20px !important;
+  }
+
+  .shop-btn {
+    padding: 10px 20px;
+    color: #fff !important;
+    font-size: 12px;
+  }
+
+  .slide-number {
+    position: static; /* Position normally within the flow */
+    transform: none; /* Remove transform for centering */
+    color: #e2e2e2;
+    margin-top: 20px; /* Add space above it if needed */
+    justify-content: center; /* Center horizontally */
+  }
+
+  .horizantal-line {
+    border: 1px solid #e2e2e2;
+    height: 2px;
+    background-color: #e2e2e2;
+    width: 30px;
+  }
+
+  .custom-nav {
+    margin: 0 10px; /* Adjust margin for smaller screens */
+  }
+
+  .custom-nav-btn {
+    padding: 8px;
+    font-size: 18px;
+    margin: 0 10px;
+  }
+
+  /* Hide custom navigation buttons on very small screens if desired */
+  .custom-nav-btn {
+    display: none;
+  }
+  .lighting-home-slider .swiper-pagination {
+    margin-top: 10px; /* Reduce space for pagination */
+  }
+}
+
+/* For very small mobile screens (e.g., less than 480px) */
+@media (max-width: 479px) {
+  .slide-content {
+    padding: 20px 15px;
+    min-height: 350px;
+    background-position: center right !important;
+  }
+
+  .title {
+    font-size: 24px;
+  }
+
+  .description {
+    font-size: 12px;
+  }
 }

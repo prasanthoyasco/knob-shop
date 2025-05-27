@@ -21,11 +21,15 @@ function NavbarTop() {
                 <div className='navbar-top-offer'>
                     <p>Sign up and <strong style={{color:'#E18436'}}>GET 25% OFF</strong> for your first order</p>
                 </div>
+                 <div className="navbar-mob-middle-search-box-icon my-1">
+          <input type="search" placeholder="Search" />
+          <i className="bi bi-search"></i>
+        </div>
 
                 <div className='navbar-top-facebook-insta-icon-div'>
                     <div className='navbar-top-mail-id'>
                         <img src={mail_icon} alt="E-mail" />
-                        <p>akashrajan1602@gmail.com</p>
+                        <p>akashrajan1602@gmail.com, ecom@knobsshop.store</p>
                     </div>
                     <div className='navbar-top-facebook-insta-icon'>
                         <img src={facebook_icon} alt="Facebook" />

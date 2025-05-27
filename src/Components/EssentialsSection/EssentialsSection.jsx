@@ -29,7 +29,7 @@ export default function EssentialsSection() {
   return (
     <section className="p-5 bg-light essentials-bg-img d-flex align-items-center justify-content-center">
       <div className="d-flex align-items-center flex-column">
-        <div className="container-flued mx-4 d-flex align-items-center ">
+        <div className="container-flued mx-md-4 d-flex align-items-center ">
              <div className="row d-flex align-items-center">
         <div className="mb-4 col-3 ">
           <h2 className="h4 fw-semibold text-dark">Essential Details, Elevated Living</h2>

@@ -6,7 +6,7 @@ import sofaImg from '../../Assets/sofa.png';
 import light_room from '../../Assets/light-room.png';
 
 const decorPoints = [
-   {
+  {
     id: 3,
     title: 'Cozy Gray Sofa',
     category: 'SEATING',
@@ -22,7 +22,6 @@ const decorPoints = [
     image: light_room,
     position: { top: '40%', left: '26%' },
   },
- 
   {
     id: 1,
     title: 'Oak Bok White Décor Point',
@@ -34,16 +33,31 @@ const decorPoints = [
 ];
 
 const ShopTheRoom = () => {
-  const defaultopen = decorPoints[0].id
+  const defaultopen = decorPoints[0].id;
   const [activeId, setActiveId] = useState(defaultopen);
   const [cardHeights, setCardHeights] = useState({});
+  const [cardDirections, setCardDirections] = useState({});
   const cardRefs = useRef({});
+  const containerRef = useRef(null);
 
   useLayoutEffect(() => {
     const activeRef = cardRefs.current[activeId];
-    if (activeRef) {
-      const height = activeRef.offsetHeight;
-      setCardHeights((prev) => ({ ...prev, [activeId]: height }));
+    const container = containerRef.current;
+
+    if (activeRef && container) {
+      const cardRect = activeRef.getBoundingClientRect();
+      const containerRect = container.getBoundingClientRect();
+      const overflowsTop = cardRect.top < containerRect.top;
+
+      setCardHeights((prev) => ({
+        ...prev,
+        [activeId]: activeRef.offsetHeight,
+      }));
+
+      setCardDirections((prev) => ({
+        ...prev,
+        [activeId]: overflowsTop ? 'bottom' : 'top',
+      }));
     }
   }, [activeId]);
 
@@ -58,13 +72,18 @@ const ShopTheRoom = () => {
     <section className="shop-the-room__section mt-4">
       <h2 className="shop-the-room__title">Shop The Room</h2>
 
-      <div className="shop-the-room__room-container">
+      <div className="shop-the-room__room-container" ref={containerRef}>
         <img src={roomImage} alt="Room" className="shop-the-room__image" />
 
         {decorPoints.map((item) => {
           const cardClass = getCardPositionClass(item.position.left);
           const ref = (el) => (cardRefs.current[item.id] = el);
           const heightOffset = (cardHeights[item.id] || 0) + 20;
+          const direction = cardDirections[item.id] || 'top';
+          const cardStyle = {
+            top: direction === 'top' ? `-${heightOffset}px` : '30px',
+            cursor: 'pointer',
+          };
 
           return (
             <div
@@ -80,9 +99,9 @@ const ShopTheRoom = () => {
 
               {activeId === item.id && (
                 <div
-                  className={`shop-the-room__card ${cardClass}`}
+                  className={`shop-the-room__card ${cardClass} ${direction === 'bottom' ? 'bottom' : ''}`}
                   ref={ref}
-                  style={{ top: `-${heightOffset}px`,cursor:'pointer' }}
+                  style={cardStyle}
                 >
                   <div className="w-50 shop-the-room-image-wrapper">
                     <img src={item.image} alt={item.title} />

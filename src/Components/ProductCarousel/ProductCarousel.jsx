@@ -14,11 +14,11 @@ const ProductCarouselSwiper = ({ products = [] }) => {
     <section className="py-1 bg-white mt-3 container-fluid"> {/* Changed container-fluied to container-fluid */}
       <div className="d-flex align-items-center my-2 px-2"> {/* Removed justify-content-between */}
         <div className="flex-grow-1 text-center"> {/* Added flex-grow-1 and text-center */}
-          <h2 className="h5 text-uppercase fw-medium product-head" style={{marginLeft:"5rem"}}>
+          <h2 className="h5 text-uppercase fw-medium product-head">
             Explore Our Product Range
           </h2>
         </div>
-        <div className="d-flex gap-2">
+        <div className="d-flex gap-2 desktop-only">
           <button
             ref={prevRef}
             className="product-custom-nav-btn rounded-circle"
