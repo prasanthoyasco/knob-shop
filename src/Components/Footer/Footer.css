@@ -329,6 +329,9 @@
       max-width: 320px; /* limit max width so it doesn't stretch too much */
       margin: 0 auto 20px auto; /* center each section with bottom spacing */
     }
+    .icon-phone-number{
+        margin-top: unset !important;
+    }
   
     /* Center phone and email icon groups */
     .icon-phone-number,
