@@ -224,7 +224,6 @@
 /* Tablets and Phones */
 @media (max-width: 767px) {
   .shop-the-room__room-container {
-    padding: 0 10px;
     overflow-x:visible !important;
   }
 

@@ -78,10 +78,10 @@ const ShopTheRoom = () => {
         {decorPoints.map((item) => {
           const cardClass = getCardPositionClass(item.position.left);
           const ref = (el) => (cardRefs.current[item.id] = el);
-          const heightOffset = (cardHeights[item.id] || 0) + 20;
+          const heightOffset = (cardHeights[item.id] || 0) + 5;
           const direction = cardDirections[item.id] || 'top';
           const cardStyle = {
-            top: direction === 'top' ? `-${heightOffset}px` : '30px',
+            top: direction === 'top' ? `-${heightOffset}px` : '5px',
             cursor: 'pointer',
           };
 

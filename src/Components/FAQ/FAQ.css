@@ -101,7 +101,7 @@
     .Faq-container {
       flex-direction: column;
       align-items: center;
-      padding: 2rem;
+      padding: .7rem;
     }
   
     .faq-image {
@@ -114,6 +114,7 @@
       max-width: 100%;
       width: 100%;
       text-align: left;
+      margin-left: unset;
     }
   
     .faq-content h1 {
@@ -144,11 +145,14 @@
   
   @media (max-width: 600px) {
     .faq-content h1 {
-      font-size: 26px;
+        font-size: 44px;
     }
   
     .faq-content h6 {
       font-size: 18px;
+    }
+    .faq-list{
+      margin-top: 30px;
     }
   
     .faq-content p {

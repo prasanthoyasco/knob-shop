@@ -284,6 +284,13 @@
   .testimonal-left-content h1 {
     font-size: 26px !important;
   }
+  .heading-testimonial h5{
+    font-size: 0.9rem !important;
+  }
+  .testimonal-container{
+    padding-top: 0;
+    padding-bottom: 0;
+  }
 
   .testimonal-left-content p {
     font-size: 16px;
@@ -305,10 +312,12 @@
     padding: 6px 9px;
   }
 
-  .testimonal-left-content button {
-    width: 140px;
-    height: 36px;
-  }
+     .testimonal-left-content button {
+        width: 120px;
+        height: 40px;
+        border-radius: 3px;
+        font-size: 12px;
+    }
 
   .testimonial-card {
     width: 95%; /* Adjust card width for smaller screens */

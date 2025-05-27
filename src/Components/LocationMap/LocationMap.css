@@ -49,4 +49,14 @@
     border-radius: 1.52px;
     cursor: pointer;
   }
+  @media (max-width: 600px) {
+    .map-wrapper{
+      padding: 3% 10px 0 10px;
+    }
+    .map-overlay {
+          top: 230px;
+    left: 10px;
+    right: 10px;
+    }
+  }
   

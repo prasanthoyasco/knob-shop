@@ -43,9 +43,9 @@
 
 /* Product card wrapper: 4 items on screen */
 .product-scroll-item {
-  flex: 0 0 calc((100% - 3rem) / 3); /* 4 items with 1rem gap between */
+  flex: 0 0 calc((100% - 2rem) / 3);
   scroll-snap-align: start;
-  margin: 1rem 0rem;
+  margin: 1rem 0;
   cursor: pointer;
 }
 
@@ -133,7 +133,12 @@
   }
 
   .product-scroll-item {
-    flex: 0 0 80%;
+    flex: 0 0 calc(50% - 1rem);
+  }
+}
+@media (max-width: 576px) {
+  .product-scroll-item {
+    flex: 0 0 100%;
   }
 }
 

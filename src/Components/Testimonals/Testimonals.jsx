@@ -75,7 +75,7 @@ function Testimonals() {
         <h5>TESTIMONIALS</h5>
       </div>
 
-      <div className='next-prev-icon'>
+      <div className='next-prev-icon desktop-only'>
         <i className="bi bi-chevron-left" onClick={handlePrev}></i>
         <i className="bi bi-chevron-right" onClick={handleNext}></i>
       </div>
