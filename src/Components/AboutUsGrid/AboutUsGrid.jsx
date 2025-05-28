@@ -30,9 +30,10 @@ const AboutUsGrid = () => {
           {people.map((src, i) => (
             <div
               key={i}
-              className="about-us-image-wrapper col-1 shadow rounded-3 bg-white overflow-hidden"
+              className="about-us-image-wrapper col-2 shadow rounded-3 bg-white overflow-hidden"
               style={{
                 animationDelay: imageSettings[i]?.animationDelay,
+               marginTop: i<6 ? i % 2 === 0 ? `${i * 10}px` : undefined : ''
               }}
             >
               <img
