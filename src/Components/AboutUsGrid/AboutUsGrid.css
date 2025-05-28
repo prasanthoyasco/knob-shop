@@ -1,7 +1,157 @@
-.object-fit-cover {
+/* General Section Styling */
+.about-us-grid-section {
+  background-color: #f7f9fc; /* A slightly softer light blue/grey for the background */
+  padding-top: 100px; /* More top padding to account for floating images */
+  padding-bottom: 100px; /* More bottom padding */
+  border-radius: 20px !important; /* More pronounced rounded corners */
+  margin: 30px auto; /* Add margin to sides and top/bottom if used alone */
+  max-width: 1200px; /* Max width for the entire section */
+  box-sizing: border-box; /* Ensure padding is included in width/height */
+}
+
+/* Floating Images */
+.about-us-images-container {
+  pointer-events: none; /* Allows clicks to pass through to content */
+}
+
+.about-us-image-wrapper {
+  border-radius: 12px !important; /* Custom rounded corners for images */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08); /* Subtle shadow */
+  will-change: transform; /* Optimize for animation */
+  animation: floatEffect 4s ease-in-out infinite; /* Floating animation */
+}
+
+.about-us-image-wrapper img {
+  border-radius: 10px !important; /* Slightly smaller radius for inner image */
   object-fit: cover;
 }
 
-.fw-medium {
+/* Keyframe for floating animation */
+@keyframes floatEffect {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); } /* Move up slightly */
+  100% { transform: translateY(0px); }
+}
+
+
+/* Badge Styling */
+.about-us-badge {
+  background-color: #e9ecef !important; /* Light grey background for badge */
+  border: 1px solid #dee2e6 !important; /* Subtle border */
+  color: #6c757d !important; /* Muted text color */
+  font-size: 0.9rem;
   font-weight: 500;
+  padding: 0.5rem 1.2rem;
+  border-radius: 50rem !important; /* Fully rounded pill shape */
+}
+
+/* Title Styling */
+.about-us-title {
+  font-size: 3.2rem; /* Larger font size */
+  line-height: 1.2; /* Tighter line height */
+  color: #212529 !important; /* Dark text color */
+}
+
+.about-us-title .text-muted {
+  color: #6c757d !important; /* Ensure muted text color */
+}
+
+/* Description Styling */
+.about-us-description {
+  font-size: 1.1rem;
+  color: #495057 !important; /* Slightly darker secondary text color */
+  line-height: 1.6;
+}
+
+/* Button Styling */
+.about-us-button {
+  background-color: #212529 !important; /* Dark button background */
+  border-color: #212529 !important;
+  color: #ffffff !important;
+  padding: 0.75rem 1.75rem; /* More padding */
+  font-weight: 600;
+  font-size: 1rem;
+  border-radius: 50rem !important; /* Fully rounded pill shape */
+  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.about-us-button:hover {
+  background-color: #000000 !important; /* Slightly darker on hover */
+  border-color: #000000 !important;
+  transform: translateY(-2px); /* Slight lift effect */
+}
+
+/* Responsive Adjustments */
+@media (max-width: 991.98px) {
+  .about-us-title {
+    font-size: 2.5rem; /* Adjust title size for smaller screens */
+  }
+  .about-us-image-wrapper {
+    width: 70px !important; /* Smaller images on tablets */
+    height: 70px !important;
+  }
+  /* Adjust image positions for smaller screens to prevent overflow */
+  .about-us-image-wrapper:nth-child(1) { top: 15%; left: 2%; }
+  .about-us-image-wrapper:nth-child(2) { top: 8%; left: 15%; }
+  .about-us-image-wrapper:nth-child(3) { top: 4%; left: 30%; }
+  .about-us-image-wrapper:nth-child(4) { top: 9%; left: 45%; }
+  .about-us-image-wrapper:nth-child(5) { top: 14%; left: 60%; }
+  .about-us-image-wrapper:nth-child(6) { top: 19%; left: 75%; }
+
+  .about-us-image-wrapper:nth-child(7) { top: 55%; left: 3%; }
+  .about-us-image-wrapper:nth-child(8) { top: 59%; left: 18%; }
+  .about-us-image-wrapper:nth-child(9) { top: 64%; left: 33%; }
+  .about-us-image-wrapper:nth-child(10) { top: 58%; left: 48%; }
+  .about-us-image-wrapper:nth-child(11) { top: 53%; left: 63%; }
+  .about-us-image-wrapper:nth-child(12) { top: 48%; left: 78%; }
+}
+
+@media (max-width: 767.98px) {
+  .about-us-grid-section {
+    padding-top: 80px;
+    padding-bottom: 80px;
+    border-radius: 15px !important;
+  }
+  .about-us-title {
+    font-size: 2rem; /* Further adjustment for mobile */
+  }
+  .about-us-description {
+    font-size: 1rem;
+  }
+  .about-us-image-wrapper {
+    width: 60px !important; /* Even smaller images on mobile */
+    height: 60px !important;
+  }
+  /* More aggressive positioning adjustments for mobile */
+  .about-us-image-wrapper:nth-child(1) { top: 10%; left: 0%; }
+  .about-us-image-wrapper:nth-child(2) { top: 5%; left: 12%; }
+  .about-us-image-wrapper:nth-child(3) { top: 0%; left: 25%; }
+  .about-us-image-wrapper:nth-child(4) { top: 5%; left: 38%; }
+  .about-us-image-wrapper:nth-child(5) { top: 10%; left: 50%; }
+  .about-us-image-wrapper:nth-child(6) { top: 15%; left: 65%; } /* Keep some off-screen for visual effect */
+
+  .about-us-image-wrapper:nth-child(7) { top: 60%; left: 0%; }
+  .about-us-image-wrapper:nth-child(8) { top: 65%; left: 15%; }
+  .about-us-image-wrapper:nth-child(9) { top: 70%; left: 30%; }
+  .about-us-image-wrapper:nth-child(10) { top: 65%; left: 45%; }
+  .about-us-image-wrapper:nth-child(11) { top: 60%; left: 58%; }
+  .about-us-image-wrapper:nth-child(12) { top: 55%; left: 70%; }
+}
+
+@media (max-width: 575.98px) {
+  /* Hide some images on very small screens to prevent clutter */
+  .about-us-image-wrapper:nth-child(odd) {
+    display: none;
+  }
+  /* Readjust positions for remaining images */
+  .about-us-image-wrapper:nth-child(even) {
+    display: block; /* Ensure visible */
+  }
+  .about-us-image-wrapper:nth-child(2) { top: 5%; left: 10%; }
+  .about-us-image-wrapper:nth-child(4) { top: 8%; left: 40%; }
+  .about-us-image-wrapper:nth-child(6) { top: 12%; left: 70%; }
+
+  .about-us-image-wrapper:nth-child(8) { top: 60%; left: 15%; }
+  .about-us-image-wrapper:nth-child(10) { top: 63%; left: 45%; }
+  .about-us-image-wrapper:nth-child(12) { top: 58%; left: 75%; }
 }

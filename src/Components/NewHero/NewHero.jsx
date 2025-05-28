@@ -24,7 +24,7 @@ const slides = [
     title: "Digital Door Lock",
     circleColor: "#9CB8A5",
     description:
-      "Bench suitable for living room Lorem ipsum dolor sit amet consectetur adipiscing elit sed incididunt labore et dolore magna aliqua.",
+      "Bench suitable for living room Lorem ipsum dolor sit amet consectetur adipiscing elit sed incididunt labore labore et dolore magna aliqua et dolore magna aliqua.",
     number: "01",
   },
   {
@@ -36,7 +36,7 @@ const slides = [
     title: "Keyboard tray",
     circleColor: "#F08A58",
     description:
-      "Bench suitable for living room Lorem ipsum dolor sit amet consectetur adipiscing elit sed incididunt labore et dolore magna aliqua.",
+      "Bench suitable for living room Lorem ipsum dolor sit amet consectetur adipiscing elit sed incididunt labore labore et dolore magna aliqua et dolore magna aliqua.",
     number: "02",
   },
   {
@@ -48,7 +48,7 @@ const slides = [
     title: "table folding bracket",
     circleColor: "#00759F",
     description:
-      "Bench suitable for living room Lorem ipsum dolor sit amet consectetur adipiscing elit sed incididunt labore et dolore magna aliqua.",
+      "Bench suitable for living room Lorem ipsum dolor sit amet consectetur adipiscing elit sed incididunt labore labore et dolore magna aliqua et dolore magna aliqua.",
     number: "03",
   },
   {
@@ -60,7 +60,7 @@ const slides = [
     title: "door stoppers home depot",
     circleColor: "#DF7A26",
     description:
-      "Bench suitable for living room Lorem ipsum dolor sit amet consectetur adipiscing elit sed incididunt labore et dolore magna aliqua.",
+      "Bench suitable for living room Lorem ipsum dolor sit amet consectetur adipiscing elit sed incididunt labore labore et dolore magna aliqua et dolore magna aliqua.",
     number: "04",
   },
   {
@@ -72,7 +72,7 @@ const slides = [
     title: "navtal lock decor",
     circleColor: "#54ef7d73",
     description:
-      "Bench suitable for living room Lorem ipsum dolor sit amet consectetur adipiscing elit sed incididunt labore et dolore magna aliqua.",
+      "Bench suitable for living room Lorem ipsum dolor sit amet consectetur adipiscing elit sed incididunt labore labore et dolore magna aliqua et dolore magna aliqua.",
     number: "05",
   },
 ];
@@ -115,7 +115,7 @@ const NewHero = () => {
             </span>
             `,
         }}
-        // autoplay={{ delay: 3000, disableOnInteraction: false }}
+        autoplay={{ delay: 3000, disableOnInteraction: false }}
         effect="fade"
         loop={true}
       >

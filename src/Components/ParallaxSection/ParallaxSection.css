@@ -47,7 +47,7 @@
 }
 .wt-parallax__img {
   display: block;
-  border-radius: 8px; /* Assuming var(--border-radius) is around 8px */
+  border-radius: 20px; /* Assuming var(--border-radius) is around 8px */
       box-shadow: 4px 6px 13px #00000052;
   transition: transform .1s ease;
   width: 60vw;

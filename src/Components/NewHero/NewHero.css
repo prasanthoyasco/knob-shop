@@ -80,6 +80,7 @@
 .description {
   font-size: 18px;
   margin-top: 2rem;
+  line-height: 1.85rem;
   color: #444 !important;
   margin-bottom: 30px !important;
   animation: fadeIn 0.5s ease forwards;
