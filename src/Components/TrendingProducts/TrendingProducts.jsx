@@ -3,13 +3,13 @@ import ProductCard from "../ProductCard/ProductCard";
 // import { IoIosArrowRoundForward, IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 import "./TrendingProducts.css";
 
-import chair from "../../Assets/chair-acc-3.jpg";
-import chair2 from "../../Assets/chair-acc-main.jpg";
-import sofa from "../../Assets/sofa.jpg";
-import sofa2 from "../../Assets/sofo2.jpg";
-import sofa3 from "../../Assets/sofo3.jpg";
-import bchair from "../../Assets/bchair.jpg";
-import bchair1 from "../../Assets/bchair1.jpg";
+import chair from "../../Assets/product-category/p1.jpg";
+import chair2 from "../../Assets/product-category/p1.jpg";
+import sofa from "../../Assets/product-category/p2.jpg";
+import sofa2 from "../../Assets/product-category/p3.jpg";
+import sofa3 from "../../Assets/product-category/p4.jpg";
+import bchair from "../../Assets/product-category/p3.jpg";
+import bchair1 from "../../Assets/product-category/p3.jpg";
 
 const tabs = [
   "All Products",
@@ -21,7 +21,7 @@ const tabs = [
 const products = [
   {
     id: 1,
-    title: "Digital Home Door Locker",
+    title: "Door Knob",
     price: 22490,
     oldPrice: 23599,
     discount: 5,
@@ -31,17 +31,17 @@ const products = [
   },
   {
     id: 2,
-    title: "Ergonomic Sofa",
+    title: "Knobs- Door Knob",
     price: 16290,
     oldPrice: 19412,
     discount: 25,
     rating: 4.9,
     image: sofa,
-    hoverImage: sofa3
+    hoverImage: sofa2
   },
   {
     id: 3,
-    title: "Bed Memory Foam Mattress",
+    title: "Safty Locker",
     price: 9490,
     oldPrice: 17997,
     discount: 47,
@@ -51,17 +51,17 @@ const products = [
   },
   {
     id: 4,
-    title: "Modern Wooden Sofa",
+    title: "Door Hinje",
     price: 12290,
     oldPrice: 14412,
     discount: 15,
     rating: 4.8,
-    image: sofa2,
+    image: sofa3,
     hoverImage: sofa3
   },
   {
     id: 5,
-    title: "Luxury King Bed",
+    title: "Knobs",
     price: 19490,
     oldPrice: 23997,
     discount: 19,

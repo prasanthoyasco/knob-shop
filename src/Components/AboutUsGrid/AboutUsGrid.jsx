@@ -6,7 +6,7 @@ import './AboutUsGrid.css'; // Ensure this CSS file is linked
 const people = [
   "/person1.png", "/person1.png", "/person1.png", "/person1.png",
   "/person1.png", "/person1.png", "/person1.png", "/person1.png",
-  "/person1.png", "/person1.png", "/person1.png", "/person1.png"
+  "/person1.png"
 ];
 
 const AboutUsGrid = () => {
@@ -24,16 +24,15 @@ const AboutUsGrid = () => {
 
   return (
     <section className="about-us-grid-section position-relative py-5 px-3 rounded-4 overflow-hidden">
-      <div className="container text-center  d-flex flex-column" style={{ zIndex: 2,gap:'10rem' }}>
+      <div className="container text-center  d-flex flex-column" style={{ zIndex: 2,gap:'1rem'}}>
         {/* Floating Images Container */}
         <div className="about-us-images-container row w-100 h-100">
           {people.map((src, i) => (
             <div
               key={i}
-              className="about-us-image-wrapper col-2 shadow rounded-3 bg-white overflow-hidden"
+              className="about-us-image-wrapper col mx-2 shadow rounded-3 bg-white overflow-hidden"
               style={{
                 animationDelay: imageSettings[i]?.animationDelay,
-               marginTop: i<6 ? i % 2 === 0 ? `${i * 10}px` : undefined : ''
               }}
             >
               <img
@@ -44,11 +43,29 @@ const AboutUsGrid = () => {
             </div>
           ))}
         </div>
+        <div className="about-us-images-container row">
+          {people.map((src, i) => (
+            <div
+              key={i}
+              className="about-us-image-wrapper col mx-2 shadow rounded-3 bg-white overflow-hidden"
+              style={{
+                animationDelay: imageSettings[i]?.animationDelay,
+                 marginBottom: i<6 ? i % 2 === 0 ? `${i * 20}px` : undefined : ''
+              }}
+            >
+              <img
+                src={src}
+                 className="w-100 h-100 object-fit-cover"
+                alt={`Person ${i + 1}`}
+              />
+            </div>
+          ))}
+        </div>
 
         {/* Central Content */}
         <div className=" z-2 pt-5 pb-4"> {/* Adjusted padding */}
           <span className="about-us-badge badge bg-light border text-secondary px-3 py-2 mb-3 fw-medium">
-            Testimonials
+            About Us
           </span>
           <h2 className="about-us-title fw-bold display-5 mb-3 text-dark"> {/* Adjusted font size */}
             Trusted by leaders <br />
