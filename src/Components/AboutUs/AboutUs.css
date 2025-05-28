@@ -1,0 +1,147 @@
+@import url('https://fonts.googleapis.com/css2?family=Abril+Fatface&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
+.about-us-section {
+  background: #fff;
+  overflow: hidden;
+}
+
+.about-head{
+ text-transform: uppercase;
+}
+
+.about-sub-head{
+    font-size: 1rem !important;
+}
+.about-us-section .image-wrapper {
+  position: relative;
+  display: inline-block;
+  overflow: visible !important;
+}
+
+.floating-badge {
+  position: absolute;
+  top: -80px;
+  right: 10px;
+  background: white;
+  padding: 10px 15px;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  max-width: 220px;
+  z-index: 2;
+}
+
+.floating-badge .avatars {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 5px;
+}
+
+.avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin: 2px;
+  object-fit: cover;
+}
+
+.floating-rating {
+  position: absolute;
+  bottom: -50px;
+  left: 10px;
+  background: white;
+    max-width: 180px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  z-index: 2;
+}
+.floating-rating span{
+    font-weight: 600;
+    font-size: 18px;
+}
+.floating-rating .emojis {
+  margin-top: 5px;
+  font-size: 18px;
+}
+
+/* button css start */
+
+/* .custom-explore-btn {
+  display: inline-block;
+  padding: 12px 36px;
+  background-color: #000;
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 1px;
+  text-decoration: none;
+  border: none;
+  border-radius: 20px 0 20px 20px;
+  position: relative;
+  overflow: hidden;
+  clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 50%, calc(100% - 20px) 100%, 0 100%);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+}
+
+.custom-explore-btn:hover {
+  background-color: #222;
+  transform: translateY(-2px);
+  box-shadow: 0 16px 28px rgba(0, 0, 0, 0.25);
+} */
+
+/* From Uiverse.io by btongheng */ 
+/* .custom-explore-btn {
+  --😀: #000000;
+  --😀😀: #000000;
+  --😀😀😀: #35353563;
+  cursor: pointer;
+  width: 184px;
+  text-decoration: none;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  font-size: 1.125em;
+  letter-spacing: 2px;
+  color: #fff;
+  background: var(--😀);
+  border: 2px solid var(--😀😀);
+  border-radius: .75rem;
+  box-shadow: 0 8px 0 var(--😀😀);
+  transform: skew(-10deg);
+  transition: all .1s ease;
+  filter: drop-shadow(0 15px 20px var(--😀😀😀));
+} */
+
+
+/* button css end */
+/* Rectangle 87 */
+
+.custom-explore-btn {
+  display: inline-block;
+  padding: 12px 32px;
+  color: #fff;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 1px;
+  background: url('/bg-btn.svg') no-repeat center center;
+  background-size: contain;
+  border: none;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.custom-explore-btn:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0px 120px 90px rgba(68, 68, 68, 0.15),
+    0px 80px 60px rgba(68, 68, 68, 0.1);
+}
+
+/* Rectangle 87 */
+
+

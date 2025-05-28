@@ -27,6 +27,7 @@ import NewHero from "../Components/NewHero/NewHero";
 import Sale from "../Components/Sale/Sale";
 import LockSlider from "../Components/LockSlider/LockSlider";
 import AboutUsGrid from "../Components/AboutUsGrid/AboutUsGrid";
+import AboutUs from "../Components/AboutUs/AboutUs";
 
 export const Home = () => {
   const products = [
@@ -113,7 +114,8 @@ export const Home = () => {
     <ShopTheRoom/>
       <Brand/>
       <Testimonals/>
-      <AboutUsGrid/>
+      <AboutUs/>
+      {/* <AboutUsGrid/> */}
       <Sale/>
       <FAQ/>
       <OurServices/>
