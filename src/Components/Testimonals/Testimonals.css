@@ -147,10 +147,10 @@
 /* Specific card positioning - REWORKED FOR FLEXBOX */
 .testimonial-card {
   flex-shrink: 0; /* Prevent cards from shrinking */
-  width: calc(50% - 15px); /* Each card takes almost 50% with gap */
+  width: calc(50% - 25px); /* Each card takes almost 50% with gap */
   text-align: center;
   padding: 30px 20px; /* More balanced padding */
-  min-height: 380px; /* Ensure consistent card height */
+  min-height: 280px; /* Ensure consistent card height */
   display: flex; /* Use flex inside card for content alignment */
   flex-direction: column;
   justify-content: space-between; /* Distribute space */
@@ -161,6 +161,12 @@
 .testimonial-card.card-0 .testimonal-image {
   margin-left: auto; /* Center image initially */
   margin-right: auto;
+}
+.testimonial-card.card-0{
+  margin-top: 10%;
+}
+.testimonial-card.card-1{
+  margin-bottom: 10%;
 }
 
 /* Optional: Add hover effect */

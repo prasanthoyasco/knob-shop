@@ -24,7 +24,9 @@ import ParallaxSection from "../Components/ParallaxSection/ParallaxSection";
 import DealOfTheDay from "../Components/DealOfTheDay/DealOfTheDay";
 import ShopTheRoom from "../Components/ShopTheRoom/ShopTheRoom";
 import NewHero from "../Components/NewHero/NewHero";
+import Sale from "../Components/Sale/Sale";
 import LockSlider from "../Components/LockSlider/LockSlider";
+import AboutUsGrid from "../Components/AboutUsGrid/AboutUsGrid";
 
 export const Home = () => {
   const products = [
@@ -111,6 +113,8 @@ export const Home = () => {
     <ShopTheRoom/>
       <Brand/>
       <Testimonals/>
+      <AboutUsGrid/>
+      <Sale/>
       <FAQ/>
       <OurServices/>
       <LocationMap/>

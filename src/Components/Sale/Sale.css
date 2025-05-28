@@ -1,0 +1,22 @@
+.sale-container{
+    text-align: center;
+    background-image: url(/bg.png);
+    height: 300px;
+    width: 100%;
+    align-content: center;
+}
+.sale-container hr{
+    color: #8D4F1B;
+    border: 2px solid;
+    margin: 0px 35% !important;
+}
+.sale-button{
+    color: white;
+    background: #000;
+    box-shadow: 0 6px 10px rgba(167, 167, 167, 0.5);
+    transition: 0.5s ease-in-out;
+}
+.sale-button:hover{
+    background-color: transparent;
+    color: #000;
+}

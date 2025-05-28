@@ -1,7 +1,12 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import { useRef } from "react";
 import { Navigation, Pagination, Autoplay, EffectFade } from "swiper/modules";
-import { IoIosArrowBack, IoIosArrowDown, IoIosArrowForward, IoIosArrowUp } from "react-icons/io";
+import {
+  IoIosArrowBack,
+  IoIosArrowDown,
+  IoIosArrowForward,
+  IoIosArrowUp,
+} from "react-icons/io";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -12,47 +17,62 @@ import "./NewHero.css";
 const slides = [
   {
     id: 1,
-    bg: '/slider/lock.png',
+    img: "/slider/lock.png",
+    imgheight:400,
+    bg: "/slider/bg-1.jpg",
     offer: "Flat 15% Off All Items",
     title: "Digital Door Lock",
     circleColor: "#9CB8A5",
-    description: "Bench suitable for living room Lorem ipsum dolor sit amet consectetur adipiscing elit sed incididunt labore et dolore magna aliqua.",
+    description:
+      "Bench suitable for living room Lorem ipsum dolor sit amet consectetur adipiscing elit sed incididunt labore et dolore magna aliqua.",
     number: "01",
   },
   {
     id: 2,
-    bg: '/slider/keyboard_tray.png',
+    img: "/slider/keyboard_tray.png",
+    imgheight:400,
+    bg: "/slider/bg-2.jpg",
     offer: "NEW SEASON ARRIVAL",
     title: "Keyboard tray",
     circleColor: "#F08A58",
-    description: "Bench suitable for living room Lorem ipsum dolor sit amet consectetur adipiscing elit sed incididunt labore et dolore magna aliqua.",
+    description:
+      "Bench suitable for living room Lorem ipsum dolor sit amet consectetur adipiscing elit sed incididunt labore et dolore magna aliqua.",
     number: "02",
   },
   {
     id: 3,
-    bg: '/slider/folding_table.png',
+    img: "/slider/folding_table.png",
+    imgheight:400,
+    bg: "/slider/bg-3.jpg",
     offer: "Flat 15% Off All Items",
     title: "table folding bracket",
     circleColor: "#00759F",
-    description: "Bench suitable for living room Lorem ipsum dolor sit amet consectetur adipiscing elit sed incididunt labore et dolore magna aliqua.",
+    description:
+      "Bench suitable for living room Lorem ipsum dolor sit amet consectetur adipiscing elit sed incididunt labore et dolore magna aliqua.",
     number: "03",
   },
   {
     id: 4,
-    bg: '/slider/Door_stoper.png',
+    img: "/slider/Door_stoper.png",
+    imgheight:400,
+    bg: "/slider/bg-5.jpg",
     offer: "Flat 15% Off All Items",
     title: "door stoppers home depot",
     circleColor: "#DF7A26",
-    description: "Bench suitable for living room Lorem ipsum dolor sit amet consectetur adipiscing elit sed incididunt labore et dolore magna aliqua.",
+    description:
+      "Bench suitable for living room Lorem ipsum dolor sit amet consectetur adipiscing elit sed incididunt labore et dolore magna aliqua.",
     number: "04",
   },
   {
     id: 5,
-    bg: '/slider/vIntage_lock.png',
+    img: "/slider/vIntage_lock.png",
+    imgheight:330,
+    bg: "/slider/bg-6.jpg",
     offer: "Flat 15% Off All Items",
     title: "navtal lock decor",
     circleColor: "#54ef7d73",
-    description: "Bench suitable for living room Lorem ipsum dolor sit amet consectetur adipiscing elit sed incididunt labore et dolore magna aliqua.",
+    description:
+      "Bench suitable for living room Lorem ipsum dolor sit amet consectetur adipiscing elit sed incididunt labore et dolore magna aliqua.",
     number: "05",
   },
 ];
@@ -95,7 +115,7 @@ const NewHero = () => {
             </span>
             `,
         }}
-        autoplay={{ delay: 3000, disableOnInteraction: false }}
+        // autoplay={{ delay: 3000, disableOnInteraction: false }}
         effect="fade"
         loop={true}
       >
@@ -104,9 +124,7 @@ const NewHero = () => {
             <div
               className="slide-content"
               style={{
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-                backgroundRepeat: "no-repeat",
+                background: `url(${slide.bg})  no-repeat center`,
               }}
             >
               <div className="left-section">
@@ -114,20 +132,26 @@ const NewHero = () => {
                 <h2 className="title">{slide.title}</h2>
                 <p className="description">{slide.description}</p>
                 <button className="shop-btn">SHOP NOW</button>
-                <div className="hero-slide-number"><div className="horizantal-line"></div>{slide.number}</div>
+                <div className="hero-slide-number">
+                  <div className="horizantal-line"></div>
+                  {slide.number}
+                </div>
               </div>
               <div className="rightImg">
-                <div
-                    className="circle-bg"
+                <div className="circle-bg">
+                  <img
+                    src={slide.img}
+                    alt={slide.title}
+                    className="img-fluid"
+                    height={`${slide.imgheight}px`}
+                    style={{ maxHeight: "500px" }}
+                  />
+                  <div
+                    className="img-bg-clr circle-bg"
                     style={{ backgroundColor: slide.circleColor }}
-                  >
-                    <img
-                      src={slide.bg}
-                      alt={slide.title}
-                      className="img-fluid"
-                      style={{ maxHeight: "500px" }}
-                    />
-                  </div>
+                  ></div>
+                  <div className="circle-border"></div>
+                </div>
               </div>
             </div>
           </SwiperSlide>

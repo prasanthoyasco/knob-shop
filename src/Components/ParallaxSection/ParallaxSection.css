@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Abril+Fatface&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
 /* --- Start of new/updated CSS from user's snippet --- */
 .parallax-section {
-  min-height: 350vh; /* Crucial for extended scroll area */
+  min-height: 450vh; /* Crucial for extended scroll area */
   position: relative; /* Ensure proper positioning for children */
 }
 .wt-parallax__content {
@@ -84,8 +84,13 @@
   width: 100%; /* Ensure list takes full width for item alignment */
   align-items: center; /* Center items initially */
   padding: 5rem 0rem;
-  background: rgba(255, 255, 255, 0.15);
-background: color(display-p3 1.000 1.000 1.000 / 0.15);
+  /* background: rgba(255, 255, 255, 0.15); */
+background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    color(display-p3 1 1 1 / 0.15) 50%,
+    transparent 100%
+  );
 backdrop-filter: blur(9.9px);
 }
 .wt-parallax__gallery__item {

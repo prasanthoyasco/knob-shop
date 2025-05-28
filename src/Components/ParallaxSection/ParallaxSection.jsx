@@ -33,10 +33,12 @@ const ParallaxSection = ({
 }) => {
   const sectionRef = useRef(null);
   const leftImgRef = useRef(null);
+  const leftImgRef1 = useRef(null);
   const rightImgRef = useRef(null);
   const [displayNumber, setDisplayNumber] = useState("00000");
+
   const rotateImagesOnScroll = useCallback(() => {
-    if (!sectionRef.current || !leftImgRef.current || !rightImgRef.current)
+    if (!sectionRef.current || !leftImgRef.current || !leftImgRef1.current || !rightImgRef.current)
       return;
 
     const sectionRect = sectionRef.current.getBoundingClientRect();
@@ -50,6 +52,7 @@ const ParallaxSection = ({
     [
       { ref: leftImgRef.current, reverse: true },
       { ref: rightImgRef.current, reverse: false },
+      { ref: leftImgRef1.current, reverse: true },
     ].forEach(({ ref, reverse }) => {
       const angle = clampedProgress * maxRotation * (reverse ? -1 : 1);
       window.requestAnimationFrame(() => {
@@ -174,7 +177,7 @@ const ParallaxSection = ({
                 loading="lazy"
                 className="wt-parallax__img wt-parallax__img--odd"
                 alt="Left"
-                ref={leftImgRef}
+                ref={leftImgRef1}
                 onError={(e) => {
                   e.target.src =
                     "https://placehold.co/600x400/FF0000/FFFFFF?text=Image+Error";
