@@ -67,24 +67,42 @@ const ParallaxSection = ({
     return () => window.removeEventListener("scroll", rotateImagesOnScroll);
   }, [rotateImagesOnScroll]);
 
-  useEffect(() => {
-    let start = 0;
-    const end = parseInt(target.toString().padStart(5, "0"));
-    const range = end - start;
-    const incrementTime = 30;
-    const totalSteps = duration / incrementTime;
-    let step = 0;
+  const [hasAnimated, setHasAnimated] = useState(false);
 
-    const interval = setInterval(() => {
-      step++;
-      const progress = step / totalSteps;
-      const value = Math.floor(progress * range);
-      setDisplayNumber(value.toString().padStart(5, "0"));
-      if (step >= totalSteps) clearInterval(interval);
-    }, incrementTime);
+useEffect(() => {
+  const handleScroll = () => {
+    if (!sectionRef.current || hasAnimated) return;
 
-    return () => clearInterval(interval);
-  }, [target, duration]);
+    const rect = sectionRef.current.getBoundingClientRect();
+    const windowHeight = window.innerHeight;
+
+    // Check if section is in viewport
+    if (rect.top < windowHeight && rect.bottom > 0) {
+      setHasAnimated(true); // prevent re-running
+
+      let start = 0;
+      const end = parseInt(target.toString().padStart(5, "0"));
+      const range = end - start;
+      const incrementTime = 30;
+      const totalSteps = duration / incrementTime;
+      let step = 0;
+
+      const interval = setInterval(() => {
+        step++;
+        const progress = step / totalSteps;
+        const value = Math.floor(progress * range);
+        setDisplayNumber(value.toString().padStart(5, "0"));
+        if (step >= totalSteps) clearInterval(interval);
+      }, incrementTime);
+    }
+  };
+
+  window.addEventListener("scroll", handleScroll);
+  handleScroll(); // Initial check in case already in view
+
+  return () => window.removeEventListener("scroll", handleScroll);
+}, [target, duration, hasAnimated]);
+
   return (
     <section
       className="parallax-section"
