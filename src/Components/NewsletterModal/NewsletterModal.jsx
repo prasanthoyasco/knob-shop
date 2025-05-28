@@ -36,8 +36,8 @@ const NewsletterModal = () => {
           </div>
           <div className="newsletter-form">
             <h2>Newsletter</h2>
-            <p>
-              Join over 1,000 people who get free and fresh content<br />
+            <p style={{minWidth:'400px'}}>
+              Join over 1,000 people who get free and fresh content
               delivered automatically each time we publish
             </p>
             <input
