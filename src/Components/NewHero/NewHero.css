@@ -1,23 +1,46 @@
 .lighting-home-slider {
   width: 100%;
-  background-color: #ffffff;
-  position: relative;
+background: linear-gradient(97.9deg, #EBEBEB 10.63%, #E3E3E3 98.83%);
+/* background: linear-gradient(97.9deg, color(display-p3 0.922 0.922 0.922) 10.63%, color(display-p3 0.890 0.890 0.890) 98.83%); */
+ position: relative;
   z-index: 0;
   overflow: hidden; /* Changed from visible to hidden to prevent content overflow */
 }
-
+.lighting-home-slider .swiper {
+  position: relative;
+  z-index: 1;
+}
 .lighting-home-slider .swiper-pagination {
   position: relative;
   text-align: center;
   margin-top: 15px;
   z-index: 10;
 }
+/* Essential when using effect="fade" */
+.lighting-home-slider .swiper-slide {
+  opacity: 0 !important;
+  transition: opacity 0.5s ease-in-out;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.lighting-home-slider .swiper-slide-active {
+  opacity: 1 !important;
+  position: relative;
+  z-index: 2;
+}
+
+
 
 .slide-content {
   display: flex;
-  justify-content: left; /* Changed to center for mobile */
+  justify-content:space-between; /* Changed to center for mobile */
   align-items: center;
-  padding: 60px 100px;
+  gap: 30px;
+  padding: 60px 120px 60px 100px;
   min-height: 500px;
   position: relative;
   /* background image set inline in JS for dynamic backgrounds */
@@ -25,45 +48,56 @@
 }
 
 .left-section {
-  max-width: 60%; /* Increased max-width for better text display on larger screens */
+  max-width: 50%; /* Increased max-width for better text display on larger screens */
   text-align: left; /* Ensure text alignment is centered within this section */
+}
+.rightImg{
+    width: 50%;
+    display: flex;
+    align-items: end;
+    max-width: 55%;
 }
 
 .offer {
   font-size: 14px;
   letter-spacing: 1px;
   text-transform: uppercase;
-  color: #333;
+  color: #333 !important;
   margin-bottom: 10px !important;
   animation: fadeIn 0.5s ease forwards;
 }
 
 .title {
-  font-size: 36px;
+  font-size: 40px;
   font-weight: bold;
+  margin-top: 2rem;
+  letter-spacing: 5px;
+  text-transform: uppercase;
   margin-bottom: 20px !important;
-  color: #111;
+  color: #111 !important;
   animation: fadeIn 0.5s ease forwards;
 }
 
 .description {
   font-size: 15px;
-  color: #444;
+  max-width: 450px;
+  margin-top: 2rem;
+  color: #444 !important;
   margin-bottom: 30px !important;
-  animation: fadeIn 0.5s ease forwards;
+ animation: fadeIn 0.5s ease forwards;
 }
 
 .shop-btn {
   background-color: black;
   color: white !important;
-  padding: 12px 24px;
+  padding: 13px 31px;
   border: none;
   cursor: pointer;
-  font-size: 14px;
-  font-weight: 600;
+  font-size: 13px;
+  font-weight: 400;
+  border-radius: 3px;
   letter-spacing: 1px;
   animation: fadeIn 0.5s ease forwards;
-  transition: background 0.3s ease;
 }
 
 .shop-btn:hover {
@@ -71,26 +105,37 @@
 }
 
 .horizantal-line {
-  border: 1px solid #6c6c6c;
+  border: 1px solid #e3e3e3;
   height: 2px;
-  background-color: #6c6c6c;
   border-radius: 10px;
   width: 40px;
-  margin-right: 5px;
+  margin-right: 0px;
 }
 
-.slide-number {
-  position: absolute;
-  bottom: 30px;
-  left: 50%; /* Center horizontally */
-  transform: translateX(-50%); /* Adjust for perfect centering */
-  font-size: 20px;
-  padding-bottom: 5px;
-  display: flex; /* Ensure horizontal line and number are in a row */
-  align-items: center;
-  justify-content: center; /* Center content within slide-number */
+.hero-slide-number {
+    position: absolute;
+    right: 10px;
+    color: #e3e3e3;
+    top: 50%;
+    transform: translateX(-50%);
+    font-size: 22px;
+    font-weight: 600;
+    padding-bottom: 5px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    flex-direction: column-reverse;
 }
-
+.hero-slide-number::before{
+content: '';
+    position: absolute;
+    z-index: -1;
+    right: -340%;
+    height: 250px;
+    border-radius: 50%;
+    width: 250px;
+    background-color: #0c0c0c;
+}
 /* Swiper custom controls */
 .swiper-button-prev,
 .swiper-button-next {
@@ -117,6 +162,34 @@
 .swiper-pagination-bullet-active {
   opacity: 1;
 }
+
+.circle-bg {
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: zoomInRight 0.8s ease-out forwards;
+}
+
+.circle-bg img {
+  max-height: 400px;
+  object-fit: contain;
+  opacity: 0;
+  animation: zoomInRight 0.8s ease-out forwards;
+}
+@keyframes zoomInRight {
+  from {
+    opacity: 0;
+    transform: translateX(100px) scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
 
 .progress-ring {
   width: 100%;
@@ -154,9 +227,11 @@
 .custom-nav {
   position: absolute;
   top: 50%;
-  width: 100%;
+  right: 0;
+  gap: 150px;
+  width: unset !important;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   z-index: 20;
   transform: translateY(-50%);
   pointer-events: none;
@@ -164,7 +239,7 @@
 
 .custom-nav-btn {
   pointer-events: auto;
-  background: white;
+  background: #e3e3e3;
   border: none;
   border-radius: 50%;
   padding: 10px;
@@ -175,10 +250,11 @@
   align-items: center;
   justify-content: center;
   margin: 0 20px;
+  transition: 0.5s ease-in-out;
 }
 
 .custom-nav-btn:hover {
-  background-color: #eee;
+  background-color: #ffffff;
 }
 
 /* Fade-in animation keyframes */
@@ -253,18 +329,24 @@
   .offer {
     font-size: 12px;
     color: #e4e4e4 !important;
+     animation: fadeIn 0.5s ease forwards;
+  animation-delay: 0.2s;
   }
 
   .title {
     font-size: 28px;
     color: #fff !important;
     margin-bottom: 15px !important;
+      animation: fadeIn 0.5s ease forwards;
+  animation-delay: 0.4s;
   }
 
   .description {
     font-size: 13px;
     color: #dfdfdf !important;
     margin-bottom: 20px !important;
+    animation: fadeIn 0.5s ease forwards;
+  animation-delay: 0.6s;
   }
 
   .shop-btn {
@@ -273,15 +355,6 @@
     font-size: 12px;
   }
 
-  /* .slide-number {
-    position: absolute; 
-    transform: none; 
-    color: #e2e2e2;
-    bottom: 0;
-        left: 45%;
-        font-size: 14px;
-    justify-content: center; 
-  } */
 
   .horizantal-line {
     border: 1px solid #e2e2e2;

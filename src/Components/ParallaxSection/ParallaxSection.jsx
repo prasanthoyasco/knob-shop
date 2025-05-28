@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useCallback } from 'react';
+import React, { useRef, useEffect, useCallback, useState } from 'react';
 import './ParallaxSection.css';
 
 const ArrowDownIcon = () => (
@@ -14,18 +14,19 @@ const ArrowDownIcon = () => (
 
 const ParallaxSection = ({
   text = 'See our latest inspirations',
-  title = 'Check over 10,000 Inspirations',
+  // title = 'Check over 10,000 Inspirations',
   buttonText = 'Check now',
   buttonLink = '/pages/inspired',
   leftImage,
   rightImage,
   rotation = 10,
   sectionId = 'template--24640570294456__parallax_EPkUDw',
+  target = 50000, duration = 2000
 }) => {
   const sectionRef = useRef(null);
   const leftImgRef = useRef(null);
   const rightImgRef = useRef(null);
-
+ const [displayNumber, setDisplayNumber] = useState('00000');
   const rotateImagesOnScroll = useCallback(() => {
     if (!sectionRef.current || !leftImgRef.current || !rightImgRef.current) return;
 
@@ -52,6 +53,24 @@ const ParallaxSection = ({
     return () => window.removeEventListener('scroll', rotateImagesOnScroll);
   }, [rotateImagesOnScroll]);
 
+ useEffect(() => {
+    let start = 0;
+    const end = parseInt(target.toString().padStart(5, '0'));
+    const range = end - start;
+    const incrementTime = 30;
+    const totalSteps = duration / incrementTime;
+    let step = 0;
+
+    const interval = setInterval(() => {
+      step++;
+      const progress = step / totalSteps;
+      const value = Math.floor(progress * range);
+      setDisplayNumber(value.toString().padStart(5, '0'));
+      if (step >= totalSteps) clearInterval(interval);
+    }, incrementTime);
+
+    return () => clearInterval(interval);
+  }, [target, duration]);
   return (
     <section
       className="parallax-section"
@@ -68,7 +87,11 @@ const ParallaxSection = ({
                   <div className="hero__text rte">
                     <p>{text}</p>
                   </div>
-                  <h2 className="hero__title hero">{title}</h2>
+                  <h2 className="hero__title hero">Check over {displayNumber.split('').map((digit, index) => (
+        <span key={index} className="digit">
+          {digit}
+        </span>
+      ))} <span style={{color:'#AB7B53'}}>Products</span></h2>
                   <div className="hero__button--gap">
                     <a href={buttonLink} aria-label={buttonText} className="hero__button--primary ctn big-ctn ">
                       <span>{buttonText}</span>
@@ -109,6 +132,18 @@ const ParallaxSection = ({
                 className="wt-parallax__img wt-parallax__img--even"
                 alt="Right"
                 ref={rightImgRef}
+                onError={(e) => { e.target.src = 'https://placehold.co/600x400/FF0000/FFFFFF?text=Image+Error'; }}
+              />
+            </a>
+          </li>
+          <li className="wt-parallax__gallery__item">
+            <a href="/collections/chairs" tabIndex="0">
+              <img
+                src={leftImage}
+                loading="lazy"
+                className="wt-parallax__img wt-parallax__img--odd"
+                alt="Left"
+                ref={leftImgRef}
                 onError={(e) => { e.target.src = 'https://placehold.co/600x400/FF0000/FFFFFF?text=Image+Error'; }}
               />
             </a>

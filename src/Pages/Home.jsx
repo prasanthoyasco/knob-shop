@@ -23,6 +23,8 @@ import LocationMap from "../Components/LocationMap/LocationMap";
 import ParallaxSection from "../Components/ParallaxSection/ParallaxSection";
 import DealOfTheDay from "../Components/DealOfTheDay/DealOfTheDay";
 import ShopTheRoom from "../Components/ShopTheRoom/ShopTheRoom";
+import NewHero from "../Components/NewHero/NewHero";
+import LockSlider from "../Components/LockSlider/LockSlider";
 
 export const Home = () => {
   const products = [
@@ -87,7 +89,8 @@ export const Home = () => {
   <>
    <NavbarTop/>
    {/* <Navbar/> */}
-      <Hero/>
+      <NewHero/>
+      {/* <LockSlider/> */}
       <ProductCarousel products={products} />
       {/* <CollectionsCarosal/> */}
       <CubeCarousel/>

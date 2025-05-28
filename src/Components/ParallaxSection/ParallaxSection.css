@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Abril+Fatface&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
 /* --- Start of new/updated CSS from user's snippet --- */
 .parallax-section {
   min-height: 350vh; /* Crucial for extended scroll area */
@@ -80,9 +81,13 @@
 .wt-parallax__gallery__list {
   display: flex;
   flex-direction: column;
-  gap: 20vh;
+  gap: 15vh;
   width: 100%; /* Ensure list takes full width for item alignment */
   align-items: center; /* Center items initially */
+  padding: 5rem 0rem;
+  background: rgba(255, 255, 255, 0.15);
+background: color(display-p3 1.000 1.000 1.000 / 0.15);
+backdrop-filter: blur(9.9px);
 }
 .wt-parallax__gallery__item {
   display: flex;
@@ -115,8 +120,9 @@ text-align: center;
     text-decoration: none;
     z-index: 2001;
 }
-.hero__title{
+.hero__title,.hero__title span{
     font-size: 8rem;
+     font-family: "Abril Fatface", serif !important;
 }
 @media (max-width: 768px) {
   .hero__title{
