@@ -9,8 +9,7 @@
   height: 100vh;
   top: 0;
   display: flex;
-  justify-content: center;
-  align-items: center;
+ margin-top: 2rem;
   /* background: var(--color-custom-background); - not defined, using existing */
   /* margin-top:var(--section-gap-top); margin-bottom:var(--section-gap-bottom); - using Tailwind gap */
 }
@@ -119,6 +118,9 @@ text-align: center;
     padding: 0.7rem 3rem !important;
     text-decoration: none;
     z-index: 2001;
+}
+.hero__title{
+  margin: 2rem 0rem;
 }
 .hero__title,.hero__title span{
     font-size: 8rem;

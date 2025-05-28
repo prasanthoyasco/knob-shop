@@ -1,8 +1,15 @@
-import React, { useRef, useEffect, useCallback, useState } from 'react';
-import './ParallaxSection.css';
+import React, { useRef, useEffect, useCallback, useState } from "react";
+import "./ParallaxSection.css";
 
 const ArrowDownIcon = () => (
-  <svg className="svg-icon svg-icon--arrow-down w-12 h-12 text-white" aria-hidden="true" focusable="false" role="presentation" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72">
+  <svg
+    className="svg-icon svg-icon--arrow-down w-12 h-12 text-white"
+    aria-hidden="true"
+    focusable="false"
+    role="presentation"
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 72 72"
+  >
     <g transform="rotate(-90 -0.00000157361 72)">
       <g>
         <rect x="0" y="72" fill="none" height="72" width="72"></rect>
@@ -13,26 +20,30 @@ const ArrowDownIcon = () => (
 );
 
 const ParallaxSection = ({
-  text = 'See our latest inspirations',
+  text = "See our latest inspirations",
   // title = 'Check over 10,000 Inspirations',
-  buttonText = 'Check now',
-  buttonLink = '/pages/inspired',
+  buttonText = "Check now",
+  buttonLink = "/pages/inspired",
   leftImage,
   rightImage,
   rotation = 10,
-  sectionId = 'template--24640570294456__parallax_EPkUDw',
-  target = 50000, duration = 2000
+  sectionId = "template--24640570294456__parallax_EPkUDw",
+  target = 50000,
+  duration = 2000,
 }) => {
   const sectionRef = useRef(null);
   const leftImgRef = useRef(null);
   const rightImgRef = useRef(null);
- const [displayNumber, setDisplayNumber] = useState('00000');
+  const [displayNumber, setDisplayNumber] = useState("00000");
   const rotateImagesOnScroll = useCallback(() => {
-    if (!sectionRef.current || !leftImgRef.current || !rightImgRef.current) return;
+    if (!sectionRef.current || !leftImgRef.current || !rightImgRef.current)
+      return;
 
     const sectionRect = sectionRef.current.getBoundingClientRect();
     const viewportHeight = window.innerHeight;
-    const scrollProgress = (viewportHeight - sectionRect.top) / (viewportHeight + sectionRect.height);
+    const scrollProgress =
+      (viewportHeight - sectionRect.top) /
+      (viewportHeight + sectionRect.height);
     const clampedProgress = Math.max(0, Math.min(1, scrollProgress));
     const maxRotation = parseInt(rotation, 10) || 10;
 
@@ -48,14 +59,14 @@ const ParallaxSection = ({
   }, [rotation]);
 
   useEffect(() => {
-    window.addEventListener('scroll', rotateImagesOnScroll);
+    window.addEventListener("scroll", rotateImagesOnScroll);
     rotateImagesOnScroll();
-    return () => window.removeEventListener('scroll', rotateImagesOnScroll);
+    return () => window.removeEventListener("scroll", rotateImagesOnScroll);
   }, [rotateImagesOnScroll]);
 
- useEffect(() => {
+  useEffect(() => {
     let start = 0;
-    const end = parseInt(target.toString().padStart(5, '0'));
+    const end = parseInt(target.toString().padStart(5, "0"));
     const range = end - start;
     const incrementTime = 30;
     const totalSteps = duration / incrementTime;
@@ -65,7 +76,7 @@ const ParallaxSection = ({
       step++;
       const progress = step / totalSteps;
       const value = Math.floor(progress * range);
-      setDisplayNumber(value.toString().padStart(5, '0'));
+      setDisplayNumber(value.toString().padStart(5, "0"));
       if (step >= totalSteps) clearInterval(interval);
     }, incrementTime);
 
@@ -82,18 +93,32 @@ const ParallaxSection = ({
           <div className="hero__wrapper">
             <div className="hero hero--video-background">
               <div className="hero__pic-container disabled-on-mobile"></div>
-              <div className="hero__overlay hero__overlay--center hero__overlay--mobile--" href={buttonLink}>
+              <div
+                className="hero__overlay hero__overlay--center hero__overlay--mobile--"
+                href={buttonLink}
+              >
                 <div className="hero__overlay__content hero__overlay__content--center hero__overlay__content--mobile-- rte">
-                  <div className="hero__text rte">
-                    <p>{text}</p>
+                  <div className="hero__text rte d-flex justify-content-center">
+                    <div className="d-flex align-items-end gap-2">
+                      <img src="/checkover_icon.svg" alt="" />
+                      <p>{text}</p>
+                    </div>
                   </div>
-                  <h2 className="hero__title hero">Check over {displayNumber.split('').map((digit, index) => (
-        <span key={index} className="digit">
-          {digit}
-        </span>
-      ))} <span style={{color:'#AB7B53'}}>Products</span></h2>
+                  <h2 className="hero__title hero">
+                    Check over{" "}
+                    {displayNumber.split("").map((digit, index) => (
+                      <span key={index} className="digit">
+                        {digit}
+                      </span>
+                    ))}{" "}
+                    <span style={{ color: "#AB7B53" }}>Products</span>
+                  </h2>
                   <div className="hero__button--gap">
-                    <a href={buttonLink} aria-label={buttonText} className="hero__button--primary ctn big-ctn ">
+                    <a
+                      href={buttonLink}
+                      aria-label={buttonText}
+                      className="hero__button--primary ctn big-ctn "
+                    >
                       <span>{buttonText}</span>
                     </a>
                   </div>
@@ -120,7 +145,10 @@ const ParallaxSection = ({
                 className="wt-parallax__img wt-parallax__img--odd"
                 alt="Left"
                 ref={leftImgRef}
-                onError={(e) => { e.target.src = 'https://placehold.co/600x400/FF0000/FFFFFF?text=Image+Error'; }}
+                onError={(e) => {
+                  e.target.src =
+                    "https://placehold.co/600x400/FF0000/FFFFFF?text=Image+Error";
+                }}
               />
             </a>
           </li>
@@ -132,7 +160,10 @@ const ParallaxSection = ({
                 className="wt-parallax__img wt-parallax__img--even"
                 alt="Right"
                 ref={rightImgRef}
-                onError={(e) => { e.target.src = 'https://placehold.co/600x400/FF0000/FFFFFF?text=Image+Error'; }}
+                onError={(e) => {
+                  e.target.src =
+                    "https://placehold.co/600x400/FF0000/FFFFFF?text=Image+Error";
+                }}
               />
             </a>
           </li>
@@ -144,7 +175,10 @@ const ParallaxSection = ({
                 className="wt-parallax__img wt-parallax__img--odd"
                 alt="Left"
                 ref={leftImgRef}
-                onError={(e) => { e.target.src = 'https://placehold.co/600x400/FF0000/FFFFFF?text=Image+Error'; }}
+                onError={(e) => {
+                  e.target.src =
+                    "https://placehold.co/600x400/FF0000/FFFFFF?text=Image+Error";
+                }}
               />
             </a>
           </li>
