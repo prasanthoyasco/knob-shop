@@ -1,12 +1,26 @@
 .product-card {
   border: none;
-  border-radius: 10px;
+  border-radius: unset !important;
   overflow: hidden;
   position: relative;
-  background: #fff;
+  background: #F8F8F8;
   min-width: 230px;
 }
 
+.product-card::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 8px;
+  width: 0%;
+  background-color: #8D4F1B;
+  transition: width 0.8s ease-in;
+}
+
+.product-card:hover::after {
+  width: 100%;
+}
 
 
 .product-card .card-img-top {
@@ -117,6 +131,7 @@
 .image-wrapper {
   position: relative;
   overflow: hidden;
+  background: #F8F8F8;
   cursor:auto;
 }
 
@@ -148,6 +163,66 @@
 .image-wrapper:hover .default-img {
   opacity: 0;
 }
+.icons{
+  display: flex;
+  gap: 12px;
+  min-height: 48px; /* Enough space for icon height */
+  margin-bottom: 8px;
+    justify-content: space-around;
+    margin-bottom: .5rem;
+}
+.icon{
+  /* background-color: #ffffff; */
+  border: 1px solid #212121;
+  border-radius: 50%;
+  padding: 10px;
+}
+.icon:hover{
+  border: 1px solid #8D4F1B;
+}
+
+.icon img {
+  height: 32px;
+  transition: filter 0.3s ease;
+}
+.icon:hover img {
+  filter: brightness(0) saturate(100%) sepia(80%) hue-rotate(10deg) saturate(800%) brightness(90%);
+}
+.icon {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip {
+  position: absolute;
+  bottom: 120%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #8D4F1B;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+  font-size: 12px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease-in-out;
+  z-index: 10;
+}
+.tooltip::after {
+  content: "";
+  position: absolute;
+  top: 100%; /* Position at the bottom of the tooltip */
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 6px;
+  border-style: solid;
+  border-color: #8D4F1B transparent transparent transparent;
+}
+.icon:hover .tooltip {
+  opacity: 1;
+}
+
 .hover-button-wrapper {
   position: absolute;
   bottom: 20px;
@@ -181,9 +256,11 @@
 .card-buttons{
     display: flex;
     justify-content: space-between;
+    margin-bottom: .5rem;
+    margin-top: .5rem;
 }
 .card-buttons button{
-  padding: .7rem 2.3rem;
+  padding: .7rem 2.7rem;
   text-transform: uppercase;
   letter-spacing: .5px;
   font-size: 12px;

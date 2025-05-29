@@ -16,8 +16,10 @@ const ProductCard = ({ product }) => {
     oldPrice,
     discount,
     rating,
+    icons,
     image,
   } = product;
+console.log(icons);
 
   return (
    <div className="card product-card h-100 position-relative">
@@ -27,9 +29,9 @@ const ProductCard = ({ product }) => {
     </span>
   )}
 
-  <div className="position-absolute top-0 end-0 m-2 d-flex align-items-center bg-white rounded px-2 py-1 shadow-sm rating-overlay">
-  <FaStar className="text-warning me-1" size={12} />
-  <span className="small">{rating}</span>
+  <div className="position-absolute top-0 end-0 m-2 d-flex align-items-center rounded px-2 py-1 rating-overlay">
+  <FaStar className="text-warning me-1" size={18} />
+  <span className="normal">{rating}</span>
 </div>
 
 
@@ -43,11 +45,27 @@ const ProductCard = ({ product }) => {
 
 
   <div className="card-body d-flex flex-column">
-    <h5 className="card-title">{title}</h5>
+   <div className="icons">
+    {icons?.length > 0 ? (
+      icons.map((icon, index) => (
+        <div className="icon" key={index}>
+          <img src={icon.imgUrl} alt={icon.name} />
+          <span className="tooltip">{icon.name}</span>
+        </div>
+      ))
+    ) : (
+      // Render empty placeholders if needed, or leave div empty to preserve space
+      null
+    )}
+    
+  </div>
+   <hr />
+    <div className="mt-2">
+      <h5 className="card-title">{title}</h5>
 
-    <p className="mb-1">
+    <p className="mb-2">
      
-      <del className="text-muted ms-2">
+      <del className="text-muted">
         ₹ {oldPrice.toLocaleString("en-IN")}
       </del>{" "}
        <strong style={{ color: "#D6791F" }}>
@@ -58,7 +76,7 @@ const ProductCard = ({ product }) => {
       You Save ₹ {(oldPrice - price).toLocaleString("en-IN")}
     </p>
 
-<div className="product-colors d-flex gap-2 mt-2">
+<div className="product-colors d-flex gap-2 my-2">
   <input type="radio" name="color" className="color-dot brown" />
   <input type="radio" name="color" className="color-dot gray" />
   <input type="radio" name="color" className="color-dot red" />
@@ -67,6 +85,7 @@ const ProductCard = ({ product }) => {
   <button className="View-detail">View Details</button>
   <button className="Addtocart">Add To cart</button>
 </div>
+    </div>
     {/* <div className="product-colors">
       <span className="color-dot brown"></span>
       <span className="color-dot grey"></span>

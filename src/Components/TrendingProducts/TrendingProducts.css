@@ -32,9 +32,9 @@
 .product-scroll-container {
   display: flex;
   overflow-x: auto;
-  gap: 1rem;
+  gap: 2rem;
   scroll-snap-type: x mandatory;
-  scroll-padding: 1rem;
+  scroll-padding: 2rem;
   -webkit-overflow-scrolling: touch;
   scroll-behavior: smooth;
   user-select: none;
@@ -46,14 +46,14 @@
   flex: 0 0 calc((95% - 3rem) / 3);
   scroll-snap-align: start;
   margin: 1rem 0;
-  cursor:grab;
+  cursor:pointer;
 }
 
 /* Hide scrollbar */
 
 .product-scroll-container {
   
-  scrollbar-width: 10px;
+  scrollbar-width: none !important;
 }
 
 /* Scroll buttons */
@@ -103,6 +103,14 @@
   border: 1px solid #b07d51;
   color: #b07d51;
   background-color: transparent;
+}
+.btn-animation{
+  transition: all .4s ease-in-out;
+}
+.btn-animation:hover{
+  background-color: #444;
+  transform: translateY(4%) !important;
+  color: #fff;
 }
 
 @media (max-width: 768px) {

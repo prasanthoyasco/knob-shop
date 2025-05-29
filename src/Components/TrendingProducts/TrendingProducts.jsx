@@ -4,12 +4,12 @@ import ProductCard from "../ProductCard/ProductCard";
 import "./TrendingProducts.css";
 
 import chair from "../../Assets/product-category/p1.jpg";
-import chair2 from "../../Assets/product-category/p1.jpg";
+import chair2 from "../../Assets/product-category/p6.jpg";
 import sofa from "../../Assets/product-category/p2.jpg";
 import sofa2 from "../../Assets/product-category/p3.jpg";
 import sofa3 from "../../Assets/product-category/p4.jpg";
 import bchair from "../../Assets/product-category/p3.jpg";
-import bchair1 from "../../Assets/product-category/p3.jpg";
+import bchair1 from "../../Assets/product-category/p7.jpg";
 
 const tabs = [
   "All Products",
@@ -27,6 +27,12 @@ const products = [
     discount: 5,
     rating: 4.9,
     image: bchair,
+    icons : [
+  { name: 'Card Key', imgUrl: '/product-icon/card_key.svg' },
+  { name: 'Pin Code', imgUrl: '/product-icon/pin_code.svg' },
+  { name: 'Fingerprint', imgUrl: '/product-icon/fingerprint.svg' },
+  { name: 'Machnic Key', imgUrl: '/product-icon/machnic_key.svg' }
+],
     hoverImage: bchair1
   },
   {
@@ -36,8 +42,14 @@ const products = [
     oldPrice: 19412,
     discount: 25,
     rating: 4.9,
-    image: sofa,
-    hoverImage: sofa2
+     icons : [
+  { name: 'Card Key', imgUrl: '/product-icon/card_key.svg' },
+  { name: 'Pin Code', imgUrl: '/product-icon/pin_code.svg' },
+  { name: 'Fingerprint', imgUrl: '/product-icon/fingerprint.svg' },
+  { name: 'Machnic Key', imgUrl: '/product-icon/machnic_key.svg' }
+],
+    image: sofa2,
+    hoverImage: sofa
   },
   {
     id: 3,
@@ -176,6 +188,9 @@ const TrendingProducts = () => {
             {/* <button className="scroll-button right" onClick={handleScrollRight}>
               <IoIosArrowForward size={18} />
            </button>*/}
+          </div>
+          <div className="d-flex align-items-center justify-content-center mt-3">
+            <button className="ctn btn-animation"> view All Products</button>
           </div>
         </div>
       </div>
