@@ -40,10 +40,10 @@ const AboutUs = () => {
     if (counterRef.current) {
       observer.observe(counterRef.current);
     }
-
+    let cleanup = counterRef.current
     return () => {
-      if (counterRef.current) {
-        observer.unobserve(counterRef.current);
+      if (cleanup) {
+        observer.unobserve(cleanup);
       }
     };
   }, [hasAnimated]);
