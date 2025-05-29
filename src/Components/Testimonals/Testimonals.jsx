@@ -7,74 +7,74 @@ import testinomalImage4 from '../../Assets/testimonal-image4.png';
 
 const testimonials = [
   {
-    idx: 0,
+    idx:0,
     imgage: testinomalImage1,
     name: "Jane Lee",
-    profession: "Expert",
-    message: "“My family built with Hallmark 16 years ago. The quality of their craftsmanship truly speaks for itself...”"
+    profession : "Expert",
+    message: "“My family built with Hallmark 16 years ago.The quality of their craftsmanship truly speaks for itself. Quality house still to this day, so this really helped us to make a decision.I’ve recommended them to several of my clients because their builds speak for themselves.”"
   },
   {
-    idx: 1,
+    idx:1,
     imgage: testinomalImage2,
     name: "Joshua Keith",
     profession: "Senior client",
-    message: "“The contractor installing them said they’re some of the best he’s ever seen...”"
+    message: "“The contractor installing them said they’re some of the best he’s ever seen. Everyone that sees them wants to know where I bought them.I’ve recommended them to several of my clients because their builds speak for themselves.”"
   },
   {
-    idx: 2,
+    idx:2,
     imgage: testinomalImage4,
     name: "Audrey Deleon",
     profession: "Expert",
-    message: "The process was smooth. The quality of their craftsmanship truly speaks for itself..."
+    message: "The process was smooth.The quality of their craftsmanship truly speaks for itself, and the results exceeded all of my expectations without any compromises.The attention to detail and care shown throughout the entire build made this experience truly remarkable."
   },
   {
-    idx: 3,
+    idx:3,
     imgage: testinomalImage3,
     name: "Deandre Rodgers",
     profession: "Senior client",
-    message: "The quality of their craftsmanship truly speaks for itself..."
+    message: "The quality of their craftsmanship truly speaks for itself, and the results exceeded all of my expectations without any compromises.I’ve recommended them to several of my clients because their builds speak for themselves."
   },
   {
-    idx: 0,
+    idx:0,
     imgage: testinomalImage1,
     name: "Audrey Deleon",
     profession: "Expert",
-    message: "The attention to detail and care shown throughout the entire build made this experience truly remarkable."
+    message: "The process was smooth.The quality of their craftsmanship truly speaks for itself, and the results exceeded all of my expectations without any compromises.The attention to detail and care shown throughout the entire build made this experience truly remarkable."
   },
   {
-    idx: 1,
+    idx:1,
     imgage: testinomalImage2,
     name: "Deandre Rodgers",
     profession: "Senior client",
-    message: "The quality of their craftsmanship truly speaks for itself..."
+    message: "The quality of their craftsmanship truly speaks for itself, and the results exceeded all of my expectations without any compromises.I’ve recommended them to several of my clients because their builds speak for themselves."
   },
   {
     idx: 2,
     imgage: testinomalImage3,
     name: "Sophia Martinez",
     profession: "Homeowner",
-    message: "We couldn't be happier. From planning to execution..."
+    message: "We couldn't be happier. From planning to execution, everything was handled with such professionalism. The final result is a dream come true.I’ve recommended them to several of my clients because their builds speak for themselves."
   },
   {
     idx: 3,
     imgage: testinomalImage4,
     name: "Michael Chen",
     profession: "Interior Designer",
-    message: "The design, the finish, the service—every element exceeded our expectations."
+    message: "The design, the finish, the service—every element exceeded our expectations. I would recommend this team to anyone serious about quality.I’ve recommended them to several of my clients because their builds speak for themselves."
   },
   {
     idx: 0,
     imgage: testinomalImage1,
     name: "Emma Thompson",
     profession: "First-time Buyer",
-    message: "As a first-time homebuyer, I had a lot of questions. Their team was patient, clear, and always ready to help."
+    message: "As a first-time homebuyer, I had a lot of questions. Their team was patient, clear, and always ready to help. I'm so glad I chose them!I’ve recommended them to several of my clients because their builds speak for themselves."
   },
   {
     idx: 1,
     imgage: testinomalImage2,
     name: "Carlos Rivera",
     profession: "Real Estate Consultant",
-    message: "Clean, strong, and built to last."
+    message: "I’ve recommended them to several of my clients because their builds speak for themselves. Clean, strong, and built to last.I’ve recommended them to several of my clients because their builds speak for themselves."
   }
 ];
 
