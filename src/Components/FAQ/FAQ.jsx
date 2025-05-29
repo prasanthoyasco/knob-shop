@@ -32,8 +32,9 @@ function FAQ() {
   const headingRef = useRef();
   const itemRefs = useRef([]);
 
+  // Initialize faqItemsVisible to array of false of length faqData
   const [headingVisible, setHeadingVisible] = useState(false);
-  const [faqItemsVisible, setFaqItemsVisible] = useState([]);
+  const [faqItemsVisible, setFaqItemsVisible] = useState(Array(faqData.length).fill(false));
   const [startFaqObservation, setStartFaqObservation] = useState(false);
 
   useEffect(() => {
@@ -45,23 +46,22 @@ function FAQ() {
   }, []);
 
   useEffect(() => {
-    // Observe heading for visibility (unchanged)
+    // Observe heading for visibility - only set true once, do NOT reset false
     const headingObserver = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setHeadingVisible(true);
-          const headingCount = 4;
-          const delayPerItem = 300;
-          const animationDuration = 600;
-          const totalHeadingAnimationTime = headingCount * delayPerItem + animationDuration;
-          setTimeout(() => {
-            setStartFaqObservation(true);
-          }, totalHeadingAnimationTime);
-        } else {
-          setHeadingVisible(false);
-          setStartFaqObservation(false);
-          setFaqItemsVisible([]);
+          if (!headingVisible) {  // Only update once
+            setHeadingVisible(true);
+            const headingCount = 4;
+            const delayPerItem = 300;
+            const animationDuration = 600;
+            const totalHeadingAnimationTime = headingCount * delayPerItem + animationDuration;
+            setTimeout(() => {
+              setStartFaqObservation(true);
+            }, totalHeadingAnimationTime);
+          }
         }
+        // Removed else block that resets state on scroll out
       },
       { threshold: 0.2 }
     );
@@ -71,7 +71,7 @@ function FAQ() {
     return () => {
       if (headingRef.current) headingObserver.unobserve(headingRef.current);
     };
-  }, []);
+  }, [headingVisible]);
 
   useEffect(() => {
     if (!startFaqObservation) return;
@@ -81,10 +81,14 @@ function FAQ() {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
             setFaqItemsVisible(prev => {
-              const newArr = [...prev];
               const idx = Number(entry.target.dataset.index);
-              newArr[idx] = true;
-              return newArr;
+              // Only update if not already visible
+              if (!prev[idx]) {
+                const newArr = [...prev];
+                newArr[idx] = true;
+                return newArr;
+              }
+              return prev;
             });
           }
         });
