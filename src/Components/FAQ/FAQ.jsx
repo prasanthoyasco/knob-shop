@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './FAQ.css';
 import faqImage from '../../Assets/FAQ-image.png';
+import faqImage2 from '../../Assets/sofo3.jpg';
+import faqImage3 from '../../Assets/right-image-interior.png';
 
 const faqData = [
   {
@@ -21,49 +23,130 @@ const faqData = [
   },
 ];
 
+const images = [faqImage, faqImage2, faqImage3];
+
 function FAQ() {
   const [activeIndex, setActiveIndex] = useState(null);
-  const sectionRef = useRef();
-  const [visible, setVisible] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  const headingRef = useRef();
+  const itemRefs = useRef([]);
+
+  const [headingVisible, setHeadingVisible] = useState(false);
+  const [faqItemsVisible, setFaqItemsVisible] = useState([]);
+  const [startFaqObservation, setStartFaqObservation] = useState(false);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
+    // Image auto slide every 3 seconds
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    // Observe heading for visibility (unchanged)
+    const headingObserver = new IntersectionObserver(
       ([entry]) => {
-        setVisible(entry.isIntersecting); // Set true when in view, false when out
+        if (entry.isIntersecting) {
+          setHeadingVisible(true);
+          const headingCount = 4;
+          const delayPerItem = 300;
+          const animationDuration = 600;
+          const totalHeadingAnimationTime = headingCount * delayPerItem + animationDuration;
+          setTimeout(() => {
+            setStartFaqObservation(true);
+          }, totalHeadingAnimationTime);
+        } else {
+          setHeadingVisible(false);
+          setStartFaqObservation(false);
+          setFaqItemsVisible([]);
+        }
       },
-      { threshold: 0.2 } // Adjust how much needs to be visible to trigger
+      { threshold: 0.2 }
     );
-  
-    const currentRef = sectionRef.current;
-  
-    if (currentRef) {
-      observer.observe(currentRef);
+    if (headingRef.current) {
+      headingObserver.observe(headingRef.current);
     }
-  
     return () => {
-      if (currentRef) {
-        observer.unobserve(currentRef);
-      }
+      if (headingRef.current) headingObserver.unobserve(headingRef.current);
     };
   }, []);
-  
+
+  useEffect(() => {
+    if (!startFaqObservation) return;
+
+    const itemObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            setFaqItemsVisible(prev => {
+              const newArr = [...prev];
+              const idx = Number(entry.target.dataset.index);
+              newArr[idx] = true;
+              return newArr;
+            });
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+
+    itemRefs.current.forEach(el => {
+      if (el) itemObserver.observe(el);
+    });
+
+    return () => {
+      itemRefs.current.forEach(el => {
+        if (el) itemObserver.unobserve(el);
+      });
+    };
+  }, [startFaqObservation]);
 
   const toggleFAQ = (index) => {
     setActiveIndex(index === activeIndex ? null : index);
   };
 
   return (
-    <div className={`Faq-container faq-animate ${visible ? "visible" : ""}`} ref={sectionRef}>
-      <img src={faqImage} className='faq-image' alt="FAQ Visual" />
-      <div className='faq-content'>
-        <h6>FAQ's</h6>
-        <h1>YOU HAVE DIFFERENT QUESTIONS?</h1>
-        <p>Our team will answer all your questions.</p>
-        <p>We ensure a quick response.</p>
+    <div className="Faq-container">
+      <div className="faq-image-carousel">
+        {images.map((img, index) => (
+          <img
+            key={index}
+            src={img}
+            alt={`FAQ Visual ${index + 1}`}
+            className={`faq-image ${index === currentImageIndex ? 'active' : ''}`}
+            style={{ display: index === currentImageIndex ? 'block' : 'none' }}
+          />
+        ))}
+      </div>
 
+      <div className='faq-content'>
+
+        {/* Heading block with staggered animation */}
+        <div ref={headingRef} className="faq-header">
+          {["FAQ's", "YOU HAVE DIFFERENT QUESTIONS?", "Our team will answer all your questions.", "We ensure a quick response."].map((text, i) => (
+            <div
+              key={i}
+              className={`faq-animate ${headingVisible ? 'visible' : ''}`}
+              style={{ transitionDelay: `${i * 0.3}s` }}
+            >
+              {i === 0 && <h6>{text}</h6>}
+              {i === 1 && <h1>{text}</h1>}
+              {i > 1 && <p>{text}</p>}
+            </div>
+          ))}
+        </div>
+
+        {/* FAQ list */}
         <div className="faq-list">
           {faqData.map((item, index) => (
-            <div key={index}>
+            <div
+              key={index}
+              ref={el => (itemRefs.current[index] = el)}
+              data-index={index}
+              className={`faq-item faq-animate ${faqItemsVisible[index] ? 'visible' : ''}`}
+            >
               <div className="faq-question" onClick={() => toggleFAQ(index)}>
                 <h6>{item.question}</h6>
                 <span>{activeIndex === index ? '-' : '+'}</span>
@@ -77,6 +160,7 @@ function FAQ() {
             </div>
           ))}
         </div>
+
       </div>
     </div>
   );
