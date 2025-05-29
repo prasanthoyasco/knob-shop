@@ -53,7 +53,7 @@ const AboutUs = () => {
       <div className="container-flued mx-5">
         <div className="row align-items-center">
           {/* Left Image Side */}
-          <div className="col-md-6 position-relative" data-aos="fade-left"  data-aos-delay='100'>
+          <div className="col-md-6 position-relative" data-aos="fade-left"  data-aos-delay='100' data-aos-offset = '500'>
             <div className="image-wrapper">
               <img
                 src="/about_us.jpg"
@@ -63,14 +63,14 @@ const AboutUs = () => {
               />
 
               {/* Floating rating emojis */}
-              <div className="floating-rating" data-aos="fade-left"  data-aos-delay='200'>
+              <div className="floating-rating" data-aos="fade-left"  data-aos-delay='200' data-aos-offset = '500'>
                 <span className="fw-bold">Best ratings.</span>
                 <p className="small mb-1">Lorem ipsum, dolor sit amet adipisicing elit.</p>
                 <div className="emojis">😡 😐 😃 😍 😁</div>
               </div>
 
               {/* Floating badge top-right */}
-              <div className="floating-badge" data-aos="fade-right"  data-aos-delay='300'>
+              <div className="floating-badge" data-aos="fade-right"  data-aos-delay='300' data-aos-offset = '500'>
                 <div className="counter mt-2 mb-3 d-flex justify-content-between">
                   <h5 className=""><strong style={{color:'#000339', fontSize:'1.6rem'}}>{counter}   +</strong></h5>
                   <FaArrowTrendUp size={24} color="#50D28A"/>
