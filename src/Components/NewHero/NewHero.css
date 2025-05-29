@@ -115,6 +115,7 @@ import "swiper/css/effect-fade"; */
 
 .description {
   font-size: 18px;
+  max-width: 500px;
   margin-top: 2rem;
   line-height: 1.85rem;
   color: #444 !important;
