@@ -21,9 +21,10 @@ function Brand() {
   const settings = {
     dots: false,
     infinite: true,
-    speed: 1500,
+    speed: 6000,           // Long duration for smooth slide scroll
     autoplay: true,
-    autoplaySpeed: 2000,
+    autoplaySpeed: 0,      // No delay between slides
+    cssEase: 'linear',     // Linear easing for continuous motion
     slidesToShow,
     slidesToScroll: 1,
     arrows: false,
@@ -43,6 +44,7 @@ function Brand() {
       }
     ]
   };
+  
 
   // Helper to determine if a slide should be greyed out
   // We'll grey out the first and last visible slides:
