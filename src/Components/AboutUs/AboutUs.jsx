@@ -92,15 +92,15 @@ const AboutUs = () => {
 
           {/* Right Content Side */}
           <div className="col-md-6 ">
-            <div className="ms-5 ">
-                <h6 className="text-uppercase text-muted about-sub-head">Knobsshop</h6>
-            <h2 className="mb-4 about-head">About Us</h2>
-            <p className="para my-4">
+            <div className="ms-5">
+                <h6 className="text-uppercase text-muted about-sub-head" data-aos="fade-left"  data-aos-delay='300'>Knobsshop</h6>
+            <h2 className="mb-4 about-head" data-aos="fade-left"  data-aos-delay='300'>About Us</h2>
+            <p className="para my-4"data-aos="fade-right"  data-aos-delay='350'>
               For over 25 years, KnobsShop has been a trusted name in premium hardware and home utility solutions. What began as a small family-run store has grown into a leading destination for quality knobs, handles, and décor fittings that blend function with style.
             </p>
-            <p className="para mb-4">
+            <p className="para mb-4" data-aos="fade-left"  data-aos-delay='400'>
 We believe in delivering products that last, service that cares, and designs that elevate everyday living. With decades of craftsmanship, satisfied customers, and innovation behind us — we continue to bring timeless detailing to modern Indian homes.</p>
-            <a href="#" className="custom-explore-btn">
+            <a href="#" className="custom-explore-btn" data-aos="fade-up"  data-aos-delay='450'>
               Explore More
             </a>
             </div>

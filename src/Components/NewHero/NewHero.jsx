@@ -42,7 +42,7 @@ const NewHero = () => {
     retriggerAnimations();
   }, [retriggerAnimations]);
 
-  const handleSlideChange = useCallback((swiper) => {
+  const handleSlideChange = useCallback(() => {
     // Removed: setActiveSlideIndex(swiper.realIndex);
     retriggerAnimations();
   }, [retriggerAnimations]);

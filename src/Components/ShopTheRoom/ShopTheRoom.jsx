@@ -72,7 +72,7 @@ const ShopTheRoom = () => {
     <section className="shop-the-room__section mt-4">
       <h2 className="shop-the-room__title">Shop The Room</h2>
 
-      <div className="shop-the-room__room-container" ref={containerRef}>
+      <div className="shop-the-room__room-container" ref={containerRef} data-aos="fade-down"  data-aos-delay='200'>
         <img src={roomImage} alt="Room" className="shop-the-room__image" />
 
         {decorPoints.map((item) => {
