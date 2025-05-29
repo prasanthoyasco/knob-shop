@@ -81,19 +81,20 @@ const testimonials = [
 function Testimonals() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
+  const [fadeClass, setFadeClass] = useState('fade-in');
 
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 1024);
       setCurrentIndex(0);
     };
-  
+
     window.addEventListener('resize', handleResize);
-  
+
     const interval = setInterval(() => {
-      handleNext();
+      triggerFade(handleNext);
     }, 4000);
-  
+
     return () => {
       window.removeEventListener('resize', handleResize);
       clearInterval(interval);
@@ -102,13 +103,23 @@ function Testimonals() {
 
   const cardsToShow = isMobile ? 1 : 2;
 
+  const triggerFade = (callback) => {
+    setFadeClass('fade-out');
+    setTimeout(() => {
+      callback();
+      setFadeClass('fade-in');
+    }, 300); // must match the CSS fade duration
+  };
+
   const handlePrev = () => {
-    setCurrentIndex((prev) => {
-      let newIndex = prev - cardsToShow;
-      if (newIndex < 0) {
-        newIndex = testimonials.length - cardsToShow;
-      }
-      return newIndex;
+    triggerFade(() => {
+      setCurrentIndex((prev) => {
+        let newIndex = prev - cardsToShow;
+        if (newIndex < 0) {
+          newIndex = testimonials.length - cardsToShow;
+        }
+        return newIndex;
+      });
     });
   };
 
@@ -122,7 +133,6 @@ function Testimonals() {
     });
   };
 
-  // Get the original indexes of the cards to show, with wrap-around
   const visibleIndexes = [];
   for (let i = 0; i < cardsToShow; i++) {
     visibleIndexes.push((currentIndex + i) % testimonials.length);
@@ -136,25 +146,25 @@ function Testimonals() {
 
       <div className='next-prev-icon'>
         <i className="bi bi-chevron-left" onClick={handlePrev}></i>
-        <i className="bi bi-chevron-right" onClick={handleNext}></i>
+        <i className="bi bi-chevron-right" onClick={() => triggerFade(handleNext)}></i>
       </div>
 
       <div className='testimonal-container'>
         <div className='testimonal-left-content'>
           <h1>READ WHAT</h1>
           <h1>OUR CLIENTS THINK</h1>
-          <div style={{marginTop:"20px"}}>
+          <div style={{ marginTop: "20px" }}>
             <p>We can already call over 5,000 people our customer, When you are coming</p>
           </div>
           <button>DISCOVER NOW</button>
         </div>
 
         <div className='testimonial-content'>
-          <div className='testimonial-list'>
+          <div className={`testimonial-list ${fadeClass}`}>
             {visibleIndexes.map((idx) => {
               const item = testimonials[idx];
               return (
-                <div key={item.idx} className={`testimonial-card card-${item.idx}`}>
+                <div key={item.name + item.profession} className={`testimonial-card card-${item.idx}`}>
                   <img src={item.imgage} className='testimonal-image' alt={item.name} />
                   <p className='testimonial-message'>“{item.message}”</p>
                   <p className='testimonial-name'>{item.name}</p>
