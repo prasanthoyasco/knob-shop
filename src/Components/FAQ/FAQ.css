@@ -1,3 +1,25 @@
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(140px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.faq-animate {
+  opacity: 0;
+  transform: translateY(140px);
+  transition: opacity 0.6s ease-out, transform 3.6s ease-out;
+}
+
+.faq-animate.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 .Faq-container {
     display: flex;
     flex-wrap: wrap;
@@ -79,8 +101,8 @@
     line-height: 24px;
     width: 450px;
     letter-spacing: 0%;
-    transition: color 0.3s ease;
   }
+
   
   .faq-content hr {
     border-top: 1px solid #A0A0A0;
