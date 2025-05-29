@@ -10,10 +10,11 @@
 
 
 .product-card .card-img-top {
-  height: 400px;
+  height: 430px;
   background-color: #F8F8F8;
   object-fit: cover;
-  border-radius: 20px;
+  object-position: center center;
+  border-radius: 10px;
 }
 
 .product-card .badge {
@@ -116,6 +117,7 @@
 .image-wrapper {
   position: relative;
   overflow: hidden;
+  cursor:auto;
 }
 
 .image-wrapper .default-img,
@@ -161,16 +163,57 @@
     background-color: #fff;
     color: #434343;
     padding: .7rem 2.3rem;
-    border: 1px solid #434343;
+    /* border: 1px solid #434343; */
     font-size: 1rem;
+    text-wrap-mode: nowrap;
     max-height: 50px;
     text-transform: uppercase;
-    /* border: none; */
+    border: none;
     border-radius: 50px;
     cursor: pointer;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
 }
-
+.hover-button:hover{
+  color: #F8F8F8;
+  background: #222;
+}
+.card-buttons{
+    display: flex;
+    justify-content: space-between;
+}
+.card-buttons button{
+  padding: .7rem 2.3rem;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  font-size: 12px;
+  border-radius: 50px;
+}
+.card-buttons .Addtocart{
+  background: #212121;
+  border: 1px solid #212121;
+  color: #FFFFFF;
+  transition: all 0.2s ease-in-out;
+}
+.card-buttons .Addtocart:hover{
+  background-color: #444;
+  border: 1px solid #212121;
+  box-shadow: 2px 4px 10px #22222233;
+  transform: translateY(4%);
+  color: #fff;
+}
+.card-buttons .View-detail{
+border: 1px solid #434343;
+background: #fff;
+transition: all 0.3s ease-in-out;
+}
+.View-detail:hover{
+  border: 1px solid #212121;
+background: #444;
+box-shadow: 2px 4px 10px #22222233;
+transform: translateY(4%);
+color: #FFFFFF;
+}
 /* Show on image hover */
 .image-wrapper:hover .hover-button-wrapper {
   transform: translateX(-50%) translateY(0);

@@ -13,7 +13,7 @@ const ShelfHighlight = () => {
             <p className="lead text-muted">
               With its smooth and neat finish, the Book Shelf facilitates easy cleaning and maintenance.
             </p>
-            <button className=" ctn px-4 py-2 mt-3 text-uppercase">
+            <button className="shelf-ctn px-4 py-2 mt-3">
               Similar Products
             </button>
           </div>
