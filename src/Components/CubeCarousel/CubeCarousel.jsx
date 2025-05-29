@@ -87,7 +87,7 @@ const CubeCarousel = () => {
             <span class="${className}">
               <svg class="progress-ring" viewBox="0 0 24 24">
                 <circle class="progress-ring__circle" cx="12" cy="12" r="10" />
-                <circle class="progress-ring__dot" cx="12" cy="12" r="4" />
+                <circle class="progress-ring__dot" cx="12" cy="12" r="5" />
               </svg>
             </span>
           `,

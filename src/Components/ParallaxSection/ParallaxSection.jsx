@@ -32,34 +32,49 @@ const ParallaxSection = ({
   duration = 2000,
 }) => {
   const sectionRef = useRef(null);
+  const titleRef = useRef();
   const leftImgRef = useRef(null);
   const leftImgRef1 = useRef(null);
   const rightImgRef = useRef(null);
   const [displayNumber, setDisplayNumber] = useState("00000");
 
-  const rotateImagesOnScroll = useCallback(() => {
-    if (!sectionRef.current || !leftImgRef.current || !leftImgRef1.current || !rightImgRef.current)
-      return;
+ const rotateImagesOnScroll = useCallback(() => {
+  if (!sectionRef.current || !leftImgRef.current || !leftImgRef1.current || !rightImgRef.current || !titleRef.current)
+    return;
 
-    const sectionRect = sectionRef.current.getBoundingClientRect();
-    const viewportHeight = window.innerHeight;
-    const scrollProgress =
-      (viewportHeight - sectionRect.top) /
-      (viewportHeight + sectionRect.height);
-    const clampedProgress = Math.max(0, Math.min(1, scrollProgress));
-    const maxRotation = parseInt(rotation, 10) || 10;
+  const sectionRect = sectionRef.current.getBoundingClientRect();
+  const viewportHeight = window.innerHeight;
+  const scrollProgress =
+    (viewportHeight - sectionRect.top) /
+    (viewportHeight + sectionRect.height);
+  const clampedProgress = Math.max(0, Math.min(1, scrollProgress));
+  const maxRotation = parseInt(rotation, 10) || 10;
 
-    [
-      { ref: leftImgRef.current, reverse: true },
-      { ref: rightImgRef.current, reverse: false },
-      { ref: leftImgRef1.current, reverse: true },
-    ].forEach(({ ref, reverse }) => {
-      const angle = clampedProgress * maxRotation * (reverse ? -1 : 1);
-      window.requestAnimationFrame(() => {
-        ref.style.transform = `translate3d(0px, 0px, 0px) rotate(${angle}deg)`;
-      });
+  // Rotate images
+  [
+    { ref: leftImgRef.current, reverse: true },
+    { ref: rightImgRef.current, reverse: false },
+    { ref: leftImgRef1.current, reverse: true },
+  ].forEach(({ ref, reverse }) => {
+    const angle = clampedProgress * maxRotation * (reverse ? -1 : 1);
+    window.requestAnimationFrame(() => {
+      ref.style.transform = `translate3d(0px, 0px, 0px) rotate(${angle}deg)`;
     });
-  }, [rotation]);
+  });
+
+  // Blur title synced with scrollProgress
+  const maxBlur = 10; // max blur in px
+  const blurStartThreshold = 0.1736385392957558;
+  let blurValue = 0;
+
+  if (clampedProgress > blurStartThreshold) {
+    const normalizedProgress = (clampedProgress - blurStartThreshold) / (1 - blurStartThreshold);
+    blurValue = normalizedProgress * maxBlur;
+  }
+
+  titleRef.current.style.filter = `blur(${blurValue}px)`;
+}, [rotation]);
+
 
   useEffect(() => {
     window.addEventListener("scroll", rotateImagesOnScroll);
@@ -76,32 +91,36 @@ useEffect(() => {
     const rect = sectionRef.current.getBoundingClientRect();
     const windowHeight = window.innerHeight;
 
-    // Check if section is in viewport
     if (rect.top < windowHeight && rect.bottom > 0) {
-      setHasAnimated(true); // prevent re-running
+      setHasAnimated(true);
 
       let start = 0;
       const end = parseInt(target.toString().padStart(5, "0"));
       const range = end - start;
       const incrementTime = 30;
-      const totalSteps = duration / incrementTime;
+      const totalSteps = Math.ceil(duration / incrementTime);
       let step = 0;
 
       const interval = setInterval(() => {
         step++;
-        const progress = step / totalSteps;
-        const value = Math.floor(progress * range);
-        setDisplayNumber(value.toString().padStart(5, "0"));
-        if (step >= totalSteps) clearInterval(interval);
+
+        if (step >= totalSteps) {
+          setDisplayNumber(end.toLocaleString("en-IN")); // stop exactly at 50,000
+          clearInterval(interval);
+        } else {
+          const progress = step / totalSteps;
+          const value = Math.floor(progress * range);
+          setDisplayNumber(value.toLocaleString("en-IN"));
+        }
       }, incrementTime);
     }
   };
 
   window.addEventListener("scroll", handleScroll);
-  handleScroll(); // Initial check in case already in view
-
   return () => window.removeEventListener("scroll", handleScroll);
-}, [target, duration, hasAnimated]);
+}, [hasAnimated, target, duration]);
+
+
 
   return (
     <section
@@ -118,14 +137,14 @@ useEffect(() => {
                 className="hero__overlay hero__overlay--center hero__overlay--mobile--"
                 href={buttonLink}
               >
-                <div className="hero__overlay__content hero__overlay__content--center hero__overlay__content--mobile-- rte">
+                <div ref={titleRef} className="hero__overlay__content hero__overlay__content--center hero__overlay__content--mobile-- rte">
                   <div className="hero__text rte d-flex justify-content-center">
                     <div className="d-flex align-items-end gap-2">
                       <img src="/checkover_icon.svg" alt="" />
                       <p>{text}</p>
                     </div>
                   </div>
-                  <h2 className="hero__title hero">
+                  <h2  className="hero__title hero">
                     Check over{" "}
                     {displayNumber.split("").map((digit, index) => (
                       <span key={index} className="digit">
@@ -134,7 +153,8 @@ useEffect(() => {
                     ))}{" "}
                     <span style={{ color: "#AB7B53" }}>Products</span>
                   </h2>
-                  <div className="hero__button--gap">
+                </div>
+                <div className="hero__button--gap">
                     <a
                       href={buttonLink}
                       aria-label={buttonText}
@@ -143,7 +163,6 @@ useEffect(() => {
                       <span>{buttonText}</span>
                     </a>
                   </div>
-                </div>
               </div>
             </div>
           </div>
@@ -196,6 +215,21 @@ useEffect(() => {
                 className="wt-parallax__img wt-parallax__img--odd"
                 alt="Left"
                 ref={leftImgRef1}
+                onError={(e) => {
+                  e.target.src =
+                    "https://placehold.co/600x400/FF0000/FFFFFF?text=Image+Error";
+                }}
+              />
+            </a>
+          </li>
+           <li className="wt-parallax__gallery__item wt-parallax__gallery__item--even">
+            <a href="/collections/dining-room" tabIndex="0">
+              <img
+                src={rightImage}
+                loading="lazy"
+                className="wt-parallax__img wt-parallax__img--even"
+                alt="Right"
+                ref={rightImgRef}
                 onError={(e) => {
                   e.target.src =
                     "https://placehold.co/600x400/FF0000/FFFFFF?text=Image+Error";

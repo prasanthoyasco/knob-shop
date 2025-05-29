@@ -6,9 +6,9 @@
     align-content: center;
 }
 .sale-container hr{
-    color: #8D4F1B;
+  color: #8D4F1B;
     border: 2px solid;
-    margin: 0px 35% !important;
+    margin: 10px 34% !important;
 }
 .sale-button{
     color: white;

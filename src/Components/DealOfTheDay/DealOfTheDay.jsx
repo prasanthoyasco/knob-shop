@@ -44,12 +44,12 @@ const DealOfTheDay = () => {
           alt="Deal Visual"
         />
       </div>
-      <div className="deal-content">
-        <h2>Deal Of The Day</h2>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+      <div className="deal-content ">
+        <h2 className='mt-2' >Deal Of The Day</h2>
+        <p className='my-2' style={{maxWidth:'480px'}}>
+          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolor esse atque sapiente voluptatum recusandae possimus! Deleniti, sapiente eum! Reiciendis.
         </p>
-        <div className="countdown-timer">
+        <div className="countdown-timer mt-4">
           {['days', 'hours', 'minutes', 'seconds'].map((unit, idx) => (
             <div key={idx} className="time-segment">
               <div className="time-value">{timeLeft[unit]}</div>

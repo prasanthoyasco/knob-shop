@@ -19,7 +19,7 @@ const cards = [
   },
   {
     number: '03',
-    title: 'Wall Shelves',
+    title: 'Kitchen Wall Shelves',
     description: 'Smart space, sleek design.',
     bgImage: shelves,
   },
@@ -36,9 +36,9 @@ export default function EssentialsSection() {
           <p className="text-muted">Hardware, décor & utility pieces designed to perfect every space.</p>
         </div>
 
-       
+       <div className="col-md-8 col-sm-12 d-flex gap-3 justify-content-start flex-wrap flex-md-nowrap">
           {cards.map((card, index) => (
-            <div key={index} className="col-md-3 mb-4">
+            <div key={index} className="mb-4" style={{minWidth:'250px',maxWidth:'300px'}}>
               <div
                 className="card essential-card text-start h-100 w-100"
                 style={{ '--bg-image': `url(${card.bgImage})` }}
@@ -54,6 +54,7 @@ export default function EssentialsSection() {
               </div>
             </div>
           ))}
+          </div>
         </div>
       </div>
       
