@@ -81,7 +81,7 @@
 .wt-parallax__gallery__list {
   display: flex;
   flex-direction: column;
-  gap: 12vh;
+  /* gap: 12vh; */
   width: 100%; /* Ensure list takes full width for item alignment */
   align-items: center; /* Center items initially */
   padding: 5rem 0rem;

@@ -36,22 +36,6 @@ const products = [
     hoverImage: bchair1
   },
   {
-    id: 2,
-    title: "Knobs- Door Knob",
-    price: 16290,
-    oldPrice: 19412,
-    discount: 25,
-    rating: 4.9,
-     icons : [
-  { name: 'Card Key', imgUrl: '/product-icon/card_key.svg' },
-  { name: 'Pin Code', imgUrl: '/product-icon/pin_code.svg' },
-  { name: 'Fingerprint', imgUrl: '/product-icon/fingerprint.svg' },
-  { name: 'Machnic Key', imgUrl: '/product-icon/machnic_key.svg' }
-],
-    image: sofa2,
-    hoverImage: sofa
-  },
-  {
     id: 3,
     title: "Safty Locker",
     price: 9490,
@@ -70,6 +54,22 @@ const products = [
     rating: 4.8,
     image: sofa3,
     hoverImage: sofa3
+  },
+  {
+    id: 2,
+    title: "Knobs- Door Knob",
+    price: 16290,
+    oldPrice: 19412,
+    discount: 25,
+    rating: 4.9,
+     icons : [
+  { name: 'Card Key', imgUrl: '/product-icon/card_key.svg' },
+  { name: 'Pin Code', imgUrl: '/product-icon/pin_code.svg' },
+  { name: 'Fingerprint', imgUrl: '/product-icon/fingerprint.svg' },
+  { name: 'Machnic Key', imgUrl: '/product-icon/machnic_key.svg' }
+],
+    image: sofa2,
+    hoverImage: sofa
   },
   {
     id: 5,

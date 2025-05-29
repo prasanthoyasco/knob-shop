@@ -35,7 +35,7 @@ import AboutUs from "../Components/AboutUs/AboutUs";
 export const Home = () => {
   useEffect(() => {
   AOS.init({
-    duration: 800,       // animation duration
+    duration: 900,       // animation duration
     easing: 'ease-in-out',
     once: true,          // animate only once
     offset: 300          // trigger point from viewport

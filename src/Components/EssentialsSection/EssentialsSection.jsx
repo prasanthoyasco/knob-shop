@@ -14,13 +14,13 @@ const cards = [
   {
     number: '02',
     title: 'Kitchen Accessories',
-    description: 'Smart tools, seamless routines.',
+    description: 'Reliable movement for every cabinet and drawer.',
     bgImage: kitchen,
   },
   {
     number: '03',
     title: 'Kitchen Wall Shelves',
-    description: 'Smart space, sleek design.',
+    description: 'Reliable movement for every cabinet and drawer.',
     bgImage: shelves,
   },
 ];
@@ -32,7 +32,7 @@ export default function EssentialsSection() {
         <div className="container-fluid mx-md-4 px-0 d-flex align-items-center flex-wrap w-100 overflow-hidden">
              <div className="row d-flex align-items-center">
         <div className="mb-4 col-3 ">
-          <h2 className="h4 fw-semibold text-dark">Essential Details, Elevated Living</h2>
+          <h2 className="h4 fw-semibold text-dark" style={{fontSize:'2.5rem',marginBottom:'1rem',lineHeight:'3.4rem'}}>Essential Details, Elevated Living</h2>
           <p className="text-muted">Hardware, décor & utility pieces designed to perfect every space.</p>
         </div>
 

@@ -36,6 +36,7 @@ const ParallaxSection = ({
   const leftImgRef = useRef(null);
   const leftImgRef1 = useRef(null);
   const rightImgRef = useRef(null);
+  const rightImgRef1 = useRef(null);
   const [displayNumber, setDisplayNumber] = useState("00000");
 
  const rotateImagesOnScroll = useCallback(() => {
@@ -54,6 +55,7 @@ const ParallaxSection = ({
   [
     { ref: leftImgRef.current, reverse: true },
     { ref: rightImgRef.current, reverse: false },
+    { ref: rightImgRef1.current, reverse: false },
     { ref: leftImgRef1.current, reverse: true },
   ].forEach(({ ref, reverse }) => {
     const angle = clampedProgress * maxRotation * (reverse ? -1 : 1);
@@ -97,7 +99,7 @@ useEffect(() => {
       let start = 0;
       const end = parseInt(target.toString().padStart(5, "0"));
       const range = end - start;
-      const incrementTime = 30;
+      const incrementTime = 90;
       const totalSteps = Math.ceil(duration / incrementTime);
       let step = 0;
 
@@ -229,7 +231,7 @@ useEffect(() => {
                 loading="lazy"
                 className="wt-parallax__img wt-parallax__img--even"
                 alt="Right"
-                ref={rightImgRef}
+                ref={rightImgRef1}
                 onError={(e) => {
                   e.target.src =
                     "https://placehold.co/600x400/FF0000/FFFFFF?text=Image+Error";
