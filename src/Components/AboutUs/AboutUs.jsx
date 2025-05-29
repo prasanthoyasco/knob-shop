@@ -95,11 +95,8 @@ const AboutUs = () => {
             <div className="mx-5">
                 <h6 className="text-uppercase text-muted about-sub-head">Knobsshop</h6>
             <h2 className="fw-bold mb-4 about-head">About Us</h2>
-            <p className="text-muted mb-4">
-              From they fine john he give of rich he. They age and draw mrs like.
-              Improving end distrusts may instantly was household applauded incommode.
-              Why kept very ever home mrs. Considered sympathize ten uncommonly occasional
-              assistance sufficient not.
+            <p className="text-muted my-4">
+              From they fine john he give of rich he. They age and draw mrs like. Improving end distrusts may instantly was household applauded incommode. Why kept very ever home mrs. Considered sympathize ten uncommonly occasional assistance sufficient not.
             </p>
             <a href="#" className="custom-explore-btn">
               Explore More

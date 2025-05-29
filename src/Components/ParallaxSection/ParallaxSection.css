@@ -9,7 +9,7 @@
   height: 100vh;
   top: 0;
   display: flex;
- margin-top: 2rem;
+ padding-top: 3rem;
   /* background: var(--color-custom-background); - not defined, using existing */
   /* margin-top:var(--section-gap-top); margin-bottom:var(--section-gap-bottom); - using Tailwind gap */
 }
