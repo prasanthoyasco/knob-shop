@@ -66,6 +66,7 @@
 .cube-title {
   font-size: 1.55rem;
   font-weight: bold;
+  line-height: 2rem;
   margin-bottom: 1rem !important;
   animation: fadeInUp 1.6s ease both;
 }
