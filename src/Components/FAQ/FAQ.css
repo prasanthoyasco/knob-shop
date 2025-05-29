@@ -21,15 +21,13 @@
 .faq-animate {
   opacity: 0;
   transform: translateY(140px);
-  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  transition: opacity 0.6s ease, transform 0.6s ease;
 }
-
 
 .faq-animate.visible {
   opacity: 1;
   transform: translateY(0);
 }
-
 
 .Faq-container {
     display: flex;

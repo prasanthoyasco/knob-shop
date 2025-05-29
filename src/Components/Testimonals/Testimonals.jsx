@@ -78,12 +78,39 @@ const testimonials = [
   }
 ];
 
+const useScrollFadeIn = () => {
+  const ref = useRef(null);
+  const [hasAnimated, setHasAnimated] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !hasAnimated) {
+          setHasAnimated(true);
+        }
+      },
+      { threshold: 0.2 }
+    );
+
+    if (ref.current) observer.observe(ref.current);
+    return () => {
+      if (ref.current) observer.unobserve(ref.current);
+    };
+  }, [hasAnimated]);
+
+  return [ref, hasAnimated];
+};
+
+
 function Testimonals() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
   const [fadeClass, setFadeClass] = useState('fade-in');
-  const [isVisible, setIsVisible] = useState(false);
-  const sectionRef = useRef(null);
+
+  const [ref1, visible1] = useScrollFadeIn();
+  const [ref2, visible2] = useScrollFadeIn();
+  const [ref3, visible3] = useScrollFadeIn();
+  const [ref4, visible4] = useScrollFadeIn();
 
   useEffect(() => {
     const handleResize = () => {
@@ -97,21 +124,9 @@ function Testimonals() {
       triggerFade(handleNext);
     }, 4000);
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
-      },
-      { threshold: 0.2 }
-    );
-
-    if (sectionRef.current) observer.observe(sectionRef.current);
-
     return () => {
       window.removeEventListener('resize', handleResize);
       clearInterval(interval);
-      if (sectionRef.current) observer.unobserve(sectionRef.current);
     };
   }, [isMobile]);
 
@@ -153,10 +168,7 @@ function Testimonals() {
   }
 
   return (
-    <div
-      ref={sectionRef}
-      className={`testimonial-section-wrapper testimonial-animate ${isVisible ? 'visible' : ''}`}
-    >
+    <>
       <div className='heading-testimonial'>
         <h5>TESTIMONIALS</h5>
       </div>
@@ -168,12 +180,12 @@ function Testimonals() {
 
       <div className='testimonal-container'>
         <div className='testimonal-left-content'>
-          <h1>READ WHAT</h1>
-          <h1>OUR CLIENTS THINK</h1>
-          <div style={{ marginTop: "20px" }}>
+          <h1 ref={ref1} className={`scroll-fade ${visible1 ? 'visible' : ''}`}>READ WHAT</h1>
+          <h1 ref={ref2} className={`scroll-fade ${visible2 ? 'visible' : ''}`}>OUR CLIENTS THINK</h1>
+          <div ref={ref3} className={`scroll-fade ${visible3 ? 'visible' : ''}`} style={{ marginTop: "20px" }}>
             <p>We can already call over 5,000 people our customer, When you are coming</p>
           </div>
-          <button>DISCOVER NOW</button>
+          <button ref={ref4} className={`scroll-fade ${visible4 ? 'visible' : ''}`}>DISCOVER NOW</button>
         </div>
 
         <div className='testimonial-content'>
@@ -192,7 +204,7 @@ function Testimonals() {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 
