@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './FAQ.css';
 import faqImage from '../../Assets/FAQ-image.png';
 
@@ -23,20 +23,44 @@ const faqData = [
 
 function FAQ() {
   const [activeIndex, setActiveIndex] = useState(null);
+  const sectionRef = useRef();
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setVisible(entry.isIntersecting); // Set true when in view, false when out
+      },
+      { threshold: 0.2 } // Adjust how much needs to be visible to trigger
+    );
+  
+    const currentRef = sectionRef.current;
+  
+    if (currentRef) {
+      observer.observe(currentRef);
+    }
+  
+    return () => {
+      if (currentRef) {
+        observer.unobserve(currentRef);
+      }
+    };
+  }, []);
+  
 
   const toggleFAQ = (index) => {
     setActiveIndex(index === activeIndex ? null : index);
   };
 
   return (
-    <div className='Faq-container'>
+    <div className={`Faq-container faq-animate ${visible ? "visible" : ""}`} ref={sectionRef}>
       <img src={faqImage} className='faq-image' alt="FAQ Visual" />
       <div className='faq-content'>
         <h6>FAQ's</h6>
         <h1>YOU HAVE DIFFERENT QUESTIONS?</h1>
         <p>Our team will answer all your questions.</p>
         <p>We ensure a quick response.</p>
-        
+
         <div className="faq-list">
           {faqData.map((item, index) => (
             <div key={index}>
@@ -45,7 +69,9 @@ function FAQ() {
                 <span>{activeIndex === index ? '-' : '+'}</span>
               </div>
               {activeIndex === index && (
-                <div className="faq-answer"><p>{item.answer}</p></div>
+                <div className="faq-answer">
+                  <p>{item.answer}</p>
+                </div>
               )}
               <hr />
             </div>
