@@ -153,7 +153,7 @@ useEffect(() => {
                         {digit}
                       </span>
                     ))}{" "}
-                    <span style={{ color: "#AB7B53",fontStyle:'italic' }}>Products</span>
+                    <span style={{ color: "#AB7B53"}}>Products</span>
                   </h2>
                 </div>
                 <div className="hero__button--gap">

@@ -33,7 +33,7 @@ export default function EssentialsSection() {
              <div className="row d-flex align-items-center">
         <div className="mb-4 col-3 ">
           <h2 className="h4 fw-semibold text-dark" data-aos="fade-right"  data-aos-delay='100' style={{fontSize:'2.5rem',marginBottom:'1rem',lineHeight:'3.4rem'}}>Essential Details, Elevated Living</h2>
-          <p className="text-muted" data-aos="fade-right"  data-aos-delay='200'>Hardware, décor & utility pieces designed to perfect every space.</p>
+          <p className="text-muted" data-aos="fade-right"  data-aos-delay='200'>Discover modern hardware, décor, and utility solutions that bring style and function into perfect balance. From smooth drawer systems to space-saving kitchen essentials, our curated collection is built to elevate your everyday living experience — effortlessly, elegantly, and intelligently.</p>
         </div>
 
        <div className="col-md-8 col-sm-12 d-flex gap-3 justify-content-start flex-wrap flex-md-nowrap">
