@@ -10,7 +10,6 @@ import "swiper/css/effect-fade";
 import "./NewHero.css";
 
 const slides = [
-  // ... (your existing slides data)
   { id: 1, img: "/slider/lock.png", imgheight: 400, bg: "/slider/bg-1.jpg", offer: "Flat 15% Off All Items", title: "Digital Door Lock", circleColor: "#9CB8A5", description: "Bench suitable for living room Lorem ipsum dolor sit amet consectetur adipiscing elit sed incididunt et dolore magna labore et dolore magna aliqua.", number: "01" },
   { id: 2, img: "/slider/keyboard_tray.png", imgheight: 400, bg: "/slider/bg-2.jpg", offer: "NEW SEASON ARRIVAL", title: "Keyboard tray", circleColor: "#F08A58", description: "Bench suitable for living room Lorem ipsum dolor sit amet consectetur adipiscing elit sed incididunt et dolore magna labore et dolore magna aliqua.", number: "02" },
   { id: 3, img: "/slider/folding_table.png", imgheight: 400, bg: "/slider/bg-3.jpg", offer: "Flat 15% Off All Items", title: "table folding bracket", circleColor: "#00759F", description: "Bench suitable for living room Lorem ipsum dolor sit amet consectetur adipiscing elit sed incididunt et dolore magna labore et dolore magna aliqua.", number: "03" },
@@ -98,10 +97,10 @@ const NewHero = () => {
             >
               <div className="left-section">
                 {/* No longer using activeSlideIndex here, relies purely on retriggerAnimations */}
-                <p className="offer  ">{slide.offer}</p>
-                <h2 className="title ">{slide.title}</h2>
-                <p className="description  ">{slide.description}</p>
-                <button className="shop-btn  ">SHOP NOW</button>
+                <p className="offer animate-on-slide-left text-animation-delay-1">{slide.offer}</p>
+                <h2 className="title animate-on-slide-left text-animation-delay-2">{slide.title}</h2>
+                <p className="description animate-on-slide-left text-animation-delay-3">{slide.description}</p>
+                <button className="shop-btn animate-on-slide-left text-animation-delay-4">SHOP NOW</button>
                 <div className="hero-slide-number">
                   <div className="horizantal-line"></div>
                   {slide.number}

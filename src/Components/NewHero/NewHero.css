@@ -79,7 +79,10 @@ import "swiper/css/effect-fade"; */
   opacity: 0;
   transform: translateX(100px) scale(0.8);
 }
-
+.animate-on-slide-left{
+  opacity: 0;
+  transform: translateX(-100px) scale(0.8);
+}
 /* Class that triggers the animation */
 .animate-on-slide.active-zoom-in {
   animation: zoomInRight 0.8s ease-out forwards;
@@ -383,8 +386,18 @@ import "swiper/css/effect-fade"; */
   .left-section {
     text-align: center;
     max-width: 70%;
+    animation: zoominleft 0.3s ease-in-out;
   }
-
+@keyframes zoominleft {
+  from {
+    opacity: 0;
+    transform: translateX(-100px) scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
   .title {
     font-size: 32px;
   }
@@ -529,3 +542,4 @@ import "swiper/css/effect-fade"; */
     font-size: 12px;
   }
 }
+
