@@ -36,7 +36,7 @@ export default function EssentialsSection() {
           <p className="text-muted">Hardware, décor & utility pieces designed to perfect every space.</p>
         </div>
 
-       <div className="col-8 d-flex gap-3 justify-content-start">
+       <div className="col-md-8 col-sm-12 d-flex gap-3 justify-content-start flex-wrap flex-md-nowrap">
           {cards.map((card, index) => (
             <div key={index} className="mb-4" style={{minWidth:'250px',maxWidth:'300px'}}>
               <div

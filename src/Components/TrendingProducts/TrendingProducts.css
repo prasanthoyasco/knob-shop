@@ -43,9 +43,9 @@
 
 /* Product card wrapper: 4 items on screen */
 .product-scroll-item {
-  flex: 0 0 calc((95% - 3rem) / 3);
+  flex: 0 0 calc((90% - 3rem) / 3);
   scroll-snap-align: start;
-  margin: 1rem 0;
+  margin: .5rem 0;
   cursor:pointer;
 }
 

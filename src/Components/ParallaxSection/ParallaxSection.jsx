@@ -222,6 +222,21 @@ useEffect(() => {
               />
             </a>
           </li>
+           <li className="wt-parallax__gallery__item wt-parallax__gallery__item--even">
+            <a href="/collections/dining-room" tabIndex="0">
+              <img
+                src={rightImage}
+                loading="lazy"
+                className="wt-parallax__img wt-parallax__img--even"
+                alt="Right"
+                ref={rightImgRef}
+                onError={(e) => {
+                  e.target.src =
+                    "https://placehold.co/600x400/FF0000/FFFFFF?text=Image+Error";
+                }}
+              />
+            </a>
+          </li>
         </ul>
       </div>
     </section>
