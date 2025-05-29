@@ -36,9 +36,9 @@ const ProductCard = ({ product }) => {
   <div className="image-wrapper position-relative">
   <img src={image} alt={title} className="card-img-top default-img" />
   <img src={product.hoverImage} alt={title} className="card-img-top hover-img position-absolute top-0 start-0" />
-  <div className="hover-button-wrapper">
+  {/* <div className="hover-button-wrapper">
     <button className="hover-button">Choose Option</button>
-  </div>
+  </div> */}
 </div>
 
 
@@ -62,6 +62,10 @@ const ProductCard = ({ product }) => {
   <input type="radio" name="color" className="color-dot brown" />
   <input type="radio" name="color" className="color-dot gray" />
   <input type="radio" name="color" className="color-dot red" />
+</div>
+<div className="card-buttons mt-3">
+  <button className="View-detail">View Details</button>
+  <button className="Addtocart">Add To cart</button>
 </div>
     {/* <div className="product-colors">
       <span className="color-dot brown"></span>

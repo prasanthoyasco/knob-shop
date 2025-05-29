@@ -22,13 +22,17 @@
 .slides{
      animation: fadeIn 0.5s ease forwards;
 }
-.product-carosal .swiper-slide{
+.product-carosal .swiper-slide,.product-carosal .swiper-slide img{
   cursor: pointer;
   transition: 0.3s ease-in-out;
 }
 .product-carosal .swiper-slide:hover{
   transform: translateY(-10px);
 }
+.product-carosal .swiper-slide:hover img{
+  transform: scale(1.2);
+}
+
 .big-ctn{
   padding: 0.5rem 3rem !important;
   font-size: .9rem;

@@ -150,7 +150,7 @@ const NewHero = () => {
                     className="img-bg-clr circle-bg"
                     style={{ backgroundColor: slide.circleColor }}
                   ></div>
-                  <div className="circle-border"></div>
+                  <div className="circle-border"><img src="/hero-bg-strok.png" className="bg-strok" alt="" /></div>
                 </div>
               </div>
             </div>
