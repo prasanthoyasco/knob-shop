@@ -8,27 +8,39 @@ import testinomalImage4 from '../../Assets/testimonal-image4.png';
 const testimonials = [
   {
     imgage: testinomalImage1,
-    name: "Aarav Mehta",
+    name: "Jane Lee",
     profession : "Expert",
     message: "“My family built with Hallmark 16 years ago. Quality house still to this day, so this really helped us to make a decision.”"
   },
   {
     imgage: testinomalImage2,
-    name: "Sneha Kapoor",
+    name: "Joshua Keith",
     profession: "Senior client",
     message: "“These are the most beautiful cabinets!! So well made. The contractor installing them said they’re some of the best he’s ever seen. Everyone that sees them wants to know where I bought them.”"
   },
   {
     imgage: testinomalImage4,
-    name: "Raj Singh",
+    name: "Audrey Deleon",
     profession: "Expert",
-    message: "My family built with Hallmark 16 years ago. Quality house still to this day, so this really helped us to make a decision."
+    message: "From start to finish, the process was smooth. The attention to detail and care shown throughout the entire build made this experience truly remarkable."
   },
   {
     imgage: testinomalImage3,
+    name: "Deandre Rodgers",
+    profession: "Senior client",
+    message: "Working with this team was seamless. The quality of their craftsmanship truly speaks for itself, and the results exceeded all of my expectations without any compromises."
+  },
+  {
+    imgage: testinomalImage1,
+    name: "Raj Singh",
+    profession: "Expert",
+    message: "Their standards haven't changed in decades. What they built years ago still stands strong today. That legacy made choosing them again an easy decision."
+  },
+  {
+    imgage: testinomalImage2,
     name: "Priya Desai",
     profession: "Senior client",
-    message: "These are the most beautiful cabinets!! So well made. The contractor installing them said they’re some of the best he’s ever seen. Everyone that sees them wants to know where I bought them."
+    message: "Every corner of the home feels intentional. It’s rare to find a builder that balances beauty with durability so effortlessly — I’m genuinely impressed."
   },
 ];
 
