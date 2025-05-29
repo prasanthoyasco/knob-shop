@@ -86,13 +86,13 @@
   align-items: center; /* Center items initially */
   padding: 5rem 0rem;
   /* background: rgba(255, 255, 255, 0.15); */
-background: linear-gradient(
+/* background: linear-gradient(
     to bottom,
     transparent 0%,
     color(display-p3 1 1 1 / 0.15) 50%,
     transparent 100%
   );
-backdrop-filter: blur(9.9px);
+backdrop-filter: blur(9.9px); */
 }
 .wt-parallax__gallery__item {
   display: flex;
