@@ -11,11 +11,11 @@ import "./NewHero.css";
 
 const slides = [
   // ... (your existing slides data)
-  { id: 1, img: "/slider/lock.png", imgheight: 400, bg: "/slider/bg-1.jpg", offer: "Flat 15% Off All Items", title: "Digital Door Lock", circleColor: "#9CB8A5", description: "Bench suitable for living room Lorem ipsum dolor sit amet...", number: "01" },
-  { id: 2, img: "/slider/keyboard_tray.png", imgheight: 400, bg: "/slider/bg-2.jpg", offer: "NEW SEASON ARRIVAL", title: "Keyboard tray", circleColor: "#F08A58", description: "Bench suitable for living room Lorem ipsum dolor sit amet...", number: "02" },
-  { id: 3, img: "/slider/folding_table.png", imgheight: 400, bg: "/slider/bg-3.jpg", offer: "Flat 15% Off All Items", title: "table folding bracket", circleColor: "#00759F", description: "Bench suitable for living room Lorem ipsum dolor sit amet...", number: "03" },
-  { id: 4, img: "/slider/Door_stoper.png", imgheight: 400, bg: "/slider/bg-5.jpg", offer: "Flat 15% Off All Items", title: "door stoppers home depot", circleColor: "#DF7A26", description: "Bench suitable for living room Lorem ipsum dolor sit amet...", number: "04" },
-  { id: 5, img: "/slider/vIntage_lock.png", imgheight: 330, bg: "/slider/bg-6.jpg", offer: "Flat 15% Off All Items", title: "navtal lock decor", circleColor: "#54ef7d73", description: "Bench suitable for living room Lorem ipsum dolor sit amet...", number: "05" },
+  { id: 1, img: "/slider/lock.png", imgheight: 400, bg: "/slider/bg-1.jpg", offer: "Flat 15% Off All Items", title: "Digital Door Lock", circleColor: "#9CB8A5", description: "Bench suitable for living room Lorem ipsum dolor sit amet consectetur adipiscing elit sed incididunt labore et dolore magna aliqua.", number: "01" },
+  { id: 2, img: "/slider/keyboard_tray.png", imgheight: 400, bg: "/slider/bg-2.jpg", offer: "NEW SEASON ARRIVAL", title: "Keyboard tray", circleColor: "#F08A58", description: "Bench suitable for living room Lorem ipsum dolor sit amet consectetur adipiscing elit sed incididunt labore et dolore magna aliqua..", number: "02" },
+  { id: 3, img: "/slider/folding_table.png", imgheight: 400, bg: "/slider/bg-3.jpg", offer: "Flat 15% Off All Items", title: "table folding bracket", circleColor: "#00759F", description: "Bench suitable for living room Lorem ipsum dolor sit amet consectetur adipiscing elit sed incididunt labore et dolore magna aliqua.", number: "03" },
+  { id: 4, img: "/slider/Door_stoper.png", imgheight: 400, bg: "/slider/bg-5.jpg", offer: "Flat 15% Off All Items", title: "door stoppers home depot", circleColor: "#DF7A26", description: "Bench suitable for living room Lorem ipsum dolor sit amet consectetur adipiscing elit sed incididunt labore et dolore magna aliqua.", number: "04" },
+  { id: 5, img: "/slider/vIntage_lock.png", imgheight: 330, bg: "/slider/bg-6.jpg", offer: "Flat 15% Off All Items", title: "navtal lock decor", circleColor: "#54ef7d73", description: "Bench suitable for living room Lorem ipsum dolor sit amet consectetur adipiscing elit sed incididunt labore et dolore magna aliqua.", number: "05" },
 ];
 
 const NewHero = () => {
