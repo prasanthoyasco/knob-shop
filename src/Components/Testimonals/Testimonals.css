@@ -1,4 +1,25 @@
-/* Add this at the bottom of your CSS */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(140px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.testimonial-animate {
+  opacity: 0;
+  transform: translateY(140px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.testimonial-animate.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 .fade-in {
   opacity: 1;
   transition: opacity 0.9s ease-in;
