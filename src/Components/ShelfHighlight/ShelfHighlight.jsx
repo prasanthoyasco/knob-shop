@@ -6,7 +6,7 @@ const ShelfHighlight = () => {
   return (
     <div className="container-fluid pt-3 mt-3 bg-light-blue">
       <div className="container">
-        <div className="row align-items-center">
+        <div className="row align-items-center" data-aos="fade-right"  data-aos-delay='100'>
           {/* Left Text Content */}
           <div className="col-md-6 text-center text-md-start mb-4 mb-md-0">
             <h2 className="fw-bold display-6">WOOD SHELF</h2>
@@ -19,7 +19,7 @@ const ShelfHighlight = () => {
           </div>
 
           {/* Right Image */}
-          <div className="col-md-6 text-center">
+          <div className="col-md-6 text-center" data-aos="fade-left"  data-aos-delay='150'>
             <img
               src={shelfImage}
               alt="Wood Shelf"
