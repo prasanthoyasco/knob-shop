@@ -10,7 +10,9 @@ import p3 from '../Assets/product-category/p3.png'
 import p4 from '../Assets/product-category/p4.png'
 import p5 from '../Assets/product-category/p5.png'
 import left from '../Assets/left-image-interior.png'
+import left1 from '../Assets/left-image-interior1.png'
 import right from '../Assets/right-image-interior.png'
+import right1 from '../Assets/right-image-interior1.png'
 import CollectionsCarosal from "../Components/CollectionsCarosal/CollectionsCarosal";
 import SingleCarosal from "../Components/singleCarosal/SingleCarosal";
 import ShelfHighlight from "../Components/ShelfHighlight/ShelfHighlight";
@@ -122,6 +124,8 @@ export const Home = () => {
     buttonLink="/pages/inspired"
     leftImage={left}
     rightImage={right}
+    leftImage1={left1}
+    rightImage1={right1}
   />
 </div>
 <div data-aos="fade-right" data-aos-delay="100"><DealOfTheDay /></div>

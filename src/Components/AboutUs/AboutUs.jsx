@@ -59,6 +59,7 @@ const AboutUs = () => {
                 src="/about_us.jpg"
                 alt="Ribbon cutting"
                 className="img-fluid rounded shadow"
+                style={{maxWidth:'105%'}}
               />
 
               {/* Floating rating emojis */}
@@ -92,7 +93,7 @@ const AboutUs = () => {
 
           {/* Right Content Side */}
           <div className="col-md-6 ">
-            <div className="ms-5">
+            <div className="ms-4">
                 <h6 className="text-uppercase text-muted about-sub-head" data-aos="fade-left"  data-aos-delay='300'>Knobsshop</h6>
             <h2 className="mb-4 about-head" data-aos="fade-left"  data-aos-delay='300'>About Us</h2>
             <p className="para my-4"data-aos="fade-right"  data-aos-delay='350'>

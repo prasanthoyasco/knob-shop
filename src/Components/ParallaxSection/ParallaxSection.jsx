@@ -26,6 +26,8 @@ const ParallaxSection = ({
   buttonLink = "/pages/inspired",
   leftImage,
   rightImage,
+  leftImage1,
+  rightImage1,
   rotation = 10,
   sectionId = "template--24640570294456__parallax_EPkUDw",
   target = 50000,
@@ -182,7 +184,7 @@ useEffect(() => {
           <li className="wt-parallax__gallery__item">
             <a href="/collections/chairs" tabIndex="0">
               <img
-                src={leftImage}
+                src={leftImage1}
                 loading="lazy"
                 className="wt-parallax__img wt-parallax__img--odd"
                 alt="Left"
@@ -227,7 +229,7 @@ useEffect(() => {
            <li className="wt-parallax__gallery__item wt-parallax__gallery__item--even">
             <a href="/collections/dining-room" tabIndex="0">
               <img
-                src={rightImage}
+                src={rightImage1}
                 loading="lazy"
                 className="wt-parallax__img wt-parallax__img--even"
                 alt="Right"
