@@ -8,6 +8,25 @@
     animation: fadeInUp 1s ease forwards;
 
   }
+  img[alt="brand-0"] {
+    padding-bottom: 16px;
+  }
+  img[alt="brand-3"] {
+    padding-bottom: 10px;
+  }
+  
+  .brand-slide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+  }
+  .brand-slide.greyed img {
+    filter: grayscale(80%) brightness(70%);
+    opacity: 0.5;
+    transition: filter 0.4s ease, opacity 0.4s ease;
+  }
+  
   .brand-carousel {
     margin-top: 3%;
     margin-bottom: 3%;

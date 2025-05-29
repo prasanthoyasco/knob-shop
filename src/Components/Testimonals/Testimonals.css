@@ -1,20 +1,9 @@
-@keyframes float-up {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(150px); }
-}
 
-@keyframes float-down {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-150px); }
-}
 .testimonial-card {
     padding: 10px;
     max-width: 300px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     transition: transform 0.3s;
-    animation-duration: 4s;
-  animation-timing-function: ease-in-out;
-  animation-iteration-count: infinite;
   }
   .testimonal-container{
     display: flex;
@@ -45,19 +34,6 @@
     font-size: 18px;
     line-height: 29.8px;
     margin-top: 20px !important;
-  }
-
-  
-  /* Index-based custom styles */
-  .card-0 {
-    position: absolute;
-    right: 9%;
-    top: 5%;
-    height:365px;
-    width: 293px;
-    text-align: center;
-    animation-name: float-up;
-
   }
   .testimonal-image{
     height: 75px;
@@ -116,16 +92,49 @@
     padding: 7px 10px;
     border: 1px solid #A9A9A9;
   }
-  .card-1 {
-    text-align: center;
+  .card-0 {
+    
     position: absolute;
+    text-align: center;
     right: 53%;
     top: 25%;
     height: 440px;
     width: 293px;
-    animation-name: float-down;
-
+    z-index: 4;
   }
+  
+  .card-1 {
+    position: absolute;
+    right: 9%;
+    top: 5%;
+    height:440px;
+    width: 293px;
+    text-align: center;
+    z-index: 3;
+  }
+  
+  .card-2 {
+    position: absolute;
+    right: 53%;
+    top: 5%;
+    height:440px;
+    width: 293px;
+    text-align: center;
+    z-index: 2;
+  }
+  
+  .card-3 {
+    
+    position: absolute;
+    text-align: center;
+    right: 9%;
+    top: 25%;
+    height: 440px;
+    width: 293px;
+    z-index: 1;
+  }
+  
+  
   .testimonial-content{
     position: relative; /* This contains absolutely positioned .card-0 and .card-1 */
   width: 100%;

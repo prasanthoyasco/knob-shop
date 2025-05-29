@@ -7,41 +7,75 @@ import testinomalImage4 from '../../Assets/testimonal-image4.png';
 
 const testimonials = [
   {
+    idx:0,
     imgage: testinomalImage1,
     name: "Jane Lee",
     profession : "Expert",
     message: "“My family built with Hallmark 16 years ago. Quality house still to this day, so this really helped us to make a decision.”"
   },
   {
+    idx:1,
     imgage: testinomalImage2,
     name: "Joshua Keith",
     profession: "Senior client",
     message: "“These are the most beautiful cabinets!! So well made. The contractor installing them said they’re some of the best he’s ever seen. Everyone that sees them wants to know where I bought them.”"
   },
   {
+    idx:2,
     imgage: testinomalImage4,
     name: "Audrey Deleon",
     profession: "Expert",
     message: "From start to finish, the process was smooth. The attention to detail and care shown throughout the entire build made this experience truly remarkable."
   },
   {
+    idx:3,
     imgage: testinomalImage3,
     name: "Deandre Rodgers",
     profession: "Senior client",
     message: "Working with this team was seamless. The quality of their craftsmanship truly speaks for itself, and the results exceeded all of my expectations without any compromises."
   },
   {
+    idx:0,
     imgage: testinomalImage1,
-    name: "Raj Singh",
+    name: "Audrey Deleon",
     profession: "Expert",
-    message: "Their standards haven't changed in decades. What they built years ago still stands strong today. That legacy made choosing them again an easy decision."
+    message: "From start to finish, the process was smooth. The attention to detail and care shown throughout the entire build made this experience truly remarkable."
   },
   {
+    idx:1,
     imgage: testinomalImage2,
-    name: "Priya Desai",
+    name: "Deandre Rodgers",
     profession: "Senior client",
-    message: "Every corner of the home feels intentional. It’s rare to find a builder that balances beauty with durability so effortlessly — I’m genuinely impressed."
+    message: "Working with this team was seamless. The quality of their craftsmanship truly speaks for itself, and the results exceeded all of my expectations without any compromises."
   },
+  {
+    idx: 2,
+    imgage: testinomalImage3,
+    name: "Sophia Martinez",
+    profession: "Homeowner",
+    message: "We couldn't be happier. From planning to execution, everything was handled with such professionalism. The final result is a dream come true."
+  },
+  {
+    idx: 3,
+    imgage: testinomalImage4,
+    name: "Michael Chen",
+    profession: "Interior Designer",
+    message: "The design, the finish, the service—every element exceeded our expectations. I would recommend this team to anyone serious about quality."
+  },
+  {
+    idx: 0,
+    imgage: testinomalImage1,
+    name: "Emma Thompson",
+    profession: "First-time Buyer",
+    message: "As a first-time homebuyer, I had a lot of questions. Their team was patient, clear, and always ready to help. I'm so glad I chose them!"
+  },
+  {
+    idx: 1,
+    imgage: testinomalImage2,
+    name: "Carlos Rivera",
+    profession: "Real Estate Consultant",
+    message: "I’ve recommended them to several of my clients because their builds speak for themselves. Clean, strong, and built to last."
+  }
 ];
 
 function Testimonals() {
@@ -51,46 +85,47 @@ function Testimonals() {
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 1024);
-      setCurrentIndex(0); // reset index on resize
+      setCurrentIndex(0);
     };
   
     window.addEventListener('resize', handleResize);
   
-    // Auto-slide interval
     const interval = setInterval(() => {
       handleNext();
-    }, 4000); // 4 seconds
+    }, 4000);
   
     return () => {
       window.removeEventListener('resize', handleResize);
       clearInterval(interval);
     };
   }, [isMobile]);
-  
 
-  // Number of cards to show at once
   const cardsToShow = isMobile ? 1 : 2;
 
   const handlePrev = () => {
     setCurrentIndex((prev) => {
-      const newIndex = prev - cardsToShow;
-      return newIndex < 0 ? testimonials.length - cardsToShow : newIndex;
+      let newIndex = prev - cardsToShow;
+      if (newIndex < 0) {
+        newIndex = testimonials.length - cardsToShow;
+      }
+      return newIndex;
     });
   };
 
   const handleNext = () => {
     setCurrentIndex((prev) => {
-      const newIndex = prev + cardsToShow;
-      return newIndex >= testimonials.length ? 0 : newIndex;
+      let newIndex = prev + cardsToShow;
+      if (newIndex >= testimonials.length) {
+        newIndex = 0;
+      }
+      return newIndex;
     });
   };
-  
 
-  const visibleTestimonials = testimonials.slice(currentIndex, currentIndex + cardsToShow);
-
-  // Handle wrapping when near the end and less than cardsToShow left
-  if (visibleTestimonials.length < cardsToShow) {
-    visibleTestimonials.push(...testimonials.slice(0, cardsToShow - visibleTestimonials.length));
+  // Get the original indexes of the cards to show, with wrap-around
+  const visibleIndexes = [];
+  for (let i = 0; i < cardsToShow; i++) {
+    visibleIndexes.push((currentIndex + i) % testimonials.length);
   }
 
   return (
@@ -109,20 +144,24 @@ function Testimonals() {
           <h1>READ WHAT</h1>
           <h1>OUR CLIENTS THINK</h1>
           <div style={{marginTop:"20px"}}>
-          <p>We can already call over 5,000 people our customer, When you are coming</p></div>
+            <p>We can already call over 5,000 people our customer, When you are coming</p>
+          </div>
           <button>DISCOVER NOW</button>
         </div>
 
         <div className='testimonial-content'>
           <div className='testimonial-list'>
-            {visibleTestimonials.map((item, index) => (
-              <div key={index} className={`testimonial-card card-${index}`}>
-                <img src={item.imgage} className='testimonal-image' alt={item.name} />
-                <p className='testimonial-message'>“{item.message}”</p>
-                <p className='testimonial-name'>{item.name}</p>
-                <p className='testimonial-location'>{item.profession}</p>
-              </div>
-            ))}
+            {visibleIndexes.map((idx) => {
+              const item = testimonials[idx];
+              return (
+                <div key={item.idx} className={`testimonial-card card-${item.idx}`}>
+                  <img src={item.imgage} className='testimonal-image' alt={item.name} />
+                  <p className='testimonial-message'>“{item.message}”</p>
+                  <p className='testimonial-name'>{item.name}</p>
+                  <p className='testimonial-location'>{item.profession}</p>
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>

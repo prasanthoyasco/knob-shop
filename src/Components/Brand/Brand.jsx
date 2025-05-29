@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react';
 import Slider from "react-slick";
 import './Brand.css'
 import "slick-carousel/slick/slick.css";
@@ -14,15 +14,20 @@ import brand6 from '../../Assets/brand6.png'
 const images = [brand1, brand2, brand3, brand4, brand5, brand6];
 
 function Brand() {
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  const slidesToShow = 6; // default slidesToShow, same as in settings
+
   const settings = {
     dots: false,
     infinite: true,
     speed: 1500,
     autoplay: true,
     autoplaySpeed: 2000,
-    slidesToShow: 6,
+    slidesToShow,
     slidesToScroll: 1,
     arrows: false,
+    beforeChange: (oldIndex, newIndex) => setCurrentSlide(newIndex),
     responsive: [
       {
         breakpoint: 768,
@@ -39,16 +44,34 @@ function Brand() {
     ]
   };
 
+  // Helper to determine if a slide should be greyed out
+  // We'll grey out the first and last visible slides:
+  // So slides at currentSlide and currentSlide + slidesToShow - 1
+
   return (
     <div className='brands-container'>
       <h5>TRUSTED BY TOP BRANDS</h5>
       <div className='brand-carousel'>
         <Slider {...settings}>
-          {images.map((image, index) => (
-            <div key={index} className='brand-slide'>
-              <img src={image} alt={`brand-${index}`} />
-            </div>
-          ))}
+        {images.map((image, index) => {
+  const total = images.length;
+  const startIndex = currentSlide % total;
+  const endIndex = (startIndex + slidesToShow - 1) % total;
+
+  let classNames = `brand-slide index-${index}`;
+
+  // Optional: grey out edges
+  if (index === startIndex || index === endIndex) {
+    classNames += ' greyed';
+  }
+
+  return (
+    <div key={index} className={classNames}>
+      <img src={image} alt={`brand-${index}`} />
+    </div>
+  );
+})}
+
         </Slider>
       </div>
       <button>SEE ALL BRANDS</button>
