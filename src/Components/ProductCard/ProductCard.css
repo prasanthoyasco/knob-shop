@@ -276,8 +276,8 @@
   transition: all 0.2s ease-in-out;
 }
 .card-buttons .Addtocart:hover{
-  background-color: #444;
-  border: 1px solid #212121;
+  background-color: #8D4F1B;
+  border: 1px solid #8D4F1B;
   box-shadow: 2px 4px 10px #22222233;
   transform: translateY(4%);
   color: #fff;
@@ -288,8 +288,8 @@ background: #fff;
 transition: all 0.3s ease-in-out;
 }
 .View-detail:hover{
-  border: 1px solid #212121;
-background: #444;
+  background-color: #8D4F1B;
+  border: 1px solid #8D4F1B;
 box-shadow: 2px 4px 10px #22222233;
 transform: translateY(4%);
 color: #FFFFFF;

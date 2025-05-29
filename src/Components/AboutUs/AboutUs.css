@@ -1,11 +1,21 @@
-
+@import url('https://fonts.googleapis.com/css2?family=Abhaya+Libre:wght@400;500;600;700;800&display=swap');
 .about-us-section {
   background: #fff;
   overflow: hidden;
+  padding-top: 8rem;
+  padding-bottom: 5rem ;
 }
 
 .about-head{
- text-transform: uppercase;
+  font-family: "Abhaya Libre", serif !important;
+    font-weight: 900;
+    font-size: 50px;
+    text-transform: uppercase;
+}
+.para{
+  font-size: 16px;
+  color: #6d6762 !important;
+  max-width: 100% !important;
 }
 
 .about-sub-head{
@@ -19,8 +29,8 @@
 
 .floating-badge {
   position: absolute;
-  top: -40px;
-  right: 10px;
+  top: -123px;
+  right: 55px;
   background: white;
   padding: 10px 15px;
   border-radius: 10px;
