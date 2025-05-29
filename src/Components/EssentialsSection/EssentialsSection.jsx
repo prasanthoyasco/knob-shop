@@ -32,13 +32,14 @@ export default function EssentialsSection() {
         <div className="container-fluid mx-md-4 px-0 d-flex align-items-center flex-wrap w-100 overflow-hidden">
              <div className="row d-flex align-items-center">
         <div className="mb-4 col-3 ">
-          <h2 className="h4 fw-semibold text-dark" style={{fontSize:'2.5rem',marginBottom:'1rem',lineHeight:'3.4rem'}}>Essential Details, Elevated Living</h2>
-          <p className="text-muted">Hardware, décor & utility pieces designed to perfect every space.</p>
+          <h2 className="h4 fw-semibold text-dark" data-aos="fade-right"  data-aos-delay='100' style={{fontSize:'2.5rem',marginBottom:'1rem',lineHeight:'3.4rem'}}>Essential Details, Elevated Living</h2>
+          <p className="text-muted" data-aos="fade-right"  data-aos-delay='200'>Hardware, décor & utility pieces designed to perfect every space.</p>
         </div>
 
        <div className="col-md-8 col-sm-12 d-flex gap-3 justify-content-start flex-wrap flex-md-nowrap">
           {cards.map((card, index) => (
-            <div key={index} className="mb-4" style={{minWidth:'250px',maxWidth:'300px'}}>
+            <div key={index} className="mb-4" style={{minWidth:'250px',maxWidth:'300px'}} data-aos="fade-up"
+          data-aos-delay={100 * (index+1)}>
               <div
                 className="card essential-card text-start h-100 w-100"
                 style={{ '--bg-image': `url(${card.bgImage})` }}

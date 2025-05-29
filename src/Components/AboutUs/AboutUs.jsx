@@ -49,11 +49,11 @@ const AboutUs = () => {
   }, [hasAnimated]);
 
   return (
-    <section ref={counterRef} className="about-us-section py-5 my-5">
-      <div className="container">
+    <section ref={counterRef} className="about-us-section my-5">
+      <div className="container-flued mx-5">
         <div className="row align-items-center">
           {/* Left Image Side */}
-          <div className="col-md-6 position-relative">
+          <div className="col-md-6 position-relative" data-aos="fade-left"  data-aos-delay='100'>
             <div className="image-wrapper">
               <img
                 src="/about_us.jpg"
@@ -62,14 +62,14 @@ const AboutUs = () => {
               />
 
               {/* Floating rating emojis */}
-              <div className="floating-rating">
+              <div className="floating-rating" data-aos="fade-left"  data-aos-delay='200'>
                 <span className="fw-bold">Best ratings.</span>
                 <p className="small mb-1">Lorem ipsum, dolor sit amet adipisicing elit.</p>
                 <div className="emojis">😡 😐 😃 😍 😁</div>
               </div>
 
               {/* Floating badge top-right */}
-              <div className="floating-badge">
+              <div className="floating-badge" data-aos="fade-right"  data-aos-delay='300'>
                 <div className="counter mt-2 mb-3 d-flex justify-content-between">
                   <h5 className=""><strong style={{color:'#000339', fontSize:'1.6rem'}}>{counter}   +</strong></h5>
                   <FaArrowTrendUp size={24} color="#50D28A"/>
@@ -92,12 +92,14 @@ const AboutUs = () => {
 
           {/* Right Content Side */}
           <div className="col-md-6 ">
-            <div className="mx-5">
+            <div className="ms-5 ">
                 <h6 className="text-uppercase text-muted about-sub-head">Knobsshop</h6>
-            <h2 className="fw-bold mb-4 about-head">About Us</h2>
-            <p className="text-muted my-4">
-              From they fine john he give of rich he. They age and draw mrs like. Improving end distrusts may instantly was household applauded incommode. Why kept very ever home mrs. Considered sympathize ten uncommonly occasional assistance sufficient not.
+            <h2 className="mb-4 about-head">About Us</h2>
+            <p className="para my-4">
+              For over 25 years, KnobsShop has been a trusted name in premium hardware and home utility solutions. What began as a small family-run store has grown into a leading destination for quality knobs, handles, and décor fittings that blend function with style.
             </p>
+            <p className="para mb-4">
+We believe in delivering products that last, service that cares, and designs that elevate everyday living. With decades of craftsmanship, satisfied customers, and innovation behind us — we continue to bring timeless detailing to modern Indian homes.</p>
             <a href="#" className="custom-explore-btn">
               Explore More
             </a>

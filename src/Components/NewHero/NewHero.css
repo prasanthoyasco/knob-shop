@@ -1,10 +1,14 @@
+/* Ensure the basic Swiper styles are imported in your main App.js or similar */
+/* import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import "swiper/css/effect-fade"; */
+
 .lighting-home-slider {
   width: 100%;
-  /* background: linear-gradient(97.9deg, #EBEBEB 10.63%, #E3E3E3 98.83%); */
-  /* background: linear-gradient(97.9deg, color(display-p3 0.922 0.922 0.922) 10.63%, color(display-p3 0.890 0.890 0.890) 98.83%); */
   position: relative;
   z-index: 0;
-  overflow: hidden; /* Changed from visible to hidden to prevent content overflow */
+  overflow: hidden;
 }
 .lighting-home-slider .swiper {
   position: relative;
@@ -20,7 +24,7 @@
 .lighting-home-slider .swiper-slide {
   opacity: 0 !important;
   transition: opacity 0.5s ease-in-out;
-  position: absolute;
+  position: absolute; /* Ensures slides layer correctly for fade */
   top: 0;
   left: 0;
   width: 100%;
@@ -35,7 +39,7 @@
 
 .slide-content {
   display: flex;
-  justify-content: space-between; /* Changed to center for mobile */
+  justify-content: space-between;
   align-items: center;
   gap: 30px;
   background-size: cover !important;
@@ -43,19 +47,53 @@
   min-height: 600px;
   position: relative;
   /* background image set inline in JS for dynamic backgrounds */
-  text-align: center; /* Align text to center by default */
+  text-align: center;
 }
 
 .left-section {
-  max-width: 50%; /* Increased max-width for better text display on larger screens */
-  text-align: left; /* Ensure text alignment is centered within this section */
+  max-width: 50%;
+  text-align: left;
 }
 .rightImg {
   width: 50%;
   display: flex;
-  justify-content: space-around;
+  justify-content: center; /* Center the image elements */
+  align-items: center; /* Align vertically */
   max-width: 55%;
+  position: relative; /* For absolute positioning of children */
 }
+
+/* New wrapper to contain all circular elements and the product image */
+.rightImg .circle-elements {
+  position: relative;
+  width: 100%; /* Take full width of rightImg */
+  height: 100%; /* Take full height of rightImg */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+/* All animated elements should initially be hidden/transformed for the animation */
+.animate-on-slide {
+  opacity: 0;
+  transform: translateX(100px) scale(0.8);
+}
+
+/* Class that triggers the animation */
+.animate-on-slide.active-zoom-in {
+  animation: zoomInRight 0.8s ease-out forwards;
+}
+
+/* Animation delays for individual elements */
+.text-animation-delay-1 { animation-delay: 0.1s; }
+.text-animation-delay-2 { animation-delay: 0.2s; }
+.text-animation-delay-3 { animation-delay: 0.3s; }
+.text-animation-delay-4 { animation-delay: 0.4s; }
+
+.border-animation-delay { animation-delay: 0.2s; } /* Adjusted for visual flow */
+.product-animation-delay { animation-delay: 0.3s; } /* Adjusted for visual flow */
+
 
 .offer {
   font-size: 14px;
@@ -63,7 +101,6 @@
   text-transform: uppercase;
   color: #333 !important;
   margin-bottom: 10px !important;
-  animation: fadeIn 0.5s ease forwards;
 }
 
 .title {
@@ -74,7 +111,6 @@
   text-transform: uppercase;
   margin-bottom: 20px !important;
   color: #111 !important;
-  animation: fadeIn 0.5s ease forwards;
 }
 
 .description {
@@ -83,7 +119,6 @@
   line-height: 1.85rem;
   color: #444 !important;
   margin-bottom: 30px !important;
-  animation: fadeIn 0.5s ease forwards;
 }
 
 .shop-btn {
@@ -96,7 +131,6 @@
   font-weight: 400;
   border-radius: 3px;
   letter-spacing: 1px;
-  animation: fadeIn 0.5s ease forwards;
 }
 
 .shop-btn:hover {
@@ -161,35 +195,31 @@
 .swiper-pagination-bullet-active {
   opacity: 1;
 }
-.circle-bg {
-      position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+
+/* Ensure these elements are absolutely positioned within the .circle-elements wrapper */
+.img-bg-clr, .circle-border, .product-img {
+    position: absolute;
+    /* Adjust top/left/transform if needed to center within .circle-elements */
 }
+
 .img-bg-clr {
-  position: absolute;
   z-index: 1;
-  top: auto;
   width: 400px;
   height: 400px;
   border-radius: 50%;
+  background-color: lightgray; /* Fallback */
   display: flex;
   justify-content: center;
   align-items: center;
-  animation: zoomInRight 0.8s ease-out forwards;
-  animation-delay: 0.1s;
 }
 
 .circle-border {
-  position: absolute;
   z-index: 1;
   width: 480px;
   height: 480px;
   display: flex;
   align-items: center;
   justify-content: center;
-  animation: zoomInRight 0.8s ease-out forwards;
 }
 .circle-border .bg-strok {
   width: 100%;
@@ -204,22 +234,20 @@
     transform: rotate(0deg);
   }
   100% {
-     opacity: 1;
+    opacity: 1;
     transform: rotate(360deg);
   }
 }
 
 
-.circle-bg img {
+.product-img { /* Renamed from .circle-bg img for clarity */
   max-height: 600px;
   z-index: 2;
   object-fit: contain;
-  opacity: 0;
-  animation: zoomInRight 0.8s ease-out forwards;
-  animation-delay: 0.2s;
+  /* Initial opacity and transform set by .animate-on-slide */
 }
 .text-uppercase{
-    font-size: 1.5rem !important;
+  font-size: 1.5rem !important;
 }
 
 /* new */
@@ -329,7 +357,7 @@
   color: #333;
 }
 
-/* Fade-in animation keyframes */
+/* Fade-in animation keyframes for left section */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -353,7 +381,7 @@
 
   .left-section {
     text-align: center;
-    max-width: 70%; /* Allow text to take more width */
+    max-width: 70%;
   }
 
   .title {
@@ -364,8 +392,20 @@
     font-size: 14px;
   }
 
-  .slide-number {
-    bottom: 20px;
+  .hero-slide-number { /* Adjust position for smaller screens */
+    right: 50px;
+  }
+
+  .img-bg-clr, .circle-border, .product-img {
+      width: 300px;
+      height: 300px;
+  }
+  .circle-border {
+      width: 350px;
+      height: 350px;
+  }
+  .product-img {
+      max-height: 400px;
   }
 }
 
@@ -376,49 +416,42 @@
     min-height: 400px;
     background-position: center right !important;
     justify-content: center;
-    flex-direction: column; /* Stack text and image vertically */
-    text-align: center; /* Center align text */
+    flex-direction: column;
+    text-align: center;
   }
 
   .left-section {
     text-align: center;
-    max-width: 90%; /* Text takes almost full width */
+    max-width: 90%;
     z-index: 1;
-    margin-bottom: 20px; /* Space between text and potentially a bottom image */
+    margin-bottom: 20px;
   }
   .slide-content::before {
     content: "";
     position: absolute;
     top: 0;
     left: 0;
-    z-index: -1;
+    z-index: 0; /* Changed to 0 so other content can be z-index 1 */
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.329); /* Black with 40% opacity */
-    z-index: 1; /* Place it between the background and text */
+    background-color: rgba(0, 0, 0, 0.329);
   }
 
   .offer {
     font-size: 12px;
     color: #e4e4e4 !important;
-    animation: fadeIn 0.5s ease forwards;
-    animation-delay: 0.2s;
   }
 
   .title {
     font-size: 28px;
     color: #fff !important;
     margin-bottom: 15px !important;
-    animation: fadeIn 0.5s ease forwards;
-    animation-delay: 0.4s;
   }
 
   .description {
     font-size: 13px;
     color: #dfdfdf !important;
     margin-bottom: 20px !important;
-    animation: fadeIn 0.5s ease forwards;
-    animation-delay: 0.6s;
   }
 
   .shop-btn {
@@ -435,7 +468,7 @@
   }
 
   .custom-nav {
-    margin: 0 10px; /* Adjust margin for smaller screens */
+    margin: 0 10px;
   }
 
   .custom-nav-btn {
@@ -444,16 +477,38 @@
     margin: 0 10px;
   }
 
-  /* Hide custom navigation buttons on very small screens if desired */
   .custom-nav-btn {
-    display: none;
+    display: none; /* Hide custom nav buttons on mobile */
   }
   .lighting-home-slider .swiper-pagination {
-    margin-top: 10px; /* Reduce space for pagination */
+    margin-top: 10px;
   }
   .progress-ring {
     width: 15px !important;
     height: 15px !important;
+  }
+
+  .rightImg { /* On mobile, move image below text */
+    width: 100%;
+    max-width: 300px; /* Constrain max width for image on mobile */
+    order: 1; /* Place image after text visually */
+    margin-top: 20px;
+  }
+
+  .img-bg-clr, .circle-border, .product-img {
+      width: 250px;
+      height: 250px;
+  }
+  .circle-border {
+      width: 280px;
+      height: 280px;
+  }
+  .product-img {
+      max-height: 300px;
+  }
+
+  .hero-slide-number {
+    display: none; /* Hide slide number on mobile */
   }
 }
 
