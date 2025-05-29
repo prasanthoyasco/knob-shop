@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './Testimonals.css';
 import testinomalImage1 from '../../Assets/testimonal-image1.png';
 import testinomalImage2 from '../../Assets/testimonal-image2.png';
@@ -82,6 +82,8 @@ function Testimonals() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
   const [fadeClass, setFadeClass] = useState('fade-in');
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef(null);
 
   useEffect(() => {
     const handleResize = () => {
@@ -95,9 +97,21 @@ function Testimonals() {
       triggerFade(handleNext);
     }, 4000);
 
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      { threshold: 0.2 }
+    );
+
+    if (sectionRef.current) observer.observe(sectionRef.current);
+
     return () => {
       window.removeEventListener('resize', handleResize);
       clearInterval(interval);
+      if (sectionRef.current) observer.unobserve(sectionRef.current);
     };
   }, [isMobile]);
 
@@ -108,7 +122,7 @@ function Testimonals() {
     setTimeout(() => {
       callback();
       setFadeClass('fade-in');
-    }, 300); // must match the CSS fade duration
+    }, 300);
   };
 
   const handlePrev = () => {
@@ -139,7 +153,10 @@ function Testimonals() {
   }
 
   return (
-    <>
+    <div
+      ref={sectionRef}
+      className={`testimonial-section-wrapper testimonial-animate ${isVisible ? 'visible' : ''}`}
+    >
       <div className='heading-testimonial'>
         <h5>TESTIMONIALS</h5>
       </div>
@@ -175,7 +192,7 @@ function Testimonals() {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 
