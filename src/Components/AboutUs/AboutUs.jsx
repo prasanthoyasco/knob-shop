@@ -75,7 +75,7 @@ const AboutUs = () => {
                   <FaArrowTrendUp size={24} color="#50D28A"/>
                 </div>
                 <p className="small my-2" color="#97918B">Sales in July 2021 with 5 star ratings</p>
-                <hr style={{color:'#FB9F6D',opacity:'1'}} />
+                <hr style={{color:'#FB9F6D',opacity:'1',marginBottom:'1rem !important'}} />
                 <div className="avatars">
                   {[...Array(6)].map((_, i) => (
                     <img

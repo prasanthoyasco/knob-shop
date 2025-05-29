@@ -1,4 +1,7 @@
 import Hero from "../Components/Hero/Hero"
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+import { useEffect } from 'react';
 import NavbarTop from "../Components/Navbar/NavbarTop/NavbarTop"
 import ProductCarousel from "../Components/ProductCarousel/ProductCarousel";
 import p1 from '../Assets/product-category/p1.png'
@@ -30,6 +33,15 @@ import AboutUsGrid from "../Components/AboutUsGrid/AboutUsGrid";
 import AboutUs from "../Components/AboutUs/AboutUs";
 
 export const Home = () => {
+  useEffect(() => {
+  AOS.init({
+    duration: 800,       // animation duration
+    easing: 'ease-in-out',
+    once: true,          // animate only once
+    offset: 300          // trigger point from viewport
+  });
+}, []);
+
   const products = [
   {
     title: "Clocks",
@@ -92,35 +104,37 @@ export const Home = () => {
   <>
    <NavbarTop/>
    {/* <Navbar/> */}
-      <NewHero/>
+     <div data-aos="fade-up" data-aos-delay="0" ><NewHero /></div>
       {/* <LockSlider/> */}
-      <ProductCarousel products={products} />
+     <div data-aos="fade-up" data-aos-delay="100" ><ProductCarousel products={products} /></div>
       {/* <CollectionsCarosal/> */}
-      <CubeCarousel/>
-      <ShelfHighlight/>
-      <SingleCarosal/>
-      <TrendingProducts/>
-      <EssentialsSection/>
-      <ParallaxSection
-      rotation={10}
-      title="Check over 50,000 Products"
-      subtitle="See our latest inspirations"
-      buttonText="Check now"
-      buttonLink="/pages/inspired"
-      leftImage={left}
-      rightImage={right}
-    />
-    <DealOfTheDay/>
-    <ShopTheRoom/>
-      <Brand/>
-      <Testimonals/>
-      <AboutUs/>
+      <div data-aos="fade-up" data-aos-delay="100"><CubeCarousel /></div>
+      <div data-aos="fade-up" data-aos-delay="100"><ShelfHighlight /></div>
+      <div data-aos="fade-up" data-aos-delay="200"><SingleCarosal /></div>
+<div data-aos="fade-up" data-aos-delay="400"><TrendingProducts /></div>
+<div data-aos="fade-up" data-aos-delay="100"><EssentialsSection /></div>
+<div data-aos="fade-up" data-aos-delay="100">
+  <ParallaxSection
+    rotation={10}
+    title="Check over 50,000 Products"
+    subtitle="See our latest inspirations"
+    buttonText="Check now"
+    buttonLink="/pages/inspired"
+    leftImage={left}
+    rightImage={right}
+  />
+</div>
+<div data-aos="fade-right" data-aos-delay="100"><DealOfTheDay /></div>
+<div data-aos="fade-up" data-aos-delay="100"><ShopTheRoom /></div>
+<div data-aos="fade-up" data-aos-delay="100"><Brand /></div>
+<div data-aos="fade-up" data-aos-delay="100"><Testimonals /></div>
+<div data-aos="fade-up" data-aos-delay="100"><AboutUs /></div>
       {/* <AboutUsGrid/> */}
-      <Sale/>
-      <FAQ/>
-      <OurServices/>
-      <LocationMap/>
-      <Footer/>
+      <div data-aos="fade-up" data-aos-delay="100" data-aos-offset="500"><Sale /></div>
+<div data-aos="fade-up" data-aos-delay="100"><FAQ /></div>
+<div data-aos="fade-up" data-aos-delay="100"><OurServices /></div>
+<div data-aos="fade-up" data-aos-delay="100"><LocationMap /></div>
+<div data-aos="fade-up" data-aos-delay="100"><Footer /></div>
       </>
   )
 }
