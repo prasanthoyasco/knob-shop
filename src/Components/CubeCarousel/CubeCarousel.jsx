@@ -68,7 +68,7 @@ const CubeCarousel = () => {
       <Swiper
         modules={[Navigation, EffectFade, Pagination, Autoplay]}
         loop={true}
-        // autoplay={{ delay: 4000, disableOnInteraction: false }}
+        autoplay={{ delay: 4000, disableOnInteraction: false }}
         effect="fade"
         fadeEffect={{ crossFade: true }}
         navigation={{
