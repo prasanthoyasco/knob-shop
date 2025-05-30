@@ -505,9 +505,9 @@ import "swiper/css/effect-fade"; */
 
   .rightImg { /* On mobile, move image below text */
     width: 100%;
-    max-width: 300px; /* Constrain max width for image on mobile */
+    max-width: 350px; /* Constrain max width for image on mobile */
     order: 1; /* Place image after text visually */
-    margin-top: 18vh;
+    margin-top: 15vh;
   }
 
   .img-bg-clr, .circle-border, .product-img {
