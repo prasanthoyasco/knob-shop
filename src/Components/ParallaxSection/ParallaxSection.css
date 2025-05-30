@@ -134,7 +134,7 @@ text-align: center;
 }
 @media (max-width: 768px) {
   .parallax-section {
-  min-height: 400vh;
+  min-height: 380vh !important;
  }
 .wt-parallax__content{
   align-items: center !important;
