@@ -167,5 +167,9 @@
     .brand-images {
       gap: 0.5rem;
     }
+    .brand-slide.greyed img {
+      filter: none !important;
+      opacity: 1 !important;
+    }
   }
   

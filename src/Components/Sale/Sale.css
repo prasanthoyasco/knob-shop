@@ -20,3 +20,25 @@
     background-color: transparent;
     color: #000;
 }
+@media (max-width: 600px) {
+    .sale-container {
+      height: auto;
+      padding: 40px 20px;
+      background-size: cover;
+      background-position: center;
+    }
+  
+    .sale-container hr {
+      margin: 10px auto !important;
+      width: 60%;
+    }
+  
+    .sale-button {
+      width: 100%;
+      max-width: 300px;
+      padding: 10px 20px;
+      font-size: 16px;
+      margin-top: 20px;
+    }
+  }
+  
