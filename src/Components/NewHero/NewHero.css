@@ -533,7 +533,7 @@ import "swiper/css/effect-fade"; */
     padding: 30px 15px;
     min-height: 80vh;
     justify-content: space-evenly;
-    gap: 8rem;
+    gap: 5rem;
     background-position: center right !important;
   }
 
