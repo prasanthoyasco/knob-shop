@@ -188,82 +188,84 @@
     transform: translateY(-5px);
   }
   /* Responsive tweaks */
+/* REMOVE or COMMENT this block (targets tablets/laptops too) */
+/*
 @media (max-width: 1024px) {
+  ...
+}
+*/
+
+@media (max-width: 600px) {
   .testimonal-container {
     flex-direction: column;
     height: auto;
-    align-items: center;
-  }
-
-  .testimonal-left-content {
-    width: 90%;
-    margin: 5% auto;
-    text-align: center;
-  }
-
-  .testimonal-left-content h1 {
-    font-size: 32px;
-  }
-
-  .testimonal-left-content p {
-    font-size: 18px;
-    width: 90%;
-    margin: 0 auto;
-  }
-
-  .next-prev-icon {
-    justify-content: center;
-    margin: 20px auto;
-  }
-
-  .card-0, .card-1 {
-    position: static;
-    margin: 50% auto;
-    width: 100%;
-    max-width: 300px;
+    margin-bottom: 10%;
   }
 
   .testimonial-content {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    gap: 16px;
+    margin-left: 9px;
     height: auto;
     position: static;
+    align-items: center;
+
+  }
+
+  .testimonial-content::-webkit-scrollbar {
+    display: none;
+  }
+
+  .testimonial-card {
+    width: 100%;
+    scroll-snap-align: center;
+    position: relative !important;
+    margin: 0 auto;
+  }
+
+  /* Remove absolute positioning on small screens */
+  .card-0,
+  .card-1,
+  .card-2,
+  .card-3 {
+    position: relative !important;
+    top: auto !important;
+    right: auto !important;
+    left: auto !important;
+    z-index:1001 !important;
+    width: 100%;
+  }
+
+  .testimonal-left-content {
+    width: 100%;
+    height: auto;
+    margin: 10% 0%;
+    text-align: center;
+  }
+
+  .testimonal-left-content h1 {
+    font-size: 25px !important;
+    width: 100%;
+    letter-spacing: 2px !important;
+  }
+
+  .testimonal-left-content p {
+    font-size: 16px;
+    width: 100%;
   }
 
   .testimonal-image {
     margin-left: auto;
     margin-right: auto;
   }
-}
 
-@media (max-width: 600px) {
-  .testimonal-left-content h1 {
-    font-size: 26px;
-  }
-
-  .testimonal-left-content p {
-    font-size: 16px;
-  }
-
-  .testimonial-message {
-    font-size: 14px;
-    line-height: 28px;
-  }
-
-  .testimonial-location,
-  .testimonial-name {
-    font-size: 14px;
-  }
-
-  .next-prev-icon i {
-    height: 32px;
-    width: 32px;
-    padding: 6px 9px;
-  }
-
-  .testimonal-left-content button {
-    width: 140px;
-    height: 36px;
+  .next-prev-icon {
+    justify-content: center;
+    margin: 20px auto 0;
   }
 }
+

@@ -53,43 +53,44 @@ const AboutUs = () => {
       <div className="container-flued mx-5">
         <div className="row align-items-center">
           {/* Left Image Side */}
-          <div className="col-md-6 position-relative" data-aos="fade-left"  data-aos-delay='100' data-aos-offset = '500'>
-            <div className="image-wrapper">
-              <img
-                src="/about_us.jpg"
-                alt="Ribbon cutting"
-                className="img-fluid rounded shadow"
-                style={{maxWidth:'105%'}}
-              />
+          <div className="col-md-6 position-relative" data-aos="fade-left" data-aos-delay='100' data-aos-offset='500'>
+  <div className="image-wrapper">
+    <div>
+      <img
+        src="/about_us.jpg"
+        alt="Ribbon cutting"
+        className="img-fluid rounded shadow"
+        style={{ maxWidth: '105%' }}
+      />
+    </div>
 
-              {/* Floating rating emojis */}
-              <div className="floating-rating" data-aos="fade-left"  data-aos-delay='200' data-aos-offset = '500'>
-                <span className="fw-bold">Best ratings.</span>
-                <p className="small mb-1">Lorem ipsum, dolor sit amet adipisicing elit.</p>
-                <div className="emojis">😡 😐 😃 😍 😁</div>
-              </div>
+    <div className="floating-rating" data-aos="fade-left" data-aos-delay='200' data-aos-offset='500'>
+      <span className="fw-bold">Best ratings.</span>
+      <p className="small mb-1">Lorem ipsum, dolor sit amet adipisicing elit.</p>
+      <div className="emojis">😡 😐 😃 😍 😁</div>
+    </div>
 
-              {/* Floating badge top-right */}
-              <div className="floating-badge" data-aos="fade-right"  data-aos-delay='300' data-aos-offset = '500'>
-                <div className="counter mt-2 mb-3 d-flex justify-content-between">
-                  <h5 className=""><strong style={{color:'#000339', fontSize:'1.6rem'}}>{counter}   +</strong></h5>
-                  <FaArrowTrendUp size={24} color="#50D28A"/>
-                </div>
-                <p className="small my-2" color="#97918B">Sales in July 2021 with 5 star ratings</p>
-                <hr style={{color:'#FB9F6D',opacity:'1',marginBottom:'1rem !important'}} />
-                <div className="avatars">
-                  {[...Array(6)].map((_, i) => (
-                    <img
-                      key={i}
-                      src={`https://i.pravatar.cc/40?img=${i + 10}`}
-                      alt="avatar"
-                      className="avatar"
-                    />
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
+    <div className="floating-badge" data-aos="fade-right" data-aos-delay='300' data-aos-offset='500'>
+      <div className="counter mt-2 mb-3 d-flex justify-content-between">
+        <h5 className=""><strong style={{ color: '#000339', fontSize: '1.6rem' }}>{counter} +</strong></h5>
+        <FaArrowTrendUp size={24} color="#50D28A" />
+      </div>
+      <p className="small my-2" color="#97918B">Sales in July 2021 with 5 star ratings</p>
+      <hr style={{ color: '#FB9F6D', opacity: '1', marginBottom: '1rem !important' }} />
+      <div className="avatars">
+        {[...Array(6)].map((_, i) => (
+          <img
+            key={i}
+            src={`https://i.pravatar.cc/40?img=${i + 10}`}
+            alt="avatar"
+            className="avatar"
+          />
+        ))}
+      </div>
+    </div>
+  </div>
+</div>
+
 
           {/* Right Content Side */}
           <div className="col-md-6 ">

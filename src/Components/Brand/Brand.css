@@ -97,24 +97,75 @@
   }
   
   /* Responsive Design */
-  @media (max-width: 768px) {
-    .brands-container {
-      margin: 10px 10px 0px 20px;
+  @media (max-width: 1024px) {
+    .brand-images {
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
     }
   
-        .brands-container button {
-        width: 100%;
-        max-width: 137px;
-        height: 40px;
-        font-size: 12px;
-    }
-  
+    .brand-slide img,
     .brands-container img {
-      max-width: 100%;
+      width: 120px;
+      height: 100px;
+    }
+  
+    .brands-container button {
+      width: 180px;
+      height: 48px;
+      font-size: 16px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .brand-images {
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+    }
+  
+    .brand-slide img,
+    .brands-container img {
+      width: 100px;
+      height: 85px;
     }
   
     .brands-container h5 {
-      font-size: 18px;
+      font-size: 16px;
+    }
+  
+    .brands-container button {
+      width: 140px;
+      height: 40px;
+      font-size: 14px;
+    }
+  
+    .brands-container {
+      margin: 0 10px;
+      padding: 20px 10px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .brand-slide img,
+    .brands-container img {
+      width: 80px;
+      height: 70px;
+    }
+  
+    .brands-container h5 {
+      font-size: 14px;
+    }
+  
+    .brands-container button {
+      width: 120px;
+      height: 36px;
+      font-size: 12px;
+    }
+  
+    .brand-images {
+      gap: 0.5rem;
     }
   }
   

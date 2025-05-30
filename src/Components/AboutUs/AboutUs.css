@@ -155,3 +155,131 @@
 /* Rectangle 87 */
 
 
+/* === Carousel effect for mobile === */
+/* === Responsive Design === */
+@media (max-width: 992px) {
+  .about-head {
+    font-size: 36px;
+  }
+
+  .floating-badge {
+    top: -80px;
+    right: 20px;
+    padding: 8px 12px;
+    max-width: 180px;
+  }
+
+  .floating-rating {
+    bottom: -30px;
+    left: 0px;
+    max-width: 160px;
+    font-size: 14px;
+  }
+
+  .para {
+    font-size: 15px;
+  }
+
+  .custom-explore-btn {
+    padding: 10px 24px;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 768px) {
+  .about-us-section {
+    padding-top: 4rem;
+    padding-bottom: 3rem;
+  }
+
+  .about-head {
+    font-size: 28px;
+    text-align: center;
+  }
+
+  .about-sub-head {
+    text-align: center;
+  }
+
+  .para {
+    font-size: 14px;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .image-wrapper {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .image-wrapper > div {
+    flex: 0 0 100%;
+    scroll-snap-align: start;
+  }
+  .floating-rating {
+    position: absolute;
+    margin-top: 1rem;
+    box-shadow: none;
+    text-align: center;
+    right: -10;
+  }
+  .floating-badge{
+    position: absolute;
+    margin-top: 1rem;
+    box-shadow: none;
+    text-align: center;
+  }
+
+  .avatars {
+    justify-content: center;
+  }
+
+  .custom-explore-btn {
+    display: block;
+    margin: 0 auto;
+    font-size: 13px;
+    padding: 10px 20px;
+  }
+
+  .ms-4 {
+    margin-left: 0 !important;
+    text-align: center;
+    margin-top: 15%;
+  }
+
+  .container-flued {
+    margin-left: 1rem !important;
+    margin-right: 1rem !important;
+  }
+}
+
+@media (max-width: 576px) {
+  .about-head {
+    font-size: 24px;
+  }
+  .my-5 {
+    margin-top: 0rem !important;
+    margin-bottom: 3rem !important;
+  }
+
+  .floating-rating span {
+    font-size: 16px;
+  }
+  .img-fluid {
+    max-width: 100% !important;
+    height: auto;
+  }
+  .floating-rating .emojis {
+    font-size: 14px;
+  }
+
+  .avatar {
+    width: 25px;
+    height: 25px;
+  }
+}
