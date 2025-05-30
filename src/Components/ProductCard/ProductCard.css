@@ -308,6 +308,7 @@ color: #FFFFFF;
   }
   .icons {
     min-height: 22px;
+    margin-top: .5rem;
   }
   .icon img {
       height: 22px;
@@ -316,13 +317,14 @@ color: #FFFFFF;
 
 @media (min-width: 381px) {
   .card-buttons button {
-    padding: 0.7rem 1.5rem;
+    padding: 0.7rem 2.7rem;
   }
   .product-card{
         max-height: 100vh !important;
   }
   .icons {
     min-height: 22px;
+    margin-top: .5rem;
   }
   .icon img {
       height: 22px;
