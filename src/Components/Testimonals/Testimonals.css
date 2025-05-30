@@ -208,7 +208,7 @@
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
     gap: 16px;
-    margin-left: 9px;
+    margin-left: 6px;
     height: auto;
     position: static;
     align-items: center;
@@ -266,7 +266,7 @@
     justify-content: center;
     margin: 20px auto 0;
     bottom: -15px;
-    left: 42%;
+    left: 36%;
     position: absolute;
     margin-top: 20px;
   }
