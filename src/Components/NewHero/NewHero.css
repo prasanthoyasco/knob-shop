@@ -505,9 +505,9 @@ import "swiper/css/effect-fade"; */
 
   .rightImg { /* On mobile, move image below text */
     width: 100%;
-    max-width: 300px; /* Constrain max width for image on mobile */
+    max-width: 350px; /* Constrain max width for image on mobile */
     order: 1; /* Place image after text visually */
-    margin-top: 20px;
+    margin-top: 10vh;
   }
 
   .img-bg-clr, .circle-border, .product-img {
@@ -530,13 +530,15 @@ import "swiper/css/effect-fade"; */
 /* For very small mobile screens (e.g., less than 480px) */
 @media (max-width: 479px) {
   .slide-content {
-    padding: 30px 15px;
-    min-height: 80vh;
-    justify-content: space-evenly;
+    padding: 50px 15px 30px 15px;
+    min-height: 95vh;
+    justify-content: flex-start;
     gap: 5rem;
     background-position: center right !important;
   }
-
+  .left-section {
+    margin-bottom: 40px !important;
+  }
   .title {
     font-size: 24px;
     letter-spacing: 2px !important;
