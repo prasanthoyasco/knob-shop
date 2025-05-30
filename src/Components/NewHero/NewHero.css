@@ -519,7 +519,7 @@ import "swiper/css/effect-fade"; */
       height: 280px;
   }
   .product-img {
-      max-height: 300px;
+      max-height: 200px !important;
   }
 
   .hero-slide-number {
