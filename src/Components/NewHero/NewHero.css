@@ -348,7 +348,7 @@ import "swiper/css/effect-fade"; */
   border-radius: 50%;
   padding: 10px;
   font-size: 20px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  box-shadow: unset !important;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -379,7 +379,7 @@ import "swiper/css/effect-fade"; */
 @media (max-width: 1199px) {
   .slide-content {
     padding: 40px 60px;
-    min-height: 450px;
+    min-height: 75vh;
     text-align: center;
   }
 
@@ -427,9 +427,10 @@ import "swiper/css/effect-fade"; */
 @media (max-width: 767px) {
   .slide-content {
     padding: 30px 20px;
-    min-height: 400px;
+    min-height: 100vh;
+    gap: 8rem;
     background-position: center right !important;
-    justify-content: center;
+    justify-content: flex-start;
     flex-direction: column;
     text-align: center;
   }
@@ -529,17 +530,47 @@ import "swiper/css/effect-fade"; */
 /* For very small mobile screens (e.g., less than 480px) */
 @media (max-width: 479px) {
   .slide-content {
-    padding: 20px 15px;
-    min-height: 350px;
+    padding: 50px 15px;
+    min-height: 100vh;
+    justify-content: flex-start;
+    gap: 8rem;
     background-position: center right !important;
   }
 
   .title {
     font-size: 24px;
+    letter-spacing: 2px !important;
+    margin: auto;
   }
 
   .description {
     font-size: 12px;
+    line-height: 1.2rem;
+  }
+}
+
+@media (max-width: 350px) {
+  .title {
+    font-size: 20px;
+  }
+
+  .shop-btn {
+    padding: 8px 16px;
+    font-size: 11px;
+  }
+
+  .img-bg-clr, .circle-border, .product-img {
+    width: 200px;
+    height: 200px;
+  }
+
+  .circle-border {
+    width: 220px;
+    height: 220px;
+  }
+
+  .product-img {
+    max-height: 220px;
   }
 }
 

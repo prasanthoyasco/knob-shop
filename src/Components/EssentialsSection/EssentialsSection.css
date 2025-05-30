@@ -178,6 +178,9 @@
 
 /* For very small mobile screens (e.g., less than 480px) */
 @media (max-width: 479px) {
+  .box-number{
+    justify-content: center !important;
+  }
   .essentials-bg-img {
     padding: 1.5rem 0.5rem !important; /* Minimal padding */
   }

@@ -36,7 +36,7 @@ export default function EssentialsSection() {
           <p className="text-muted" data-aos="fade-right"  data-aos-delay='200'>Discover modern hardware, décor, and utility solutions that bring style and function into perfect balance. From smooth drawer systems to space-saving kitchen essentials, our curated collection is built to elevate your everyday living experience — effortlessly, elegantly, and intelligently.</p>
         </div>
 
-       <div className="col-md-8 col-sm-12 d-flex gap-3 justify-content-start flex-wrap flex-md-nowrap">
+       <div className="box-number col-md-8 col-sm-12 d-flex gap-3 justify-content-start flex-wrap flex-md-nowrap">
           {cards.map((card, index) => (
             <div key={index} className="mb-4" style={{minWidth:'250px',maxWidth:'300px'}} data-aos="fade-up"
           data-aos-delay={100 * (index+1)}>

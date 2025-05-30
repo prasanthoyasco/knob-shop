@@ -263,7 +263,7 @@
     margin-top: .5rem;
 }
 .card-buttons button{
-  padding: .7rem 2.5rem;
+  padding: 0.6rem 1rem;
   text-transform: uppercase;
   letter-spacing: .5px;
   font-size: 12px;
@@ -300,8 +300,35 @@ color: #FFFFFF;
   opacity: 1;
 }
 
-@media (max-width: 576px) {
-  .product-card .card-img-top {
-    height: auto !important;
+
+@media (min-width: 381px) {
+  .card-buttons button {
+    padding: 0.7rem 1.5rem;
+  }
+}
+
+/* Medium devices: ≥576px */
+@media (min-width: 576px) {
+  .card-buttons button {
+    padding: 0.7rem 1.8rem;
+  }
+}
+
+/* Tablets: ≥768px */
+@media (min-width: 768px) {
+  .card-buttons button {
+    padding: 0.7rem 2rem;
+  }
+}
+
+/* Optional: Large desktops */
+@media (min-width: 992px) {
+  .card-buttons button {
+    padding: 0.7rem 1.1rem;
+  }
+}
+@media (min-width: 1430px) {
+ .card-buttons button {
+    padding: 0.7rem 2.5rem;
   }
 }
