@@ -205,7 +205,6 @@
   .testimonial-content {
     display: flex;
     flex-direction: column;
-    overflow-x: auto;
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
     gap: 16px;
@@ -213,7 +212,7 @@
     height: auto;
     position: static;
     align-items: center;
-
+    margin-bottom: 10%;
   }
 
   .testimonial-content::-webkit-scrollbar {
@@ -266,6 +265,10 @@
   .next-prev-icon {
     justify-content: center;
     margin: 20px auto 0;
+    bottom: -15px;
+    left: 42%;
+    position: absolute;
+    margin-top: 20px;
   }
 }
 
