@@ -106,14 +106,14 @@ export const Home = () => {
   <>
    <NavbarTop/>
    {/* <Navbar/> */}
-     <div data-aos="fade-up" data-aos-delay="0" ><NewHero /></div>
+     <div data-aos="fade-up" data-aos-delay="100" ><NewHero /></div>
       {/* <LockSlider/> */}
      <div data-aos="fade-up" data-aos-delay="100" ><ProductCarousel products={products} /></div>
       {/* <CollectionsCarosal/> */}
       <div data-aos="fade-up" data-aos-delay="100"><CubeCarousel /></div>
       <div data-aos="fade-up" data-aos-delay="100"><ShelfHighlight /></div>
-      <div data-aos="fade-up" data-aos-delay="200"><SingleCarosal /></div>
-<div data-aos="fade-up" data-aos-delay="400"><TrendingProducts /></div>
+      <div data-aos="fade-up" data-aos-delay="100"><SingleCarosal /></div>
+<div data-aos="fade-up" data-aos-delay="100"><TrendingProducts /></div>
 <div data-aos="fade-up" data-aos-delay="100"><EssentialsSection /></div>
 <div data-aos="fade-up" data-aos-delay="100">
   <ParallaxSection
@@ -136,7 +136,7 @@ export const Home = () => {
       {/* <AboutUsGrid/> */}
       <div data-aos="fade-up" data-aos-delay="100" data-aos-offset="500"><Sale /></div>
 <div data-aos="fade-up" data-aos-delay="100"><FAQ /></div>
-<div data-aos="fade-up" data-aos-delay="50"><OurServices /></div>
+<div data-aos="fade-up" data-aos-delay="100"><OurServices /></div>
 <div data-aos="fade-up" data-aos-delay="100"><LocationMap /></div>
 <div data-aos="fade-up" data-aos-delay="100"><Footer /></div>
       </>
