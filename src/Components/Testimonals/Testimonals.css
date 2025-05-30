@@ -208,7 +208,6 @@
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
     gap: 16px;
-    margin-left: 6px;
     height: auto;
     position: static;
     align-items: center;
