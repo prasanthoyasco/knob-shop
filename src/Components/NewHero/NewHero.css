@@ -507,7 +507,7 @@ import "swiper/css/effect-fade"; */
     width: 100%;
     max-width: 300px; /* Constrain max width for image on mobile */
     order: 1; /* Place image after text visually */
-    margin-top: 20px;
+    margin-top: 60px;
   }
 
   .img-bg-clr, .circle-border, .product-img {
