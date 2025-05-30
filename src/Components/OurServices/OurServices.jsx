@@ -14,7 +14,7 @@ function OurServices() {
   return (
     <div className='our-service-container'>
       {serviceContent.map((content,index)=>(
-        <div key={index} className='service-image-heading-para-content' data-aos="fade-down"  data-aos-delay={200 * index}>
+        <div key={index} className='service-image-heading-para-content' data-aos="fade-down"  data-aos-delay={100 * index}>
             <img src={content.image}/>
             <h6>{content.heading}</h6>
             <p>{content.para}</p>
