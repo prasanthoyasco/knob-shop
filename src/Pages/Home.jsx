@@ -134,11 +134,7 @@ export const Home = () => {
 <div data-aos="fade-up" data-aos-delay="100"><Testimonals /></div>
 <div data-aos="fade-up" data-aos-delay="100"><AboutUs /></div>
       {/* <AboutUsGrid/> */}
-<<<<<<< HEAD
 <div data-aos="fade-up" data-aos-delay="100" data-aos-offset="500"><Sale /></div>
-=======
-      <div data-aos="fade-up" data-aos-delay="100"><Sale /></div>
->>>>>>> 522caaec884ae9472331ff9f23799f0235c5eccb
 <div data-aos="fade-up" data-aos-delay="100"><FAQ /></div>
 <div data-aos="fade-up" data-aos-delay="100"><OurServices /></div>
 <div data-aos="fade-up" data-aos-delay="100"><LocationMap /></div>
