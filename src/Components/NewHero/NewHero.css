@@ -532,11 +532,13 @@ import "swiper/css/effect-fade"; */
   .slide-content {
     padding: 30px 15px;
     min-height: 80vh;
-    justify-content: space-between;
+    justify-content: flex-start;
     gap: 5rem;
     background-position: center right !important;
   }
-
+  .left-section {
+    margin-bottom: 40px !important;
+  }
   .title {
     font-size: 24px;
     letter-spacing: 2px !important;
