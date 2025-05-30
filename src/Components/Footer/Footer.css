@@ -1,6 +1,11 @@
 .footer-container{
     display: flex;
     justify-content: space-around;
+    margin: 0rem 1rem;
+}
+.footer-menus{
+    justify-content: space-between !important;
+    gap:30px;
 }
 .footer-right-down-background{
     background-image: url(../../Assets/b4.png);
@@ -96,6 +101,8 @@
 
 .footer-logo-text{
     width: 200px;
+    display: flex;
+    flex-direction: column;
 }
 .footer-logo-text p{
     width: 235px;
@@ -105,22 +112,16 @@
     letter-spacing: 0%;
     margin-top: 30px !important;
 }
+.about-content,
+.policy-content,
+.policy-content,
+.policy-content,
+.help-content,
 .shop-content{
     display: flex;
     flex-direction: column;
 }
-.about-content{
-    display: flex;
-    flex-direction: column;
-}
-.policy-content{
-    display: flex;
-    flex-direction: column;
-}
-.help-content{
-    display: flex;
-    flex-direction: column;
-}
+
 .shop-content a,
 .about-content a,
 .help-content a,
@@ -131,7 +132,6 @@
 .shop-content{
     margin-top: 30px;
     width: 103px;
-    height: 30px;
     line-height: 30px;
     letter-spacing: 0%;
     font-size: 18px;
@@ -262,7 +262,7 @@
       flex-wrap: wrap;
       gap: 40px;
       justify-content: center;
-      padding: 40px 20px;
+      padding: 2rem 0 !important;
     }
   
     .email-section-footer {
@@ -294,17 +294,27 @@
     }
   
     .fb-insta-youTube-icon {
-      margin: 40px auto 0 auto;
-      text-align: center;
+      margin: unset !important;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .fb-insta-youTube-icon img{
+        margin-left: unset !important;
+    }
+    .footer-about-container{
+        margin-bottom: unset !important;
+    }
+    .icon-phone-number i,
+    .icon-and-mail-id i{
+        font-size: 22px;
     }
   }
   
   @media (max-width: 600px) {
     .footer-container {
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      gap: 30px;  /* add spacing between footer sections */
+      gap: 40px;  /* add spacing between footer sections */
       padding: 20px; /* optional for breathing room */
     }
   
@@ -313,11 +323,14 @@
     .about-content,
     .policy-content,
     .help-content {
-      align-items: center;
+      align-items:baseline;
       text-align: center; /* ensure text centers */
       width: 100%; /* make them full width for better stacking */
       max-width: 320px; /* limit max width so it doesn't stretch too much */
       margin: 0 auto 20px auto; /* center each section with bottom spacing */
+    }
+    .icon-phone-number{
+        margin-top: unset !important;
     }
   
     /* Center phone and email icon groups */
@@ -331,10 +344,9 @@
     /* Footer logo and text */
     .footer-logo-text,
     .footer-logo img {
-      margin: 0 auto 20px auto;
-      display: block;
-      width: auto;
-      max-width: 180px; /* smaller logo for mobile */
+      align-items: center;
+        text-align: center;
+        width: unset !important;
     }
   
     /* Ensure email section is centered and responsive */
@@ -345,14 +357,22 @@
       width: 100%;
       max-width: 320px;
     }
-    .footer-about-container{
-        margin-top: 30% !important;
-    }
     .contact-info-container{
-        margin-top: 20%;
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .email-section-footer{
+        display: none;
     }
     .fb-insta-youTube-icon img{
         margin-left: 35%;
+    }
+    .footer-menus{
+        flex-wrap: wrap;
+        align-items: baseline;
+        justify-content: space-evenly !important;
     }
   }
   

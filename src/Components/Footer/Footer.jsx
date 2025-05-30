@@ -38,11 +38,12 @@ function Footer() {
         <p>Subscribe to receive inspiration,ideas and news to your inbox</p>
       </div>
 
-      <div className='footer-shop-container'>
+    <div className="d-flex footer-menus flex-md-wrap">
+            <div className='footer-shop-container'>
         <h2>Shop</h2>
         <div className='shop-content'>
           {shopContent.map((content,index)=>(
-            <a href={content.href}>{content.text}</a>
+            <a key={index} href={content.href}>{content.text}</a>
           ))}
           </div>
       </div>
@@ -51,7 +52,7 @@ function Footer() {
         <h2>About</h2>
         <div className='about-content'>
         {aboutContent.map((content,index)=>(
-          <a href={content.href}>{content.text}</a>
+          <a key={index} href={content.href}>{content.text}</a>
         ))}
         </div>
       </div>
@@ -60,7 +61,7 @@ function Footer() {
         <h2>Policy</h2>
         <div className='policy-content'>
         {policyContent.map((content,index)=>(
-          <a href={content.href}>{content.text}</a>
+          <a key={index} href={content.href}>{content.text}</a>
         ))}
         </div>
       </div>
@@ -69,7 +70,7 @@ function Footer() {
         <h2>Help</h2>
         <div className='help-content'>
         {helpContent.map((content,index)=>(
-          <a href={content.href}>{content.text}</a>
+          <a key={index} href={content.href}>{content.text}</a>
         ))}
         </div>
       </div>
@@ -93,6 +94,7 @@ function Footer() {
 
       </div>
 
+    </div>
     </div>
     <div className='email-section-footer'>
       <h4>Sign Up to our Newsletter</h4>
