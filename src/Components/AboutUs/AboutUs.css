@@ -170,8 +170,8 @@
   }
 
   .floating-rating {
-    bottom: -30px;
-    left: 0px;
+    bottom: -70px;
+    left: 10px;
     max-width: 160px;
     font-size: 14px;
   }
@@ -189,6 +189,7 @@
 @media (max-width: 768px) {
   .about-us-section {
     padding-top: 4rem;
+    margin-top: 8rem;
     padding-bottom: 3rem;
   }
 
@@ -198,6 +199,7 @@
   }
 
   .about-sub-head {
+    margin-top: 5rem;
     text-align: center;
   }
 
@@ -224,21 +226,38 @@
   .floating-rating {
     position: absolute;
     margin-top: 1rem;
+    max-height: 150px;
+    max-width: 150px;
     box-shadow: none;
     text-align: center;
     right: -10;
   }
   .floating-badge{
     position: absolute;
+    top: -88px;
+    max-height: 150px;
+    max-width: 150px;
     margin-top: 1rem;
     box-shadow: none;
     text-align: center;
   }
+  .floating-badge h5 strong{
+    font-size: 1.2rem !important;
+  }
+    .floating-badge p{
+      font-size: .7rem;
+    }
+    .counter{
+      margin: unset !important;
+    }
 
   .avatars {
     justify-content: center;
   }
-
+  .avatar {
+    width: 17px !important;
+    height: 17px !important;
+  }
   .custom-explore-btn {
     display: block;
     margin: 0 auto;

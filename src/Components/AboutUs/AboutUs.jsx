@@ -53,7 +53,7 @@ const AboutUs = () => {
       <div className="container-flued mx-5">
         <div className="row align-items-center">
           {/* Left Image Side */}
-          <div className="col-md-6 position-relative" data-aos="fade-left" data-aos-delay='100' data-aos-offset='500'>
+          <div className="col-md-6 position-relative" data-aos="fade-left" data-aos-delay='100' data-aos-offset='100'>
   <div className="image-wrapper">
     <div>
       <img
@@ -64,13 +64,13 @@ const AboutUs = () => {
       />
     </div>
 
-    <div className="floating-rating" data-aos="fade-left" data-aos-delay='200' data-aos-offset='500'>
+    <div className="floating-rating" data-aos="fade-left" data-aos-delay='200' data-aos-offset='100'>
       <span className="fw-bold">Best ratings.</span>
       <p className="small mb-1">Lorem ipsum, dolor sit amet adipisicing elit.</p>
       <div className="emojis">😡 😐 😃 😍 😁</div>
     </div>
 
-    <div className="floating-badge" data-aos="fade-right" data-aos-delay='300' data-aos-offset='500'>
+    <div className="floating-badge" data-aos="fade-right" data-aos-delay='300' data-aos-offset='100'>
       <div className="counter mt-2 mb-3 d-flex justify-content-between">
         <h5 className=""><strong style={{ color: '#000339', fontSize: '1.6rem' }}>{counter} +</strong></h5>
         <FaArrowTrendUp size={24} color="#50D28A" />
@@ -95,14 +95,14 @@ const AboutUs = () => {
           {/* Right Content Side */}
           <div className="col-md-6 ">
             <div className="ms-4">
-                <h6 className="text-uppercase text-muted about-sub-head" data-aos="fade-left"  data-aos-delay='300'>Knobsshop</h6>
-            <h2 className="mb-4 about-head" data-aos="fade-left"  data-aos-delay='300'>About Us</h2>
-            <p className="para my-4"data-aos="fade-right"  data-aos-delay='350'>
+                <h6 className="text-uppercase text-muted about-sub-head" data-aos="fade-left"  data-aos-delay='100'>Knobsshop</h6>
+            <h2 className="mb-4 about-head" data-aos="fade-left"  data-aos-delay='100'>About Us</h2>
+            <p className="para my-4"data-aos="fade-right"  data-aos-delay='150'>
               For over 25 years, KnobsShop has been a trusted name in premium hardware and home utility solutions. What began as a small family-run store has grown into a leading destination for quality knobs, handles, and décor fittings that blend function with style.
             </p>
-            <p className="para mb-4" data-aos="fade-left"  data-aos-delay='400'>
+            <p className="para mb-4" data-aos="fade-left"  data-aos-delay='100'>
 We believe in delivering products that last, service that cares, and designs that elevate everyday living. With decades of craftsmanship, satisfied customers, and innovation behind us — we continue to bring timeless detailing to modern Indian homes.</p>
-            <a href="#" className="custom-explore-btn" data-aos="fade-up"  data-aos-delay='450'>
+            <a href="#" className="custom-explore-btn" data-aos="fade-up"  data-aos-delay='150'>
               Explore More
             </a>
             </div>
