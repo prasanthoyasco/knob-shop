@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import ProductCard from "../ProductCard/ProductCard";
-// import { IoIosArrowRoundForward, IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 import "./TrendingProducts.css";
 
 import chair from "../../Assets/product-category/p1.jpg";
@@ -27,13 +26,13 @@ const products = [
     discount: 5,
     rating: 4.9,
     image: bchair,
-    icons : [
-  { name: 'Card Key', imgUrl: '/product-icon/card_key.svg' },
-  { name: 'Pin Code', imgUrl: '/product-icon/pin_code.svg' },
-  { name: 'Fingerprint', imgUrl: '/product-icon/fingerprint.svg' },
-  { name: 'Machnic Key', imgUrl: '/product-icon/machnic_key.svg' }
-],
-    hoverImage: bchair1
+    icons: [
+      { name: "Card Key", imgUrl: "/product-icon/card_key.svg" },
+      { name: "Pin Code", imgUrl: "/product-icon/pin_code.svg" },
+      { name: "Fingerprint", imgUrl: "/product-icon/fingerprint.svg" },
+      { name: "Machnic Key", imgUrl: "/product-icon/machnic_key.svg" },
+    ],
+    hoverImage: bchair1,
   },
   {
     id: 3,
@@ -43,7 +42,7 @@ const products = [
     discount: 47,
     rating: 4.9,
     image: chair,
-    hoverImage: chair2
+    hoverImage: chair2,
   },
   {
     id: 4,
@@ -53,7 +52,7 @@ const products = [
     discount: 15,
     rating: 4.8,
     image: sofa3,
-    hoverImage: sofa3
+    hoverImage: sofa3,
   },
   {
     id: 2,
@@ -62,14 +61,14 @@ const products = [
     oldPrice: 19412,
     discount: 25,
     rating: 4.9,
-     icons : [
-  { name: 'Card Key', imgUrl: '/product-icon/card_key.svg' },
-  { name: 'Pin Code', imgUrl: '/product-icon/pin_code.svg' },
-  { name: 'Fingerprint', imgUrl: '/product-icon/fingerprint.svg' },
-  { name: 'Machnic Key', imgUrl: '/product-icon/machnic_key.svg' }
-],
+    icons: [
+      { name: "Card Key", imgUrl: "/product-icon/card_key.svg" },
+      { name: "Pin Code", imgUrl: "/product-icon/pin_code.svg" },
+      { name: "Fingerprint", imgUrl: "/product-icon/fingerprint.svg" },
+      { name: "Machnic Key", imgUrl: "/product-icon/machnic_key.svg" },
+    ],
     image: sofa2,
-    hoverImage: sofa
+    hoverImage: sofa,
   },
   {
     id: 5,
@@ -79,7 +78,7 @@ const products = [
     discount: 19,
     rating: 4.9,
     image: sofa,
-    hoverImage: sofa2
+    hoverImage: sofa2,
   },
 ];
 
@@ -87,9 +86,14 @@ const TrendingProducts = () => {
   const [activeTab, setActiveTab] = useState("All Products");
   const scrollRef = useRef(null);
   const autoScrollRef = useRef(null);
+  const isDragging = useRef(false);
+  const startPos = useRef(0);
+  const scrollLeft = useRef(0);
 
   const startAutoScroll = () => {
     const container = scrollRef.current;
+    if (!container) return;
+
     const cardWidth = container?.firstChild?.offsetWidth || 300;
     const gap = 16;
     let scrollAmount = container.scrollLeft;
@@ -112,39 +116,39 @@ const TrendingProducts = () => {
     return () => clearInterval(autoScrollRef.current);
   }, []);
 
-  // const handleScrollLeft = () => {
-  //   const el = scrollRef.current;
-  //   if (el) {
-  //     el.scrollBy({ left: -300, behavior: "smooth" });
-  //   }
-  // };
+  const onMouseDown = (e) => {
+    isDragging.current = true;
+    startPos.current = e.pageX - scrollRef.current.offsetLeft;
+    scrollLeft.current = scrollRef.current.scrollLeft;
+    clearInterval(autoScrollRef.current); // Stop auto-scroll on drag
+    scrollRef.current.classList.add("dragging");
+  };
 
-  // const handleScrollRight = () => {
-  //   const el = scrollRef.current;
-  //   if (el) {
-  //     el.scrollBy({ left: 300, behavior: "smooth" });
-  //   }
-  // };
+  const onMouseMove = (e) => {
+    if (!isDragging.current) return;
+    e.preventDefault();
+    const x = e.pageX - scrollRef.current.offsetLeft;
+    const walk = (x - startPos.current) * 2; // Adjust multiplier for drag speed
+    scrollRef.current.scrollLeft = scrollLeft.current - walk;
+  };
+
+  const onMouseUp = () => {
+    isDragging.current = false;
+    startAutoScroll(); // Resume auto-scroll after drag ends
+    scrollRef.current.classList.remove("dragging");
+  };
+
+  const onMouseLeave = () => {
+    if (isDragging.current) {
+      isDragging.current = false;
+      scrollRef.current.classList.remove("dragging");
+      startAutoScroll(); // Resume auto-scroll if mouse leaves while dragging
+    }
+  };
 
   return (
     <section className="container-fluied mx-4 py-5 trending-products">
       <div className="row mb-4">
-        {/* Left Text */}
-        {/* <div className="col-md-4 left-text">
-          <h2 className="display-6 fw-semibold ">
-            Everything
-            <br />
-            In
-            <br />
-            One Place
-          </h2>
-          <p className="text-muted mt-3 product-p">
-            From timeless classics to modern must-haves — explore our full
-            catalog of home and interior essentials.
-          </p>
-        </div> */}
-
-        {/* Right Content */}
         <div className="col-md-12">
           <div className="">
             <div className="d-flex flex-column align-items-center mb-3 text-center">
@@ -154,7 +158,6 @@ const TrendingProducts = () => {
             </div>
           </div>
 
-          {/* Tabs */}
           <ul className="custom-tabs mb-4">
             {tabs.map((tab) => (
               <li className="nav-item" key={tab}>
@@ -168,16 +171,17 @@ const TrendingProducts = () => {
             ))}
           </ul>
 
-          {/* Products */}
           <div className="position-relative">
-             {/*<button className="scroll-button left" onClick={handleScrollLeft}>
-              <IoIosArrowBack size={18} />
-            </button>*/}
             <div
               ref={scrollRef}
-              className="product-scroll-container"
-              onMouseEnter={() => clearInterval(autoScrollRef.current)}
-              onMouseLeave={startAutoScroll}
+              className={"product-scroll-container"}
+              onMouseDown={onMouseDown}
+              onMouseMove={onMouseMove}
+              onMouseUp={onMouseUp}
+              onMouseLeave={onMouseLeave}
+              // You can keep these if you still want auto-scroll to pause on hover
+              // onMouseEnter={() => clearInterval(autoScrollRef.current)}
+              // onMouseLeave={startAutoScroll}
             >
               {products.map((product, index) => (
                 <div key={index} className="product-scroll-item">
@@ -185,9 +189,6 @@ const TrendingProducts = () => {
                 </div>
               ))}
             </div>
-            {/* <button className="scroll-button right" onClick={handleScrollRight}>
-              <IoIosArrowForward size={18} />
-           </button>*/}
           </div>
           <div className="d-flex align-items-center justify-content-center mt-3">
             <button className="ctn btn-animation"> view All Products</button>

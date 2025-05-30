@@ -132,7 +132,7 @@
   position: relative;
   overflow: hidden;
   background: #F8F8F8;
-  cursor:pointer;
+  user-select: none;
   top: -1.5% !important;
   transition: all 0.5s ease-in-out;
 }
@@ -152,10 +152,12 @@
 
 .default-img {
   display: block;
+  user-select: none;
 }
 
 .hover-img {
   opacity: 0;
+  user-select: none;
   pointer-events: none;
 }
 
