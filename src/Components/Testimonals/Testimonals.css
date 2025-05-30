@@ -245,7 +245,11 @@
     margin: 10% 0%;
     text-align: center;
   }
-
+  .testimonal-left-content button{
+    width: 120px;
+        height: 36px;
+        font-size: 12px;
+  }
   .testimonal-left-content h1 {
     font-size: 25px !important;
     width: 100%;
