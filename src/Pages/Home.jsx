@@ -136,7 +136,7 @@ export const Home = () => {
       {/* <AboutUsGrid/> */}
       <div data-aos="fade-up" data-aos-delay="100" data-aos-offset="500"><Sale /></div>
 <div data-aos="fade-up" data-aos-delay="100"><FAQ /></div>
-<div data-aos="fade-up" data-aos-delay="100"><OurServices /></div>
+<div data-aos="fade-up" data-aos-delay="50"><OurServices /></div>
 <div data-aos="fade-up" data-aos-delay="100"><LocationMap /></div>
 <div data-aos="fade-up" data-aos-delay="100"><Footer /></div>
       </>
