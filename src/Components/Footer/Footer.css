@@ -26,7 +26,7 @@
     background-size: cover;
     background-position: center;
     position: absolute;
-    top: -31%;
+    top: -20%;
     right: 3%;
     width: 449px;
     height: 164px;
@@ -90,6 +90,7 @@
     background-color:#F8F8F8;
     position: relative;
     z-index: 1;
+  overflow: hidden;
 }
 .footer-container h2{
     color: #B3B3B3 !important;
