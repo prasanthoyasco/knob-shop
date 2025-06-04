@@ -4,7 +4,7 @@ import dealoftheday from "../../Assets/dealoftheday.jpg";
 import dealdaybtnarrow from "../../Assets/dealdaybtnarrow.svg";
 const DealOfTheDay = () => {
   const calculateTimeLeft = () => {
-    const targetDate = new Date("2025-06-01T00:00:00");
+    const targetDate = new Date("2025-06-10T00:00:00");
     const now = new Date();
     const difference = targetDate - now;
 
