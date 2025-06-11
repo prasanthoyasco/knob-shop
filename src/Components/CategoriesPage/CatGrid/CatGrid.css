@@ -1,0 +1,82 @@
+.cat-data-grid-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    align-items: center;
+    padding: 20px;
+    margin-top: 5%;
+  }
+  
+  /* Row layout for both types */
+  .cat-data-grid-row {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  
+  /* Layout variations */
+  /* .first-layout .cat-data-grid-div {
+    width: 400px;
+  } */
+  .second-layout .cat-data-grid-div {
+    width: 610px;
+  }
+  .third-layout .cat-data-grid-div {
+    width: 400px;
+  }
+  
+  /* Default layout (optional fallback) */
+  .default-layout .cat-data-grid-div {
+    width: 300px;
+  }
+  
+  .cat-data-grid-div {
+    height: 300px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+    background: #f1f1f1;
+    cursor: pointer;
+  }
+  
+  .cat-data-grid-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+  
+  .cat-data-grid-text {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    display: flex;
+    color: white !important;
+    width: 100%;
+    padding: 10px;
+    background-color: rgba(0, 0, 0, 0); /* transparent by default */
+    transition: background-color 0.3s ease;
+  }
+  .cat-data-grid-text p,h5{
+    color: white !important;
+  }
+  .cat-data-grid-div:hover .cat-data-grid-text {
+    background-color: rgba(0, 0, 0, 0.6); /* just behind text */
+  }
+  .cat-data-grid-div:hover .cat-data-grid-image {
+    transform: scale(1.1); /* Zoom in */
+  }
+  /* First-layout items (1st row) */
+.first-layout-item-0 {
+    width: 500px;
+  }
+  
+  .first-layout-item-1 {
+    width: 300px;
+  }
+  
+  .first-layout-item-2 {
+    width: 400px;
+  }
+  
