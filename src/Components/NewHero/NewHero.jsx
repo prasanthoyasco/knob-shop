@@ -2,7 +2,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { useEffect, useRef, useCallback } from "react"; // Removed useState for activeSlideIndex
 import { Navigation, Pagination, Autoplay, EffectFade } from "swiper/modules";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
-
+import { useNavigate } from "react-router-dom";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -18,6 +18,7 @@ const slides = [
 ];
 
 const NewHero = () => {
+  const navigate = useNavigate()
   const prevRef = useRef(null);
   const nextRef = useRef(null);
   // Removed: const [activeSlideIndex, setActiveSlideIndex] = useState(0);
@@ -100,7 +101,7 @@ const NewHero = () => {
                 <p className="offer animate-on-slide-left text-animation-delay-1">{slide.offer}</p>
                 <h2 className="title animate-on-slide-left text-animation-delay-2">{slide.title}</h2>
                 <p className="description animate-on-slide-left text-animation-delay-3">{slide.description}</p>
-                <button className="shop-btn animate-on-slide-left text-animation-delay-4">SHOP NOW</button>
+                <button className="shop-btn animate-on-slide-left text-animation-delay-4" onClick={()=>navigate('/categories')}>SHOP NOW</button>
                 <div className="hero-slide-number">
                   <div className="horizantal-line"></div>
                   {slide.number}
