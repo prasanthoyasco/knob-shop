@@ -1,20 +1,28 @@
 import 'modern-css-reset/dist/reset.min.css';
-import './App.css'
+import './App.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
 import { Home } from './Pages/Home';
 import NewsletterModal from './Components/NewsletterModal/NewsletterModal';
+import { ProductList } from './Pages/ProductList';
 // import NavbarTop from './Components/Navbar/NavbarTop/NavbarTop';
 
 function App() {
   return (
-    <div>
-      <NewsletterModal/>
-     <Home/>
-    </div>
-  )
+    <Router>
+      <NewsletterModal />
+      {/* <NavbarTop /> */}
+      <Routes>
+        <Route path="/" element={<Home />} />
+       <Route path='/category/:id' element={<ProductList/>}></Route>
+      </Routes>
+    </Router>
+  );
 }
 
-export default App
+export default App;
