@@ -1,18 +1,25 @@
 import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import './NewsletterModal.css';
 
 const NewsletterModal = () => {
   const [showModal, setShowModal] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     const doNotShow = localStorage.getItem('hideNewsletter');
-    if (!doNotShow) {
+
+    // Show only on homepage
+    if (location.pathname === '/' && !doNotShow) {
       const timer = setTimeout(() => {
         setShowModal(true);
       }, 5000);
+
       return () => clearTimeout(timer);
+    } else {
+      setShowModal(false); // Prevent it from staying open on other pages
     }
-  }, []);
+  }, [location]);
 
   const handleClose = () => setShowModal(false);
 
