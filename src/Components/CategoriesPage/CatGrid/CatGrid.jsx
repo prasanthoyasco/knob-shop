@@ -10,7 +10,7 @@ import image7 from '../../../Assets/CategoriesImge/image-5.jpg'
 import image8 from '../../../Assets/CategoriesImge/image-6.jpg'
 const categoriesData = [
     { id: 1, image: image1, text: "Digital Safe Lockers", items: "(200 items)" },
-    { id: 2, image: image2, text: "Beds & Mattresses", items: "(200 items)" },
+    { id: 2, image: image2, text: "Beds", items: "(200 items)" },
     { id: 3, image: image3, text: "Cabinets & Storage", items: "(200 items)" },
     { id: 4, image: image4, text: "Dining Room", items: "(100 items)" },
     { id: 5, image: image5, text: "Living Rooms", items: "(150 items)" },
