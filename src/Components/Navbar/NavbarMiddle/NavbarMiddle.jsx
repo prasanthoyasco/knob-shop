@@ -9,7 +9,7 @@ function NavbarMiddle() { // Added menuOpen and setMenuOpen as props
     <>
       <div className="navbar-middle-container">
         <div className="navbar-middle-logo-wrapper">
-          <img src={logoImage} alt="Logo" className="navbar-middle-logo" />
+          <a href="/"><img src={logoImage} alt="Logo" className="navbar-middle-logo" /></a>
         </div>
         <div className="navbar-middle-search-box-icon">
           <input type="search" placeholder="Search" />

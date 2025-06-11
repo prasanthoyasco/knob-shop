@@ -17,6 +17,42 @@
   margin-bottom: 0.75rem;
 }
 
+/* Custom accordion replacement (no Bootstrap JS) */
+.custom-accordion .accordion-section {
+  border: 1px solid #e5e5e5;
+  border-radius: 6px;
+  margin-bottom: 0.75rem;
+  overflow: hidden;
+}
+
+.custom-accordion .accordion-header {
+  background: #f7f7f7;
+  padding: 0.6rem 1rem;
+  font-weight: 500;
+  font-size: 0.95rem;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background-color 0.2s ease;
+}
+
+.custom-accordion .accordion-header:hover {
+  background-color: #ececec;
+}
+
+.custom-accordion .accordion-body {
+  background-color: #fff;
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+}
+
+.accordion-icon {
+  font-size: 1rem;
+  font-weight: bold;
+  line-height: 1;
+}
+
 /* Product grid spacing */
 .row.g-3 > [class^="col-"] {
   display: flex;
@@ -27,7 +63,7 @@
   color: #000;
   font-size: 0.875rem;
   padding: 0.4rem 0.75rem;
-  border-radius: 4px;
+  border-radius: 2px;
 }
 
 .pagination .page-item.active .page-link {
@@ -49,9 +85,9 @@
   margin-bottom: 1rem;
 }
 
-.products .product-card .image-wrapper img{
-    min-height: 250px !important;
-    max-height: 300px !important;
+.products .product-card .image-wrapper img {
+  min-height: 250px !important;
+  max-height: 300px !important;
 }
 
 /* Responsive product card fix */
@@ -65,6 +101,7 @@
   }
 }
 
+/* Custom pagination (underline style) */
 .custom-pagination .page-link {
   border: none;
   background: transparent;
