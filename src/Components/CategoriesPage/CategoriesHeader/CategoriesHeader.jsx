@@ -21,7 +21,6 @@ function CategoriesHeader() {
     {/* <CategoriesGrid/> */}
     <CatGrid/>
     <CategoriesBanner/>
-  
     <Footer/>
     </>
   )
