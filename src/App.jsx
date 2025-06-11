@@ -22,7 +22,6 @@ function App() {
         <Route path="/" element={<Home />} />
        <Route path='/category/:id' element={<ProductList/>}></Route>
        <Route path='/categories' element={<CategoriesHeader/>}></Route>
-       
       </Routes>
     </Router>
   );

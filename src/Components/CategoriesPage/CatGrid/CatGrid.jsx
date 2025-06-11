@@ -8,6 +8,7 @@ import image5 from '../../../Assets/CategoriesImge/image-3.jpg'
 import image6 from '../../../Assets/CategoriesImge/image-7.jpg'
 import image7 from '../../../Assets/CategoriesImge/image-5.jpg'
 import image8 from '../../../Assets/CategoriesImge/image-6.jpg'
+import { useNavigate } from 'react-router-dom'
 const categoriesData = [
     { id: 1, image: image1, text: "Digital Safe Lockers", items: "(200 items)" },
     { id: 2, image: image2, text: "Beds", items: "(200 items)" },
@@ -22,6 +23,12 @@ const categoriesData = [
   function CatGrid() {
     const rows = [];
     let buffer = [];
+      const navigate = useNavigate()
+
+  const handleClick = (id) => {
+    console.log("Clicked:", id);
+    navigate(`/category/${id}`)
+  }
   
     categoriesData.forEach(item => {
       buffer.push(item);
@@ -50,6 +57,7 @@ const categoriesData = [
               {row.items.map((data, index) => (
                 <div
                   key={index}
+                  onClick={() => handleClick(data.id)}
                   className={`cat-data-grid-div ${row.layout}-item-${index}`}
                 >
                   

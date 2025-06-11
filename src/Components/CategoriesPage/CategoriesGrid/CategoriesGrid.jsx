@@ -25,6 +25,7 @@ function CategoriesGrid() {
   const navigate = useNavigate()
 
   const handleClick = (id) => {
+    console.log("Clicked:", id);
     navigate(`/category/${id}`)
   }
 
