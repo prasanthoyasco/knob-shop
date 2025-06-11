@@ -9,6 +9,9 @@
   .category-hero {
     height: 18rem; /* ~288px */
   }
+  .breadgrum{
+    font-size: 16px !important;
+  }
 }
 
 @media (min-width: 992px) {
