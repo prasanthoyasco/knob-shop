@@ -25,7 +25,7 @@ const helpContent = [
 ]
 function Footer() {
   return (
-    <div className='footer'>
+    <div className='footer py-5'>
       <div className='logo-background'></div>
       <div className='footer-bottom-background'></div>
       <div className='footer-buliding-background'></div>
