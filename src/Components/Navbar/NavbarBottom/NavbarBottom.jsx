@@ -26,13 +26,14 @@ const navbarContent = [
 ];
 
 const categoryItem = [
-  { text: "Cabinets & Storage" },
-  { text: "Seating" },
-  { text: "Beds & Materesses" },
-  { text: "Dining Room" },
-  { text: "Tables" },
-  { text: "Living room" },
-  { text: "Study & Home oofice" },
+  { id: 0, text: "All Category" },
+  { id: 1, text: "Cabinets & Storage" },
+  { id: 2, text: "Seating" },
+  { id: 3, text: "Beds & Materesses" },
+  { id: 4, text: "Dining Room" },
+  { id: 5, text: "Tables" },
+  { id: 6, text: "Living room" },
+  { id: 7, text: "Study & Home oofice" },
 ];
 
 function NavbarBottom() {
@@ -59,9 +60,11 @@ function NavbarBottom() {
             {categoryItem.map((cat, index) => (
               <a
                 key={index}
-                href={`/category/${cat.text
-                  .toLowerCase()
-                  .replace(/\s+/g, "-")}`}
+                href={
+                  cat.id === 0
+                    ? "/categories"
+                    : `/category/${cat.text.toLowerCase().replace(/\s+/g, "-")}`
+                }
                 className="dropdown-item"
               >
                 {cat.text}
@@ -108,7 +111,7 @@ function NavbarBottom() {
       {/* Mobile Menu Content */}
       {mobileMenuOpen && (
         <div className="mobile-navbar-content mobile-only">
-                 {/* Main Navbar Links for Mobile */}
+          {/* Main Navbar Links for Mobile */}
           {navbarContent.map((item, index) => (
             <div key={index} className="mobile-nav-item">
               <div

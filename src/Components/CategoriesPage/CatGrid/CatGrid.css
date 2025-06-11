@@ -1,111 +1,136 @@
 .cat-data-grid-wrapper {
-    display: flex;
-    flex-direction: column;
-    gap: 40px;
-    align-items: center;
-    padding: 20px;
-    margin-top: 5%;
-  }
-  
-  /* Row layout for both types */
-  .cat-data-grid-row {
-    display: flex;
-    gap: 20px;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-  
-  /* Layout variations */
-  /* .first-layout .cat-data-grid-div {
-    width: 400px;
-  } */
-  .second-layout .cat-data-grid-div {
-    width: 610px;
-  }
-  .third-layout .cat-data-grid-div {
-    width: 400px;
-  }
-  
-  /* Default layout (optional fallback) */
-  .default-layout .cat-data-grid-div {
-    width: 300px;
-  }
-  
-  .cat-data-grid-div {
-    height: 300px;
-    position: relative;
-    overflow: hidden;
-    border-radius: 10px;
-    background: #f1f1f1;
-    cursor: pointer;
-  }
-  
-  .cat-data-grid-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.5s ease;
-  }
-  
-  .cat-data-grid-text {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    display: flex;
-    color: white !important;
-    width: 100%;
-    padding: 10px;
-    background-color: rgba(0, 0, 0, 0); /* transparent by default */
-    transition: background-color 0.3s ease;
-  }
-  .cat-data-grid-text p,h5{
-    color: white !important;
-  }
-  .cat-data-grid-div:hover .cat-data-grid-text {
-    background-color: rgba(0, 0, 0, 0.6); /* just behind text */
-  }
-  .cat-data-grid-div:hover .cat-data-grid-image {
-    transform: scale(1.1); /* Zoom in */
-  }
-  /* First-layout items (1st row) */
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  align-items: center;
+  padding: 20px;
+  margin-top: 5%;
+}
+
+/* Row layout */
+.cat-data-grid-row {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* Layout variations */
+.second-layout .cat-data-grid-div {
+  width: 610px;
+}
+.third-layout .cat-data-grid-div {
+  width: 400px;
+}
+.default-layout .cat-data-grid-div {
+  width: 300px;
+}
+
+/* Grid item */
+.cat-data-grid-div {
+  height: 300px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+  background: #f1f1f1;
+  cursor: pointer;
+}
+
+/* Image wrapper for overlay */
+.cat-data-grid-image-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.cat-data-grid-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+  display: block;
+}
+
+/* Overlay */
+.cat-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #06060640;
+  /* filter: blur(5px); */
+  z-index: 1;
+}
+
+/* Text over image */
+.cat-data-grid-text {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+  z-index: 2;
+  width: 100%;
+  padding: 10px;
+  color: white !important;
+  background-color: rgba(0, 0, 0, 0); /* transparent by default */
+  transition: background-color 0.3s ease;
+}
+
+.cat-data-grid-text p,
+.cat-data-grid-text h5 {
+  color: white !important;
+  margin: 0;
+}
+
+/* Hover effects */
+.cat-data-grid-div:hover .cat-data-grid-text {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+.cat-data-grid-div:hover .cat-data-grid-image {
+  transform: scale(1.1);
+}
+
+/* First-layout specific widths */
 .first-layout-item-0 {
-    width: 500px;
+  width: 500px;
+}
+.first-layout-item-1 {
+  width: 300px;
+}
+.first-layout-item-2 {
+  width: 400px;
+}
+
+/* Mobile styles */
+@media (max-width: 768px) {
+  .cat-data-grid-wrapper {
+    padding: 10px;
+    margin-top: 10%;
+    gap: 20px;
   }
-  
-  .first-layout-item-1 {
-    width: 300px;
+
+  .cat-data-grid-row {
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
   }
-  
-  .first-layout-item-2 {
-    width: 400px;
+
+  .cat-data-grid-div {
+    width: 100% !important;
+    height: 250px;
   }
-  
-  @media (max-width: 768px) {
-    .cat-data-grid-wrapper {
-      padding: 10px;
-      margin-top: 10%;
-      gap: 20px;
-    }
-  
-    .cat-data-grid-row {
-      flex-direction: column;
-      gap: 20px;
-      align-items: center;
-    }
-  
-    .cat-data-grid-div {
-      width: 100% !important;
-      height: 250px;
-    }
-  
-    .cat-data-grid-text {
-      padding: 8px;
-      font-size: 14px;
-    }
-  
-    .cat-data-grid-text p,
-    .cat-data-grid-text h5 {
-      font-size: 14px;
-    }
+
+  .cat-data-grid-text {
+    padding: 8px;
+    font-size: 14px;
   }
-  
+
+  .cat-data-grid-text p,
+  .cat-data-grid-text h5 {
+    font-size: 14px;
+  }
+}

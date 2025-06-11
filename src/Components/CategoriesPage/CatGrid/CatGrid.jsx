@@ -52,7 +52,10 @@ const categoriesData = [
                   key={index}
                   className={`cat-data-grid-div ${row.layout}-item-${index}`}
                 >
-                  <img src={data.image} className='cat-data-grid-image' />
+                  <div className="cat-data-grid-image-wrapper">
+                    <img src={data.image} className="cat-data-grid-image" />
+                    <div className="cat-overlay" />
+                  </div>
                   <div className='cat-data-grid-text'>
                     <h5>{data.text}</h5>
                     <p>{data.items}</p>
