@@ -1,0 +1,39 @@
+.categories-data-grid-container{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    margin: 5% 0;
+}
+.categories-data-grid-div{
+    position: relative;
+    width: 593px;
+    height: 216px;
+    border-radius: 4px;
+    overflow: hidden;
+    cursor: pointer;
+}
+.categories-data-grid-image{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+.categories-data-grid-text{
+    display: flex;
+    gap: 10px;
+    position: absolute;
+    bottom: 0;
+    right: 10px;
+    height: 34px;
+    line-height: auto;
+    align-items: center;
+}
+.categories-data-grid-text p,h5{
+    color: white !important;
+    margin: 0;
+
+}
+.categories-data-grid-div:hover .categories-data-grid-image {
+    transform: scale(1.1); /* Zoom in */
+  }

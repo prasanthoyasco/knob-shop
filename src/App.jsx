@@ -10,6 +10,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Home } from './Pages/Home';
 import NewsletterModal from './Components/NewsletterModal/NewsletterModal';
 import { ProductList } from './Pages/ProductList';
+import CategoriesHeader from './Components/CategoriesPage/CategoriesHeader/CategoriesHeader';
 // import NavbarTop from './Components/Navbar/NavbarTop/NavbarTop';
 
 function App() {
@@ -20,6 +21,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
        <Route path='/category/:id' element={<ProductList/>}></Route>
+       <Route path='/categories' element={<CategoriesHeader/>}></Route>
+       
       </Routes>
     </Router>
   );
