@@ -20,10 +20,10 @@
     width: 400px;
   } */
   .second-layout .cat-data-grid-div {
-    width: 610px;
+    width: 510px;
   }
   .third-layout .cat-data-grid-div {
-    width: 400px;
+    width: 330px;
   }
   
   /* Default layout (optional fallback) */
@@ -32,7 +32,7 @@
   }
   
   .cat-data-grid-div {
-    height: 300px;
+    height: 250px;
     position: relative;
     overflow: hidden;
     border-radius: 10px;
@@ -69,15 +69,15 @@
   }
   /* First-layout items (1st row) */
 .first-layout-item-0 {
-    width: 500px;
+    width: 450px;
   }
   
   .first-layout-item-1 {
-    width: 300px;
+    width: 250px;
   }
   
   .first-layout-item-2 {
-    width: 400px;
+    width: 300px;
   }
   
   @media (max-width: 768px) {
