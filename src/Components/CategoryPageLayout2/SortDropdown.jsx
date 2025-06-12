@@ -37,8 +37,8 @@ const SortDropdown = ({ onChange }) => {
     <div className="position-relative d-inline-block" ref={dropdownRef}>
       <button
         onClick={() => setShow(!show)}
-        className="btn btn-sm dropdown-toggle px-1 hover:bg-light"
-        style={{ border: "0px !important" }}
+        className="btn btn-link text-decoration-none dropdown-toggle px-1 hover:bg-light"
+        style={{ border: "0px !important",color:"#000" }}
       >
         {selected}
       </button>
