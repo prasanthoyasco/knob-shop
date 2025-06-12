@@ -38,10 +38,10 @@ const CategoryFilters = ({
       <div className="mt-3 px-3 d-flex align-items-center justify-content-between">
         <h5 className="fw-semibold">Filter</h5>
         <button
-          className="btn btn-link filter-btn p-0 text-decoration-underline"
+          className="btn filter-btn p-0 btn-link text-decoration-none"
           onClick={handleResetFilters}
         >
-          Remove all
+         <i className="bi bi-arrow-counterclockwise"></i> Remove all
         </button>
       </div>
 
