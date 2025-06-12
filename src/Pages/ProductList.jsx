@@ -1,5 +1,5 @@
 import CategoryHero from "../Components/CategoryHero/CategoryHero"
-import CategoryPageLayout from "../Components/CategoryPageLayout/CategoryPageLayout"
+import CategoryPageLayout2 from "../Components/CategoryPageLayout2/CategoryPageLayout2"
 import NavbarTop from "../Components/Navbar/NavbarTop/NavbarTop"
 import lockerBg from "/categoryBg.jpg"
 import chair from "../Assets/product-category/p1.jpg";
@@ -153,7 +153,8 @@ export const ProductList = () => {
         count={200}
         backgroundImage={lockerBg}
       />
-      <CategoryPageLayout products={products}/>
+      {/* <CategoryPageLayout products={products}/> */}
+      <CategoryPageLayout2 products={products}/>
       <Footer />
       </>
   )
