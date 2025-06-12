@@ -1,0 +1,66 @@
+.custom-slider .rc-slider-track {
+  background-color: #1c1c1c;
+  height: 4px;
+}
+
+.custom-slider .rc-slider-rail {
+  background-color: #e0e0e0;
+  height: 4px;
+}
+.filter-btn{
+    color: #3B3B3B !important;
+    font-weight: 500;
+}
+.form-check-input {
+  border-radius: 6px;
+  width: 18px;
+  height: 18px;
+  margin-top: 0.2rem;
+}
+.custom-checkbox:checked {
+  background-color: #fff;
+  border-color: #000;
+}
+
+.custom-checkbox {
+  border: 1px solid #000 !important;
+  background-color: #fff !important;
+  width: 1.2rem;
+  height: 1.2rem;
+}
+.custom-checkbox:focus{
+    border: 0;
+    box-shadow:none;
+}
+
+.custom-checkbox:checked[type="checkbox"] {
+  background-color: #fff !important;
+  border: 1px solid #000 !important;
+  background-image: url("data:image/svg+xml;utf8,<svg width='12' height='9' viewBox='0 0 12 9' fill='none' xmlns='http://www.w3.org/2000/svg'><path fill-rule='evenodd' clip-rule='evenodd' d='M3.53033 6.96968L10.5 0L11.5607 1.06067L4.06066 8.56066C3.92001 8.70128 3.72924 8.78033 3.53033 8.78033C3.33142 8.78033 3.14065 8.70128 3 8.56066L0 5.56066L1.06066 4.50001L3.53033 6.96968Z' fill='black' style='fill:black;fill-opacity:1;'/></svg>");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 12px 9px;
+}
+
+.badge {
+  font-size: 0.9rem;
+  background-color: #f2f2f2;
+  color: #000;
+  border: 1px solid #ccc;
+}
+
+.custom-slider .rc-slider-handle {
+  width: 24px;
+  height: 24px;
+  opacity: 1;
+  border: 2px solid #ccc;
+  background-color: #fff;
+  margin-top: -10px;
+  box-shadow: 0 0 0 2px #fff;
+}
+
+.custom-slider .rc-slider-handle:focus,
+.custom-slider .rc-slider-handle:hover {
+  border-color: #999;
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+}

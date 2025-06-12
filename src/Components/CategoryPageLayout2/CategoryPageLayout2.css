@@ -19,14 +19,13 @@
 
 /* Custom accordion replacement (no Bootstrap JS) */
 .custom-accordion .accordion-section {
-  border: 1px solid #e5e5e5;
   border-radius: 6px;
   margin-bottom: 0.75rem;
   overflow: hidden;
 }
 
 .custom-accordion .accordion-header {
-  background: #f7f7f7;
+  background: transparent;
   padding: 0.6rem 1rem;
   font-weight: 500;
   font-size: 0.95rem;
@@ -36,9 +35,11 @@
   align-items: center;
   transition: background-color 0.2s ease;
 }
-
+.custom-accordion .accordion-header.open{
+   color: #e18436 !important;
+}
 .custom-accordion .accordion-header:hover {
-  background-color: #ececec;
+  color: #e18436 !important;
 }
 
 .custom-accordion .accordion-body {
@@ -57,9 +58,38 @@
     color: #e18436 !important;
     cursor: pointer;
 }
-.dropdown-menu{
-  
+@media (max-width: 576px) {
+  .item-count,
+  .sort-control {
+    font-size: 13px !important;
+  }
 }
+
+.dropdown-menu{
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1) !important;
+}
+.dropdown-item{
+  width: 90%;
+  margin: 0rem .5rem;
+  border-radius: 50px;
+}
+
+.dropdown-menu::before {
+ content: "";
+  position: absolute;
+  top: -8px;
+  right: 16px; /* Adjust horizontally */
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 8px solid white; /* Same as dropdown background */
+  z-index: 101;
+}
+.dropdown-toggle::after{
+  display: none;
+}
+
 /* Product grid spacing */
 .row.g-3 > [class^="col-"] {
   display: flex;

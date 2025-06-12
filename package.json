@@ -10,12 +10,16 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@mui/material": "^7.1.1",
     "@react-google-maps/api": "^2.20.6",
     "aos": "^2.3.4",
     "bootstrap": "^5.3.5",
     "bootstrap-icons": "^1.11.3",
     "leaflet": "^1.9.4",
     "modern-css-reset": "^1.4.0",
+    "rc-slider": "^11.1.8",
     "react": "^19.0.0",
     "react-bootstrap": "^2.10.9",
     "react-dom": "^19.0.0",

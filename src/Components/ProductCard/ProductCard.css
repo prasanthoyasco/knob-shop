@@ -178,6 +178,7 @@
   /* background-color: #ffffff; */
   border: 1px solid #212121;
   border-radius: 50%;
+  cursor: pointer;
   padding: 10px;
 }
 .icon:hover{

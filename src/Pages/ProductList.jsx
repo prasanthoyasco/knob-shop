@@ -24,6 +24,8 @@ const products = [
     rating: 4.9,
     image: bchair,
     hoverImage: bchair1,
+    colors: ["#000000", "#fbe9e7"],
+    features: ["Accessory", "IP camera"],
     icons: [
       { name: "Card Key", imgUrl: "/product-icon/card_key.svg" },
       { name: "Pin Code", imgUrl: "/product-icon/pin_code.svg" },
@@ -43,6 +45,8 @@ const products = [
     rating: 4.9,
     image: sofa2,
     hoverImage: sofa,
+    colors: ["#ff6f00", "#7ec6e3"],
+    features: ["Accessory"],
     icons: [
       { name: "Card Key", imgUrl: "/product-icon/card_key.svg" },
       { name: "Pin Code", imgUrl: "/product-icon/pin_code.svg" },
@@ -62,6 +66,12 @@ const products = [
     rating: 4.9,
     image: chair,
     hoverImage: chair2,
+    colors: ["#5c3b1e", "#f8bbd0"],
+    features: ["Wardrobe locks", "IP camera"],
+    icons: [
+      { name: "Pin Code", imgUrl: "/product-icon/pin_code.svg" },
+      { name: "Fingerprint", imgUrl: "/product-icon/fingerprint.svg" },
+    ],
   },
   {
     id: 4,
@@ -75,6 +85,9 @@ const products = [
     rating: 4.8,
     image: sofa3,
     hoverImage: sofa3,
+    colors: ["#1565c0", "#43a047"],
+    features: ["Video door phone"],
+    icons: [],
   },
   {
     id: 5,
@@ -88,6 +101,13 @@ const products = [
     rating: 4.9,
     image: sofa,
     hoverImage: sofa2,
+    colors: ["#ff6f00", "#a1887f"],
+    features: ["Accessory"],
+    icons: [
+      { name: "Card Key", imgUrl: "/product-icon/card_key.svg" },
+       { name: "Pin Code", imgUrl: "/product-icon/pin_code.svg" },
+      { name: "Store Manual key", imgUrl: "/product-icon/machnic_key.svg" },
+    ],
   },
   {
     id: 6,
@@ -101,6 +121,9 @@ const products = [
     rating: 4.8,
     image: sofa3,
     hoverImage: sofa3,
+    colors: ["#aa00ff", "#ffa726"],
+    features: ["Video door phone"],
+    icons: [],
   },
   {
     id: 7,
@@ -114,6 +137,12 @@ const products = [
     rating: 4.9,
     image: chair,
     hoverImage: chair2,
+    colors: ["#5c6bc0"],
+    features: ["Wardrobe locks", "Accessory"],
+    icons: [
+      { name: "Pin Code", imgUrl: "/product-icon/pin_code.svg" },
+      { name: "Fingerprint", imgUrl: "/product-icon/fingerprint.svg" },
+    ],
   },
   {
     id: 8,
@@ -127,6 +156,9 @@ const products = [
     rating: 4.8,
     image: sofa3,
     hoverImage: sofa3,
+    colors: ["#a1887f"],
+    features: ["Video door phone"],
+    icons: [],
   },
   {
     id: 9,
@@ -140,8 +172,12 @@ const products = [
     rating: 4.8,
     image: sofa3,
     hoverImage: sofa3,
+    colors: ["#d32f2f"],
+    features: ["Video door phone"],
+    icons: [],
   },
 ];
+
 
 
 export const ProductList = () => {
