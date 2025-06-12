@@ -1,100 +1,21 @@
-import { useEffect, useState } from "react";
-import ProductCard from "../ProductCard/ProductCard";
-import "./CategoryPageLayout2.css";
-import SortDropdown from "./SortDropdown";
+// components/CategoryFilters.jsx
+import React from "react";
 
-const CategoryPageLayout2 = ({ products = [] }) => {
-  const [filteredProducts, setFilteredProducts] = useState(products);
-  const [openSections, setOpenSections] = useState({});
-  const [filters, setFilters] = useState({
-    brand: [],
-    availability: [],
-    priceRange: [0, 100000],
-    colors: [],
-    features: [],
-    accessType: [],
-  });
-  const [sortOrder, setSortOrder] = useState("");
-  const [showMobileFilters, setShowMobileFilters] = useState(false);
-  
-
-  const toggleSection = (section) => {
-    setOpenSections((prev) => ({
-      ...prev,
-      [section]: !prev[section],
-    }));
-  };
-
+const CategoryFilters = ({
+  products,
+  filters,
+  setFilters,
+  openSections,
+  toggleSection,
+  handleCheckboxChange,
+  handleResetFilters,
+}) => {
   const uniqueValues = (field) => {
     const values = products.map((p) => p[field]).filter(Boolean);
     return [...new Set(values)];
   };
 
-  useEffect(() => {
-    applyFilters();
-  }, [filters, sortOrder, products]);
-
-  const applyFilters = () => {
-    let result = [...products];
-
-    if (filters.brand.length > 0) {
-      result = result.filter((p) => filters.brand.includes(p.brand));
-    }
-
-    if (filters.availability.length > 0) {
-      result = result.filter((p) =>
-        filters.availability.includes(p.inStock ? "In Stock" : "Out of Stock")
-      );
-    }
-
-    if (filters.colors.length > 0) {
-      result = result.filter((p) => filters.colors.includes(p.color));
-    }
-
-    if (filters.features.length > 0) {
-      result = result.filter((p) =>
-        filters.features.every((feat) => p.features?.includes(feat))
-      );
-    }
-
-    if (filters.accessType.length > 0) {
-      result = result.filter((p) => filters.accessType.includes(p.accessType));
-    }
-
-    const [minPrice, maxPrice] = filters.priceRange;
-    result = result.filter((p) => p.price >= minPrice && p.price <= maxPrice);
-
-    if (sortOrder === "lowToHigh") {
-      result.sort((a, b) => a.price - b.price);
-    } else if (sortOrder === "highToLow") {
-      result.sort((a, b) => b.price - a.price);
-    }
-
-    setFilteredProducts(result);
-  };
-
-  const handleCheckboxChange = (filterName, value, checked) => {
-    setFilters((prev) => ({
-      ...prev,
-      [filterName]: checked
-        ? [...prev[filterName], value]
-        : prev[filterName].filter((item) => item !== value),
-    }));
-  };
-
-  const handleResetFilters = () => {
-    setFilters({
-      brand: [],
-      availability: [],
-      priceRange: [0, 100000],
-      colors: [],
-      features: [],
-      accessType: [],
-    });
-    setSortOrder("");
-  };
-
-  const renderFilterAccordion = () => (
+  return (
     <>
       <div className="my-3 ms-2 d-flex align-items-center justify-content-between">
         <h3 className="mb-0">Filter</h3>
@@ -149,11 +70,7 @@ const CategoryPageLayout2 = ({ products = [] }) => {
                           type="checkbox"
                           value={status}
                           onChange={(e) =>
-                            handleCheckboxChange(
-                              "availability",
-                              status,
-                              e.target.checked
-                            )
+                            handleCheckboxChange("availability", status, e.target.checked)
                           }
                           id={`availability-${status}`}
                         />
@@ -259,75 +176,6 @@ const CategoryPageLayout2 = ({ products = [] }) => {
       </div>
     </>
   );
-
-  return (
-    <div className="container-fluid my-4">
-      <div className="row">
-        {/* Mobile filter button */}
-        <div className="d-md-none mb-3">
-          <button
-            className="btn btn-outline-dark w-100 d-flex justify-content-between align-items-center"
-            onClick={() => setShowMobileFilters(!showMobileFilters)}
-          >
-            <span><i className="bi bi-filter me-2"></i>Filters</span>
-            <i className={`bi ${showMobileFilters ? "bi-chevron-up" : "bi-chevron-down"}`}></i>
-          </button>
-        </div>
-
-        {/* Mobile Filter Panel */}
-        {showMobileFilters && (
-          <div className="col-12 d-md-none mb-3">{renderFilterAccordion()}</div>
-        )}
-
-        {/* Desktop Filter Panel */}
-        <div className="col-md-3 d-none d-md-block">{renderFilterAccordion()}</div>
-
-        {/* Product Grid */}
-        <div className="col-md-9">
-          <div className="d-flex justify-content-end align-items-center mb-3">
-            <div className="d-flex align-items-center gap-2">
-              <span>({filteredProducts.length} Items)</span>
-              <span className="text-muted small">Sort by:</span>
-              {/* <select
-                className="form-select form-select-sm w-auto no-border"
-                onChange={(e) => setSortOrder(e.target.value)}
-              >
-                <option value="">Best selling</option>
-                <option value="lowToHigh">Price: Low to High</option>
-                <option value="highToLow">Price: High to Low</option>
-              </select> */}
-              <SortDropdown onChange={(sortValue) => setSortOrder(sortValue)} />
-            </div>
-          </div>
-
-          <div className="row g-3">
-            {filteredProducts.map((product) => (
-              <div className="col-12 col-sm-6 col-md-4 col-lg-4 products" key={product._id}>
-                <ProductCard product={product} />
-              </div>
-            ))}
-          </div>
-
-          {/* Pagination */}
-          <div className="d-flex justify-content-center my-4">
-            <nav>
-              <ul className="pagination pagination-sm custom-pagination mb-0">
-                <li className="page-item active">
-                  <span className="page-link active-link">1</span>
-                </li>
-                <li className="page-item">
-                  <button className="page-link no-border">2</button>
-                </li>
-                <li className="page-item">
-                  <button className="page-link no-border">3</button>
-                </li>
-              </ul>
-            </nav>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
 };
 
-export default CategoryPageLayout2;
+export default CategoryFilters;

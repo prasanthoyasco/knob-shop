@@ -29,11 +29,6 @@
     line-height: auto;
     align-items: center;
 }
-.categories-data-grid-text p,h5{
-    color: white !important;
-    margin: 0;
-
-}
 .categories-data-grid-div:hover .categories-data-grid-image {
     transform: scale(1.1); /* Zoom in */
   }

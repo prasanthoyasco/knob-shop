@@ -52,7 +52,14 @@
   font-weight: bold;
   line-height: 1;
 }
-
+.dropdown-item.active {
+    background-color: #f2f2f2;
+    color: #e18436 !important;
+    cursor: pointer;
+}
+.dropdown-menu{
+  
+}
 /* Product grid spacing */
 .row.g-3 > [class^="col-"] {
   display: flex;
