@@ -14,7 +14,7 @@ const tabData = {
         against intruders wanting access to your doors. With YDME 50NXT you can do just that and more with the
         fashionable and advanced touch keypad technology.
       </p>
-      <ul>
+      <ul className='mt-4'>
         <li className='my-2'><strong>Various Access:</strong> YDME 50Nxt has multiple options to access the lock – Fingerprint, Pin Code, RFID Card and Manual Key.</li>
         <li className='mb-2'><strong>Secure Fingerprint Access:</strong> Unlock your door with a precise and rapid one-touch fingerprint.</li>
         <li className='mb-2'><strong>Convenience:</strong> Upgrade your existing door lock (LH & RH) and supports thickness from 35mm to 65mm.</li>

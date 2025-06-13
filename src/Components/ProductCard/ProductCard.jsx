@@ -4,7 +4,6 @@ import "./ProductCard.css";
 import { Navigate, useNavigate } from "react-router-dom";
 // import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 // import { useState } from "react";
-
 const ProductCard = ({ product }) => {
   const navigate = useNavigate();
     // const [isWishlisted, setIsWishlisted] = useState(false);
@@ -23,6 +22,7 @@ const ProductCard = ({ product }) => {
     image,
   } = product;
 console.log(icons);
+console.log(product);
 
   return (
    <div className="card product-card h-100 position-relative curser-pointer">
@@ -64,7 +64,9 @@ console.log(icons);
   </div>
    <hr />
     <div className="mt-2">
-      <h5 className="card-title">{title}</h5>
+    <h5 className="card-title">
+      {product.title}
+    </h5>
 
     <p className="mb-2">
      
