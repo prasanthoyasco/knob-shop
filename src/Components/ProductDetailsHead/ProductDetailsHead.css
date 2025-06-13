@@ -1,17 +1,16 @@
 .product-image .main-image {
   border: 1px solid #ccc;
   border-radius: 4px;
-  max-height: 500px;
+  min-height: 600px;
   object-fit: cover;
 }
 
 .small-thumb {
-  width: 70px;
-  height: 70px;
+  width: 100px;
+  height: 100px;
   object-fit: cover;
   cursor: pointer;
 }
-
 .color-circle {
   width: 28px;
   height: 28px;
