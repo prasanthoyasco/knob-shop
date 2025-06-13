@@ -3,8 +3,8 @@ import { FaStar, FaHeart } from "react-icons/fa";
 import "./ProductCard.css";
 // import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 // import { useState } from "react";
-
 const ProductCard = ({ product }) => {
+
     // const [isWishlisted, setIsWishlisted] = useState(false);
 
   // const toggleWishlist = () => {
@@ -20,6 +20,7 @@ const ProductCard = ({ product }) => {
     image,
   } = product;
 console.log(icons);
+console.log(product);
 
   return (
    <div className="card product-card h-100 position-relative">
@@ -36,7 +37,7 @@ console.log(icons);
 
 
   <div className="image-wrapper position-relative">
-  <img src={image} alt={title} className="card-img-top default-img" />
+  <img src={product.image} alt={title} className="card-img-top default-img" />
   <img src={product.hoverImage} alt={title} className="card-img-top hover-img position-absolute top-0 start-0" />
   {/* <div className="hover-button-wrapper">
     <button className="hover-button">Choose Option</button>
@@ -61,7 +62,9 @@ console.log(icons);
   </div>
    <hr />
     <div className="mt-2">
-      <h5 className="card-title">{title}</h5>
+    <h5 className="card-title">
+      {product.title}
+    </h5>
 
     <p className="mb-2">
      
