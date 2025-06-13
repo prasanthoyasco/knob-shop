@@ -6,7 +6,9 @@ import CategoriesBanner from '../CategoriesBanner/CategoriesBanner'
 import NavbarTop from '../../Navbar/NavbarTop/NavbarTop'
 import Footer from '../../Footer/Footer'
 import CatGrid from '../CatGrid/CatGrid'
+import { useNavigate } from 'react-router-dom'
 function CategoriesHeader() {
+  const navigate = useNavigate()
   return (
     <>
     <NavbarTop/>
@@ -14,7 +16,7 @@ function CategoriesHeader() {
       <img src={Image} className='background-image'/>
       <div className='categories-image-overlay'></div>
       <div className='categories-image-overlay-text'>
-        <p>HOME / SHOP BY CATEGORIES</p>
+        <p><span style={{cursor:"pointer"}} onClick={()=>navigate('/')}>HOME / </span>SHOP BY CATEGORIES</p>
         <h1>Categories</h1>
       </div>
     </div>
