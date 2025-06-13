@@ -1,0 +1,39 @@
+.product-image .main-image {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  max-height: 500px;
+  object-fit: cover;
+}
+
+.small-thumb {
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+.color-circle {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  cursor: pointer;
+}
+.color-circle.active {
+  border-color: #000;
+  outline: 2px solid #000;
+}
+
+.icons-section span {
+  background: #f8f9fa;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.breadcrumb {
+  font-size: 14px;
+  background: none;
+}

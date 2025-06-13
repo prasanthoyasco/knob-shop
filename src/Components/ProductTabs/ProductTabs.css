@@ -1,0 +1,15 @@
+.product-tabs .nav-tabs .nav-link {
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: #555;
+  font-weight: 500;
+  font-size: 15px;
+  padding: 10px 16px;
+  background: none;
+}
+
+.product-tabs .nav-tabs .nav-link.active {
+  border-bottom: 2px solid #000;
+  color: #000;
+  background-color: transparent;
+}

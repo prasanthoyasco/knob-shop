@@ -2,13 +2,13 @@ import CategoryHero from "../Components/CategoryHero/CategoryHero"
 import CategoryPageLayout2 from "../Components/CategoryPageLayout2/CategoryPageLayout2"
 import NavbarTop from "../Components/Navbar/NavbarTop/NavbarTop"
 import lockerBg from "/categoryBg.jpg"
-import chair from "../Assets/product-category/p1.jpg";
-import chair2 from "../Assets/product-category/p6.jpg";
-import sofa from "../Assets/product-category/p2.jpg";
-import sofa2 from "../Assets/product-category/p3.jpg";
-import sofa3 from "../Assets/product-category/p4.jpg";
-import bchair from "../Assets/product-category/p3.jpg";
-import bchair1 from "../Assets/product-category/p7.jpg";
+// import chair from "../Assets/product-category/p1.jpg";
+// import chair2 from "../Assets/product-category/p6.jpg";
+// import sofa from "../Assets/product-category/p2.jpg";
+// import sofa2 from "../Assets/product-category/p3.jpg";
+// import sofa3 from "../Assets/product-category/p4.jpg";
+// import bchair from "../Assets/product-category/p3.jpg";
+// import bchair1 from "../Assets/product-category/p7.jpg";
 import Footer from "../Components/Footer/Footer";
 import { useLocation } from "react-router-dom";
 export const ProductList = () => {

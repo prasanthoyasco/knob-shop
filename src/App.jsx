@@ -12,6 +12,7 @@ import NewsletterModal from './Components/NewsletterModal/NewsletterModal';
 import { ProductList } from './Pages/ProductList';
 import CategoriesHeader from './Components/CategoriesPage/CategoriesHeader/CategoriesHeader';
 import TermsAndCondition from './Components/TermsAndCondition/TermsAndCondition'
+import { ProductDetails } from './Pages/ProductDetails';
 import PrivacyPolicy from './Components/PrivacyPolicy/PrivacyPolicy'
 // import NavbarTop from './Components/Navbar/NavbarTop/NavbarTop';
 
@@ -20,9 +21,10 @@ function App() {
     <Router>
       <NewsletterModal />
       {/* <NavbarTop /> */}
-      <Routes>
+      <Routes>x
         <Route path="/" element={<Home />} />
        <Route path='/category/:id' element={<ProductList/>}></Route>
+       <Route path='/product/:id' element={<ProductDetails/>}></Route>
        <Route path='/categories' element={<CategoriesHeader/>}></Route>
        <Route path='/terms-condition' element={<TermsAndCondition/>}></Route>
        <Route path='/privacy-policy' element={<PrivacyPolicy/>}></Route>
