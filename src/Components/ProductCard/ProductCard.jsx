@@ -1,16 +1,19 @@
 // components/ProductCard.jsx
 import { FaStar, FaHeart } from "react-icons/fa";
 import "./ProductCard.css";
+import { Navigate, useNavigate } from "react-router-dom";
 // import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 // import { useState } from "react";
 
 const ProductCard = ({ product }) => {
+  const navigate = useNavigate();
     // const [isWishlisted, setIsWishlisted] = useState(false);
 
   // const toggleWishlist = () => {
   //   setIsWishlisted(!isWishlisted);
   // };
   const {
+    id,
     title,
     price,
     oldPrice,
@@ -22,7 +25,7 @@ const ProductCard = ({ product }) => {
 console.log(icons);
 
   return (
-   <div className="card product-card h-100 position-relative">
+   <div className="card product-card h-100 position-relative curser-pointer">
   {discount && (
     <span className="badge bg-dark text-white position-absolute top-0 start-0 m-2">
       {discount}% off
@@ -35,7 +38,7 @@ console.log(icons);
 </div>
 
 
-  <div className="image-wrapper position-relative">
+  <div className="image-wrapper position-relative" onClick={()=>navigate(`/product/${id}`)}>
   <img src={image} alt={title} className="card-img-top default-img" />
   <img src={product.hoverImage} alt={title} className="card-img-top hover-img position-absolute top-0 start-0" />
   {/* <div className="hover-button-wrapper">
@@ -82,7 +85,7 @@ console.log(icons);
   <input type="radio" name="color" className="color-dot red" />
 </div>
 <div className="card-buttons mt-3">
-  <button className="View-detail">View Details</button>
+  <button className="View-detail" onClick={()=>navigate(`/product/${id}`)}>View Details</button>
   <button className="Addtocart">Add To cart</button>
 </div>
     </div>
