@@ -143,7 +143,7 @@ export default function ProductDetailsHead() {
           </div>
 
           {/* Payment Icons */}
-          <div className="d-flex gap-2 flex-wrap mb-3">
+          <div className="d-flex gap-2 flex-wrap  mb-3">
             {['visa', 'paypal', 'master', 'discover'].map((p) => (
               <img key={p} src={`/payment-icon/${p}.svg`} alt={p} height={38} />
             ))}
@@ -151,7 +151,7 @@ export default function ProductDetailsHead() {
 
           {/* Features */}
           <div className="d-flex flex-wrap flex-md-nowrap justify-content-between gap-2 border rounded p-3 mb-3 fw-semibold small">
-            <div className="d-block d-md-none">
+            <div className="d-block w-100 mb-3 d-md-none">
             <span style={{ color: '#d6791f',fontWeight:'600',fontSize:"18px" }}>Product Specifications</span>
             </div>
 
@@ -161,7 +161,7 @@ export default function ProductDetailsHead() {
               { icon: 'machnic_key', label: 'Manual Key Access' },
               { icon: 'pin_code', label: 'RFID' }
             ].map((item) => (
-              <div key={item.icon} className="d-flex align-items-center gap-2">
+              <div key={item.icon} className="d-flex w-100 w-md-auto align-items-center gap-2">
                 <div className="rounded-circle p-2 d-flex align-items-center justify-content-center" style={{ width: 34, height: 34, border: '1px solid #515151', background: "#F8F8F8" }}>
                   <img src={`/product-icon/${item.icon}.svg`} alt={item.label} height={20} />
                 </div>

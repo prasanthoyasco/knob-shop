@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import NavbarTop from '../Components/Navbar/NavbarTop/NavbarTop';
-import Footer from '../Components/Footer/Footer';
-import ProductDetailsHead from '../Components/ProductDetailsHead/ProductDetailsHead';
-import ProductTabs from '../Components/ProductTabs/ProductTabs';
-import RelatedProductsSection from '../Components/RelatedProductsSection/RelatedProductsSection';
+import React, { useEffect, useState } from "react";
+import NavbarTop from "../Components/Navbar/NavbarTop/NavbarTop";
+import Footer from "../Components/Footer/Footer";
+import ProductDetailsHead from "../Components/ProductDetailsHead/ProductDetailsHead";
+import ProductTabs from "../Components/ProductTabs/ProductTabs";
+import RelatedProductsSection from "../Components/RelatedProductsSection/RelatedProductsSection";
 
 import chair from "../Assets/product-category/p1.jpg";
 import chair2 from "../Assets/product-category/p6.jpg";
@@ -90,9 +90,12 @@ export const ProductDetails = () => {
     return (
       <div className="d-flex justify-content-center align-items-center vh-100">
         <div className="text-center">
-          <img src="/favIcon.png" alt="logo"
-  className="spinner-border"
-  style={{ width: "60px", height: "60px", border: "none" }} />
+          <img
+            src="/favIcon.png"
+            alt="logo"
+            className="spinner-border"
+            style={{ width: "60px", height: "60px", border: "none" }}
+          />
           <p className="mt-3 fw-semibold">Loading product details...</p>
         </div>
       </div>
