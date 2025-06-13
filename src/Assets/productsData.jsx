@@ -6,6 +6,26 @@ import image5 from "./CategoriesImge/image-3.jpg";
 import image6 from "./CategoriesImge/image-7.jpg";
 import image7 from "./CategoriesImge/image-5.jpg";
 import image8 from "./CategoriesImge/image-6.jpg";
+import fh from './Product Categories and its Product (Knobs Shop)/product img/product img/Furniture Hardware/Drawer Lock/Drawer Lock.jfif'
+import cl1 from './Product Categories and its Product (Knobs Shop)/product img/product img/Cylindrical Locksets/CA5127 US19 6070BS/CA5127 US19 6070BS.webp'
+import cl2 from './Product Categories and its Product (Knobs Shop)/product img/product img/Cylindrical Locksets/CA5127 US32D 6070BS/CA5127 US32D 6070BS.webp'
+import erl1 from './Product Categories and its Product (Knobs Shop)/product img/product img/Electric Rim Lock/YEL - 200 MB/YEL 200 MB.webp'
+import erl2 from './Product Categories and its Product (Knobs Shop)/product img/product img/Electric Rim Lock/YEL - 200 SN/YEL 200 SN new.webp'
+import rl1 from './Product Categories and its Product (Knobs Shop)/product img/product img/RIM Lock/Cinco CBD Series/Antique Brass.webp'
+import rl2 from './Product Categories and its Product (Knobs Shop)/product img/product img/RIM Lock/Cinco CBD Series/Cinco CBD Series brown.webp'
+import rl3 from './Product Categories and its Product (Knobs Shop)/product img/product img/RIM Lock/Vertibolt Guard Series/Vertibolt Guard Series.webp'
+import rl4 from './Product Categories and its Product (Knobs Shop)/product img/product img/RIM Lock/KRATOS Series/black matt + black nickel.webp'
+import ds1 from './Product Categories and its Product (Knobs Shop)/product img/product img/Digital Safes  - category/Fire Rated Biometric Firesafe (125TFL)/Fire Rated Biometric Firesafe (125TFL).webp'
+import ds2 from './Product Categories and its Product (Knobs Shop)/product img/product img/Digital Safes  - category/Fire Rated Biometric Firesafe (530TFL)/Fire Rated Biometric Firesafe (530TFL).webp'
+import vdp1 from './Product Categories and its Product (Knobs Shop)/product img/product img/Video Door Phone/JB-305 E/JB-305 E.webp'
+import vdp2 from './Product Categories and its Product (Knobs Shop)/product img/product img/Video Door Phone/JB-305 E Indoor/JB-305 E Indoor.webp'
+import vdp3 from './Product Categories and its Product (Knobs Shop)/product img/product img/Video Door Phone/JB-305 M/JB-305 M.webp'
+import fwl1 from './Product Categories and its Product (Knobs Shop)/product img/product img/Fingerprint Wardrobe Lock/FP-OP-F- B-02/FP-OP-F- B-02.webp'
+import fwl2 from './Product Categories and its Product (Knobs Shop)/product img/product img/Fingerprint Wardrobe Lock/FP-OP-H- B-01/FP-OP-H- B-01.webp'
+import fwl3 from './Product Categories and its Product (Knobs Shop)/product img/product img/Fingerprint Wardrobe Lock/FP-SL-F-B- 02/FP-SL-F-B- 02.webp'
+import MeshPinImage from './Product Categories and its Product (Knobs Shop)/product img/product img/Wardrobe Door Lock/Mesh Pin/mesh pin.webp'
+import ML81PAV from './Product Categories and its Product (Knobs Shop)/product img/product img/Wardrobe Door Lock/ML81PAV/ML81PAV.webp'
+import ML81PAH from './Product Categories and its Product (Knobs Shop)/product img/product img/Wardrobe Door Lock/ML81PAH/ML81PAH.webp'
 import lunaProImage from './Product Categories and its Product (Knobs Shop)/Smart Door Lock/Smart Door Lock/Luna Pro+ Facial/1_3819cf62-66f2-4a8a-b562-eddb7d96a57c.webp'
 import yaleImage from './Product Categories and its Product (Knobs Shop)/Smart Door Lock/Smart Door Lock/Luna Pro+ Facial/14_0fb7187f-b413-411d-a145-e62b8c9e41bb.jpg'
 import YMI70AYHImage from './Product Categories and its Product (Knobs Shop)/Smart Door Lock/Smart Door Lock/YMI70A-YH/YMI70_RED-GOLD-01.jpg'
@@ -67,29 +87,29 @@ export const categoriesData = [
     { id: 4, image: image4, text: "Wardrobe Door Lock", items: "(100 items)",productList:[
       {
         name: "Mesh Pin",
-        image:lunaProImage
+        image:MeshPinImage
       },
       {
         name: "ML81PAH",
-        image:yaleImage
+        image:ML81PAH
       },
       {
         name: "ML81PAV",
-        image:YMI70AYHImage
+        image:ML81PAV
       }
     ] },
-    { id: 5, image: image5, text: "Wardrobe Door Lock", items: "(150 items)",productList:[
+    { id: 5, image: image5, text: "Fingerprint Wardrobe Lock", items: "(150 items)",productList:[
         {
             name: "FP-OP-F- B-02",
-            image:lunaProImage
+            image:fwl1
           },
           {
             name: "FP-SL-F-B- 02",
-            image:yaleImage
+            image:fwl2
           },
           {
             name: "FP-OP-H- B-01",
-            image:YMI70AYHImage
+            image:fwl3
           },
           {
             name: "FP-SL-H- B-01",
@@ -141,15 +161,15 @@ export const categoriesData = [
     { id: 1, image: image1, text: "Video Door Phone", items: "(200 items)",productList:[
         {
             name: "JB-305 M",
-            image:lunaProImage
+            image:vdp1
           },
           {
             name: "JB-305 E Indoor",
-            image:yaleImage
+            image:vdp2
           },
           {
             name: "JB-305 E",
-            image:YMI70AYHImage
+            image:vdp3
           }
     ] },
     { id: 2, image: image2, text: "Smart Safe", items: "(200 items)",productList:[
@@ -165,11 +185,11 @@ export const categoriesData = [
     { id: 3, image: image3, text: "Digital Safes", items: "(200 items)" ,productList:[
       {
         name: "Fire Rated Biometric Firesafe (125TFL)",
-        image:lunaProImage
+        image:ds1
       },
       {
         name: "Fire Rated Biometric Firesafe (530TFL)",
-        image:yaleImage
+        image:ds2
       },
     ]},
     { id: 4, image: image4, text: "Door Control Devices", items: "(100 items)",productList:[
@@ -273,25 +293,25 @@ export const categoriesData = [
     { id: 3, image: image3, text: " Rim Locks", items: "(200 items)",productList:[
       {
         name: "Cinco CBD Series",
-        image:lunaProImage
+        image:rl1
       },
       {
         name: "Cinco CBR Series",
-        image:yaleImage
+        image:rl2
       },
       {
         name: "Vertibolt Guard Series",
-        image:YMI70AYHImage
+        image:rl3
       },
       {
         name: "KRATOS Series",
-        image:YMI70AYHImage
+        image:rl4
       }
     ] },
     { id: 4, image: image4, text: "Electric Rim Lock", items: "(100 items)",productList:[
       {
         name: "YEL - 200 MB",
-        image:lunaProImage
+        image:erl1
       },
       {
         name: "YEL-200TNSFR",
@@ -299,17 +319,17 @@ export const categoriesData = [
       },
       {
         name: "YEL - 200 SN",
-        image:YMI70AYHImage
+        image:erl2
       }
     ] },
     { id: 5, image: image5, text: "Cylindrical Locksets", items: "(150 items)",productList:[
       {
         name: "CA5127 US32D 60/70BS",
-        image:lunaProImage
+        image:cl2
       },
       {
         name: "CA5127 US19 60/70BS",
-        image:yaleImage
+        image:cl1
       },
       {
         name: "CA5127 US5 60/70BS",
@@ -333,7 +353,7 @@ export const categoriesData = [
     { id: 7, image: image7, text: "Furniture Hardware", items: "(150 items)",productList:[
       {
         name: "Drawer Lock",
-        image:lunaProImage
+        image:fh
       },
       {
         name: "DRW-B-20MM-DK-(XX)",
