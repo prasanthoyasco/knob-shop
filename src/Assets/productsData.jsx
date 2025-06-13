@@ -6,6 +6,17 @@ import image5 from "./CategoriesImge/image-3.jpg";
 import image6 from "./CategoriesImge/image-7.jpg";
 import image7 from "./CategoriesImge/image-5.jpg";
 import image8 from "./CategoriesImge/image-6.jpg";
+import HDS1 from './Product Categories and its Product (Knobs Shop)/product img/product img/Heavy Duty Safe/YLFB200EB1/YLFB200EB1.webp'
+import HDS2 from './Product Categories and its Product (Knobs Shop)/product img/product img/Heavy Duty Safe/YSFB200EB1/YSFB200EB1.webp'
+import HDS3 from './Product Categories and its Product (Knobs Shop)/product img/product img/Heavy Duty Safe/YSFB250EB1/YSFB250EB1.jfif'
+import HDS4 from './Product Categories and its Product (Knobs Shop)/product img/product img/Heavy Duty Safe/YSFB400EB1/YSFB400EB1.webp'
+import DA1 from './Product Categories and its Product (Knobs Shop)/product img/product img/Door Accessories/180° Angle Door Viewer/Door viewr_1.jfif'
+import DA2 from './Product Categories and its Product (Knobs Shop)/product img/product img/Door Accessories/200° Angle Door Viewer/Door viewr satin.jfif'
+import DA3 from './Product Categories and its Product (Knobs Shop)/product img/product img/Door Accessories/Magnetic Door Stopper  SS202/Door stopper_1x1.jfif'
+import AH1 from './Product Categories and its Product (Knobs Shop)/product img/product img/Auto Hinges/Drawer Lock/Drawer Lock.jfif'
+import AH2 from './Product Categories and its Product (Knobs Shop)/product img/product img/Auto Hinges/Full overlay/Full overlay.webp'
+import AH3 from './Product Categories and its Product (Knobs Shop)/product img/product img/Auto Hinges/Half overlay/Half overlay.jfif'
+import AH4 from './Product Categories and its Product (Knobs Shop)/product img/product img/Auto Hinges/Insert/Insert.jfif'
 import fh from './Product Categories and its Product (Knobs Shop)/product img/product img/Furniture Hardware/Drawer Lock/Drawer Lock.jfif'
 import cl1 from './Product Categories and its Product (Knobs Shop)/product img/product img/Cylindrical Locksets/CA5127 US19 6070BS/CA5127 US19 6070BS.webp'
 import cl2 from './Product Categories and its Product (Knobs Shop)/product img/product img/Cylindrical Locksets/CA5127 US32D 6070BS/CA5127 US32D 6070BS.webp'
@@ -378,4 +389,54 @@ export const categoriesData = [
         image:YMI70AYHImage
       }
     ]},
+    { id: 1, image: image1, text: "Auto Hinges", items: "(200 items)",productList:[
+        {
+          name: "Drawer Lock",
+          image:AH1
+        },
+        {
+          name: "Full overlay",
+          image:AH2
+        },
+        {
+          name: "Half overlay",
+          image:AH3
+        },
+        {
+          name: "Insert",
+          image:AH4
+        }
+      ] },
+      { id: 2, image: image2, text: "Door Accessories", items: "(200 items)" ,productList:[
+        {
+          name: "180° Angle Door Viewer",
+          image:lunaProImage
+        },
+        {
+          name: "200° Angle Door Viewer",
+          image:yaleImage
+        },
+        {
+          name: "Magnetic Door Stopper : SS202",
+          image:YMI70AYHImage
+        }
+      ]},
+      { id: 3, image: image3, text: "Heavy Duty Safe", items: "(200 items)",productList:[
+        {
+          name: "YSFB/200/EB1",
+          image:HDS1
+        },
+        {
+          name: "YSFB/250/EB1",
+          image:HDS2
+        },
+        {
+          name: "YSFB/400/EB1",
+          image:HDS3
+        },
+        {
+          name: "YLFB/200/EB1",
+          image:HDS4
+        }
+      ] }
   ]
