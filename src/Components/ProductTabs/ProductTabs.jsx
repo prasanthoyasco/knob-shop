@@ -34,7 +34,7 @@ export default function ProductTabs() {
   const [activeTab, setActiveTab] = useState('Description');
 
   return (
-    <div className="product-tabs my-5 mx-4">
+    <div className="product-tabs my-2 mt-md-5 mx-4">
       <ul className="nav nav-tabs justify-content-start">
         {Object.keys(tabData).map((tab) => (
           <li className="nav-item" key={tab}>

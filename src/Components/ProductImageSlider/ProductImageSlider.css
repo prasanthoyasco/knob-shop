@@ -1,0 +1,6 @@
+@media (max-width: 576px) {
+    .img-thumbnail{
+        height: 80px !important;
+        width: 80px !important;
+    }
+}

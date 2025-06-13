@@ -78,14 +78,14 @@ function Footer() {
       <div className='contact-info-container'>
         <h2>Contact Info</h2>
          <div className='icon-phone-number'>
-            <i class="bi bi-telephone-fill"></i>
+            <i className="bi bi-telephone-fill"></i>
             <div className='phone-number'>
               <p>+91 9876543210</p>
               <p>+91 9876543211</p>
             </div>
           </div>
           <div className='icon-and-mail-id'>
-          <i class="bi bi-envelope-fill"></i>
+          <i className="bi bi-envelope-fill"></i>
             <div className='email-id'>
               <p>akashrajan1602@gmail.com</p>
               <p>ecom@knobsshop.store</p>
@@ -107,7 +107,7 @@ function Footer() {
 
     <div className='fb-insta-youTube-icon'>
       <img src={FbInstaYoutubeImage}/>
-      <p>Copyright <i class="bi bi-c-circle"></i> 2025 <span style={{color:"#AB7B53"}}>Knobs Shop.</span> All Rights Reserved.</p>
+      <p>Copyright <i className="bi bi-c-circle"></i> 2025 <span style={{color:"#AB7B53"}}>Knobs Shop.</span> All Rights Reserved.</p>
     </div>
     </div>
   )
