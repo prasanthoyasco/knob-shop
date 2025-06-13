@@ -19,7 +19,7 @@ import PrivacyPolicy from './Components/PrivacyPolicy/PrivacyPolicy'
 function App() {
   return (
     <Router>
-      <NewsletterModal />
+      {/* <NewsletterModal /> */}
       {/* <NavbarTop /> */}
       <Routes>x
         <Route path="/" element={<Home />} />

@@ -1,8 +1,10 @@
-import React from 'react'
-import NavbarTop from '../Components/Navbar/NavbarTop/NavbarTop'
-import Footer from '../Components/Footer/Footer'
-import ProductDetailsHead from '../Components/ProductDetailsHead/ProductDetailsHead'
-import ProductTabs from '../Components/ProductTabs/ProductTabs'
+import React, { useEffect, useState } from 'react';
+import NavbarTop from '../Components/Navbar/NavbarTop/NavbarTop';
+import Footer from '../Components/Footer/Footer';
+import ProductDetailsHead from '../Components/ProductDetailsHead/ProductDetailsHead';
+import ProductTabs from '../Components/ProductTabs/ProductTabs';
+import RelatedProductsSection from '../Components/RelatedProductsSection/RelatedProductsSection';
+
 import chair from "../Assets/product-category/p1.jpg";
 import chair2 from "../Assets/product-category/p6.jpg";
 import sofa from "../Assets/product-category/p2.jpg";
@@ -10,7 +12,6 @@ import sofa2 from "../Assets/product-category/p3.jpg";
 import sofa3 from "../Assets/product-category/p4.jpg";
 import bchair from "../Assets/product-category/p3.jpg";
 import bchair1 from "../Assets/product-category/p7.jpg";
-import RelatedProductsSection from '../Components/RelatedProductsSection/RelatedProductsSection'
 
 const products = [
   {
@@ -77,15 +78,34 @@ const products = [
   },
 ];
 
-
 export const ProductDetails = () => {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => setLoading(false), 10000); // 10 seconds
+    return () => clearTimeout(timeout);
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="d-flex justify-content-center align-items-center vh-100">
+        <div className="text-center">
+          <img src="/favIcon.png" alt="logo"
+  className="spinner-border"
+  style={{ width: "60px", height: "60px", border: "none" }} />
+          <p className="mt-3 fw-semibold">Loading product details...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
-<>
-     <NavbarTop/>
-     <ProductDetailsHead/>
-     <ProductTabs/>
-     <RelatedProductsSection products={products}/>
-       <Footer />
-</>
-  )
-}
+    <>
+      <NavbarTop />
+      <ProductDetailsHead />
+      <ProductTabs />
+      <RelatedProductsSection products={products} />
+      <Footer />
+    </>
+  );
+};
