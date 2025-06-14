@@ -244,6 +244,17 @@
     .review-rating-section{
       gap:10px !important;
     }
+    .write-review{
+      text-align: center !important;
+      color:#d6791f !important ;
+    }
+    .no-decoration {
+  text-decoration: none;
+}
+
+.underline {
+  text-decoration: underline;
+}
   
     .review-select-box-container {
       /* flex-direction: row;
@@ -308,7 +319,8 @@
   
     .comment-box {
       font-size: 13px;
-      height: 80px;
+      min-height: 100px;
+      max-height: 200px;
     }
   
     .rating-stars-input i {

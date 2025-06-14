@@ -107,7 +107,7 @@ function ReviewSection() {
           </div>
 
           <div
-            className="write-review"
+            className={`write-review ${showTextArea ? 'no-decoration' : 'underline'}`}
             onClick={() => setShowTextArea(!showTextArea)}
             style={{ cursor: 'pointer' }}
           >
