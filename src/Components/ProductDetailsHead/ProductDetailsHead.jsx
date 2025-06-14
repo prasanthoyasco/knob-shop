@@ -240,7 +240,7 @@ export default function ProductDetailsHead() {
 
           {/* Pincode Checker */}
           <div className="mb-3">
-            <div className="d-flex flex-column flex-md-row gap-3">
+            <div className="d-flex flex-column align-items-center flex-md-row gap-3">
               <div className="pin">
                 <div className="d-flex pincode-checker">
                   <input
@@ -266,8 +266,7 @@ export default function ProductDetailsHead() {
                 </p> */}
               </div>
               <div className="broucher fs-5 btn btn-link text-dark text-decoration-none">
-                <i className="bi bi-cloud-arrow-down-fill fs-4 me-1"></i>{" "}
-                Download Broucher
+               <h5 className="d-flex m-0"> <i className="bi bi-cloud-arrow-down-fill fs-4 me-1" style={{lineHeight:0}}/> Download Broucher</h5>
               </div>
             </div>
             {isChecked && (

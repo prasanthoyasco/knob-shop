@@ -38,7 +38,7 @@
     text-align: left;
     position: sticky;
     top: 50px;
-    height: 100vh;
+    height:fit-content;
   }
   .review-rating-section{
     display: flex;

@@ -30,7 +30,7 @@ const RelatedProductsSection = ({ products = [] }) => {
         {/* Scrollable Row */}
         <div
           ref={sliderRef}
-          className="d-flex overflow-auto gap-3 px-3 px-md-5"
+          className="d-flex overflow-auto gap-3 px-3 px-md-5 related-product"
           style={{
             scrollBehavior: 'smooth',
             scrollbarWidth: 'none',
