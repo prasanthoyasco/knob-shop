@@ -32,13 +32,13 @@
     justify-content: center;
     gap: 40px;
     padding: 20px;
-    align-items: center;
   }
-  
   .review-left {
     width: 353px;
-    height: 171px;
     text-align: left;
+    position: sticky;
+    top: 50px;
+    height: 100vh;
   }
   .review-rating-section{
     display: flex;
@@ -121,6 +121,7 @@
     padding: 15px;
     width: 900px;
     height: 188px;
+    margin-bottom: 20px;
   }
   
   .profile-section {
@@ -271,10 +272,13 @@
         font-size: 14px;
         line-height: 22px;
         height: auto;
+        text-align: start;
       }
   
     .review-left {
       height: auto;
+      position: relative;
+      top: 0;
     }
     .review-box{
         width: 300px;

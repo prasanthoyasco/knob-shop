@@ -11,14 +11,6 @@ function ReviewSection() {
   const handleCountChange = (e) => setReviewCount(Number(e.target.value));
   const handleStarClick = (rating) => setUserRating(rating);
 
-  // Utility to get difference in days from today
-  const getDaysDifference = (dateStr) => {
-    const today = new Date();
-    const reviewDate = new Date(dateStr.split('/').reverse().join('-')); // from dd/mm/yyyy to yyyy-mm-dd
-    const diffTime = today - reviewDate;
-    return diffTime / (1000 * 60 * 60 * 24);
-  };
-
   const reviews = [
     {
       id: 1,
@@ -54,26 +46,25 @@ function ReviewSection() {
     },
   ];
 
-  // Filter and sort by date
-  const filteredReviews = reviews
-    .filter((review) => {
-      const daysAgo = getDaysDifference(review.date);
-      if (sortBy === '1d') return daysAgo <= 1;
-      if (sortBy === '7d') return daysAgo <= 7;
-      if (sortBy === '365d') return daysAgo <= 365;
-      return true; // "Recent"
-    })
-    .sort((a, b) => new Date(b.date.split('/').reverse().join('-')) - new Date(a.date.split('/').reverse().join('-')))
-    .slice(0, reviewCount);
+  const visibleReviews = reviews.slice(0, reviewCount);
+  const averageRating =
+    visibleReviews.reduce((sum, r) => sum + r.rating, 0) / visibleReviews.length || 0;
+
+  const groupedReviews = {};
+  [5, 4, 3, 2, 1].forEach((star) => {
+    groupedReviews[star] = visibleReviews.filter(
+      (review) => Math.floor(review.rating) === star
+    );
+  });
 
   return (
     <div className="review-section-container">
       <div className="review-select-box-container">
         <select className="recent-select-box" value={sortBy} onChange={handleSortChange}>
-          <option value="Recent">Recent</option>
-          <option value="1d">Last 1 Day</option>
-          <option value="7d">Last 7 Days</option>
-          <option value="365d">Last 1 Year</option>
+          <option>Recent</option>
+          <option>1 day ago</option>
+          <option>1 weeks ago</option>
+          <option>1 years ago</option>
         </select>
         <select className="days-select-box" value={reviewCount} onChange={handleCountChange}>
           <option>1</option>
@@ -83,86 +74,97 @@ function ReviewSection() {
         </select>
       </div>
 
-      {filteredReviews.map((review) => (
-        <div key={review.id} className="review-container">
-          <div className="review-left">
-            <div className="review-rating-section">
-              <div className="average-rating">
-                <span className="rating-number">{review.rating.toFixed(1)}</span>
-                <span className="out-of">/5</span>
-                <div className="review-count">(1 Review)</div>
-              </div>
+      <div className="review-container">
+        <div className="review-left">
+          <div className="review-rating-section">
+            <div className="average-rating">
+              <span className="rating-number">{averageRating.toFixed(1)}</span>
+              <span className="out-of">/5</span>
+              <div className="review-count">({visibleReviews.length} Reviews)</div>
+            </div>
 
-              <div className="rating-breakdown">
-                {[5, 4, 3, 2, 1].map((star) => (
+            <div className="rating-breakdown">
+              {[5, 4, 3, 2, 1].map((star) => {
+                const count = groupedReviews[star].length;
+                return (
                   <div className="rating-row" key={star}>
                     <span className="star-label">
                       {star}
                       <i className="bi bi-star-fill ms-1"></i>
                     </span>
                     <div className="bar">
-                      {Math.floor(review.rating) === star && <div className="filled" />}
+                      {count > 0 && (
+                        <div className="filled" style={{ width: `${count * 20}%` }} />
+                      )}
                     </div>
-                    <span>{Math.floor(review.rating) === star ? 1 : 0}</span>
+                    <span>{count}</span>
                   </div>
-                ))}
-              </div>
+                );
+              })}
             </div>
           </div>
 
-          <div className="review-right">
-            <div className="review-box">
-              <div className="profile-section">
-                <div className="profile-image-and-name-div">
-                  <img src={review.image} alt="profile" className="profile-img" />
-                  <div className="profile-info">
-                    <div className="profile-name">{review.name}</div>
-                  </div>
-                </div>
-                <div className="review-date">{review.date}</div>
-              </div>
-              <div className="stars">
-                {[1, 2, 3, 4, 5].map((s) => (
+          <div
+            className="write-review"
+            onClick={() => setShowTextArea(!showTextArea)}
+            style={{ cursor: 'pointer' }}
+          >
+            Write a review
+          </div>
+
+          {showTextArea && (
+            <div className="review-form">
+              <div className="rating-stars-input">
+                {[1, 2, 3, 4, 5].map((star) => (
                   <i
-                    key={s}
-                    className={`bi ${
-                      s <= Math.floor(review.rating)
-                        ? 'bi-star-fill'
-                        : s - review.rating < 1
-                        ? 'bi-star-half'
-                        : 'bi-star'
-                    }`}
+                    key={star}
+                    className={`bi ${star <= userRating ? 'bi-star-fill' : 'bi-star'}`}
+                    onClick={() => handleStarClick(star)}
                   ></i>
                 ))}
               </div>
-              <p className="review-text">{review.comment}</p>
+              <textarea placeholder="Text Your Comment" className="comment-box"></textarea>
             </div>
-          </div>
+          )}
         </div>
-      ))}
 
-      <div
-        className="write-review"
-        onClick={() => setShowTextArea(!showTextArea)}
-        style={{ cursor: 'pointer' }}
-      >
-        Write a review
+        <div className="review-right">
+          {[5, 4, 3, 2, 1].map((star) => (
+            groupedReviews[star].length > 0 && (
+              <div key={star} className="review-group">
+                {groupedReviews[star].map((review) => (
+                  <div className="review-box" key={review.id}>
+                    <div className="profile-section">
+                      <div className="profile-image-and-name-div">
+                        <img src={review.image} alt="profile" className="profile-img" />
+                        <div className="profile-info">
+                          <div className="profile-name">{review.name}</div>
+                        </div>
+                      </div>
+                      <div className="review-date">{review.date}</div>
+                    </div>
+                    <div className="stars">
+                      {[1, 2, 3, 4, 5].map((s) => (
+                        <i
+                          key={s}
+                          className={`bi ${
+                            s <= Math.floor(review.rating)
+                              ? 'bi-star-fill'
+                              : s - review.rating < 1
+                              ? 'bi-star-half'
+                              : 'bi-star'
+                          }`}
+                        ></i>
+                      ))}
+                    </div>
+                    <p className="review-text">{review.comment}</p>
+                  </div>
+                ))}
+              </div>
+            )
+          ))}
+        </div>
       </div>
-
-      {showTextArea && (
-        <div className="review-form">
-          <div className="rating-stars-input">
-            {[1, 2, 3, 4, 5].map((star) => (
-              <i
-                key={star}
-                className={`bi ${star <= userRating ? 'bi-star-fill' : 'bi-star'}`}
-                onClick={() => handleStarClick(star)}
-              ></i>
-            ))}
-          </div>
-          <textarea placeholder="Text Your Comment" className="comment-box"></textarea>
-        </div>
-      )}
     </div>
   );
 }
