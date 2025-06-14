@@ -63,3 +63,17 @@
     margin-bottom: 8px;
   }
 }
+
+.fs-large {
+  font-size: 1.1rem;
+}
+
+@media (max-width: 768px) {
+  .fs-large {
+    font-size: 0.9rem;
+  }
+  .w-sm-100{
+    width: 100% !important;
+  }
+}
+

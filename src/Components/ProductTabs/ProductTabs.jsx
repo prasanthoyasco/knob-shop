@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import './ProductTabs.css';
 import ProductFeatures from './ProductFeatures';
 import ProductSpecificationTable from './ProductSpecificationTable';
+import YouTubeEmbed from '../YouTubeEmbed/YouTubeEmbed';
+import ReviewSection from '../ReviewSection/ReviewSection';
 
 const tabData = {
   Description: (
@@ -28,8 +30,8 @@ const tabData = {
   ),
   Features: <ProductFeatures/>,
   'Technical Specification':<ProductSpecificationTable/>,
-  Video: <p>Embedded product demo video will appear here.</p>,
-  'Customer Reviews': <p>Customer reviews and ratings will be displayed here.</p>,
+  Video:<YouTubeEmbed videoId="lc1msHWRvjw"/>,
+  'Customer Reviews': <ReviewSection/>,
 };
 
 export default function ProductTabs() {
@@ -50,7 +52,7 @@ export default function ProductTabs() {
         ))}
       </ul>
 
-      <div className="tab-content border-noborder p-4 bg-white">
+      <div className="tab-content border-noborder p-2 p-md-4 bg-white">
         {tabData[activeTab]}
       </div>
     </div>
