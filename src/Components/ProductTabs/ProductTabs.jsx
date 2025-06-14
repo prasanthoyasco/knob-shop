@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import './ProductTabs.css';
+import YouTubeEmbed from '../YouTubeEmbed/YouTubeEmbed';
+import ReviewSection from '../ReviewSection/ReviewSection';
 
 const tabData = {
   Description: (
@@ -26,8 +28,8 @@ const tabData = {
   ),
   Features: <p>Coming soon: Detailed list of features for the YDME50 Nxt smart lock.</p>,
   'Technical Specification': <p>Technical specs will be listed here including size, battery life, material, etc.</p>,
-  Video: <p>Embedded product demo video will appear here.</p>,
-  'Customer Reviews': <p>Customer reviews and ratings will be displayed here.</p>,
+  Video:<YouTubeEmbed videoId="lc1msHWRvjw"/>,
+  'Customer Reviews': <ReviewSection/>,
 };
 
 export default function ProductTabs() {
