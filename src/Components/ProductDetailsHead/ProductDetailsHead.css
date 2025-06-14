@@ -41,12 +41,29 @@ width: 70%;
 .icons-data{
   width: auto;
 }
+.broucher:hover{
+  color: #d6791f !important;
+}
+
 /* Responsive thumbnail size */
 @media (max-width: 576px) {
   .small-thumb {
     width: 64px;
     height: 64px;
   }
+   .related-product .product-card {
+        max-height: 80vh !important;
+    }
+    .related-product .product-card .image-wrapper{
+      height: inherit !important;
+    }
+    .related-product .product-card .card-img-top.default-img, .card-img-top.hover-img  {
+    width: 100%;
+    height: -webkit-fill-available;
+    }
+  .broucher{
+  color: #d6791f !important;
+}
   .icons-data,.quantity,.cart-btn{
   width: 100% !important;
 }

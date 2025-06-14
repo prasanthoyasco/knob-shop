@@ -6,6 +6,14 @@ export default function ProductDetailsHead() {
   const [selectedColor, setSelectedColor] = useState("black");
   const [quantity, setQuantity] = useState(1);
   const [pincode, setPincode] = useState("");
+  const [isChecked, setIsChecked] = useState(false);
+
+  const handleCheck = () => {
+    // You can optionally validate the pincode here
+    if (pincode.trim()) {
+      setIsChecked(true);
+    }
+  };
 
   const handleShare = async () => {
     const shareData = {
@@ -35,7 +43,7 @@ export default function ProductDetailsHead() {
   const handleColorChange = (color) => setSelectedColor(color);
 
   return (
-    <div className="container-fluid py-4 px-3 px-md-5">
+    <div className="container-fluid pt-4 px-3 px-md-5">
       {/* Breadcrumb */}
       <nav className="breadcrumb mb-4 small">
         <span className="breadcrumb-item">Home</span>
@@ -232,32 +240,40 @@ export default function ProductDetailsHead() {
 
           {/* Pincode Checker */}
           <div className="mb-3">
-            <div className="d-flex flex-column flex-md-row gap-3">
+            <div className="d-flex flex-column align-items-center flex-md-row gap-3">
               <div className="pin">
                 <div className="d-flex pincode-checker">
-              <input
-                type="text"
-                className="form-control border-0 py-2 px-3"
-                placeholder="Enter pincode"
-                value={pincode}
-                onChange={(e) => setPincode(e.target.value)}
-              />
-              <button
-                className="btn text-white px-4"
-                style={{ backgroundColor: "#212121", borderRadius: 0 }}
-              >
-                CHECK
-              </button>
-            </div>
-            <p className="text-success mt-2 ms-3 fw-semibold small">
-              Hurray!! Delivery is available!
-            </p>
+                  <input
+                    type="text"
+                    className="form-control border-0 py-2 px-3"
+                    placeholder="Enter pincode"
+                    value={pincode}
+                    onChange={(e) => {
+                      setPincode(e.target.value);
+                      setIsChecked(false); // hide message when editing
+                    }}
+                  />
+                  <button
+                    className="btn text-white px-4"
+                    style={{ backgroundColor: "#212121", borderRadius: 0 }}
+                    onClick={handleCheck}
+                  >
+                    CHECK
+                  </button>
+                </div>
+                {/* <p className="text-success mt-2 ms-3 fw-semibold small">
+                  Hurray!! Delivery is available!
+                </p> */}
               </div>
-            <div className="broucher fs-5 btn btn-link text-dark text-decoration-none">
-              <i className="bi bi-cloud-arrow-down-fill"></i> Download Broucher
+              <div className="broucher fs-5 btn btn-link text-decoration-none">
+               <h5 className="d-flex align-items-center m-0 gap-1"> <i className="bi bi-cloud-arrow-down-fill fs-4 me-1" style={{lineHeight:0}}/> Download Broucher</h5>
+              </div>
             </div>
-            </div>
-            
+            {isChecked && (
+              <p className="text-success mt-1 ms-3 fw-semibold small">
+                Hurray!! Delivery is available!
+              </p>
+            )}
           </div>
         </div>
       </div>

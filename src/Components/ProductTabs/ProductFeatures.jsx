@@ -55,8 +55,8 @@ export default function ProductFeatures() {
           <div className="col-md-4 col-sm-6" key={index}>
             <div className="p-3 h-100 text-center d-flex flex-column align-items-center justify-content-start bg-white">
               <div
-                className=" mb-4 border rounded overflow-hidden"
-                style={{ minWidth:250, maxWidth: "312px", maxHeight: "312px" }}
+                className=" mb-4 border overflow-hidden"
+                style={{ minWidth:250, maxWidth: "312px", maxHeight: "312px",borderRadius:'10px' }}
               >
                 <img
                   src={item.img}

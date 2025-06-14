@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import './ReviewSection.css';
+import { User, User2Icon } from 'lucide-react';
+import { PiUserFill } from 'react-icons/pi';
 
 function ReviewSection() {
   const [showTextArea, setShowTextArea] = useState(false);
@@ -97,7 +99,7 @@ function ReviewSection() {
                         <div className="filled" style={{ width: `${count * 20}%` }} />
                       )}
                     </div>
-                    <span>{count}</span>
+                    <span className='d-flex align-items-center gap-1'><PiUserFill/>{count}</span>
                   </div>
                 );
               })}
@@ -105,7 +107,7 @@ function ReviewSection() {
           </div>
 
           <div
-            className="write-review"
+            className={`write-review ${showTextArea ? 'no-decoration' : 'underline'}`}
             onClick={() => setShowTextArea(!showTextArea)}
             style={{ cursor: 'pointer' }}
           >
