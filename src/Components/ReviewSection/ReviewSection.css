@@ -242,8 +242,12 @@
   
     .review-select-box-container {
       flex-direction: row;
-      align-items: flex-start;
-      margin-right: 0;
+      align-items: center;
+      justify-content: center;
+      margin-top: 20px;
+    }
+    .rating-stars-input{
+        text-align: center;
     }
   
     .profile-name {
@@ -255,6 +259,7 @@
       font-size: 14px;
       line-height: 22px;
       height: auto;
+      text-align: center;
     }
   }
   
