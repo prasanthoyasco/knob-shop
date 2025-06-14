@@ -3,7 +3,7 @@
     flex-direction: row;
     gap: 20px;
     justify-content: end;
-    margin-right: 5px;
+    margin-right: 13px;
 }
 .recent-select-box{
     width: 143px;
@@ -71,10 +71,10 @@
   
   .review-count {
     color: #666;
-    width: 176px;
-    height: 150px;
+    text-align: center;
     font-size: 14px;
     margin-top: 5px;
+    font-weight: normal;
   }
   
   .rating-breakdown {
