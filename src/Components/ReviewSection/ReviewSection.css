@@ -43,6 +43,7 @@
   .review-rating-section{
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 20px;
   }
   
@@ -217,7 +218,7 @@
     .review-container {
       flex-direction: column;
       gap: 20px;
-      align-items: flex-start;
+      align-items: center;
     }
   
     .review-left {
@@ -242,10 +243,11 @@
     }
   
     .review-select-box-container {
-      flex-direction: row;
+      /* flex-direction: row;
       align-items: center;
       justify-content: center;
-      margin-top: 20px;
+      margin-top: 20px; */
+      display: none;
     }
     .rating-stars-input{
         text-align: center;

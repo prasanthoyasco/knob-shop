@@ -9,12 +9,23 @@ import ReviewSection from '../ReviewSection/ReviewSection';
 const tabData = {
   Description: (
     <>
-      <p>
+      <p className='mt-3'>
         YDME50 Nxt smart lock in brown color, is a smart and extremely convenient solution for your home.
+        You can have all the various access options to enter your home either via our new biometric fingerprint scan,
+        personalized PIN code.
+      </p>
+      <p className='mt-3'>
+        With so many ways to unlock today's doors, the passcode (PIN) or fingerprint seem to be the best defense
+        against intruders wanting access to your doors. With YDME 50NXT you can do just that and more with the
+        fashionable and advanced touch keypad technology.
       </p>
       <ul className='mt-4'>
-        <li><strong>Various Access:</strong> Fingerprint, Pin Code, RFID Card and Manual Key.</li>
-        <li><strong>Secure Fingerprint Access:</strong> Unlock your door with a rapid one-touch fingerprint.</li>
+        <li className='my-2'><strong>Various Access:</strong> YDME 50Nxt has multiple options to access the lock – Fingerprint, Pin Code, RFID Card and Manual Key.</li>
+        <li className='mb-2'><strong>Secure Fingerprint Access:</strong> Unlock your door with a precise and rapid one-touch fingerprint.</li>
+        <li className='mb-2'><strong>Convenience:</strong> Upgrade your existing door lock (LH & RH) and supports thickness from 35mm to 65mm.</li>
+        <li className='mb-2'><strong>Warning Alert:</strong> After 3 incorrect attempts, the door locks and sounds an alarm for 3 minutes.</li>
+        <li className='mb-2'><strong>Low battery alarm:</strong> Warns in case of low battery. Uses 4× AA batteries. Retains credentials even after replacement.</li>
+        <li className='mb-2'><strong>Emergency power supply:</strong> USB-based emergency power support available for lock access.</li>
       </ul>
     </>
   ),

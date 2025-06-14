@@ -32,13 +32,24 @@ min-width: 200px;
   border: 1px solid #ddd;
   border-radius: 4px;
 }
-
+.quantity{
+  width: 30%;
+}
+.cart-btn{
+width: 70%;
+}
+.icons-data{
+  width: auto;
+}
 /* Responsive thumbnail size */
 @media (max-width: 576px) {
   .small-thumb {
     width: 64px;
     height: 64px;
   }
+  .icons-data,.quantity,.cart-btn{
+  width: 100% !important;
+}
 }
 
 .color-circle {

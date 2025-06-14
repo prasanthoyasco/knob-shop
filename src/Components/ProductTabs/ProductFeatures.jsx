@@ -53,10 +53,10 @@ export default function ProductFeatures() {
       <div className="row g-4">
         {features.map((item, index) => (
           <div className="col-md-4 col-sm-6" key={index}>
-            <div className="p-3 h-100 text-center d-flex flex-column align-items-center justify-content-center bg-white">
+            <div className="p-3 h-100 text-center d-flex flex-column align-items-center justify-content-start bg-white">
               <div
                 className=" mb-4 border rounded overflow-hidden"
-                style={{ width: "312px", height: "312px" }}
+                style={{ minWidth:250, maxWidth: "312px", maxHeight: "312px" }}
               >
                 <img
                   src={item.img}
@@ -66,7 +66,7 @@ export default function ProductFeatures() {
                 />
               </div>
 
-              <div style={{minWidth:200,maxWidth:300}}>
+              <div style={{minWidth:250,maxWidth:300}} className='text-start'>
                 <h6 className="fw-bold">{item.title}</h6>
               <p className="text-muted small">{item.desc}</p>
               </div>

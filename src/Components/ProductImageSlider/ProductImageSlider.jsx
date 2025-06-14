@@ -6,6 +6,7 @@ import {
   ChevronUp,
 } from 'lucide-react';
 import './ProductImageSlider.css'
+import { useSwipeable } from 'react-swipeable';
 
 const ProductImageSlider = () => {
   const images = [
@@ -40,6 +41,13 @@ const ProductImageSlider = () => {
   const handleNext = () => {
     setCurrentIndex((prev) => (prev < images.length - 1 ? prev + 1 : 0));
   };
+
+   const swipeHandlers = useSwipeable({
+    onSwipedLeft: handleNext,
+    onSwipedRight: handlePrev,
+    preventScrollOnSwipe: true,
+    trackMouse: false,
+  });
 
   return (
     <div className="d-flex flex-column-reverse flex-md-row gap-3 position-relative">
@@ -102,7 +110,7 @@ const ProductImageSlider = () => {
       </div>
 
       {/* Main Image */}
-      <div className="product-image position-relative text-center">
+      <div className="product-image position-relative text-center" {...swipeHandlers}>
         <img
           src={images[currentIndex]}
           alt="Main Product"
