@@ -241,6 +241,9 @@
     .days-select-box {
       font-size: 16px;
     }
+    .review-rating-section{
+      gap:10px !important;
+    }
   
     .review-select-box-container {
       /* flex-direction: row;
