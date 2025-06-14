@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import './ProductTabs.css';
+import ProductFeatures from './ProductFeatures';
+import ProductSpecificationTable from './ProductSpecificationTable';
 import YouTubeEmbed from '../YouTubeEmbed/YouTubeEmbed';
 import ReviewSection from '../ReviewSection/ReviewSection';
 
@@ -26,8 +28,8 @@ const tabData = {
       </ul>
     </>
   ),
-  Features: <p>Coming soon: Detailed list of features for the YDME50 Nxt smart lock.</p>,
-  'Technical Specification': <p>Technical specs will be listed here including size, battery life, material, etc.</p>,
+  Features: <ProductFeatures/>,
+  'Technical Specification':<ProductSpecificationTable/>,
   Video:<YouTubeEmbed videoId="lc1msHWRvjw"/>,
   'Customer Reviews': <ReviewSection/>,
 };
@@ -50,7 +52,7 @@ export default function ProductTabs() {
         ))}
       </ul>
 
-      <div className="tab-content border-noborder p-4 bg-white">
+      <div className="tab-content border-noborder p-2 p-md-4 bg-white">
         {tabData[activeTab]}
       </div>
     </div>
