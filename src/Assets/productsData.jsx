@@ -1,11 +1,29 @@
 import image1 from "./CategoriesImge/image.jpg";
-import image2 from "./CategoriesImge/image-2.jpg";
-import image3 from "./CategoriesImge/image-1.jpg";
-import image4 from "./CategoriesImge/image-4.jpg";
-import image5 from "./CategoriesImge/image-3.jpg";
-import image6 from "./CategoriesImge/image-7.jpg";
-import image7 from "./CategoriesImge/image-5.jpg";
-import image8 from "./CategoriesImge/image-6.jpg";
+import image2 from "./categoryBanner/DigitalDoorLock.webp";
+import image3 from "./categoryBanner/FurnitureLock.png";
+import image4 from "./categoryBanner/wardrobeDoorLock.jpg";
+import image5 from "./categoryBanner/wardrobefingerprint.webp";
+import image6 from "./categoryBanner/smartSafe.webp";
+import image7 from "./categoryBanner/videoDoorBell.webp";
+import image8 from "./categoryBanner/smartSurvailenceCamera.jpg";
+import image9 from "./categoryBanner/VideoDoorCamera.webp";
+import image10 from "./categoryBanner/smartSafe.webp";
+import image11 from "./categoryBanner/DigitalSafe.jpg";
+import image12 from "./categoryBanner/doorControlDevice.jpg";
+import image13 from "./categoryBanner/leverLockset.jpg";
+import image14 from "./categoryBanner/mortiseExternalLeverHandle.jpg";
+import image15 from "./categoryBanner/DigitalDoorLock.webp";
+import image16 from "./categoryBanner/mortiseLockSet.jpg";
+import image17 from "./categoryBanner/euroProfileCylinder.webp";
+import image18 from "./categoryBanner/Mortise_Locks.webp";
+import image19 from "./categoryBanner/RimLock.jpg";
+import image20 from "./categoryBanner/electronic-door-lock.jpg";
+import image21 from "./categoryBanner/cyclinricalLockset.webp";
+import image22 from "./categoryBanner/leverLockset.jpg";
+import image23 from "./categoryBanner/furnitureHardware.webp";
+import image24 from "./categoryBanner/padLocks.jpg";
+import image25 from "./categoryBanner/doorHandles.jpg";
+import image26 from "./categoryBanner/doorAccessories.jpg";
 import HDS1 from './Product Categories and its Product (Knobs Shop)/product img/product img/Heavy Duty Safe/YLFB200EB1/YLFB200EB1.webp'
 import HDS2 from './Product Categories and its Product (Knobs Shop)/product img/product img/Heavy Duty Safe/YSFB200EB1/YSFB200EB1.webp'
 import HDS3 from './Product Categories and its Product (Knobs Shop)/product img/product img/Heavy Duty Safe/YSFB250EB1/YSFB250EB1.jfif'
@@ -169,7 +187,7 @@ export const categoriesData = [
         image:YMI70AYHImage
       }
     ]},
-    { id: 1, image: image1, text: "Video Door Phone", items: "(200 items)",productList:[
+    { id: 1, image: image9, text: "Video Door Phone", items: "(200 items)",productList:[
         {
             name: "JB-305 M",
             image:vdp1
@@ -183,7 +201,7 @@ export const categoriesData = [
             image:vdp3
           }
     ] },
-    { id: 2, image: image2, text: "Smart Safe", items: "(200 items)",productList:[
+    { id: 2, image: image10, text: "Smart Safe", items: "(200 items)",productList:[
       {
         name: "YSS/250/EB1",
         image:lunaProImage
@@ -193,7 +211,7 @@ export const categoriesData = [
         image:yaleImage
       },
     ] },
-    { id: 3, image: image3, text: "Digital Safes", items: "(200 items)" ,productList:[
+    { id: 3, image: image11, text: "Digital Safes", items: "(200 items)" ,productList:[
       {
         name: "Fire Rated Biometric Firesafe (125TFL)",
         image:ds1
@@ -203,7 +221,7 @@ export const categoriesData = [
         image:ds2
       },
     ]},
-    { id: 4, image: image4, text: "Door Control Devices", items: "(100 items)",productList:[
+    { id: 4, image: image12, text: "Door Control Devices", items: "(100 items)",productList:[
       {
         name: "Luna Pro+ Facial",
         image:lunaProImage
@@ -217,7 +235,7 @@ export const categoriesData = [
         image:YMI70AYHImage
       }
     ] },
-    { id: 5, image: image5, text: "Lever Handles", items: "(150 items)",productList:[
+    { id: 5, image: image13, text: "Lever Handles", items: "(150 items)",productList:[
       {
         name: "Luna Pro+ Facial",
         image:lunaProImage
@@ -231,7 +249,7 @@ export const categoriesData = [
         image:YMI70AYHImage
       }
     ] },
-    { id: 6, image: image6, text: " Mortise Eternal Lever Handle Comboset", items: "(200 items)",productList:[
+    { id: 6, image: image14, text: " Mortise Eternal Lever Handle Comboset", items: "(200 items)",productList:[
       {
         name: "Luna Pro+ Facial",
         image:lunaProImage
@@ -245,7 +263,7 @@ export const categoriesData = [
         image:YMI70AYHImage
       }
     ] },
-    { id: 7, image: image7, text: "Essential Series", items: "(150 items)",productList:[
+    { id: 7, image: image15, text: "Essential Series", items: "(150 items)",productList:[
       {
         name: "Luna Pro+ Facial",
         image:lunaProImage
@@ -259,7 +277,7 @@ export const categoriesData = [
         image:YMI70AYHImage
       }
     ] },
-    { id: 8, image: image8, text: "Mortise Locksets", items: "(150 items)",productList:[
+    { id: 8, image: image16, text: "Mortise Locksets", items: "(150 items)",productList:[
       {
         name: "Luna Pro+ Facial",
         image:lunaProImage
@@ -273,7 +291,7 @@ export const categoriesData = [
         image:YMI70AYHImage
       }
     ]},
-    { id: 1, image: image1, text: "Euro Profile Cylinders", items: "(200 items)",productList:[
+    { id: 1, image: image17, text: "Euro Profile Cylinders", items: "(200 items)",productList:[
       {
         name: "Luna Pro+ Facial",
         image:lunaProImage
@@ -287,7 +305,7 @@ export const categoriesData = [
         image:YMI70AYHImage
       }
     ] },
-    { id: 2, image: image2, text: "Mortise Locks", items: "(200 items)" ,productList:[
+    { id: 2, image: image18, text: "Mortise Locks", items: "(200 items)" ,productList:[
       {
         name: "Luna Pro+ Facial",
         image:lunaProImage
@@ -301,7 +319,7 @@ export const categoriesData = [
         image:YMI70AYHImage
       }
     ]},
-    { id: 3, image: image3, text: " Rim Locks", items: "(200 items)",productList:[
+    { id: 3, image: image19, text: " Rim Locks", items: "(200 items)",productList:[
       {
         name: "Cinco CBD Series",
         image:rl1
@@ -319,7 +337,7 @@ export const categoriesData = [
         image:rl4
       }
     ] },
-    { id: 4, image: image4, text: "Electric Rim Lock", items: "(100 items)",productList:[
+    { id: 4, image: image20, text: "Electric Rim Lock", items: "(100 items)",productList:[
       {
         name: "YEL - 200 MB",
         image:erl1
@@ -333,7 +351,7 @@ export const categoriesData = [
         image:erl2
       }
     ] },
-    { id: 5, image: image5, text: "Cylindrical Locksets", items: "(150 items)",productList:[
+    { id: 5, image: image21, text: "Cylindrical Locksets", items: "(150 items)",productList:[
       {
         name: "CA5127 US32D 60/70BS",
         image:cl2
@@ -347,7 +365,7 @@ export const categoriesData = [
         image:YMI70AYHImage
       }
     ] },
-    { id: 6, image: image6, text: "Lever Locksets", items: "(200 items)" ,productList:[
+    { id: 6, image: image22, text: "Lever Locksets", items: "(200 items)" ,productList:[
       {
         name: "Luna Pro+ Facial",
         image:lunaProImage
@@ -361,7 +379,7 @@ export const categoriesData = [
         image:YMI70AYHImage
       }
     ]},
-    { id: 7, image: image7, text: "Furniture Hardware", items: "(150 items)",productList:[
+    { id: 7, image: image23, text: "Furniture Hardware", items: "(150 items)",productList:[
       {
         name: "Drawer Lock",
         image:fh
@@ -375,7 +393,7 @@ export const categoriesData = [
         image:YMI70AYHImage
       }
     ] },
-    { id: 8, image: image8, text: " Padlocks", items: "(150 items)",productList:[
+    { id: 8, image: image24, text: " Padlocks", items: "(150 items)",productList:[
       {
         name: "Luna Pro+ Facial",
         image:lunaProImage
@@ -389,7 +407,7 @@ export const categoriesData = [
         image:YMI70AYHImage
       }
     ]},
-    { id: 1, image: image1, text: "Auto Hinges", items: "(200 items)",productList:[
+    { id: 1, image: image25, text: "Auto Hinges", items: "(200 items)",productList:[
         {
           name: "Drawer Lock",
           image:AH1
@@ -407,7 +425,7 @@ export const categoriesData = [
           image:AH4
         }
       ] },
-      { id: 2, image: image2, text: "Door Accessories", items: "(200 items)" ,productList:[
+      { id: 2, image: image26, text: "Door Accessories", items: "(200 items)" ,productList:[
         {
           name: "180° Angle Door Viewer",
           image:lunaProImage
@@ -421,7 +439,7 @@ export const categoriesData = [
           image:YMI70AYHImage
         }
       ]},
-      { id: 3, image: image3, text: "Heavy Duty Safe", items: "(200 items)",productList:[
+      { id: 3, image: image26, text: "Heavy Duty Safe", items: "(200 items)",productList:[
         {
           name: "YSFB/200/EB1",
           image:HDS1
