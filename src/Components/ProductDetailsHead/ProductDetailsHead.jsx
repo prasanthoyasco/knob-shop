@@ -153,7 +153,7 @@ export default function ProductDetailsHead() {
           {/* Quantity + Add to Cart */}
           <div className="d-flex flex-column flex-md-row align-items-start align-items-md-center gap-3 mb-3">
             <div
-              className="border rounded-pill d-flex align-items-center justify-content-between gap-2 px-3 w-100 w-md-auto"
+              className="border rounded-pill d-flex align-items-center justify-content-between gap-2 px-3 quantity"
               style={{ height: 50 }}
             >
               <button
@@ -172,7 +172,7 @@ export default function ProductDetailsHead() {
             </div>
 
             <button
-              className="btn btn-dark w-100 w-md-auto py-3 m-0 rounded-pill"
+              className="btn btn-dark cart-btn py-3 m-0 rounded-pill"
               style={{ padding: "0 3rem" }}
             >
               ADD TO CART
@@ -208,7 +208,7 @@ export default function ProductDetailsHead() {
             ].map((item) => (
               <div
                 key={item.icon}
-                className="d-flex d-md-inline-flex flex-grow-0 w-100 w-md-auto align-items-center gap-2"
+                className="icons-data d-flex align-items-center gap-2"
               >
                 <div
                   className="rounded-circle p-2 d-flex align-items-center justify-content-center"
@@ -232,7 +232,9 @@ export default function ProductDetailsHead() {
 
           {/* Pincode Checker */}
           <div className="mb-3">
-            <div className="d-flex pincode-checker">
+            <div className="d-flex flex-column flex-md-row gap-3">
+              <div className="pin">
+                <div className="d-flex pincode-checker">
               <input
                 type="text"
                 className="form-control border-0 py-2 px-3"
@@ -250,6 +252,12 @@ export default function ProductDetailsHead() {
             <p className="text-success mt-2 ms-3 fw-semibold small">
               Hurray!! Delivery is available!
             </p>
+              </div>
+            <div className="broucher fs-5 btn btn-link text-dark text-decoration-none">
+              <i className="bi bi-cloud-arrow-down-fill"></i> Download Broucher
+            </div>
+            </div>
+            
           </div>
         </div>
       </div>
