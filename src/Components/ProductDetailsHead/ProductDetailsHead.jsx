@@ -265,8 +265,8 @@ export default function ProductDetailsHead() {
                   Hurray!! Delivery is available!
                 </p> */}
               </div>
-              <div className="broucher fs-5 btn btn-link text-dark text-decoration-none">
-               <h5 className="d-flex m-0"> <i className="bi bi-cloud-arrow-down-fill fs-4 me-1" style={{lineHeight:0}}/> Download Broucher</h5>
+              <div className="broucher fs-5 btn btn-link text-decoration-none">
+               <h5 className="d-flex align-items-center m-0 gap-1"> <i className="bi bi-cloud-arrow-down-fill fs-4 me-1" style={{lineHeight:0}}/> Download Broucher</h5>
               </div>
             </div>
             {isChecked && (
