@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import './ProductTabs.css';
+import ProductFeatures from './ProductFeatures';
+import ProductSpecificationTable from './ProductSpecificationTable';
 
 const tabData = {
   Description: (
@@ -24,8 +26,8 @@ const tabData = {
       </ul>
     </>
   ),
-  Features: <p>Coming soon: Detailed list of features for the YDME50 Nxt smart lock.</p>,
-  'Technical Specification': <p>Technical specs will be listed here including size, battery life, material, etc.</p>,
+  Features: <ProductFeatures/>,
+  'Technical Specification':<ProductSpecificationTable/>,
   Video: <p>Embedded product demo video will appear here.</p>,
   'Customer Reviews': <p>Customer reviews and ratings will be displayed here.</p>,
 };
