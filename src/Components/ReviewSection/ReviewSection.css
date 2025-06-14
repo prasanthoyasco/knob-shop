@@ -3,7 +3,7 @@
     flex-direction: row;
     gap: 20px;
     justify-content: end;
-    margin-right: 7%;
+    margin-right: 5px;
 }
 .recent-select-box{
     width: 143px;
@@ -151,6 +151,9 @@
   .stars{
     margin-top: 10px;
     margin-bottom: 20px;
+    display: flex;
+    gap: 10px;
+    margin-left: 10px;
   }
   .stars i {
     color: #FFC107;
