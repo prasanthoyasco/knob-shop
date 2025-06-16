@@ -6,7 +6,7 @@ const CategoryHero = ({ title, count, backgroundImage }) => {
   return (
     <div
       className="category-hero d-flex align-items-center justify-content-center text-white text-center"
-      style={{ backgroundImage: `url(${product.image})` }}
+      style={{ backgroundImage: `url(${backgroundImage})` }}
     >
       <div className="overlay"></div>
 

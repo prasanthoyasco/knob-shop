@@ -1,7 +1,7 @@
 import CategoryHero from "../Components/CategoryHero/CategoryHero"
 import CategoryPageLayout2 from "../Components/CategoryPageLayout2/CategoryPageLayout2"
 import NavbarTop from "../Components/Navbar/NavbarTop/NavbarTop"
-import lockerBg from "/categoryBg.jpg"
+import lockerBg from "../Assets/CategoriesImge/image.jpg"
 // import chair from "../Assets/product-category/p1.jpg";
 // import chair2 from "../Assets/product-category/p6.jpg";
 // import sofa from "../Assets/product-category/p2.jpg";
