@@ -46,8 +46,12 @@ import lunaProImage from '../Assets/Product Categories and its Product (Knobs Sh
 import yaleImage from '../Assets/Product Categories and its Product (Knobs Shop)/Smart Door Lock/Smart Door Lock/Luna Pro+ Facial/14_0fb7187f-b413-411d-a145-e62b8c9e41bb.jpg'
 import ds1 from '../Assets/Product Categories and its Product (Knobs Shop)/product img/product img/Digital Safes  - category/Fire Rated Biometric Firesafe (125TFL)/Fire Rated Biometric Firesafe (125TFL).webp'
 import ds2 from '../Assets/Product Categories and its Product (Knobs Shop)/product img/product img/Digital Safes  - category/Fire Rated Biometric Firesafe (530TFL)/Fire Rated Biometric Firesafe (530TFL).webp'
-
-
+import image1 from "../Assets/categoryBanner/wardrobeDoorLock.jpg";
+import image2 from "../Assets/categoryBanner/wardrobefingerprint.webp";
+import image3 from "../Assets/categoryBanner/smartSafe.webp";
+import image4 from "../Assets/categoryBanner/DigitalDoorLock.webp";
+import image5 from '../Assets/CategoriesImge/Knob Shop/clock.jpg'
+import image6 from '../Assets/CategoriesImge/Knob Shop/wardrobes.jpg'
 export const Home = () => {
   useEffect(() => {
   AOS.init({
@@ -63,11 +67,13 @@ export const Home = () => {
     text: "Clocks",
     count: 24,
     image: p1,
+    bannerImage:image5,
   },
   {
     text: "Drawer Slides",
     count: 25,
     image: p2,
+    bannerImage:image3,
     productList:[
       {
         name: "YCDS-SC-10",
@@ -83,6 +89,7 @@ export const Home = () => {
     text: "Digital Locks",
     count: 10,
     image: p3,
+    bannerImage:image4,
     productList:[
       {
         name: "YDME 200NxT",
@@ -110,6 +117,7 @@ export const Home = () => {
     text: "Digital Home locker",
     count: 12,
     image: p4,
+    bannerImage:image3,
     productList:[
       {
         name: "Fire Rated Biometric Firesafe (125TFL)",
@@ -125,6 +133,7 @@ export const Home = () => {
     text: "Wardrobes",
     count: 8,
     image: p5,
+    bannerImage:image6,
     productList:[
       {
         name: "Mesh Pin",
@@ -144,6 +153,7 @@ export const Home = () => {
     text: "Digital Locks",
     count: 10,
     image: p1,
+    bannerImage:image4,
     productList:[
       {
         name: "YDME 200NxT",
@@ -171,6 +181,7 @@ export const Home = () => {
     text: "Digital Home locker",
     count: 12,
     image: p4,
+    bannerImage:image3,
     productList:[
       {
         name: "Fire Rated Biometric Firesafe (125TFL)",
@@ -186,6 +197,7 @@ export const Home = () => {
     text: "Wardrobes",
     count: 8,
     image: p5,
+    bannerImage:image6,
     productList:[
       {
           name: "FP-OP-F- B-02",
@@ -209,6 +221,7 @@ export const Home = () => {
     text: "Digital Locks",
     count: 10,
     image: p1,
+    bannerImage:image4,
     productList:[
       {
         name: "YDME 200NxT",
@@ -236,6 +249,7 @@ export const Home = () => {
     text: "Digital Home locker",
     count: 12,
     image: p4,
+    bannerImage:image3,
     productList:[
       {
         name: "Fire Rated Biometric Firesafe (125TFL)",
@@ -251,6 +265,7 @@ export const Home = () => {
     text: "Wardrobes",
     count: 8,
     image: p5,
+    bannerImage:image6,
     productList:[
       {
         name: "Mesh Pin",
