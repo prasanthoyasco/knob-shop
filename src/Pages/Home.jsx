@@ -268,6 +268,76 @@ export const Home = () => {
   },
   
 ];
+const parallaxProducts1 = [
+  {
+    id: 1,
+    image: left,
+    text: "Lever Handles",
+    items: "(150 items)",
+    productList: [
+      { name: "Luna Pro+ Facial", image: lunaProImage },
+      { name: "Yale Kyra Pro", image: yaleImage },
+      { name: "YMI70A-YH", image: YMI70AYHImage }
+    ]
+  },
+];
+const parallaxProducts2 = [
+  {
+    id: 1,
+    image: right,
+    text: "Sofa",
+    items: "(150 items)",
+    productList: [
+      { name: "Luna Pro+ Facial", image: lunaProImage },
+      { name: "Yale Kyra Pro", image: yaleImage },
+      { name: "YMI70A-YH", image: YMI70AYHImage }
+    ]
+  },
+];
+const parallaxProducts3 = [
+  {
+    id: 1,
+    image: left1,
+    text: "Door Lock",
+    items: "(150 items)",
+    productList:[
+      {
+        name: "YDME 200NxT",
+        image:lunaProImage
+      },
+      {
+        name: "YDME 100NxT",
+        image:yaleImage
+      },
+      {
+        name: "YDME 50NxT",
+        image:YMI70AYHImage
+      },
+      {
+        name: "YDME 50Pro",
+        image:YMI70AYHImage
+      },
+      {
+        name: "REFLECTA Lock",
+        image:YMI70AYHImage
+      }
+    ]
+  },
+];
+const parallaxProducts4 = [
+  {
+    id: 1,
+    image: right1,
+    text: "Lever Handles",
+    items: "(150 items)",
+    productList: [
+      { name: "Luna Pro+ Facial", image: lunaProImage },
+      { name: "Yale Kyra Pro", image: yaleImage },
+      { name: "YMI70A-YH", image: YMI70AYHImage }
+    ]
+  },
+];
+
   return (
   <>
    <NavbarTop/>
@@ -292,6 +362,10 @@ export const Home = () => {
     rightImage={right}
     leftImage1={left1}
     rightImage1={right1}
+    leftData={parallaxProducts1[0]}
+    rightData={parallaxProducts2[0]}
+    leftData1={parallaxProducts3[0]}
+    rightData1={parallaxProducts4[0]}
   />
 </div>
 <div data-aos="fade-right" data-aos-delay="100"><DealOfTheDay /></div>

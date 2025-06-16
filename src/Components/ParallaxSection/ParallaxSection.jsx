@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useCallback, useState } from "react";
 import "./ParallaxSection.css";
-
+import { useNavigate } from "react-router-dom";
 const ArrowDownIcon = () => (
   <svg
     className="svg-icon svg-icon--arrow-down w-12 h-12 text-white"
@@ -25,6 +25,10 @@ const ParallaxSection = ({
   buttonText = "Check now",
   buttonLink = "/pages/inspired",
   leftImage,
+  leftData,
+  rightData,
+  leftData1,
+  rightData1,
   rightImage,
   leftImage1,
   rightImage1,
@@ -33,6 +37,7 @@ const ParallaxSection = ({
   target = 50000,
   duration = 2000,
 }) => {
+  const navigate = useNavigate()
   const sectionRef = useRef(null);
   const titleRef = useRef();
   const leftImgRef = useRef(null);
@@ -124,6 +129,11 @@ useEffect(() => {
   return () => window.removeEventListener("scroll", handleScroll);
 }, [hasAnimated, target, duration]);
 
+const handleImageClick = (category, imageUrl) => {
+  navigate(`/category/${category}`, {
+    state: { image: imageUrl, categoryName: category }
+  });
+};
 
 
   return (
@@ -182,7 +192,7 @@ useEffect(() => {
       <div className="wt-parallax__gallery">
         <ul className="wt-parallax__gallery__list">
           <li className="wt-parallax__gallery__item">
-            <a href="/collections/chairs" tabIndex="0">
+            <div tabIndex="0" onClick={() => navigate(`/category/${leftData.text}`, { state: { product: leftData } })}>
               <img
                 src={leftImage1}
                 loading="lazy"
@@ -194,10 +204,10 @@ useEffect(() => {
                     "https://placehold.co/600x400/FF0000/FFFFFF?text=Image+Error";
                 }}
               />
-            </a>
+            </div>
           </li>
           <li className="wt-parallax__gallery__item wt-parallax__gallery__item--even">
-            <a href="/collections/dining-room" tabIndex="0">
+            <div tabIndex="0" onClick={() => navigate(`/category/${rightData.text}`, { state: { product: rightData } })}>
               <img
                 src={rightImage}
                 loading="lazy"
@@ -209,10 +219,10 @@ useEffect(() => {
                     "https://placehold.co/600x400/FF0000/FFFFFF?text=Image+Error";
                 }}
               />
-            </a>
+            </div>
           </li>
           <li className="wt-parallax__gallery__item">
-            <a href="/collections/chairs" tabIndex="0">
+            <div tabIndex="0" onClick={() => navigate(`/category/${leftData1.text}`, { state: { product: leftData1 } })}>
               <img
                 src={leftImage}
                 loading="lazy"
@@ -224,10 +234,10 @@ useEffect(() => {
                     "https://placehold.co/600x400/FF0000/FFFFFF?text=Image+Error";
                 }}
               />
-            </a>
+            </div>
           </li>
            <li className="wt-parallax__gallery__item wt-parallax__gallery__item--even">
-            <a href="/collections/dining-room" tabIndex="0">
+            <div tabIndex="0" onClick={() => navigate(`/category/${rightData1.text}`, { state: { product: rightData1 } })}>
               <img
                 src={rightImage1}
                 loading="lazy"
@@ -239,7 +249,7 @@ useEffect(() => {
                     "https://placehold.co/600x400/FF0000/FFFFFF?text=Image+Error";
                 }}
               />
-            </a>
+            </div>
           </li>
         </ul>
       </div>
