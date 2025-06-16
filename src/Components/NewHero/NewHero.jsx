@@ -7,16 +7,41 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/effect-fade";
 import "./NewHero.css";
-
+import { useNavigate } from "react-router-dom";
+import lunaProImage from '../../Assets/Product Categories and its Product (Knobs Shop)/Smart Door Lock/Smart Door Lock/Luna Pro+ Facial/1_3819cf62-66f2-4a8a-b562-eddb7d96a57c.webp'
+import yaleImage from '../../Assets/Product Categories and its Product (Knobs Shop)/Smart Door Lock/Smart Door Lock/Luna Pro+ Facial/14_0fb7187f-b413-411d-a145-e62b8c9e41bb.jpg'
+import YMI70AYHImage from '../../Assets/Product Categories and its Product (Knobs Shop)/Smart Door Lock/Smart Door Lock/YMI70A-YH/YMI70_RED-GOLD-01.jpg'
 const slides = [
-  { id: 1, img: "/slider/lock.png", imgheight: 400, bg: "/slider/bg-1.jpg", offer: "Flat 15% Off All Items", title: "Digital Door Lock", circleColor: "#9CB8A5", description: "Bench suitable for living room Lorem ipsum dolor sit amet consectetur adipiscing elit sed incididunt et dolore magna labore et dolore magna aliqua.", number: "01" },
-  { id: 2, img: "/slider/keyboard_tray.png", imgheight: 400, bg: "/slider/bg-2.jpg", offer: "NEW SEASON ARRIVAL", title: "Keyboard tray", circleColor: "#F08A58", description: "Bench suitable for living room Lorem ipsum dolor sit amet consectetur adipiscing elit sed incididunt et dolore magna labore et dolore magna aliqua.", number: "02" },
-  { id: 3, img: "/slider/folding_table.png", imgheight: 400, bg: "/slider/bg-3.jpg", offer: "Flat 15% Off All Items", title: "table folding bracket", circleColor: "#00759F", description: "Bench suitable for living room Lorem ipsum dolor sit amet consectetur adipiscing elit sed incididunt et dolore magna labore et dolore magna aliqua.", number: "03" },
-  { id: 4, img: "/slider/Door_stoper.png", imgheight: 200, bg: "/slider/bg-5.jpg", offer: "Flat 15% Off All Items", title: "door stoppers home depot", circleColor: "#DF7A26", description: "Bench suitable for living room Lorem ipsum dolor sit amet consectetur adipiscing elit sed incididunt et dolore magna labore et dolore magna aliqua.", number: "04" },
-  { id: 5, img: "/slider/vIntage_lock.png", imgheight: 330, bg: "/slider/bg-6.jpg", offer: "Flat 15% Off All Items", title: "navtal lock decor", circleColor: "#54ef7d73", description: "Bench suitable for living room Lorem ipsum dolor sit amet consectetur adipiscing elit sed incididunt et dolore magna labore et dolore magna aliqua.", number: "05" },
+  { id: 1, img: "/slider/lock.png", imgheight: 400, bg: "/slider/bg-1.jpg", offer: "Flat 15% Off All Items", text: "Digital Door Lock", circleColor: "#9CB8A5", description: "Bench suitable for living room Lorem ipsum dolor sit amet consectetur adipiscing elit sed incididunt et dolore magna labore et dolore magna aliqua.", number: "01",link:"/category/Digital Door Lock",productList:[
+    {
+      name: "YDME 200NxT",
+      image:lunaProImage
+    },
+    {
+      name: "YDME 100NxT",
+      image:yaleImage
+    },
+    {
+      name: "YDME 50NxT",
+      image:YMI70AYHImage
+    },
+    {
+      name: "YDME 50Pro",
+      image:YMI70AYHImage
+    },
+    {
+      name: "REFLECTA Lock",
+      image:YMI70AYHImage
+    }
+  ]},
+  { id: 2, img: "/slider/keyboard_tray.png", imgheight: 400, bg: "/slider/bg-2.jpg", offer: "NEW SEASON ARRIVAL", text: "Keyboard tray", circleColor: "#F08A58", description: "Bench suitable for living room Lorem ipsum dolor sit amet consectetur adipiscing elit sed incididunt et dolore magna labore et dolore magna aliqua.", number: "02" },
+  { id: 3, img: "/slider/folding_table.png", imgheight: 400, bg: "/slider/bg-3.jpg", offer: "Flat 15% Off All Items", text: "table folding bracket", circleColor: "#00759F", description: "Bench suitable for living room Lorem ipsum dolor sit amet consectetur adipiscing elit sed incididunt et dolore magna labore et dolore magna aliqua.", number: "03" },
+  { id: 4, img: "/slider/Door_stoper.png", imgheight: 200, bg: "/slider/bg-5.jpg", offer: "Flat 15% Off All Items", text: "door stoppers home depot", circleColor: "#DF7A26", description: "Bench suitable for living room Lorem ipsum dolor sit amet consectetur adipiscing elit sed incididunt et dolore magna labore et dolore magna aliqua.", number: "04" },
+  { id: 5, img: "/slider/vIntage_lock.png", imgheight: 330, bg: "/slider/bg-6.jpg", offer: "Flat 15% Off All Items", text: "navtal lock decor", circleColor: "#54ef7d73", description: "Bench suitable for living room Lorem ipsum dolor sit amet consectetur adipiscing elit sed incididunt et dolore magna labore et dolore magna aliqua.", number: "05" },
 ];
 
 const NewHero = () => {
+  const navigate= useNavigate()
   const prevRef = useRef(null);
   const nextRef = useRef(null);
   // Removed: const [activeSlideIndex, setActiveSlideIndex] = useState(0);
@@ -44,7 +69,10 @@ const NewHero = () => {
     // Removed: setActiveSlideIndex(swiper.realIndex);
     retriggerAnimations();
   }, [retriggerAnimations]);
-
+  const handleShopNow = (slide) => {
+    navigate(slide.link, { state: { product: slide } });
+  };
+  
   return (
     <div className="lighting-home-slider">
       <div className="custom-nav">
@@ -97,9 +125,9 @@ const NewHero = () => {
               <div className="left-section">
                 {/* No longer using activeSlideIndex here, relies purely on retriggerAnimations */}
                 <p className="offer animate-on-slide-left text-animation-delay-1">{slide.offer}</p>
-                <h2 className="title animate-on-slide-left text-animation-delay-2">{slide.title}</h2>
+                <h2 className="title animate-on-slide-left text-animation-delay-2">{slide.text}</h2>
                 <p className="description animate-on-slide-left text-animation-delay-3">{slide.description}</p>
-                <button className="shop-btn animate-on-slide-left text-animation-delay-4">SHOP NOW</button>
+                <button className="shop-btn animate-on-slide-left text-animation-delay-4" onClick={() => handleShopNow(slide)}>SHOP NOW</button>
                 <div className="hero-slide-number">
                   <div className="horizantal-line"></div>
                   {slide.number}

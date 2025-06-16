@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import ProductCard from "../ProductCard/ProductCard";
 import "./TrendingProducts.css";
+import { useNavigate } from "react-router-dom";
 
 import chair from "../../Assets/product-category/p1.jpg";
 import chair2 from "../../Assets/product-category/p6.jpg";
@@ -89,7 +90,17 @@ const TrendingProducts = () => {
   const isDragging = useRef(false);
   const startPos = useRef(0);
   const scrollLeft = useRef(0);
-
+  const navigate = useNavigate();
+  const handleViewAll = () => {
+    navigate("/category/all-products", {
+      state: {
+        product: {
+          productList: products,
+          text: "All Products",
+        },
+      },
+    });
+  };
   const startAutoScroll = () => {
     const container = scrollRef.current;
     if (!container) return;
@@ -191,7 +202,7 @@ const TrendingProducts = () => {
             </div>
           </div>
           <div className="d-flex align-items-center justify-content-center mt-3">
-            <button className="ctn btn-animation"> view All Products</button>
+            <button className="ctn btn-animation" onClick={handleViewAll}> view All Products</button>
           </div>
         </div>
       </div>

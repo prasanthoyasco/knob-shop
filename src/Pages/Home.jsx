@@ -4,6 +4,8 @@ import 'aos/dist/aos.css';
 import { useEffect } from 'react';
 import NavbarTop from "../Components/Navbar/NavbarTop/NavbarTop"
 import ProductCarousel from "../Components/ProductCarousel/ProductCarousel";
+import dSlides1 from '../Assets/Product Categories and its Product (Knobs Shop)/product img/product img/Drawer Slides/YCDS-SC-10 (XX)/YCDS-SC-10 (XX).webp'
+import dSlides2 from '../Assets/Product Categories and its Product (Knobs Shop)/product img/product img/Drawer Slides/YCDS-SC-12 (XX)/YCDS-SC-12 (XX).webp'
 import p1 from '../Assets/product-category/p1.png'
 import p2 from '../Assets/product-category/p2.png'
 import p3 from '../Assets/product-category/p3.png'
@@ -66,6 +68,16 @@ export const Home = () => {
     text: "Drawer Slides",
     count: 25,
     image: p2,
+    productList:[
+      {
+        name: "YCDS-SC-10",
+        image:dSlides1
+      },
+      {
+        name: "YCDS-SC-12",
+        image:dSlides2
+      },
+    ]
   },
   {
     text: "Digital Locks",
@@ -98,6 +110,16 @@ export const Home = () => {
     text: "Digital Home locker",
     count: 12,
     image: p4,
+    productList:[
+      {
+        name: "Fire Rated Biometric Firesafe (125TFL)",
+        image:ds1
+      },
+      {
+        name: "Fire Rated Biometric Firesafe (530TFL)",
+        image:ds2
+      },
+    ]
   },
   {
     text: "Wardrobes",
@@ -124,6 +146,33 @@ export const Home = () => {
     image: p1,
     productList:[
       {
+        name: "YDME 200NxT",
+        image:lunaProImage
+      },
+      {
+        name: "YDME 100NxT",
+        image:yaleImage
+      },
+      {
+        name: "YDME 50NxT",
+        image:YMI70AYHImage
+      },
+      {
+        name: "YDME 50Pro",
+        image:YMI70AYHImage
+      },
+      {
+        name: "REFLECTA Lock",
+        image:YMI70AYHImage
+      }
+    ]
+  },
+  {
+    text: "Digital Home locker",
+    count: 12,
+    image: p4,
+    productList:[
+      {
         name: "Fire Rated Biometric Firesafe (125TFL)",
         image:ds1
       },
@@ -132,11 +181,6 @@ export const Home = () => {
         image:ds2
       },
     ]
-  },
-  {
-    text: "Digital Home locker",
-    count: 12,
-    image: p4,
   },
   {
     text: "Wardrobes",
@@ -165,16 +209,62 @@ export const Home = () => {
     text: "Digital Locks",
     count: 10,
     image: p1,
+    productList:[
+      {
+        name: "YDME 200NxT",
+        image:lunaProImage
+      },
+      {
+        name: "YDME 100NxT",
+        image:yaleImage
+      },
+      {
+        name: "YDME 50NxT",
+        image:YMI70AYHImage
+      },
+      {
+        name: "YDME 50Pro",
+        image:YMI70AYHImage
+      },
+      {
+        name: "REFLECTA Lock",
+        image:YMI70AYHImage
+      }
+    ]
   },
   {
     text: "Digital Home locker",
     count: 12,
     image: p4,
+    productList:[
+      {
+        name: "Fire Rated Biometric Firesafe (125TFL)",
+        image:ds1
+      },
+      {
+        name: "Fire Rated Biometric Firesafe (530TFL)",
+        image:ds2
+      },
+    ]
   },
   {
     text: "Wardrobes",
     count: 8,
     image: p5,
+    productList:[
+      {
+        name: "Mesh Pin",
+        image:MeshPinImage
+      },
+      {
+        name: "ML81PAH",
+        image:ML81PAH
+      },
+      {
+        name: "ML81PAV",
+        image:ML81PAV
+      }
+    ]
   },
   
 ];
