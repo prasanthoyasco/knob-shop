@@ -12,7 +12,7 @@ function CartPage() {
       <div className='shopping-cart-heading'>
         <h1>YOUR SHOPPING CART</h1>
       </div>
-      <div className='shopping-cart-table-head'>
+      {/* <div className='shopping-cart-table-head'>
         <p>PRODUCT</p>
         <p>QUANTITY</p>
         <p>TOTAL</p>
@@ -40,7 +40,37 @@ function CartPage() {
             <div className='shopping-cart-table-product-total'>
                 <h3>₹ 89,299</h3>
             </div>
-      </div>
+      </div> */}
+      <div className='shopping-cart-table-head'>
+  <div className='head-product'>PRODUCT</div>
+  <div className='head-quantity'>QUANTITY</div>
+  <div className='head-total'>TOTAL</div>
+</div>
+
+<div className='shopping-cart-table-product'>
+  <div className='shopping-cart-table-product-image'>
+    <img src={image} alt='product' />
+    <div className='shopping-cart-table-product-image-content'>
+      <p>Brand : Yale</p>
+      <h3>YDME50NxT Smart Door Lock</h3>
+      <p>Color : Black</p>
+    </div>
+  </div>
+
+  <div className='shopping-cart-table-product-count'>
+    <div className='shopping-cart-table-product-count-btn'>
+      <button>-</button>
+      <input type='text' value='1' readOnly />
+      <button>+</button>
+    </div>
+    <div className='delete-icon'><i className='bi bi-trash'></i></div>
+  </div>
+
+  <div className='shopping-cart-table-product-total'>
+    <h3>₹ 89,299</h3>
+  </div>
+</div>
+
       <div className='shopping-details-container'>
         <div className='instruction-container'>
             <div className='instruction-container-head'>
