@@ -79,7 +79,7 @@ console.log(passedItems);
               <div className='shopping-cart-table-product-image'>
                 <img src={item.image} alt={item.title} />
                 <div className='shopping-cart-table-product-image-content'>
-                  {/* <p>Brand : {item.brand}</p> */}
+                  <p>Brand : {item.brand}</p>
                   <h3>{item.title}</h3>
                   <p>Color : {item.color}</p>
                 </div>
@@ -103,6 +103,32 @@ console.log(passedItems);
             </div>
           </div>
         ))}
+                {/* Mobile View */}
+                <div className='mobile-cart-page-container'>
+          {cartItems.map(item => (
+            <div key={item.id} className='cart-mobile-product'>
+              <div className='cart-mobile-left'>
+                <img src={item.image} alt={item.title} />
+              </div>
+              <div className='cart-mobile-right'>
+                <h3>{item.title}</h3>
+                <div className='price-row'>
+                  <span className='discount-price'>₹ {item.price.toLocaleString('en-IN')}</span>
+                </div>
+                <div className='quantity-remove-row'>
+                  <div className='quantity-box'>
+                    <button onClick={() => handleDecrement(item.id)}>-</button>
+                    <span>{item.quantity}</span>
+                    <button onClick={() => handleIncrement(item.id)}>+</button>
+                  </div>
+                  <div className='remove-box' onClick={() => handleDelete(item.id)}>
+                    <i className='bi bi-trash'></i> Remove
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
 
         <div className='shopping-details-container'>
           <div className='instruction-container'>

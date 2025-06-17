@@ -28,6 +28,8 @@ export const CartProvider = ({ children }) => {
       image: '/images/feature-alarm.png',
       oldPrice: 49000,
       price: 57699,
+      brand: 'Yale',
+      color: 'Black',
     },
     {
       id: 'ydm4107a',
@@ -35,6 +37,8 @@ export const CartProvider = ({ children }) => {
       image: '/images/feature-battery.png',
       oldPrice: 49000,
       price: 57699,
+      brand: 'Yale',
+      color: 'Black',
     },
     {
       id: 'ydm4108a',
@@ -42,6 +46,8 @@ export const CartProvider = ({ children }) => {
       image: '/images/feature-fingerprint.png',
       oldPrice: 49000,
       price: 57699,
+      brand: 'Yale',
+      color: 'Black',
     },
   ];
 
