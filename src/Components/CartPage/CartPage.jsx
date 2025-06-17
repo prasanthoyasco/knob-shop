@@ -64,6 +64,8 @@ console.log(passedItems);
         <div className='shopping-cart-heading'>
           <h1>YOUR SHOPPING CART</h1>
         </div>
+        <div className='mobile-cart-page-container'>
+      </div>
 
         <div className='shopping-cart-table-head'>
           <div className='head-product'>PRODUCT</div>
