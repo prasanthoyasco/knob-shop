@@ -48,6 +48,7 @@ function CartPage() {
 </div>
 
 <div className='shopping-cart-table-product'>
+    <div>
   <div className='shopping-cart-table-product-image'>
     <img src={image} alt='product' />
     <div className='shopping-cart-table-product-image-content'>
@@ -55,6 +56,8 @@ function CartPage() {
       <h3>YDME50NxT Smart Door Lock</h3>
       <p>Color : Black</p>
     </div>
+  </div>
+  <button className='continue-shopping-btn'>CONTINUE SHOPPING</button>
   </div>
 
   <div className='shopping-cart-table-product-count'>

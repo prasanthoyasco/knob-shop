@@ -187,6 +187,9 @@
     align-items: center;
     gap: 20px;
 }
+.head-product{
+    padding-left: 50px;
+}
 
 .head-quantity,
 .shopping-cart-table-product-count {
@@ -202,4 +205,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.head-total{
+    padding-right: 30px;
 }
