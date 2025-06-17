@@ -79,7 +79,7 @@ console.log(passedItems);
               <div className='shopping-cart-table-product-image'>
                 <img src={item.image} alt={item.title} />
                 <div className='shopping-cart-table-product-image-content'>
-                  {/* <p>Brand : {item.brand}</p> */}
+                  <p>Brand : {item.brand}</p>
                   <h3>{item.title}</h3>
                   <p>Color : {item.color}</p>
                 </div>
