@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./ProductDetailsHead.css";
 import ProductImageSlider from "../ProductImageSlider/ProductImageSlider";
-import { useCart } from "../../context/CartContext"; 
+import { useCart } from "../../context/CartContext"; // Make sure the path is correct
 
 export default function ProductDetailsHead() {
   const [selectedColor, setSelectedColor] = useState("black");
