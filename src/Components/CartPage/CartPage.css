@@ -179,6 +179,8 @@
     width: 1188px;
     margin-top: 3%;
 }
+
+.head-product,
 .shopping-cart-table-product-image {
     width: 373px;
     display: flex;
@@ -187,12 +189,9 @@
 }
 .head-product{
     padding-left: 40px;
-    width: 373px;
-    display: flex;
-    align-items: center;
-    gap: 20px;
 }
 
+.head-quantity,
 .shopping-cart-table-product-count {
     width: 373px;
     display: flex;
@@ -201,12 +200,9 @@
 }
 .head-quantity{
     padding-right: 40px;
-    width: 373px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
+.head-total,
 .shopping-cart-table-product-total {
     width: 373px;
     display: flex;
@@ -216,8 +212,4 @@
 
 .head-total{
     padding-right: 25px;
-    width: 100px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
