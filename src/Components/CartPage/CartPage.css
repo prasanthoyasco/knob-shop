@@ -224,3 +224,7 @@
     justify-content: center;
     gap: 10px;
 }
+.instruction-container-head i{
+    color: gray;
+    font-size: 16px;
+}

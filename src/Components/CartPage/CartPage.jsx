@@ -107,6 +107,7 @@ function CartPage() {
               <p>Estimate Shipping Rates</p>
             </div>
             <select className='postal-code-input'>
+            <option value="" disabled selected>------</option>
               <option>US</option>
               <option>UK</option>
               <option>India</option>
