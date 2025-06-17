@@ -65,7 +65,7 @@
 .shopping-cart-table-product-count-btn{
     width: 146px;
     height: 44px;
-    border: 1px solid #434343;
+    border: 1px solid #b7b5b5 !important;
     border-radius: 20px;
     text-align: center;
 }
@@ -80,6 +80,8 @@
     height: 24px;
     border: none;
     background-color: white;
+    font-size: 24px;
+    color: gray;
 }
 .shopping-cart-table-product-count{
     display: flex;
@@ -117,7 +119,6 @@
     width: 384px;
     height: 126px;
     border-radius: 2px;
-    border: 1px solid #6A6A6A !important;
     margin-top: 10px;
 }
 .instruction-container-head{
@@ -135,18 +136,11 @@
     justify-content: center;
     gap: 10px;
 }
-.shipping-container select{
-    width: 384px;
-    height: 52px;
-    border-radius: 2px;
-    border: 1px solid #6A6A6A !important;
-    padding-left: 20px;
-}
 .postal-code-input{
     width: 384px;
     height: 52px;
     border-radius: 2px;
-    border: 1px solid #6A6A6A !important;
+    border: 1px solid #d0cece !important;
     padding-left: 20px;
 }
 .check-out-container{
@@ -213,4 +207,11 @@
 
 .head-total{
     padding-right: 50px;
+}
+.card-images-container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
 }
