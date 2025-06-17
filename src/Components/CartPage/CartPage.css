@@ -165,6 +165,7 @@
     background-color: black;
     color: white;
     border-radius: 2px;
+    border: none;
 }
 /* Make columns fixed and aligned for header */
 .shopping-cart-table-head,
