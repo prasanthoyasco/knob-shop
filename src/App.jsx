@@ -15,6 +15,7 @@ import TermsAndCondition from './Components/TermsAndCondition/TermsAndCondition'
 import { ProductDetails } from './Pages/ProductDetails';
 import PrivacyPolicy from './Components/PrivacyPolicy/PrivacyPolicy'
 import ScrollToTop from './ScrollToTop/ScrollToTop';
+import CartPage from './Components/CartPage/CartPage';
 // import NavbarTop from './Components/Navbar/NavbarTop/NavbarTop';
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
        <Route path='/categories' element={<CategoriesHeader/>}></Route>
        <Route path='/terms-condition' element={<TermsAndCondition/>}></Route>
        <Route path='/privacy-policy' element={<PrivacyPolicy/>}></Route>
+       <Route path='/view-cart' element={<CartPage/>}></Route>
       </Routes>
       </div>
     </Router>

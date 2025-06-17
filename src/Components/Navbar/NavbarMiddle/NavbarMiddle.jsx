@@ -4,7 +4,9 @@ import logoImage from "../../../Assets/logo.png";
 import cart_icon from "../../../Assets/cart-icon.svg";
 import heart_icon from "../../../Assets/heart-icon.svg";
 import profile_icon from "../../../Assets/profile-icon.svg";
+import { useNavigate } from "react-router-dom";
 function NavbarMiddle() { // Added menuOpen and setMenuOpen as props
+  const navigate = useNavigate()
   return (
     <>
       <div className="navbar-middle-container">
@@ -30,7 +32,7 @@ function NavbarMiddle() { // Added menuOpen and setMenuOpen as props
 
           {/* Cart Icon with Count */}
           <div className="icon-wrapper">
-            <img src={cart_icon} alt="Cart" />
+            <img src={cart_icon} alt="Cart" onClick={()=>navigate('/view-cart')}/>
             <span className="count-badge">3</span>{" "}
             {/* Replace 3 with dynamic count */}
           </div>
