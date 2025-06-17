@@ -114,9 +114,12 @@ const CartDrawer = ({
       </div> */}
         {(!activeTab || cartItems.length === 0) && (
           <RecommendedSlider
-            recommendedItems={recommendedItems}
-            onAddToCart={onAddToCart}
-          />
+          recommendedItems={recommendedItems}
+          onAddToCart={(item) => {
+            console.log("Adding from slider:", item); // Optional Debug
+            onAddToCart(item); // ✅ Pass full item object
+          }}
+        />
         )}
 
         {cartItems.length > 0 && (
