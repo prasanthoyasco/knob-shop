@@ -72,7 +72,21 @@ console.log(passedItems);
           <div className='head-quantity'>QUANTITY</div>
           <div className='head-total'>TOTAL</div>
         </div>
-
+        {cartItems.length === 0 ? (
+  <div className="text-center my-5 d-flex flex-column align-items-center">
+    <img
+      src="/cart_empty.svg"
+      alt="Empty Cart"
+      className="mb-3"
+      style={{ width: "90px" }}
+    />
+    <p>Your cart is empty</p>
+    <button className="btn btn-dark mt-3" onClick={() => window.history.back()}>
+      Continue Shopping
+    </button>
+  </div>
+) :(
+    <>
         {cartItems.map(item => (
           <div key={item.id} className='shopping-cart-table-product'>
             <div>
@@ -129,7 +143,8 @@ console.log(passedItems);
             </div>
           ))}
         </div>
-
+    </>
+)}
         <div className='shopping-details-container'>
           <div className='instruction-container'>
             <div className='instruction-container-head'>
