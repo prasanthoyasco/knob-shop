@@ -206,10 +206,11 @@
 .shopping-cart-table-product-total {
     width: 373px;
     display: flex;
-    justify-content: center;
+    justify-content: end;
+    padding-right: 20px;
     align-items: center;
 }
 
 .head-total{
-    padding-right: 25px;
+    padding-right: 50px;
 }
