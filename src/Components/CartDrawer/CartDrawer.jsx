@@ -3,6 +3,8 @@ import RecommendedSlider from "./cart-drawer-recommend";
 import "./CartDrawer.css";
 import { NotebookPen, TruckIcon, X } from "lucide-react";
 import { CountrySelect } from "./CountrySelect";
+import { useNavigate } from "react-router-dom";
+
 
 const CartDrawer = ({
   show,
@@ -12,6 +14,7 @@ const CartDrawer = ({
   recommendedItems = [],
   onAddToCart,
 }) => {
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState(null);
   const [note, setNote] = useState("");
   const [country, setCountry] = useState("India");
@@ -237,7 +240,10 @@ const CartDrawer = ({
             <div className="cart-drawer-footer p-3">
               <button
                 className="btn btn-outline-dark rounded-0 py-2 w-100 m-0"
-                onClick={onClose}
+                 onClick={() => {
+    onClose(); // close drawer
+    navigate("/view-cart", { state: { cartItems } }); // send items
+  }}
               >
                 View Cart
               </button>

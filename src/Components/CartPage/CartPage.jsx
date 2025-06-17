@@ -1,27 +1,36 @@
 import React, { useState } from 'react';
 import './CartPage.css';
-import image from '../../Assets/Product Categories and its Product (Knobs Shop)/Smart Door Lock/Smart Door Lock/Luna Pro+ Facial/14_0fb7187f-b413-411d-a145-e62b8c9e41bb.jpg';
+import { useLocation } from "react-router-dom";
 import NavbarTop from '../Navbar/NavbarTop/NavbarTop';
 import Footer from '../Footer/Footer';
-import cardImage1 from '../../../public/payment-icon/visa.svg';
-import cardImage2 from '../../../public/payment-icon/master.svg';
-import cardImage3 from '../../../public/payment-icon/paypal.svg';
-import cardImage4 from '../../../public/payment-icon/discover.svg';
+
+// Sample fallback image
+import defaultImage from '../../Assets/Product Categories and its Product (Knobs Shop)/Smart Door Lock/Smart Door Lock/Luna Pro+ Facial/14_0fb7187f-b413-411d-a145-e62b8c9e41bb.jpg';
+
+import cardImage1 from '/payment-icon/visa.svg';
+import cardImage2 from '/payment-icon/master.svg';
+import cardImage3 from '/payment-icon/paypal.svg';
+import cardImage4 from '/payment-icon/discover.svg';
 
 const cardImages = [cardImage1, cardImage2, cardImage3, cardImage4];
 
 function CartPage() {
-  const [cartItems, setCartItems] = useState([
-    {
-      id: 1,
-      name: 'YDME50NxT Smart Door Lock',
-      brand: 'Yale',
-      color: 'Black',
-      price: 89299,
-      quantity: 1,
-      image: image
-    }
-  ]);
+  const location = useLocation();
+  const passedItems = location.state?.cartItems;
+
+  const [cartItems, setCartItems] = useState(
+    passedItems?.length ? passedItems : [
+      {
+        id: 1,
+        name: 'YDME50NxT Smart Door Lock',
+        brand: 'Yale',
+        color: 'Black',
+        price: 89299,
+        quantity: 1,
+        image: defaultImage
+      }
+    ]
+  );
 
   const handleIncrement = (id) => {
     setCartItems(prev =>
@@ -65,7 +74,7 @@ function CartPage() {
           <div key={item.id} className='shopping-cart-table-product'>
             <div>
               <div className='shopping-cart-table-product-image'>
-                <img src={item.image} alt='product' />
+                <img src={item.image} alt={item.name} />
                 <div className='shopping-cart-table-product-image-content'>
                   <p>Brand : {item.brand}</p>
                   <h3>{item.name}</h3>
@@ -106,13 +115,17 @@ function CartPage() {
               <i className='bi bi-truck'></i>
               <p>Estimate Shipping Rates</p>
             </div>
-            <select className='postal-code-input'>
-            <option value="" disabled selected>------</option>
-              <option>US</option>
-              <option>UK</option>
-              <option>India</option>
+            <select className='postal-code-input' defaultValue="">
+              <option value="" disabled>------</option>
+              <option value="US">US</option>
+              <option value="UK">UK</option>
+              <option value="India">India</option>
             </select>
-            <input type='text' placeholder='Postal/Zip Code' className='postal-code-input' />
+            <input
+              type='text'
+              placeholder='Postal/Zip Code'
+              className='postal-code-input'
+            />
           </div>
 
           <div className='check-out-container'>
@@ -122,7 +135,7 @@ function CartPage() {
             <p>We accept</p>
             <div className='card-images-container'>
               {cardImages.map((img, index) => (
-                <img key={index} src={img} alt='card' />
+                <img key={index} src={img} alt={`card-${index}`} />
               ))}
             </div>
           </div>
