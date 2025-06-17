@@ -13,11 +13,14 @@ import { ProductList } from './Pages/ProductList';
 import CategoriesHeader from './Components/CategoriesPage/CategoriesHeader/CategoriesHeader';
 import TermsAndCondition from './Components/TermsAndCondition/TermsAndCondition'
 import { ProductDetails } from './Pages/ProductDetails';
+import CartDrawer from './Components/CartDrawer/CartDrawer'
 import PrivacyPolicy from './Components/PrivacyPolicy/PrivacyPolicy'
 import ScrollToTop from './ScrollToTop/ScrollToTop';
+import { useCart } from './Context/CartContext';
 // import NavbarTop from './Components/Navbar/NavbarTop/NavbarTop';
 
 function App() {
+  const { drawerOpen, toggleDrawer, cartItems, removeFromCart, recommendedItems, addToCart } = useCart();
   return (
 
     <Router>
@@ -34,6 +37,14 @@ function App() {
        <Route path='/privacy-policy' element={<PrivacyPolicy/>}></Route>
       </Routes>
       </div>
+       <CartDrawer
+        show={drawerOpen}
+        onClose={() => toggleDrawer(false)}
+        cartItems={cartItems}
+        onRemove={removeFromCart}
+        recommendedItems={recommendedItems}
+        onAddToCart={addToCart}
+      />
     </Router>
   );
 }
