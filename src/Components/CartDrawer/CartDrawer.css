@@ -132,3 +132,9 @@
     font-size: 0.9rem;
   }
 }
+
+@media (max-width: 576px) {
+  .cart-drawer-footer.mobile-footer-hidden {
+    display: none !important;
+  }
+}

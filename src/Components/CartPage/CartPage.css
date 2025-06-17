@@ -133,6 +133,8 @@
 }
 .shipping-container{
     display: flex;
+    width: 100%;
+    padding: 0rem 1.5rem;
     flex-direction: column;
     justify-content: center;
     gap: 10px;
@@ -299,9 +301,13 @@
     .continue-shopping-btn{
         display: none;
     }
+    .instruction-container{
+      width: -webkit-fill-available;
+      padding: 0rem 1.5rem;
+    }
     .instruction-container textarea,
     .postal-code-input {
-      width: 340px;
+      width: 100%;
     }
   
     .check-out-container button {
