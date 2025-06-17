@@ -109,8 +109,8 @@
 .shopping-details-container{
     width: 1188px;
     height: 268px;
-    border-top: 2px solid #B0B0B0;
-    border-bottom: 2px solid #B0B0B0;
+    border-top: 1px solid #B0B0B0;
+    border-bottom: 1px solid #B0B0B0;
     display: flex;
     align-items: center;
     justify-content: space-around;
