@@ -11,6 +11,7 @@ import lockerBg from "../Assets/CategoriesImge/image.jpg"
 // import bchair1 from "../Assets/product-category/p7.jpg";
 import Footer from "../Components/Footer/Footer";
 import { useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
 export const ProductList = () => {
   const location=useLocation()
   const productData = location.state?.product
@@ -36,6 +37,29 @@ export const ProductList = () => {
       { name: "Machnic Key", imgUrl: "/product-icon/machnic_key.svg" },
     ],
   }));
+const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => setLoading(false), 5000); 
+    return () => clearTimeout(timeout);
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="d-flex justify-content-center align-items-center vh-100">
+        <div className="text-center">
+          <img
+            src="/favIcon.png"
+            alt="logo"
+            className="spinner-border"
+            style={{ width: "60px", height: "60px", border: "none" }}
+          />
+          <p className="mt-3 fw-semibold">Loading product details...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
      <>
      <NavbarTop/>

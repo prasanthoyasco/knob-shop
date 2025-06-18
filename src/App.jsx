@@ -21,6 +21,7 @@ import { useCart } from './Context/CartContext';
 import PaymentPage from './Components/PaymentPage/PaymentPage';
 import { OrderTracking } from './Pages/OrderTracking';
 import OrderConfirmed from './Pages/OrderConfirmed';
+import { Notfound } from './Pages/Notfound';
 // import NavbarTop from './Components/Navbar/NavbarTop/NavbarTop';
 
 function App() {
@@ -32,7 +33,7 @@ function App() {
       {/* <NavbarTop /> */}
       <ScrollToTop/>
       <div className="page-fade">
-      <Routes>x
+      <Routes>
         <Route path="/" element={<Home />} />
        <Route path='/category/:id' element={<ProductList/>}></Route>
        <Route path='/product/:id' element={<ProductDetails/>}></Route>
@@ -43,6 +44,7 @@ function App() {
        <Route path='/payment' element={<PaymentPage/>}></Route>
        <Route path='/Tracking' element={<OrderTracking/>}></Route>
        <Route path='/order-confirmed' element={<OrderConfirmed/>}></Route>
+       <Route path="*" element={<Notfound />} />
       </Routes>
       </div>
        <CartDrawer

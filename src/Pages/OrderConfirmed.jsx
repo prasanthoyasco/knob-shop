@@ -3,9 +3,32 @@ import Lottie from 'lottie-react';
 import successAnimation from '../Assets/order-confirmed.json';
 import NavbarTop from '../Components/Navbar/NavbarTop/NavbarTop';
 import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 
 const OrderConfirmed = () => {
     const Navigate = useNavigate();
+    const [loading, setLoading] = useState(true);
+    
+      useEffect(() => {
+        const timeout = setTimeout(() => setLoading(false), 5000); 
+        return () => clearTimeout(timeout);
+      }, []);
+    
+      if (loading) {
+        return (
+          <div className="d-flex justify-content-center align-items-center vh-100">
+            <div className="text-center">
+              <img
+                src="/favIcon.png"
+                alt="logo"
+                className="spinner-border"
+                style={{ width: "60px", height: "60px", border: "none" }}
+              />
+              <p className="mt-3 fw-semibold">Loading...</p>
+            </div>
+          </div>
+        );
+      }
   return (
     <>
       {/* <NavbarTop /> */}

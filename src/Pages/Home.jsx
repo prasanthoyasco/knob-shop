@@ -1,7 +1,7 @@
 import Hero from "../Components/Hero/Hero"
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import NavbarTop from "../Components/Navbar/NavbarTop/NavbarTop"
 import ProductCarousel from "../Components/ProductCarousel/ProductCarousel";
 import dSlides1 from '../Assets/Product Categories and its Product (Knobs Shop)/product img/product img/Drawer Slides/YCDS-SC-10 (XX)/YCDS-SC-10 (XX).webp'
@@ -352,6 +352,29 @@ const parallaxProducts4 = [
     ]
   },
 ];
+
+const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => setLoading(false), 5000);
+    return () => clearTimeout(timeout);
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="d-flex justify-content-center align-items-center vh-100">
+        <div className="text-center">
+          <img
+            src="/favIcon.png"
+            alt="logo"
+            className="spinner-border"
+            style={{ width: "60px", height: "60px", border: "none" }}
+          />
+          <p className="mt-3 fw-semibold">Loading...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
   <>
