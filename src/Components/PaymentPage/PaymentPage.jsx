@@ -76,37 +76,28 @@ function PaymentPage() {
       </div>
       )}
       {deliveryOption === 'pickup' && (
-        <div className='shop-conatiner'>
+        <div className='pick-conatiner'>
             <div className='contact-con-head'>
                 <h3 className='contact-con-head-h3'>Store Location</h3>
                 <a href='login'>change location</a>
             </div>
             <p>There is 1 store with stock close to chennai,Tamil,Nadu,India</p>
-            <div>
+            <div className='use-my-loction-div'>
                 <p>Use my location</p>
+            </div>
+            <div className='hr-line-pickup'>
+                <hr/>
+                <p>X</p>
+                <hr/>
             </div>
         <select className='select-box'>
             <option>India</option>
             <option>US</option>
             <option>UK</option>
         </select>
-        <div className='first-last-name-input-div'>
+        <div className='pick-up-address-div'>
             <input type='text' className='contact-con-input'placeholder='Address'/> 
-            <input type='text' placeholder='Last Name' className='first-name-input'/>
-        </div>
-
-        <div className='first-last-name-input-div'>
-            <input type='text' placeholder='City' className='first-name-input'/>
-            <select className='first-name-input'>
-                <option>Tamil Nadu</option>
-                <option>Kerala</option>
-                <option>Andhra</option>
-            </select>
-            <input type='text' placeholder='Zip Code' className='first-name-input'/>
-        </div>
-        <div className='contact-con-checkbox-text'>
-            <input type='checkbox'/>
-            <p>Save the information for the next time</p>
+            <button className='find-store-btn'>FIND STORE</button>
         </div>
       </div>
       )}

@@ -26,11 +26,9 @@
 .contact-con-head-h3{
     font-size: 24px;
     font-weight: bold;
-    letter-spacing: 4px;
 }
 .contact-con-head a{
     font-size: 18px;
-    letter-spacing: 1px;
 }
 .contact-con-input{
     width: 100%;
@@ -64,7 +62,6 @@
 .contact-con-head-h3{
     font-size: 24px;
     font-weight: bold;
-    letter-spacing: 4px;
 }
 .payment-page-delivery-sec{
     display: flex;
@@ -207,6 +204,11 @@
     border: 1px solid #d9d8d8 !important;
     text-align: center;
     width: 50%;
+    margin: auto;
+    height: 52px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .enter-upi-id-div{
     margin-top: 5%;
@@ -258,4 +260,39 @@
 }
 .payment-price{
     font-size: 17.11px;
+}
+.use-my-loction-div{
+    width: 100%;
+    border: 1px solid #d9d8d8 !important;
+    height: 52px;
+    text-align: center;
+    padding-top: 10px;
+    margin-top: 10px;
+}
+.use-my-loction-div p{
+    color: #1773B0 !important;
+}
+.pick-conatiner{
+    margin-top: 5%;
+}
+.hr-line-pickup{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.hr-line-pickup hr{
+    width: 50%;
+}
+.find-store-btn{
+    width: 50%;
+    background-color: black;
+    color: white;
+    height: 52px;
+}
+.pick-up-address-div{
+    display: flex;
+    gap: 20px;
+    margin-top: 20px;
 }
