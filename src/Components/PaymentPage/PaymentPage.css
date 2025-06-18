@@ -357,3 +357,77 @@
     color: #666;
   }
   
+  @media screen and (max-width: 1024px) {
+    .payment-page-container {
+      flex-direction: column-reverse;
+      gap: 30px;
+    }
+    .payment-price{
+        display: none;
+    }
+  
+    .payment-page-left-side,
+    .payment-page-right-side {
+      width: 100%;
+      padding: 15px;
+      position: static;
+      height: auto;
+    }
+  
+    .first-last-name-input-div {
+      flex-direction: column;
+      gap: 10px;
+    }
+    .first-name-input{
+        width: 100%;
+    }
+    .qr-code-con {
+      width: 100%;
+    }
+  
+    .find-store-btn {
+      width: 100%;
+    }
+  
+    .pick-up-address-div {
+      flex-direction: column;
+      gap: 10px;
+    }
+  
+    .card-image-payment,
+    .upi-image-payment {
+      justify-content: flex-start;
+      flex-wrap: wrap;
+    }
+    .shipping-method-containe-text{
+        padding-top: 0;
+    }
+  }
+  
+  @media screen and (max-width: 600px) {
+    .contact-con-head {
+      align-items: flex-start;
+      gap: 10px;
+    }
+  
+    .payment-product-image {
+      align-items: flex-start;
+    }
+  
+    .payment-product-image img {
+      width: 80px;
+      height: 80px;
+    }
+  
+    .store-info-card {
+      flex-direction: column;
+      gap: 10px;
+    }
+  
+    .store-info-left,
+    .store-info-right {
+      width: 100%;
+      text-align: left;
+    }
+  }
+  
