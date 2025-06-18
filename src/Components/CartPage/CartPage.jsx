@@ -3,7 +3,7 @@ import "./CartPage.css";
 import { useLocation } from "react-router-dom";
 import NavbarTop from "../Navbar/NavbarTop/NavbarTop";
 import Footer from "../Footer/Footer";
-
+import { useNavigate } from "react-router-dom";
 import defaultImage from "../../Assets/Product Categories and its Product (Knobs Shop)/Smart Door Lock/Smart Door Lock/Luna Pro+ Facial/14_0fb7187f-b413-411d-a145-e62b8c9e41bb.jpg";
 
 import cardImage1 from "/payment-icon/visa.svg";
@@ -14,6 +14,7 @@ import cardImage4 from "/payment-icon/discover.svg";
 const cardImages = [cardImage1, cardImage2, cardImage3, cardImage4];
 
 function CartPage() {
+  const navigate = useNavigate()
   const location = useLocation();
   const passedItems = location.state?.cartItems;
 
@@ -127,7 +128,7 @@ function CartPage() {
                       <p>Color : {item.color}</p>
                     </div>
                   </div>
-                  <button className="continue-shopping-btn">
+                  <button className="continue-shopping-btn" onClick={()=>navigate('/')}>
                     CONTINUE SHOPPING
                   </button>
                 </div>
@@ -238,9 +239,9 @@ function CartPage() {
             <h3>Subtotal ₹ {subtotal.toLocaleString("en-IN")}</h3>
             <p>Taxes and Shipping Calculated at Checkout</p>
             <div className="mobile-checkout-sticky">
-              <button className="mobile-checkout-button">CHECK OUT</button>
+              <button className="mobile-checkout-button" onClick={()=>navigate('/payment-page')}>CHECK OUT</button>
             </div>
-             <button className="Desktop-checkout-button">CHECK OUT</button>
+             <button className="Desktop-checkout-button" onClick={()=>navigate('/payment-page')}>CHECK OUT</button>
             <p>We accept</p>
             <div className="card-images-container">
               {cardImages.map((img, index) => (
