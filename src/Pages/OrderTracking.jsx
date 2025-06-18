@@ -51,8 +51,8 @@ export const OrderTracking = () => {
 //   };
 
   return (
+    <><NavbarTop/>
     <div className='container-flued mx-5'>
-    <NavbarTop/>
     <Tracking/>
      <CartItemsList
       cartItems={cartItems}
@@ -61,8 +61,9 @@ export const OrderTracking = () => {
     //   handleDelete={handleDelete}
       isTrackingPage={true}
     />
-    <Footer/>
     </div>
+    <Footer/>
+    </>
   )
 }
 

@@ -2,8 +2,10 @@ import { FaMapMarkerAlt } from 'react-icons/fa';
 import Lottie from 'lottie-react';
 import successAnimation from '../Assets/order-confirmed.json';
 import NavbarTop from '../Components/Navbar/NavbarTop/NavbarTop';
+import { useNavigate } from 'react-router-dom';
 
 const OrderConfirmed = () => {
+    const Navigate = useNavigate();
   return (
     <>
       {/* <NavbarTop /> */}
@@ -77,10 +79,10 @@ const OrderConfirmed = () => {
 
         {/* Action Buttons */}
         <div className="d-flex flex-column flex-md-row justify-content-center gap-3 w-100" style={{ maxWidth: 800 }}>
-          <button className="btn btn-dark px-4 py-3 text-white rounded-0 m-0 small" style={{ flex: '0 0 40%' }}>
+          <button className="btn btn-dark px-4 py-3 text-white rounded-0 m-0 small" style={{ flex: '0 0 40%' }} onClick={()=>{Navigate('/Tracking')}}>
             Track Delivery
           </button>
-          <button className="btn btn-outline-dark rounded-0 m-0 px-4 py-3 small" style={{ flex: '0 0 40%' }}>
+          <button className="btn btn-outline-dark rounded-0 m-0 px-4 py-3 small" style={{ flex: '0 0 40%' }} onClick={()=>{Navigate('/')}}>
             Continue Shopping
           </button>
         </div>

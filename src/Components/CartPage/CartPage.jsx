@@ -144,9 +144,9 @@ function CartPage() {
             <h3>Subtotal ₹ {subtotal.toLocaleString("en-IN")}</h3>
             <p>Taxes and Shipping Calculated at Checkout</p>
             <div className="mobile-checkout-sticky">
-              <button className="mobile-checkout-button" onClick={()=>navigate('/payment-page')}>CHECK OUT</button>
+              <button className="mobile-checkout-button" onClick={()=>navigate('/payment')}>CHECK OUT</button>
             </div>
-             <button className="Desktop-checkout-button" onClick={()=>navigate('/payment-page')}>CHECK OUT</button>
+             <button className="Desktop-checkout-button" onClick={()=>navigate('/payment')}>CHECK OUT</button>
             <p>We accept</p>
             <div className="card-images-container">
               {cardImages.map((img, index) => (

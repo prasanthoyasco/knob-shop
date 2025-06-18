@@ -1,9 +1,11 @@
 // src/components/Cart/CartItemsList.jsx
 import React from "react";
 import PropTypes from "prop-types";
+import { useNavigate } from "react-router-dom";
 
 const CartItemsList = ({ cartItems, handleIncrement, handleDecrement, handleDelete,isTrackingPage = false }) => {
-  if (!cartItems.length) {
+  const Navigate = useNavigate();
+    if (!cartItems.length) {
     return (
       <div className="text-center my-5 d-flex flex-column align-items-center">
         <img src="/cart_empty.svg" alt="Empty Cart" style={{ width: "90px" }} />
@@ -34,7 +36,7 @@ const CartItemsList = ({ cartItems, handleIncrement, handleDecrement, handleDele
                 <p>Color : {item.color}</p>
               </div>
             </div>
-            <button className="continue-shopping-btn">CONTINUE SHOPPING</button>
+            <button className="continue-shopping-btn" onClick={()=>{Navigate('/')}}>CONTINUE SHOPPING</button>
           </div>
 
           <div className="shopping-cart-table-product-count">
