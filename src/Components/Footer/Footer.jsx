@@ -21,6 +21,7 @@ const policyContent = [
 const helpContent = [
   {text : "Payment" , href : "/payment"},
   {text : "Shipping" , href : "/shipping"},
+  {text : "Track My Order" , href : "/Tracking"},
   {text : "FAQ's" , href : "/faq"},
 ]
 function Footer() {
