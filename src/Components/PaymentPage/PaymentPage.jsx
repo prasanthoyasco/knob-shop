@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
 import './PaymentPage.css'
 import Footer from '../Footer/Footer'
 import NavbarTop from '../Navbar/NavbarTop/NavbarTop'
@@ -10,7 +10,19 @@ function PaymentPage() {
     const [pickupAddress, setPickupAddress] = useState('');
     const [showStoreInfo,setShowStoreInfo] = useState(false)
     const [selectedPayment, setSelectedPayment] = useState('');
+    const [contactInfo, setContactInfo] = useState('');
+const [contactCompleted, setContactCompleted] = useState(false);
+const [firstName, setFirstName] = useState('');
+const [lastName, setLastName] = useState('');
+const [deliveryAddress, setDeliveryAddress] = useState('');
+const [city, setCity] = useState('');
+const [zipCode, setZipCode] = useState('');
+const [deliveryCompleted, setDeliveryCompleted] = useState(false);
 
+useEffect(() => {
+    const allFilled = firstName.trim() && lastName.trim() && deliveryAddress.trim() && city.trim() && zipCode.trim();
+    setDeliveryCompleted(!!allFilled);
+  }, [firstName, lastName, deliveryAddress, city, zipCode])
     const navigate = useNavigate();
 
   return (
@@ -21,9 +33,15 @@ function PaymentPage() {
             <div className='contact-container'>
                 <div className='contact-con-head'>
                     <h3 className='contact-con-head-h3'>CONTACT</h3>
+                    {contactCompleted && (
+  <p className='entered-contact-info'>Entered: {contactInfo}</p>
+)}
+
                     <a href='login'>Log in</a>
                 </div>
-                <input type='text' placeholder='Email or Mobile Phone Number' className='contact-con-input'/>
+                <input type='text' placeholder='Email or Mobile Phone Number' className='contact-con-input' value={contactInfo}
+  onChange={(e) => setContactInfo(e.target.value)}
+  onBlur={() => setContactCompleted(true)}/>
                 <div className='contact-con-checkbox-text'>
                     <input type='checkbox'/>
                     <p>Email me with news and offers</p>
@@ -31,6 +49,13 @@ function PaymentPage() {
             </div>
             <div className='deliver-section-container'>
                 <h3 className='contact-con-head-h3'>DELIVERY</h3>
+                {deliveryCompleted && (
+  <div className='entered-delivery-info'>
+    <p>{firstName} {lastName}</p>
+    <p>{deliveryAddress}</p>
+    <p>{city} - {zipCode}</p>
+  </div>
+)}
                 <div className='payment-page-delivery-sec'>
                 <label className='radio-btn-delivery-text'>
   <input type='radio' name='delivery' className='radio-input'checked={deliveryOption === 'ship'} onChange={() => setDeliveryOption('ship')}/>
@@ -40,6 +65,7 @@ function PaymentPage() {
 
                 <i className="bi bi-truck"></i>
                 </div>
+                
             </div>
             <div className='payment-page-delivery-sec'>
                 <label className='radio-btn-delivery-text'>
@@ -58,18 +84,24 @@ function PaymentPage() {
             <option>UK</option>
         </select>
         <div className='first-last-name-input-div'>
-            <input type='text' placeholder='First Name' className='first-name-input'/>
-            <input type='text' placeholder='Last Name' className='first-name-input'/>
+            <input type='text' placeholder='First Name' className='first-name-input'value={firstName}
+          onChange={(e) => setFirstName(e.target.value)}/>
+            <input type='text' placeholder='Last Name' className='first-name-input'value={lastName}
+          onChange={(e) => setLastName(e.target.value)}/>
         </div>
-        <input type='text' className='contact-con-input'placeholder='Address'/> 
+        <input type='text' className='contact-con-input'placeholder='Address'value={deliveryAddress}
+      onChange={(e) => setDeliveryAddress(e.target.value)}/> 
         <div className='first-last-name-input-div'>
-            <input type='text' placeholder='City' className='first-name-input'/>
+            <input type='text' placeholder='City' className='first-name-input'value={city}
+          onChange={(e) => setCity(e.target.value)}/>
             <select className='first-name-input'>
                 <option>Tamil Nadu</option>
                 <option>Kerala</option>
                 <option>Andhra</option>
             </select>
-            <input type='text' placeholder='Zip Code' className='first-name-input'/>
+            <input type='text' placeholder='Zip Code' className='first-name-input'          value={zipCode}
+          onChange={(e) => setZipCode(e.target.value)}
+          onBlur={() => setDeliveryCompleted(true)}/>
         </div>
         <div className='contact-con-checkbox-text'>
             <input type='checkbox'/>
