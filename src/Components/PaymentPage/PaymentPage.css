@@ -421,6 +421,9 @@
     .card-container{
         margin-top: 5%;
     }
+    .shop-conatiner{
+        margin-top: 8%;
+    }
   }
   
   @media screen and (max-width: 600px) {
