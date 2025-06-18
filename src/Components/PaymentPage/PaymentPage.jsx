@@ -7,6 +7,10 @@ import { useNavigate } from 'react-router-dom'
 const cardImages = ['/payment-icon/discover.svg', '/payment-icon/master.svg', '/payment-icon/paypal.svg', '/payment-icon/visa.svg'];
 function PaymentPage() {
     const [deliveryOption, setDeliveryOption] = useState("ship");
+    const [pickupAddress, setPickupAddress] = useState('');
+    const [showStoreInfo,setShowStoreInfo] = useState(false)
+    const [selectedPayment, setSelectedPayment] = useState('');
+
     const navigate = useNavigate();
 
   return (
@@ -94,7 +98,7 @@ function PaymentPage() {
             <option>UK</option>
         </select>
         <div className='pick-up-address-div'>
-            <input type='text' className='contact-con-input'placeholder='Address'/> 
+            <input type='text' className='contact-con-input'placeholder='Address'onChange={(e) => setPickupAddress(e.target.value)}/> 
             <button className='find-store-btn' onClick={() => setShowStoreInfo(true)}>FIND STORE</button>
         </div>
       </div>
@@ -105,12 +109,12 @@ function PaymentPage() {
                 <h3 className='contact-con-head-h3'>Store Location</h3>
                 <a href='login'>change location</a>
             </div>
-    <p>There is 1 store with stock close to Chennai, Tamil Nadu, India</p>
+            <p>There is 1 store with stock close to <strong>{pickupAddress || 'Chennai, Tamil Nadu, India'}</strong></p>
     
     <div className='store-info-card'>
       <div className='store-info-left'>
         <strong>Chennai</strong> <span>(150 km)</span>
-        <p>There is 1 store with stock close to Chennai, Tamil Nadu, India</p>
+        <p>There is 1 store with stock close to <strong>{pickupAddress || 'Chennai, Tamil Nadu, India'}</strong></p>
       </div>
       <div className='store-info-right'>
         <strong>FREE</strong>
@@ -157,12 +161,12 @@ function PaymentPage() {
         <div className='card-container'>
             <div className='payment-page-delivery-sec'>
             <label className='radio-btn-delivery-text'>
-            <input type='radio' name='delivery' className='radio-input' />
+            <input type='radio' name='payment' className='radio-input'value='credit'checked={selectedPayment === 'credit'} onChange={() => setSelectedPayment('credit')}/>
             <span className='radio-btn-delivery'></span>
             <p className='radio-btn-text'>Credit Card</p>
             </label>
             </div>
-            <div className='shop-conatiner-payemnt'>
+            {selectedPayment === 'credit' && (<div className='shop-conatiner-payemnt'>
             <input type='text' className='contact-con-input'placeholder='Address'/> 
         <div className='first-last-name-input-div'>
             <input type='text' placeholder='First Name' className='first-name-input'/>
@@ -174,15 +178,17 @@ function PaymentPage() {
                 <img src={image}/>
             ))}
         </div>
-      </div>
+      </div>)}
       <div className='payment-page-delivery-sec'>
             <label className='radio-btn-delivery-text'>
-            <input type='radio' name='delivery' className='radio-input' />
+            <input type='radio' name='payment' className='radio-input'    value='upi'
+    checked={selectedPayment === 'upi'}
+    onChange={() => setSelectedPayment('upi')} />
             <span className='radio-btn-delivery'></span>
             <p className='radio-btn-text'>UPI</p>
             </label>
             </div>
-        <div className='upi-inside-container'>
+            {selectedPayment === 'upi' && (<div className='upi-inside-container'>
 
             <div className='scaner'>
             <p>Scan and pay by any UPI app on your phone</p>
@@ -200,14 +206,17 @@ function PaymentPage() {
                 <p>Enter your UPI id</p>
                 <input type='text' placeholder='UPI id' className='contact-con-input'/>
             </div>
-        </div>
+        </div>)}
         <div className='payment-page-delivery-sec'>
             <label className='radio-btn-delivery-text'>
-            <input type='radio' name='delivery' className='radio-input' />
+            <input type='radio' name='payment' className='radio-input'    value='cod'
+    checked={selectedPayment === 'cod'}
+    onChange={() => setSelectedPayment('cod')} />
             <span className='radio-btn-delivery'></span>
             <p className='radio-btn-text'>Cash on Delivery(COD)</p>
             </label>
             </div>
+
         </div>
       </div>
       <button className='btn pay-now-btn rounded-0' onClick={()=>{navigate('/order-confirmed')}}>PAY NOW</button>
