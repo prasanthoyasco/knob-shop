@@ -402,6 +402,28 @@
     .shipping-method-containe-text{
         padding-top: 0;
     }
+    .entered-delivery-info{
+        margin-bottom: 20px;
+    }
+    .shipping-method-container{
+        margin-top: 10%;
+    }
+    .payment-section{
+        margin-top: 10%;
+    }
+    .deliver-section-container{
+        margin-top: 10%;
+    }
+    .shipping-method-containe-text{
+        margin-top: 7%;
+        margin-bottom: 8%;
+    }
+    .card-container{
+        margin-top: 5%;
+    }
+    .shop-conatiner{
+        margin-top: 8%;
+    }
   }
   
   @media screen and (max-width: 600px) {
