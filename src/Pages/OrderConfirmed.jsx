@@ -6,29 +6,52 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
 const OrderConfirmed = () => {
-    const Navigate = useNavigate();
-    const [loading, setLoading] = useState(true);
-    
-      useEffect(() => {
-        const timeout = setTimeout(() => setLoading(false), 5000); 
-        return () => clearTimeout(timeout);
-      }, []);
-    
-      if (loading) {
-        return (
-          <div className="d-flex justify-content-center align-items-center vh-100">
-            <div className="text-center">
-              <img
-                src="/favIcon.png"
-                alt="logo"
-                className="spinner-border"
-                style={{ width: "60px", height: "60px", border: "none" }}
-              />
-              <p className="mt-3 fw-semibold">Loading...</p>
-            </div>
-          </div>
-        );
+     const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
+  const [statusText, setStatusText] = useState("Payment initiated...");
+
+  // Timeout to simulate order confirmation loading
+  useEffect(() => {
+    const timeout = setTimeout(() => setLoading(false), 10000); // 10s
+    return () => clearTimeout(timeout);
+  }, []);
+
+  // Status message transition
+  useEffect(() => {
+    if (!loading) return;
+    const messages = [
+      "Payment initiated...",
+      "Processing your order...",
+      "Placing your order...",
+      "Finalizing..."
+    ];
+    let index = 0;
+    const interval = setInterval(() => {
+      index++;
+      if (index < messages.length) {
+        setStatusText(messages[index]);
+      } else {
+        clearInterval(interval);
       }
+    }, 2500);
+    return () => clearInterval(interval);
+  }, [loading]);
+
+  if (loading) {
+    return (
+      <div className="d-flex justify-content-center align-items-center vh-100">
+        <div className="text-center">
+          <img
+            src="/favIcon.png"
+            alt="logo"
+            className="spinner-border"
+            style={{ width: "60px", height: "60px", border: "none" }}
+          />
+          <p className="mt-3 fw-semibold">{statusText}</p>
+        </div>
+      </div>
+    );
+  }
   return (
     <>
       {/* <NavbarTop /> */}
@@ -102,10 +125,10 @@ const OrderConfirmed = () => {
 
         {/* Action Buttons */}
         <div className="d-flex flex-column flex-md-row justify-content-center gap-3 w-100" style={{ maxWidth: 800 }}>
-          <button className="btn btn-dark px-4 py-3 text-white rounded-0 m-0 small" style={{ flex: '0 0 40%' }} onClick={()=>{Navigate('/Tracking')}}>
+          <button className="btn btn-dark px-4 py-3 text-white rounded-0 m-0 small" style={{ flex: '0 0 40%' }} onClick={()=>{navigate('/Tracking')}}>
             Track Delivery
           </button>
-          <button className="btn btn-outline-dark rounded-0 m-0 px-4 py-3 small" style={{ flex: '0 0 40%' }} onClick={()=>{Navigate('/')}}>
+          <button className="btn btn-outline-dark rounded-0 m-0 px-4 py-3 small" style={{ flex: '0 0 40%' }} onClick={()=>{navigate('/')}}>
             Continue Shopping
           </button>
         </div>
