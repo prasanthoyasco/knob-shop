@@ -6,8 +6,8 @@ import NavbarTop from '../Components/Navbar/NavbarTop/NavbarTop';
 const OrderConfirmed = () => {
   return (
     <>
-      <NavbarTop />
-      <div className="container d-flex flex-column justify-content-center align-items-center min-vh-100 py-5 bg-white">
+      {/* <NavbarTop /> */}
+      <div className="container d-flex flex-column justify-content-center align-items-center min-vh-100 pt-1 pb-3 bg-white">
         {/* Success Animation */}
         <div style={{ width: '280px', height: '280px' }} className="mb-1">
           <Lottie animationData={successAnimation} loop={false} speed={0.5} />
@@ -18,14 +18,14 @@ const OrderConfirmed = () => {
         <p className="text-secondary text-center mb-1">
           Thanks for your order <a href="#" className="text-primary text-decoration-underline">RB19011</a>. Arriving by <strong>19 Jun 2025</strong>.
         </p>
-        <p className="text-muted small mb-5 text-center">
+        <p className="text-muted small mb-4 text-center">
           Order within <strong>20h 34m</strong> for same-day processing.
         </p>
 
         {/* Address Section */}
         <div
-          className="row border border-dark p-4 mb-5 w-100 justify-content-center"
-          style={{ maxWidth: '800px', borderWidth: '5px', borderRadius: '20px' }}
+          className="row border border-dark p-4 mb-4 w-100 justify-content-center"
+          style={{ maxWidth: '800px', width:'80%', borderWidth: '5px', borderRadius: '20px' }}
         >
           {/* Start Location */}
           <div className="col-12 col-md-5 d-flex flex-row flex-md-column align-items-center mb-4 mb-md-0 position-relative">
@@ -52,7 +52,7 @@ const OrderConfirmed = () => {
             ></div>
 
             {/* Address */}
-            <div className="small text-md-center text-start mt-2 ms-2 ms-md-0">
+            <div className="small text-md-center text-start mt-2 ms-2 ms-md-0" style={{maxWidth:'200px'}}>
               746-747, Mettupalayam Road,
               X-Cut, Coimbatore – 641002,
               Tamilnadu – India.
@@ -67,7 +67,7 @@ const OrderConfirmed = () => {
             </div>
 
             {/* Address */}
-            <div className="small text-md-center text-start mt-2 ms-3 ms-md-0">
+            <div className="small text-md-center text-start mt-2 ms-3 ms-md-0" style={{maxWidth:'200px'}}>
               Lg – 17, Ramnagar Road,
               X-Cut, Chennai – 641012,
               Tamilnadu – India.
