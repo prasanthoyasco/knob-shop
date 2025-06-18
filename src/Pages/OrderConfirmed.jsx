@@ -28,16 +28,23 @@ const OrderConfirmed = () => {
           style={{ maxWidth: '800px', borderWidth: '5px', borderRadius: '20px' }}
         >
           {/* Start Location */}
-          <div className="col-12 col-md-5 d-flex flex-column align-items-center mb-4 mb-md-0 position-relative">
+          <div className="col-12 col-md-5 d-flex flex-row flex-md-column align-items-center mb-4 mb-md-0 position-relative">
             {/* Circle */}
             <div className="border border-dark rounded-circle p-2 mb-2" style={{ width: 'fit-content' }}>
               <div style={{ width: '15px', height: '15px', background: '#000', borderRadius: '50%' }}></div>
             </div>
 
-            {/* Connector Line (vertical on mobile, horizontal on md+) */}
+            {/* Connector Line (vertical on mobile, horizontal on md+) */
+    //         width: 2px;
+    // position: absolute;
+    // left: 11%;
+    // top: 3rem;
+    // height: 60px;
+    // background-color: rgb(0, 0, 0);
+    }
             <div
               className="d-block d-md-none"
-              style={{ width: '2px', height: '40px', backgroundColor: '#000' }}
+              style={{ width: '2px', height: '60px',position:'absolute',left:"11%",top:'3rem', backgroundColor: '#000' }}
             ></div>
             <div
               className="d-none d-md-block position-absolute translate-middle-y"
@@ -45,31 +52,31 @@ const OrderConfirmed = () => {
             ></div>
 
             {/* Address */}
-            <div className="small text-center mt-2">
-              746-747, Mettupalayam Road,<br />
-              X-Cut, Coimbatore – 641002,<br />
+            <div className="small text-md-center text-start mt-2 ms-2 ms-md-0">
+              746-747, Mettupalayam Road,
+              X-Cut, Coimbatore – 641002,
               Tamilnadu – India.
             </div>
           </div>
 
           {/* End Location */}
-          <div className="col-12 col-md-5 d-flex flex-column align-items-center">
+          <div className="col-12 col-md-5 d-flex flex-row flex-md-column align-items-center">
             {/* Location Icon */}
             <div className="border border-dark rounded-circle p-1 mb-2" style={{ width: 'fit-content' }}>
               <FaMapMarkerAlt size={24} className="text-dark" />
             </div>
 
             {/* Address */}
-            <div className="small text-center mt-2">
-              Lg – 17, Ramnagar Road,<br />
-              X-Cut, Chennai – 641012,<br />
+            <div className="small text-md-center text-start mt-2 ms-3 ms-md-0">
+              Lg – 17, Ramnagar Road,
+              X-Cut, Chennai – 641012,
               Tamilnadu – India.
             </div>
           </div>
         </div>
 
         {/* Action Buttons */}
-        <div className="d-flex justify-content-center gap-3 w-100" style={{ maxWidth: 800 }}>
+        <div className="d-flex flex-column flex-md-row justify-content-center gap-3 w-100" style={{ maxWidth: 800 }}>
           <button className="btn btn-dark px-4 py-3 text-white rounded-0 m-0 small" style={{ flex: '0 0 40%' }}>
             Track Delivery
           </button>
