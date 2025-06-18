@@ -2,15 +2,12 @@ import React,{useState} from 'react'
 import './PaymentPage.css'
 import Footer from '../Footer/Footer'
 import NavbarTop from '../Navbar/NavbarTop/NavbarTop'
-import payImage1 from '../../../public/payment-icon/discover.svg'
-import payImage2 from '../../../public/payment-icon/master.svg'
-import payImage3 from '../../../public/payment-icon/paypal.svg'
-import payImage4 from '../../../public/payment-icon/visa.svg'
 import productImage from '../../Assets/Product Categories and its Product (Knobs Shop)/Smart Door Lock/Smart Door Lock/Luna Pro+ Facial/14_0fb7187f-b413-411d-a145-e62b8c9e41bb.jpg'
-const cardImages = [payImage1, payImage2, payImage3, payImage4];
+import { useNavigate } from 'react-router-dom'
+const cardImages = ['/payment-icon/discover.svg', '/payment-icon/master.svg', '/payment-icon/paypal.svg', '/payment-icon/visa.svg'];
 function PaymentPage() {
     const [deliveryOption, setDeliveryOption] = useState("ship");
-    const [showStoreInfo, setShowStoreInfo] = useState(false);
+    const navigate = useNavigate();
 
   return (
     <>
@@ -213,7 +210,7 @@ function PaymentPage() {
             </div>
         </div>
       </div>
-      <button className='pay-now-btn'>PAY NOW</button>
+      <button className='btn pay-now-btn rounded-0' onClick={()=>{navigate('/order-confirmed')}}>PAY NOW</button>
       <hr/>
 
       </div>

@@ -40,7 +40,7 @@ function App() {
        <Route path='/terms-condition' element={<TermsAndCondition/>}></Route>
        <Route path='/privacy-policy' element={<PrivacyPolicy/>}></Route>
        <Route path='/view-cart' element={<CartPage/>}></Route>
-       <Route path='/payment-page' element={<PaymentPage/>}></Route>
+       <Route path='/payment' element={<PaymentPage/>}></Route>
        <Route path='/Tracking' element={<OrderTracking/>}></Route>
        <Route path='/order-confirmed' element={<OrderConfirmed/>}></Route>
       </Routes>
