@@ -4,9 +4,9 @@ import "./Tracking.css";
 
 export const Tracking = () => {
   return (
-    <div className="container-flued order-tracking my-4 my-md-5 p-4 bg-white">
+    <div className="container-flued order-tracking my-4 my-md-5 p-1 p-md-4 bg-white">
       <div className="row justify-content-between align-items-center mb-3">
-        <div className="col-md-8">
+        <div className="col-md-8 p-0">
           <h5 className="fw-semibold order-head">ORDER DETAILS</h5>
         </div>
         <div className="col-md-4 text-end">
@@ -16,30 +16,26 @@ export const Tracking = () => {
         </div>
       </div>
 
-      <div className="row my-3 my-md-5 px-3 border-top-bottom py-4 gy-3">
-        <div className="col-6 col-md">
-          <p className='text-muted m-0'>Order Number</p>
-          <br />
-          <strong>RB19011</strong>
+      <div className="row my-3 my-md-5 px-0 px-md-3 border-top-bottom py-4 gy-3">
+        <div className="col-12 col-md d-flex flex-row flex-md-column align-items-center justify-content-between gap-2">
+          <div className="w-50 w-md-100"><p className='text-muted m-0'>Order Number</p></div>
+          <div className="w-50 w-md-100"><span className="fs-7 fw-medium mt-0 text-sm-start">RB19011</span></div>
         </div>
-        <div className="col-6 col-md">
-          <p className='text-muted m-0'>Order Placed</p>
-          <br />
-           <strong>Jun 17th, 2025</strong>
+        <div className="col-12 col-md d-flex flex-row flex-md-column align-items-center justify-content-between gap-2">
+         <div className="w-50 w-md-100"><p className='text-muted m-0'>Order Number</p></div>
+           <div className="w-50 w-md-100"><span className="fs-7 fw-medium mt-0 text-sm-start">Jun 17th, 2025</span></div>
         </div>
-        <div className="col-6 col-md">
-          <p className='text-muted m-0'>Order Delivered</p>
-          <br />
-           <strong>Jun 20th, 2025</strong>
+        <div className="col-12 col-md d-flex flex-row flex-md-column align-items-center justify-content-between gap-2">
+          <div className="w-50 w-md-100"><p className='text-muted m-0'>Order Delivered</p></div>
+           <div className="w-50 w-md-100"><span className="fs-7 fw-medium mt-0 text-sm-start">Jun 20th, 2025</span></div>
         </div>
-        <div className="col-6 col-md">
-          <p className='text-muted m-0'>No of items</p>
-          <br /> <strong>1 Item</strong>
+        <div className="col-12 col-md d-flex flex-row flex-md-column align-items-center justify-content-between gap-2">
+          <div className="w-50 w-md-100"><p className='text-muted m-0'>No of items</p></div>
+          <div className="w-50 w-md-100"><span className="fs-7 fw-medium mt-0 text-sm-start">1 Item</span></div>
         </div>
-        <div className="col-12 col-md">
-          <p className='text-muted m-0'>Status</p>
-          <br />
-          <span className="text-warning fw-bold fs-4">Out for delivery</span>
+        <div className="col-12 col-md d-flex flex-row flex-md-column align-items-center justify-content-between gap-2">
+          <div className="w-50 w-md-100"><p className='text-muted m-0'>Status</p></div>
+          <div className="w-50 w-md-100"><span className="text-warning fs-7 fw-bold m-0 text-sm-start">Out for delivery</span></div>
         </div>
       </div>
 

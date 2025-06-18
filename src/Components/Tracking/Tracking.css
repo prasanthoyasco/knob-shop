@@ -255,4 +255,17 @@ margin-bottom: 2rem;
     /* padding-left: 10%; */
     margin-top: 10px;
   }
+  .fs-7{
+    font-size: .9rem !important;
+  }
+}
+
+@media (min-width: 768px) {
+  .w-md-100 {
+    width: 100% !important;
+  }
+  .fs-7{
+    font-size: 1.2rem !important;
+    font-weight: 800 !important;
+  }
 }
