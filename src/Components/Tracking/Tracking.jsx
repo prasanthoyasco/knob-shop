@@ -17,25 +17,25 @@ export const Tracking = () => {
       </div>
 
       <div className="row my-3 my-md-5 px-0 px-md-3 border-top-bottom py-4 gy-3">
-        <div className="col-12 col-md d-flex flex-row flex-md-column align-items-center justify-content-between gap-2">
+        <div className="col-12 col-md d-flex flex-row flex-md-column align-items-center justify-content-around gap-3">
           <div className="w-50 w-md-100"><p className='text-muted m-0'>Order Number</p></div>
-          <div className="w-50 w-md-100"><span className="fs-7 fw-medium mt-0 text-sm-start">RB19011</span></div>
+          <div className="w-50 w-md-100 ps-2 ps-md-0"><span className="fs-7 fw-medium mt-0 text-sm-start">RB19011</span></div>
         </div>
-        <div className="col-12 col-md d-flex flex-row flex-md-column align-items-center justify-content-between gap-2">
+        <div className="col-12 col-md d-flex flex-row flex-md-column align-items-center justify-content-around gap-3">
          <div className="w-50 w-md-100"><p className='text-muted m-0'>Order Number</p></div>
-           <div className="w-50 w-md-100"><span className="fs-7 fw-medium mt-0 text-sm-start">Jun 17th, 2025</span></div>
+           <div className="w-50 w-md-100 ps-2 ps-md-0"><span className="fs-7 fw-medium mt-0 text-sm-start">Jun 17th, 2025</span></div>
         </div>
-        <div className="col-12 col-md d-flex flex-row flex-md-column align-items-center justify-content-between gap-2">
+        <div className="col-12 col-md d-flex flex-row flex-md-column align-items-center justify-content-around gap-3">
           <div className="w-50 w-md-100"><p className='text-muted m-0'>Order Delivered</p></div>
-           <div className="w-50 w-md-100"><span className="fs-7 fw-medium mt-0 text-sm-start">Jun 20th, 2025</span></div>
+           <div className="w-50 w-md-100 ps-2 ps-md-0"><span className="fs-7 fw-medium mt-0 text-sm-start">Jun 20th, 2025</span></div>
         </div>
-        <div className="col-12 col-md d-flex flex-row flex-md-column align-items-center justify-content-between gap-2">
+        <div className="col-12 col-md d-flex flex-row flex-md-column align-items-center justify-content-around gap-3">
           <div className="w-50 w-md-100"><p className='text-muted m-0'>No of items</p></div>
-          <div className="w-50 w-md-100"><span className="fs-7 fw-medium mt-0 text-sm-start">1 Item</span></div>
+          <div className="w-50 w-md-100 ps-2 ps-md-0"><span className="fs-7 fw-medium mt-0 text-sm-start">1 Item</span></div>
         </div>
-        <div className="col-12 col-md d-flex flex-row flex-md-column align-items-center justify-content-between gap-2">
+        <div className="col-12 col-md d-flex flex-row flex-md-column align-items-center justify-content-around gap-3">
           <div className="w-50 w-md-100"><p className='text-muted m-0'>Status</p></div>
-          <div className="w-50 w-md-100"><span className="text-warning fs-7 fw-bold m-0 text-sm-start">Out for delivery</span></div>
+          <div className="w-50 w-md-100 ps-2 ps-md-0"><span className="text-warning fs-7 fw-bold m-0 text-sm-start">Out for delivery</span></div>
         </div>
       </div>
 
