@@ -33,9 +33,9 @@ useEffect(() => {
             <div className='contact-container'>
                 <div className='contact-con-head'>
                     <h3 className='contact-con-head-h3'>CONTACT</h3>
-                    {contactCompleted && (
+                    {/* {contactCompleted && (
   <p className='entered-contact-info'>Entered: {contactInfo}</p>
-)}
+)} */}
 
                     <a href='login'>Log in</a>
                 </div>
