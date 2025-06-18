@@ -46,8 +46,8 @@ import lunaProImage from '../Assets/Product Categories and its Product (Knobs Sh
 import yaleImage from '../Assets/Product Categories and its Product (Knobs Shop)/Smart Door Lock/Smart Door Lock/Luna Pro+ Facial/14_0fb7187f-b413-411d-a145-e62b8c9e41bb.jpg'
 import ds1 from '../Assets/Product Categories and its Product (Knobs Shop)/product img/product img/Digital Safes  - category/Fire Rated Biometric Firesafe (125TFL)/Fire Rated Biometric Firesafe (125TFL).webp'
 import ds2 from '../Assets/Product Categories and its Product (Knobs Shop)/product img/product img/Digital Safes  - category/Fire Rated Biometric Firesafe (530TFL)/Fire Rated Biometric Firesafe (530TFL).webp'
-import image1 from "../Assets/categoryBanner/wardrobeDoorLock.jpg";
-import image2 from "../Assets/categoryBanner/wardrobefingerprint.webp";
+// import image1 from "../Assets/categoryBanner/wardrobeDoorLock.jpg";
+// import image2 from "../Assets/categoryBanner/wardrobefingerprint.webp";
 import image3 from "../Assets/categoryBanner/smartSafe.webp";
 import image4 from "../Assets/categoryBanner/DigitalDoorLock.webp";
 import image5 from '../Assets/CategoriesImge/Knob Shop/clock.jpg'

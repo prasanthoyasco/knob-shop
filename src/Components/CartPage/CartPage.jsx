@@ -10,12 +10,15 @@ import cardImage1 from "/payment-icon/visa.svg";
 import cardImage2 from "/payment-icon/master.svg";
 import cardImage3 from "/payment-icon/paypal.svg";
 import cardImage4 from "/payment-icon/discover.svg";
+import CartItemsList from "./CartItemsList";
+import { CountrySelect } from "../CartDrawer/CountrySelect";
 
 const cardImages = [cardImage1, cardImage2, cardImage3, cardImage4];
 
 function CartPage() {
   const navigate = useNavigate()
   const location = useLocation();
+  const [country, setCountry] = useState("India");
   const passedItems = location.state?.cartItems;
 
   const [cartItems, setCartItems] = useState(
@@ -94,112 +97,13 @@ function CartPage() {
           <h1>YOUR SHOPPING CART</h1>
         </div>
 
-        <div className="shopping-cart-table-head">
-          <div className="head-product">PRODUCT</div>
-          <div className="head-quantity">QUANTITY</div>
-          <div className="head-total">TOTAL</div>
-        </div>
+       <CartItemsList
+  cartItems={cartItems}
+  handleIncrement={handleIncrement}
+  handleDecrement={handleDecrement}
+  handleDelete={handleDelete}
+/>
 
-        {cartItems.length === 0 ? (
-          <div className="text-center my-5 d-flex flex-column align-items-center">
-            <img
-              src="/cart_empty.svg"
-              alt="Empty Cart"
-              style={{ width: "90px" }}
-            />
-            <p>Your cart is empty</p>
-            <button
-              className="btn btn-dark mt-3"
-              onClick={() => window.history.back()}
-            >
-              Continue Shopping
-            </button>
-          </div>
-        ) : (
-          <>
-            {cartItems.map((item) => (
-              <div key={item.id} className="shopping-cart-table-product">
-                <div>
-                  <div className="shopping-cart-table-product-image">
-                    <img src={item.image} alt={item.title} loading="lazy" />
-                    <div className="shopping-cart-table-product-image-content">
-                      <p>Brand : {item.brand}</p>
-                      <h3>{item.title}</h3>
-                      <p>Color : {item.color}</p>
-                    </div>
-                  </div>
-                  <button className="continue-shopping-btn" onClick={()=>navigate('/')}>
-                    CONTINUE SHOPPING
-                  </button>
-                </div>
-
-                <div className="shopping-cart-table-product-count">
-                  <div className="shopping-cart-table-product-count-btn">
-                    <button
-                      onClick={() => handleDecrement(item.id)}
-                      disabled={item.quantity === 1}
-                    >
-                      -
-                    </button>
-                    <span className="quantity-display">{item.quantity}</span>
-                    <button onClick={() => handleIncrement(item.id)}>+</button>
-                  </div>
-                  <div
-                    className="delete-icon"
-                    onClick={() => handleDelete(item.id)}
-                  >
-                    <i className="bi bi-trash"></i>
-                  </div>
-                </div>
-
-                <div className="shopping-cart-table-product-total">
-                  <h3>
-                    ₹ {(item.price * item.quantity).toLocaleString("en-IN")}
-                  </h3>
-                </div>
-              </div>
-            ))}
-
-            {/* Mobile View */}
-            <div className="mobile-cart-page-container">
-              {cartItems.map((item) => (
-                <div key={item.id} className="cart-mobile-product">
-                  <div className="cart-mobile-left">
-                    <img src={item.image} alt={item.title} loading="lazy" />
-                  </div>
-                  <div className="cart-mobile-right">
-                    <h3>{item.title}</h3>
-                    <div className="price-row">
-                      <span className="discount-price">
-                        ₹ {item.price.toLocaleString("en-IN")}
-                      </span>
-                    </div>
-                    <div className="quantity-remove-row">
-                      <div className="quantity-box">
-                        <button
-                          onClick={() => handleDecrement(item.id)}
-                          disabled={item.quantity === 1}
-                        >
-                          -
-                        </button>
-                        <span>{item.quantity}</span>
-                        <button onClick={() => handleIncrement(item.id)}>
-                          +
-                        </button>
-                      </div>
-                      <div
-                        className="remove-box"
-                        onClick={() => handleDelete(item.id)}
-                      >
-                        <i className="bi bi-trash"></i> Remove
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </>
-        )}
 
         <div className="shopping-details-container">
           <div className="instruction-container">
@@ -215,18 +119,19 @@ function CartPage() {
               <i className="bi bi-truck"></i>
               <p>Estimate Shipping Rates</p>
             </div>
-            <select className="postal-code-input" defaultValue="">
+            {/* <select className="postal-code-input" defaultValue="">
               <option value="" disabled>
                 ------
               </option>
               <option value="US">US</option>
               <option value="UK">UK</option>
               <option value="India">India</option>
-            </select>
+            </select> */}
+            <CountrySelect  country={country} setCountry={setCountry}/>
             <input
               type="text"
               placeholder="Postal/Zip Code"
-              className="postal-code-input"
+              className="postal-code-input rounded"
             />
           </div>
 

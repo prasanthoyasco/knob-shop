@@ -17,7 +17,7 @@
     justify-content: space-around;
     border-top: 1px solid #B0B0B0;
     border-bottom: 1px solid #B0B0B0;
-    width: 1188px;
+    /* width: 1188px; */
     height: 90px;
     align-items: center;
     margin-top: 3%;
@@ -32,7 +32,7 @@
     flex-direction: row;
     justify-content: space-evenly;
     align-items: center;
-    width: 1188px;
+    /* width: 1188px; */
     margin:3% 0;
 }
 .shopping-cart-table-product-image{
@@ -64,6 +64,9 @@
 }
 .shopping-cart-table-product-count-btn{
     width: 146px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
     height: 44px;
     border: 1px solid #b7b5b5 !important;
     border-radius: 50px;
@@ -73,9 +76,13 @@
     border: none;
     width: 50px;
     text-align: center;
+    padding: 0rem 1rem;
     height: 100%;
 }
 .shopping-cart-table-product-count-btn button{
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 24px;
     height: 24px;
     border: none;
@@ -131,16 +138,20 @@
     font-size: 16px;
     line-height: 9.7px;
 }
+.shipping-container .react-select__control, .react-select-container{
+  width: 100%;
+  height: 52px;
+}
 .shipping-container{
     display: flex;
-    width: 100%;
+     width: 384px;
     padding: 0rem 1.5rem;
     flex-direction: column;
     justify-content: center;
     gap: 10px;
 }
 .postal-code-input{
-    width: 384px;
+    width: 100%;
     height: 52px;
     border-radius: 2px;
     border: 1px solid #d0cece !important;
@@ -174,7 +185,7 @@
 .shopping-cart-table-product {
     display: flex;
     flex-direction: row;
-    width: 1188px;
+    width: 100%;
     margin-top: 3%;
 }
 
@@ -416,7 +427,14 @@
     .postal-code-input {
       width: 100%; /* Allow it to scale instead of fixed 340px */
     }
-  
+    
+  .shipping-container .react-select-container{
+    width: 100% !important;
+  }
+  .shipping-container .react-select__control {
+  width: 100% !important;
+  height: 52px;
+}
     .cart-mobile-product {
       flex-direction: column; /* Stack image and content */
       padding: 0.5rem;
@@ -512,4 +530,7 @@
     border: none;
     border-radius: 4px;
   }
+  .shipping-container{
+      width: 304px !important;
+    }
 }

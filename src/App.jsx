@@ -19,6 +19,7 @@ import ScrollToTop from './ScrollToTop/ScrollToTop';
 import CartPage from './Components/CartPage/CartPage';
 import { useCart } from './Context/CartContext';
 import PaymentPage from './Components/PaymentPage/PaymentPage';
+import { OrderTracking } from './Pages/OrderTracking';
 // import NavbarTop from './Components/Navbar/NavbarTop/NavbarTop';
 
 function App() {
