@@ -162,7 +162,7 @@ useEffect(() => {
         <div className='shipping-method-containe-text'>Enter your shipping address to view available shipping methods</div>
         <div className='contact-con-checkbox-text'>
             <input type='checkbox'/>
-            <p>Save the information for the next time</p>
+            <p>Use Shipping address as billing address</p>
         </div>
         <div className='shop-conatiner'>
         <select className='select-box'>
@@ -178,6 +178,7 @@ useEffect(() => {
         <div className='first-last-name-input-div'>
             <input type='text' placeholder='City' className='first-name-input'/>
             <select className='first-name-input'>
+                <option disabled>state</option>
                 <option>Tamil Nadu</option>
                 <option>Kerala</option>
                 <option>Andhra</option>
@@ -199,12 +200,12 @@ useEffect(() => {
             </label>
             </div>
             {selectedPayment === 'credit' && (<div className='shop-conatiner-payemnt'>
-            <input type='text' className='contact-con-input'placeholder='Address'/> 
+            <input type='text' className='contact-con-input'placeholder='Card Number'/> 
         <div className='first-last-name-input-div'>
-            <input type='text' placeholder='First Name' className='first-name-input'/>
-            <input type='text' placeholder='Last Name' className='first-name-input'/>
+            <input type='text' placeholder='Expiration Date (MM / YY)' className='first-name-input'/>
+            <input type='text' placeholder='Security code' className='first-name-input'/>
         </div>
-        <input type='text' className='contact-con-input'placeholder='Address'/> 
+        <input type='text' className='contact-con-input'placeholder='Name on card'/> 
         <div className='card-image-payment'>
             {cardImages.map((image)=>(
                 <img src={image}/>
