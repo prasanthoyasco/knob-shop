@@ -73,7 +73,7 @@ function PaymentPage() {
         </div>
       </div>
       )}
-      {deliveryOption === 'pickup' && (
+      {deliveryOption === 'pickup' && !showStoreInfo && (
         <div className='pick-conatiner'>
             <div className='contact-con-head'>
                 <h3 className='contact-con-head-h3'>Store Location</h3>
@@ -95,10 +95,31 @@ function PaymentPage() {
         </select>
         <div className='pick-up-address-div'>
             <input type='text' className='contact-con-input'placeholder='Address'/> 
-            <button className='find-store-btn'>FIND STORE</button>
+            <button className='find-store-btn' onClick={() => setShowStoreInfo(true)}>FIND STORE</button>
         </div>
       </div>
       )}
+      {deliveryOption === 'pickup' && showStoreInfo && (
+  <div className='store-location-box'>
+                <div className='contact-con-head'>
+                <h3 className='contact-con-head-h3'>Store Location</h3>
+                <a href='login'>change location</a>
+            </div>
+    <p>There is 1 store with stock close to Chennai, Tamil Nadu, India</p>
+    
+    <div className='store-info-card'>
+      <div className='store-info-left'>
+        <strong>Chennai</strong> <span>(150 km)</span>
+        <p>There is 1 store with stock close to Chennai, Tamil Nadu, India</p>
+      </div>
+      <div className='store-info-right'>
+        <strong>FREE</strong>
+        <p>Usually ready in 24 hours</p>
+      </div>
+    </div>
+  </div>
+)}
+
 
       <div className='shipping-method-container'>
         <h3 className='contact-con-head-h3'>SHIPPING METHOD</h3>
