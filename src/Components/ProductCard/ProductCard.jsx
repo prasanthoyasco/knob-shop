@@ -2,10 +2,12 @@
 import { FaStar, FaHeart } from "react-icons/fa";
 import "./ProductCard.css";
 import { Navigate, useNavigate } from "react-router-dom";
+import { useCart } from "../../Context/CartContext";
 // import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 // import { useState } from "react";
 const ProductCard = ({ product }) => {
   const navigate = useNavigate();
+  const { addToCart, toggleDrawer } = useCart();
     // const [isWishlisted, setIsWishlisted] = useState(false);
 
   // const toggleWishlist = () => {
@@ -88,7 +90,10 @@ console.log(product);
 </div>
 <div className="card-buttons mt-3">
   <button className="View-detail" onClick={()=>navigate(`/product/${id}`)}>View Details</button>
-  <button className="Addtocart">Add To cart</button>
+  <button className="Addtocart" onClick={() => {
+                  addToCart(product);
+                  toggleDrawer(true);
+                }}>Add To cart</button>
 </div>
     </div>
     {/* <div className="product-colors">
