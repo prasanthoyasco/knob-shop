@@ -4,7 +4,7 @@ import "./Tracking.css";
 
 export const Tracking = () => {
   return (
-    <div className="container-flued order-tracking my-4 my-md-5 p-4 border rounded shadow-sm bg-white">
+    <div className="container-flued order-tracking my-4 my-md-5 p-4 bg-white">
       <div className="row justify-content-between align-items-center mb-3">
         <div className="col-md-8">
           <h5 className="fw-semibold order-head">ORDER DETAILS</h5>
@@ -16,7 +16,7 @@ export const Tracking = () => {
         </div>
       </div>
 
-      <div className="row my-3 my-md-5 mx-3 gy-3">
+      <div className="row my-3 my-md-5 px-3 border-top-bottom py-4 gy-3">
         <div className="col-6 col-md">
           <p className='text-muted m-0'>Order Number</p>
           <br />
@@ -43,7 +43,7 @@ export const Tracking = () => {
         </div>
       </div>
 
-      <hr />
+      {/* <hr /> */}
 
       <div className="d-flex justify-content-between mt-4 mb-2">
         <div className=" text-muted">

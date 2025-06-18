@@ -136,6 +136,10 @@ margin-bottom: 2rem;
 .circle.completed {
   border-color: #a0522d;
 }
+.border-top-bottom{
+   border-bottom: 1px solid #B0B0B0;
+    border-top: 1px solid #B0B0B0;
+}
 
 @media (max-width: 768px) {
   .tracking-steps-wrapper {
