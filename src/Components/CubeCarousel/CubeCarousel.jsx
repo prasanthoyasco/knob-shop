@@ -9,14 +9,14 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import "./CubeCarousel.css";
 
-import collectionCarosal1left from "../../Assets/collectionCarosal1left.jpg";
-import collectionCarosal1right from "../../Assets/collectionCarosal1right.jpg";
+import collectionCarosal1left from "../../Assets/Front Page Doc and Images/Front Page Doc and Images/sec- 3/image (1)/image.png";
+import collectionCarosal1right from "../../Assets/Front Page Doc and Images/Front Page Doc and Images/sec- 3/image (1)/image (1).png";
 
-import collectionCarosal2left from "../../Assets/collectionCarosal2left.jpg";
-import collectionCarosal2right from "../../Assets/collectionCarosal2right.jpg";
+import collectionCarosal2left from "../../Assets/Front Page Doc and Images/Front Page Doc and Images/sec- 3/image (1)/image (2).png";
+import collectionCarosal2right from "../../Assets/Front Page Doc and Images/Front Page Doc and Images/sec- 3/image (1)/image (3).png";
 
-import collectionCarosal3left from "../../Assets/collectionCarosal3left.jpg";
-import collectionCarosal3right from "../../Assets/collectionCarosal3right.jpg";
+import collectionCarosal3left from "../../Assets/Front Page Doc and Images/Front Page Doc and Images/sec- 3/image (1)/image (4).png";
+import collectionCarosal3right from "../../Assets/Front Page Doc and Images/Front Page Doc and Images/sec- 3/image (1)/image (5).png";
 
 const carouselData = [
   {

@@ -6,28 +6,28 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
-import singleCarosal1 from '../../Assets/single-carosal1.jpg';
-import singleCarosal2 from '../../Assets/single-carosal2.jpg';
-import singleCarosal3 from '../../Assets/single-carosal3.jpg';
+import singleCarosal1 from '../../Assets/Front Page Doc and Images/Front Page Doc and Images/sec - 5 &7/sec - 5 &7/Pankaj plywood/Bond_710_Plyboard_Facelift_72_mm_040425_2_74ecba8afb.jpg';
+import singleCarosal2 from '../../Assets/Front Page Doc and Images/Front Page Doc and Images/sec - 5 &7/sec - 5 &7/Decor point/28a28dc8472bbdca7c3994236f979b1c.jpg';
+import singleCarosal3 from '../../Assets/Front Page Doc and Images/Front Page Doc and Images/sec - 5 &7/sec - 5 &7/Faber/43ae0c6679bf0e645ae4e6f4e6560bfc.jpg';
 import './SingleCarosal.css';
 
 const carouselData = [
   {
     image: singleCarosal1,
     subtit:'Welcome to ',
-    subtitbold:'Knobs shop!',
+    subtitbold:'Pankaj Plywood',
     title: 'Crafted for Creators. Trusted by Pros.',
     description: 'Trusted by architects, builders & carpenters for quality and style.',
   },
   {
     image: singleCarosal2,
-    subtit:'Modular Kitchens',
+    subtit:'Decor point',
     title: 'MAKE A KITCHEN PART OF THE FAMILY',
     description: 'Modular kitchens tailor-made for the Indian style of cooking...',
   },
   {
     image: singleCarosal3,
-    subtit:'Beds & Mattresses',
+    subtit:'Faber',
     title: 'ENHANCING YOUR SLEEP EXPERIENCE',
     description: 'Plywood is renowned for its quality craftsmanship and attention to detail when it comes to beds and mattresses.',
   },

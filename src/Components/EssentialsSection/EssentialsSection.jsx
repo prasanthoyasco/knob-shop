@@ -1,19 +1,19 @@
 import React from 'react';
-import effortless from '../../Assets/EssentialsSection/effortless.jpg';
-import kitchen from '../../Assets/EssentialsSection/kitchen.jpg';
+import effortless from '../../Assets/Front Page Doc and Images/Front Page Doc and Images/sec - 5 &7/sec - 5 &7/limocoat/1bf068f1d2506ec7d88816558edc77a1.jpg';
+import kitchen from '../../Assets/Front Page Doc and Images/Front Page Doc and Images/sec - 5 &7/sec - 5 &7/Colortek/127f7890019a8da809712fe43661bd11.jpg';
 import shelves from '../../Assets/EssentialsSection/shelves.jpg';
 import './EssentialsSection.css'; // We'll write styles here
 
 const cards = [
   {
     number: '01',
-    title: 'Effortless Motion',
+    title: 'Limocoat ',
     description: 'Reliable movement for every cabinet and drawer.',
     bgImage: effortless,
   },
   {
     number: '02',
-    title: 'Kitchen Accessories',
+    title: 'Colortek',
     description: 'Reliable movement for every cabinet and drawer.',
     bgImage: kitchen,
   },

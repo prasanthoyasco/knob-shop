@@ -64,7 +64,7 @@ export const Home = () => {
 
   const products = [
   {
-    text: "Clocks",
+    text: "Aldrop",
     count: 24,
     image: p1,
     bannerImage:image5,
