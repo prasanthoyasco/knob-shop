@@ -6,9 +6,9 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
-import singleCarosal1 from '../../Assets/Front Page Doc and Images/Front Page Doc and Images/sec - 5 &7/sec - 5 &7/Pankaj plywood/Bond_710_Plyboard_Facelift_72_mm_040425_2_74ecba8afb.jpg';
-import singleCarosal2 from '../../Assets/Front Page Doc and Images/Front Page Doc and Images/sec - 5 &7/sec - 5 &7/Decor point/28a28dc8472bbdca7c3994236f979b1c.jpg';
-import singleCarosal3 from '../../Assets/Front Page Doc and Images/Front Page Doc and Images/sec - 5 &7/sec - 5 &7/Faber/43ae0c6679bf0e645ae4e6f4e6560bfc.jpg';
+import singleCarosal1 from '../../Assets/Untitled/w1.jpg';
+import singleCarosal2 from '../../Assets/Untitled/w2.jpg';
+import singleCarosal3 from '../../Assets/Untitled/w3.jpg';
 import './SingleCarosal.css';
 
 const carouselData = [
