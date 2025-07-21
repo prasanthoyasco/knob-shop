@@ -2,94 +2,468 @@ import React from 'react'
 import './TermsAndCondition.css'
 import NavbarTop from '../Navbar/NavbarTop/NavbarTop'
 import Footer from '../Footer/Footer'
+const htmlContent = `
+<h1>KNOBS SHOP TERMS AND CONDITIONS</h1>
+
+<p>
+The website www.Knobsshopstore.com ("Knobsstore.in") is operated by Knobsshop Seller
+Services Private Limited ("Knobsshopstore " or "us" or "we" or "our"), having its Registered
+Head Office located at Door No. 746 - 747, Mettupalayam Road,Sukrawar Pettai, R.S Puram,
+Coimbatore, Tamil Nadu – 641 002. Please read the Conditions of Use document carefully
+before using the Knobsshopstore.in website. By using the Knobsshopstore.in website, you
+signify your agreement to be bound by Knobsshop Conditions of Use. Knobsshop, Head Office
+located at Door No. 746 - 747, Mettupalayam Road, Sukrawarpettai, R.S Puram, Coimbatore,
+Tamil Nadu – 641 002 and Knobsshop, Branch Office located at Door No. 45 SF, 595/2A-1,
+RK Complex Palkarar Thottam, Goldwins Coimbatore, Tamil Nadu (together "
+Knobsshopstore ") are data controllers of personal information collected and processed through
+Knobsshopstore Services
+</p>
+
+<p>
+Details can be found here. As described in our Privacy Notice, we share information with
+Knobsshopstore.com, Inc. and the subsidiaries that Knobsshopstore.com, Inc. controlsthat are
+eithersubject to our Privacy Notice or follow practices at least as protective as those described
+in our Privacy Notice. We also share information with third-party service providers. For
+example, we use third-party service providers to fulfill orders for products or services, and to
+deliver packages. For any further details on oursecuritypractices please read our PrivacyNotice.
+For any queries or issues relating to Knobsstore.in, you can contact us by clicking www.
+Knobsstore.in.
+</p>
+
+<h2>1) Your Account</h2>
+<p>
+If you use the website, you are responsible for maintaining the confidentiality of your account
+and password and for restricting access to your computer to prevent unauthorised access to your
+account. You agree to accept responsibility for all activities that occur under your account or
+password. You should take all necessary steps to ensure that the password is kept confidential
+and secure and should inform us immediately if you have any reason to believe that your
+password has become known to anyone else, or if the password is being, or is likely to be, used
+in an unauthorised manner. Please ensure that the detail you provide us with are correct and complete and inform us immediately of any changes to the
+information that you provided when registering. You can access and update much of the
+information you provided us with in the Your Account (https://www. Knobsshopstore.in) area
+of the website. You agree and acknowledge that you will use your account on the website to
+purchase products only for your personal use and not for business purposes. Should you wish
+to order products for business purposes, please create a business account Knobsshopstore.in
+/business. Knobsshopstore.in reserves the right to refuse access to the website, terminate
+accounts, remove or edit content at any time without notice to you.
+
+</p>
+
+<h2>2) Privacy</h2>
+<p>
+The personal information / data provided to us by you during the course of usage of
+Knobsstore.in will be treated as strictly confidential and in accordance with the Privacy Notice
+and applicable laws and regulations. If you object to your information being transferred or used,
+please do not use the website.
+
+</p>
+
+<h2>3) E-Platform for Communication</h2>
+<p>
+You agree, understand and acknowledge that the website is an online platform that enables you
+to purchase products listed on the website at the price indicated therein at any time from any
+location. You further agree and acknowledge that Knobsshopstore is only a facilitator and is
+not and cannot be a party to or control in any manner any transactions on the website.
+Accordingly, the contract of sale of products on the website shall be a strictly bipartite contract
+between you and the sellers on Knobsshopstore.in.
+
+</p>
+
+<h2>4) Access to Knobsstore.in</h2>
+<p>
+We will do our utmost to ensure that availability of the website will be uninterrupted and that
+transmissions will be error-free. However, due to the nature of the Internet, this cannot be
+guaranteed. Also, your access to the website may also be occasionally suspended or restricted
+to allow for repairs, maintenance, or the introduction of new facilities or services at any time
+without prior notice. We will attempt to limit the frequency and duration of any such suspension
+or restriction.
+</p>
+
+<h2>5) License for Website Access</h2>
+<p>
+Subject to your compliance with these Conditions of Use and payment of applicable fees, if
+any, Knobsshop Seller Services Private Limited grants you a limited licence to access and make
+personal use of this website, but not to download (other than page caching) or modify it, or any
+portion of it, except with express written consent of Knobsshop Seller Services Private Limited
+and / or its affiliates, as may be applicable. This licence does not include any resale or
+commercial use of this website or its contents; any collection and use of any product listings,
+descriptions, or prices; any derivative use of this website or its contents; any downloading or
+copying of account information for the benefit of another seller; or any use of data mining,
+robots, or similar data gathering and extraction tools.
+</p>
+
+<p>
+This website or any portion of this website (including but not limited to any copyrighted
+  material, trademarks, or other proprietary information) may not be reproduced, duplicated,
+  copied, sold, resold, visited, distributed or otherwise exploited for any commercial purpose
+  without express written consent of Knobsshop Seller Services Private Limited and / or its
+  affiliates, as may be applicable.
+</p>
+
+<p>
+You may not frame or use framing techniquesto enclose anytrademark, logo, or other proprietary
+information (including images, text, page layout, or form) of Knobsshop and its affiliates
+without express written consent. You may not use any meta tags or any other "hidden text"
+utilising Knobsshop Seller Services Private Limited's or its affiliates' names or trademarks
+without the express written consent of Knobsshop Seller Services Private Limited and / or its
+affiliates, as applicable. Any unauthorised use terminates the permission or license granted by
+Knobsshop Seller Services Private Limited and / or its affiliates, as applicable.
+</p>
+
+<p>
+You are granted a limited, revocable, and non-exclusive right to create a hyperlink to the
+Welcome page of Knobsshopstore.in as long as the
+link does not portray Knobsshop Seller Services Private Limited, Knobsshopstore.in, their
+affiliates, or their products or services in a false, misleading, derogatory, or otherwise offensive
+matter. You may not use any Knobsshopstore.in logo or other proprietary graphic or trademark
+as part of the link without express written consent of Knobsshop Seller Services Private Limited
+and / or its affiliates, as may be applicable.
+</p>
+
+<h2>6) Your Conduct</h2>
+<p>
+You must not use the website in any way that causes, or is likely to cause, the website or access
+to it to be interrupted, damaged or impaired in any way You understand that you, and not
+Knobsshopstore.in, are responsible for all electronic communications and content sent from
+your computer to us and you must use the website for lawful purposes only. You must not use
+the website for any of the following:
+
+</p>
+<ul>
+  <li>
+  For fraudulent purposes, or in connection with a criminal offense or other unlawful
+  activity
+  
+  </li>
+  <li>To send, use or reuse any material that does not belong to you; or is illegal, is offensive
+  (including but not limited to material that is sexually explicit content or which promotes
+  racism, bigotry, hatred or physical harm), deceptive, misleading, abusive, indecent,
+  invasive of another's privacy, including bodily privacy, insulting or harassing on the
+  basis of gender, blasphemous, defamatory, libelous, obscene, pornographic,
+  paedophilic, or menacing; racially or ethnically objectionable, or disparaging; in breach
+  of copyright, trademark, patent, confidentiality, privacy or any other proprietary
+  information or right; or is otherwise injurious to third parties or relates to or promotes
+  money laundering or gambling or promotes enmity between different groups on the
+  grounds of religion or caste with the intent to incite violence; or is harmful to minors in
+  any way; or impersonates another person; or threatens the unity, integrity, defence,
+  security or sovereignty of India or friendly relations with foreign States or public order
+  or causes incitement to the commission of any cognisable offence or prevents
+  investigation of any offence or is insulting other nation; or objectionable or otherwise
+  unlawful in any manner whatsoever; or which consists of or contains software viruses or any other
+  computer code, file or program designed to interrupt, destroy or limit the functionality
+  of any computer resource, political campaigning, commercial solicitation, chain letters,
+  mass mailings or any spam;</li>
+  <li>
+    To deceive or mislead the addressee about the origin of messages
+  </li>
+</ul>
+
+<h2>7) Reviews, Comments, Communications and Other Content</h2>
+<p>
+Users of this website may post reviews, comments and other content; send communications;
+and submit suggestions, ideas, comments, questions, or other information, as long as the
+content does / is not illegal, offensive (including but not limited to material that is sexually
+explicit content or which promotes racism, bigotry, hatred or physical harm), deceptive,
+misleading, abusive, indecent, invasive of another's privacy, including bodily privacy, insulting
+or harassing on the basis of gender, blasphemous, defamatory, libelous, obscene, pornographic,
+paedophilic or menacing; racially or ethnically objectionable, or disparaging; in breach of
+copyright, trademark, patent, confidentiality, privacy or any other proprietary information or
+right; or otherwise injurious to third parties or relates to or promotes money laundering or
+gambling, or promotes enmity between different groups on the grounds of religion or caste with
+the intent to incite violence; or is harmful to minors in any way, or impersonates another person;
+or threatens the unity, integrity, defence, security or sovereignty of India or friendly relations
+with foreign States or public order or causes incitement to the commission of any cognisable
+offence or prevents investigation of any offence or is insulting other nation; or objectionable or
+otherwise unlawful in any manner whatsoever; or which consists of or contains software
+viruses or any other computer code, file or program designed to interrupt, destroy or limit the
+functionality of any computer resource, political campaigning, commercial solicitation, chain
+letters, mass mailings or any spam; or deceive or mislead the addressee about the origin of
+messages. In the event a user fails to comply with the above. Knobsshop.in reserves the right
+(but not the obligation) to remove, refuse, delete or edit any content that in the sole judgement
+of Knobsshop.in violates these Conditions of use and, or terminate your permission to access
+or use this website.
+</p>
+
+<p>If you do post content or submit material, and unless we indicate otherwise, you
+</p>
+
+<ul>
+
+<li>Grant Knobsshop Seller Services Private Limited and its affiliates a non-exclusive,
+royalty-free, irrevocable, perpetual and fully sublicensable rights to use, reproduce, modify,
+adapt, publish, translate, create derivative works from, distribute, and display such content
+throughout the world in any media; and
+</li>
+
+<li>
+Knobsshop Seller Services Private Limited and its affiliates and sublicensees the
+right to use the name that you submit in connection with such content, if they choose.
+You agree that the rights you grant above are irrevocable during the entire period of protection
+of your intellectual property rights associated with such content and material. You agree to
+waive your right to be identified as the author of such content and your right to object to
+derogatory treatment of such content. You agree to perform all further acts necessary to perfect
+any of the above rights granted by you to Knobsshop Seller Services Private Limited, including
+the execution of deeds and documents, at its request.
+You represent and warrant that you own or otherwise control all of the rights to the content that
+you post or that you otherwise provide on or through the website; that, as at the date that the
+content or material is submitted to Knobsshopstore.in:
+</li>
+
+<li>a) The content and material are accurate;
+</li>
+<li>b) Use of the content and material you supply does not breach any applicable
+Knobshopstore.in policies or guidelines and will not cause injury to any person or
+entity (including that the content or material is not defamatory);
+
+</li>
+<li>c) The content is lawful. You agree to indemnify Knobsshop Seller Services Private
+Limited and its affiliates for all claims brought by a third party against it or its
+affiliates arising out of or in connection with a breach of any of these warranties.
+</li>
+</ul>
+
+<h2>8) Claims Against Objectionable Content</h2>
+<p>
+You can refer to the product detail page on Knobsshopstore.in for checking any product details
+provided by the seller regarding the following:
+</p>
+
+<ul>
+<li>a) the total price in single figure of any good or service, along with the breakup price for
+the good or service, showing all the compulsory and voluntary charges such as delivery
+charges, postage and handling charges, conveyance charges and the applicable tax, as
+applicable. These details are available on the invoice issued to you. To understand how
+to generate an invoice you can refer here;
+
+</li>
+<li>b) Mandatory notices and information provided by applicable laws, and the expiry date of
+the good being offered for sale, where applicable;
+
+</li>
+<li>c) Goods and services offered for sale by the seller including country of origin which are
+necessary for enabling the consumer to make an informed decision at the pre-purchase
+stage;
+</li>
+<li>d) Importer and the guarantees related to the authenticity or genuineness of the imported
+products;
+</li>
+<li>e) Guarantees or warranties applicable to such goods or services. Further, all contractual
+information required to be disclosed by law is incorporated as part of the Knobsshop.
+Knobsshopstore.in lists millions of productsforsale offered by sellers on the website and
+hosts many thousands of comments, it is not possible for us to be aware of the contents
+of each product listed forsale, or each comment or review that is displayed. Accordingly,
+Knobshopstore.in operates on a "notice and takedown" basis. If you believe that any
+content on the website is illegal, offensive (including but not limited to material that is
+sexually explicit content or which promotes racism, bigotry, hatred or physical harm),
+deceptive, misleading, abusive, indecent, insulting or harassing on the basis of gender,
+blasphemous, defamatory, libelous, obscene, pornographic, paedophilic or menacing;
+racially or ethnically objectionable, or disparaging; in breach of copyright, trademark,
+patent, confidentiality, privacy or any other proprietary information or right; or
+otherwise injurious to third parties or relates to or promotes money laundering or
+gambling, or promotes enmity between different groups on the grounds of religion or caste with the intent to incite violence; or is harmful to minors in any way,
+or impersonates another person; or threatens the unity, integrity, defence, security or
+sovereignty of India or friendly relations with foreign States or public order or causes
+incitement to the commission of any cognisable offence or prevents investigation of any
+offence or is insulting other nation; or objectionable or otherwise unlawful in any
+manner whatsoever; or which consists of or contains software viruses or any other
+computer code, file or program designed to interrupt, destroy or limit the functionality
+of any computer resource, political campaigning, commercial solicitation, chain letters,
+mass mailings or any spam; or deceives or misleads the addressee about the origin of
+messages (" Objectionable Content "), please notify us immediately by following our
+Communication procedure. Once this procedure has been followed, Knobsshopstore.in
+will make all reasonable endeavours to remove such Objectionable Content complained
+about within a reasonable time.
+</li>
+</ul>
+
+
+<h2>9) Copyright, Authors' Rights and Database Rights</h2>
+<p>
+All content included on the website, such as text, graphics, logos, button icons, images, audio
+clips, digital downloads, data compilations, and software, is the property of Knobsshop Seller
+Services Private Limited, its affiliates or its content suppliers and is protected by Indian
+copyright, authors' rights and database right laws. The compilation of all content on this website
+is the exclusive property of Knobsshopstore Seller Services Private Limited and its affiliates
+and is protected by laws of Indian copyright and database right laws. All software used on this
+website is the property of Knobsshop Seller Services Private Limited, its affiliates or its
+software suppliers and is protected by India and international copyright and author' rights laws.
+You may not systematically extract/ or re-utilise parts of the contents of the website without
+Knobsshop Seller Services Private Limited and /or its affiliates (as may be applicable) express
+written consent. In particular, you may not utilise any data mining, robots, or similar data
+gathering and extraction tools to extract (whether once or many times)
+for re-utilisation of any substantial parts of this website, without Knobsshop Seller Services
+Private Limited and / or its affiliates (as may be applicable) express written consent. You may
+also not create and/ or publish your own database that features substantial (e.g.: prices and
+product listings) parts of this website without Knobsshop Seller Services Private Limited and /
+or its affiliates (as may be applicable) express written consent.
+</p>
+
+<h2>10) Intellectual Property Claims</h2>
+<p>
+Knobsshop Seller Services Private Limited and its affiliates respect the intellectual property of
+others. If you believe that your intellectual property rights have been used in a way that gives
+rise to concerns of infringement, please follow our Communication Procedure for Making
+Claims of Right Infringements.
+
+</p>
+
+<h2>11) Trademarks</h2>
+<p>
+Knobsshopstore.in, Knobsshop, and other marks indicated on our website are trademarks or
+registered trademarks of Knobsshop, Inc. or its subsidiaries (collectively " Knobsshopstore"),
+in the European Union and/or other jurisdictions. Knobsshopstore.in’s graphics, logos, page
+headers, button icons, scripts and service names are the trademarks or trade dress of Knobsshop.
+Knobsshopstore's trademarks and trade dress may not be used in connection with any product
+or service that is not Knobsshopstore's, in any manner that is likely to cause confusion among
+customers, or in any manner that disparages or discredits Knobsshopstore. All other trademarks
+not owned by Knobsshopstore that appear on this website are the property of their respective
+owners, who may or may not be affiliated with, connected to, or sponsored by Knobsshopstore.
+</p>
+
+<h2>12) Disclaimer</h2>
+<p>
+You acknowledge and undertake that you are accessing the services on the website and
+transacting at your own risk and are using your best and prudent judgment before entering into
+any transactionsthrough the website. You further acknowledge and undertake that you will use the website to order products
+only for your personal use and not for business purposes. We shall neither be liable nor
+responsible for any actions or inactions of sellers nor any breach of conditions, representations
+or warranties by the sellers or manufacturers of the products and hereby expressly disclaim and
+any all responsibility and liability in that regard. We shall not mediate or resolve any dispute
+or disagreement between you and the sellers or manufacturers of the products.
+We further expressly disclaim any warranties or representations (express or implied) in respect
+of quality, suitability, accuracy, reliability, completeness, timeliness, performance, safety,
+merchantability, fitness for a particular purpose, or legality of the products listed or displayed
+or transacted or the content (including product or pricing information and/or specifications) on
+the website. While we have taken precautions to avoid inaccuracies in content, this website, all
+content, information (including the price of products), software, products, services and related
+graphics are provided as is, without warranty of any kind. We do not implicitly or explicitly
+support or endorse the sale or purchase of any products on the website. At no time shall any
+right, title or interest in the products sold through or displayed on the website vest with
+Knobsshop nor shall Knobsshop have any obligations or liabilities in respect of any
+transactions on the website.
+</p>
+
+<h2>13) Indemnity and Release</h2>
+<p>
+You shall indemnify and hold harmless Knobsshopstore Seller Services Private Limited, its
+subsidiaries, affiliates and their respective officers, directors, agents and employees, from any
+claim or demand, or actions including reasonable attorney's fees, made by any third party or
+penalty imposed due to or arising out of your breach ofthese Conditions of Use or any document
+incorporated by reference, or your violation of any law, rules, regulations or the rights of a third
+party.
+You hereby expressly release Knobsshopstore Seller Services Private Limited and/or its
+affiliates and/or any of its officers and
+representatives from any cost, damage, liability or other consequence of any of the
+actions/inactions of the vendors and specifically waiver any claims or demands that you may
+have in this behalf under any statute, contract or otherwise.
+</p>
+
+<h2>14) Other Businesses</h2>
+<p>
+Parties other than Knobsshopstore Seller Services Private Limited and its affiliates may operate
+stores, provide services, or sell product lines on Knobsshopstore.in. For example, businesses
+and individuals offer products via Marketplace. In addition, we provide links to the websites of
+affiliated companies and certain other businesses. We are not responsible for examining or
+evaluating, and we do not warrant or endorse the offerings of any of these businesses or
+individuals, or the content of their websites. Knobsshopstore Seller Services Private Limited
+does not assume any responsibility or liability for the actions, products, and content of any of
+these and any other third-parties. You can tellwhen a third-party isinvolved in yourtransactions,
+and we may share customer information related to those transactions with that third- party. You
+should carefully review their privacy statements and other conditions of use
+</p>
+
+<h2>15) Communications</h2>
+<p>
+When you visit Knobsshopstore.in, you are communicating with us electronically. You will be
+required to provide a valid phone number while placing an order with us. We may communicate
+with you by e- mail, SMS, phone call or by posting notices on the website or by any other mode
+of communication. For contractual purposes, you consent to receive communications
+(including transactional, promotional and/or commercial messages), from us with respect to
+your use of the website and/or your order placed on the website.
+</p>
+<p>
+  <strong>Contact Details of Knobs Shop:</strong><br />
+  Location: 746-747,Mettupalayam Road, Sukrawar Pettai, R.S Puram, Coimbatore
+  TamilNadu– 641 002
+  <br />
+  Website: knobsshop.store<br />
+  Email: ecom@Knobsshop.store<br />
+  Mobile No: 70924 66600
+</p>
+
+<h2>16) Losses</h2>
+<p>
+We will not be responsible for any business loss (including loss of profits, revenue, contracts,
+  anticipated savings, data, goodwill or wasted expenditure) or any other indirect or
+  consequential loss that is not reasonably foreseeable to both you and us when you commenced
+  using the website.
+</p>
+
+<h2>17) Alteration of Service or Amendments to the Conditions</h2>
+<p>
+We reserve the right to make changesto our website, policies, and these Conditions of Use at any
+time. You will be subject to the policies and Conditions of Use in force at the time that you use
+the website or that you order goods from us, unless any change to those policies or these
+conditions is required to be made by law or government authority (in which case it will apply
+to orders previously placed by you). If any of these conditions is deemed invalid, void, or for
+any reason unenforceable, that condition will be deemed severable and will not affect the
+validity
+</p>
+
+<h2>18) Events Beyond Our Reasonable Control</h2>
+<p>
+We will not be held responsible for any delay or failure to comply with our obligations under
+these conditions if the delay or failure arises from any because which is beyond our reasonable
+control. This condition does not affect your statutory rights.
+</p>
+
+<h2>19) Waiver</h2>
+<p>
+If you breach these conditions and we take no action, we will still be entitled to use our rights
+and remedies in any other situation where you breach these conditions.
+</p>
+
+<h2>20) Governing Law and Jurisdiction</h2>
+<p>
+These conditions are governed by and construed in accordancewith the laws of India. You agree,
+as we do, to submit to the exclusive jurisdiction of the courts at Coimbatore, Chennai, and New
+Delhi.
+</p>
+
+<h2>21) Customer Complaint Details</h2>
+<p>
+The details pertaining to each customer complaint lodged (including the status of the complaint
+  and tracking details) are provided in the return e-mails which are sent back to the customers.
+  
+</p>
+
+<h2>22) Notice and Procedure for Making Claims of Right Infringements</h2>
+<p>
+If you believe that your rights are being infringed, you may contact through any communication
+methods. We respond expeditiously to rights owners and their agents who complete and submit
+the Claims to communicate concerns about any alleged infringement.
+Upon acknowledgement ofthe communication procedure we may take certainactions, including
+removing information or an item, all ofwhich are taken without any admission asto liability and
+without prejudice to any rights, remedies or defenses, all of which are expressly reserved.
+Furthermore, in submitting a Notice Form, you grant to Knobsshop the right to use, reproduce,
+modify, adapt, publish, translate, create derivative works from, and display its content
+throughout the world in any media. You agree to indemnify Knobsshop for all claims brought
+by a third party against Knobsshop arising out of or in connection with the submission of a
+communication complaint.
+Note on Third Party Seller Listings: Please keep in mind that Third Party Seller listings are
+merely hosted on Knobsshopstore.in and are posted solely at the direction of Third-Party
+Sellers who may be contacted via their "Seller Information" page, accessible from any of their
+listings
+</p>
+`
 function TermsAndCondition() {
   return (
     <>
     <NavbarTop/>
-    <div className='terms-and-condition-container'> 
-    <h1>Terms and Conditions</h1>
-<p>Last updated: June 13, 2025</p>
-<p>Please read these terms and conditions carefully before using Our Service.</p>
-<h2>Interpretation and Definitions</h2>
-<h3>Interpretation</h3>
-<p>The words of which the initial letter is capitalized have meanings defined under the following conditions. The following definitions shall have the same meaning regardless of whether they appear in singular or in plural.</p>
-<h3>Definitions</h3>
-<p>For the purposes of these Terms and Conditions:</p>
-<ul>
-<li>
-<p><strong>Affiliate</strong> means an entity that controls, is controlled by or is under common control with a party, where &quot;control&quot; means ownership of 50% or more of the shares, equity interest or other securities entitled to vote for election of directors or other managing authority.</p>
-</li>
-<li>
-<p><strong>Country</strong> refers to: Tamil Nadu,  India</p>
-</li>
-<li>
-<p><strong>Company</strong> (referred to as either &quot;the Company&quot;, &quot;We&quot;, &quot;Us&quot; or &quot;Our&quot; in this Agreement) refers to Knob-Shop.</p>
-</li>
-<li>
-<p><strong>Device</strong> means any device that can access the Service such as a computer, a cellphone or a digital tablet.</p>
-</li>
-<li>
-<p><strong>Service</strong> refers to the Website.</p>
-</li>
-<li>
-<p><strong>Terms and Conditions</strong> (also referred as &quot;Terms&quot;) mean these Terms and Conditions that form the entire agreement between You and the Company regarding the use of the Service. This Terms and Conditions agreement has been created with the help of the <a href="https://www.privacypolicies.com/terms-conditions-generator/" target="_blank">Terms and Conditions Generator</a>.</p>
-</li>
-<li>
-<p><strong>Third-party Social Media Service</strong> means any services or content (including data, information, products or services) provided by a third-party that may be displayed, included or made available by the Service.</p>
-</li>
-<li>
-<p><strong>Website</strong> refers to Knob-Shop, accessible from <a href="https://knob-shop-khaki.vercel.app/" rel="external nofollow noopener" target="_blank">https://knob-shop-khaki.vercel.app/</a></p>
-</li>
-<li>
-<p><strong>You</strong> means the individual accessing or using the Service, or the company, or other legal entity on behalf of which such individual is accessing or using the Service, as applicable.</p>
-</li>
-</ul>
-<h2>Acknowledgment</h2>
-<p>These are the Terms and Conditions governing the use of this Service and the agreement that operates between You and the Company. These Terms and Conditions set out the rights and obligations of all users regarding the use of the Service.</p>
-<p>Your access to and use of the Service is conditioned on Your acceptance of and compliance with these Terms and Conditions. These Terms and Conditions apply to all visitors, users and others who access or use the Service.</p>
-<p>By accessing or using the Service You agree to be bound by these Terms and Conditions. If You disagree with any part of these Terms and Conditions then You may not access the Service.</p>
-<p>You represent that you are over the age of 18. The Company does not permit those under 18 to use the Service.</p>
-<p>Your access to and use of the Service is also conditioned on Your acceptance of and compliance with the Privacy Policy of the Company. Our Privacy Policy describes Our policies and procedures on the collection, use and disclosure of Your personal information when You use the Application or the Website and tells You about Your privacy rights and how the law protects You. Please read Our Privacy Policy carefully before using Our Service.</p>
-<h2>Links to Other Websites</h2>
-<p>Our Service may contain links to third-party web sites or services that are not owned or controlled by the Company.</p>
-<p>The Company has no control over, and assumes no responsibility for, the content, privacy policies, or practices of any third party web sites or services. You further acknowledge and agree that the Company shall not be responsible or liable, directly or indirectly, for any damage or loss caused or alleged to be caused by or in connection with the use of or reliance on any such content, goods or services available on or through any such web sites or services.</p>
-<p>We strongly advise You to read the terms and conditions and privacy policies of any third-party web sites or services that You visit.</p>
-<h2>Termination</h2>
-<p>We may terminate or suspend Your access immediately, without prior notice or liability, for any reason whatsoever, including without limitation if You breach these Terms and Conditions.</p>
-<p>Upon termination, Your right to use the Service will cease immediately.</p>
-<h2>Limitation of Liability</h2>
-<p>Notwithstanding any damages that You might incur, the entire liability of the Company and any of its suppliers under any provision of this Terms and Your exclusive remedy for all of the foregoing shall be limited to the amount actually paid by You through the Service or 100 USD if You haven't purchased anything through the Service.</p>
-<p>To the maximum extent permitted by applicable law, in no event shall the Company or its suppliers be liable for any special, incidental, indirect, or consequential damages whatsoever (including, but not limited to, damages for loss of profits, loss of data or other information, for business interruption, for personal injury, loss of privacy arising out of or in any way related to the use of or inability to use the Service, third-party software and/or third-party hardware used with the Service, or otherwise in connection with any provision of this Terms), even if the Company or any supplier has been advised of the possibility of such damages and even if the remedy fails of its essential purpose.</p>
-<p>Some states do not allow the exclusion of implied warranties or limitation of liability for incidental or consequential damages, which means that some of the above limitations may not apply. In these states, each party's liability will be limited to the greatest extent permitted by law.</p>
-<h2>&quot;AS IS&quot; and &quot;AS AVAILABLE&quot; Disclaimer</h2>
-<p>The Service is provided to You &quot;AS IS&quot; and &quot;AS AVAILABLE&quot; and with all faults and defects without warranty of any kind. To the maximum extent permitted under applicable law, the Company, on its own behalf and on behalf of its Affiliates and its and their respective licensors and service providers, expressly disclaims all warranties, whether express, implied, statutory or otherwise, with respect to the Service, including all implied warranties of merchantability, fitness for a particular purpose, title and non-infringement, and warranties that may arise out of course of dealing, course of performance, usage or trade practice. Without limitation to the foregoing, the Company provides no warranty or undertaking, and makes no representation of any kind that the Service will meet Your requirements, achieve any intended results, be compatible or work with any other software, applications, systems or services, operate without interruption, meet any performance or reliability standards or be error free or that any errors or defects can or will be corrected.</p>
-<p>Without limiting the foregoing, neither the Company nor any of the company's provider makes any representation or warranty of any kind, express or implied: (i) as to the operation or availability of the Service, or the information, content, and materials or products included thereon; (ii) that the Service will be uninterrupted or error-free; (iii) as to the accuracy, reliability, or currency of any information or content provided through the Service; or (iv) that the Service, its servers, the content, or e-mails sent from or on behalf of the Company are free of viruses, scripts, trojan horses, worms, malware, timebombs or other harmful components.</p>
-<p>Some jurisdictions do not allow the exclusion of certain types of warranties or limitations on applicable statutory rights of a consumer, so some or all of the above exclusions and limitations may not apply to You. But in such a case the exclusions and limitations set forth in this section shall be applied to the greatest extent enforceable under applicable law.</p>
-<h2>Governing Law</h2>
-<p>The laws of the Country, excluding its conflicts of law rules, shall govern this Terms and Your use of the Service. Your use of the Application may also be subject to other local, state, national, or international laws.</p>
-<h2>Disputes Resolution</h2>
-<p>If You have any concern or dispute about the Service, You agree to first try to resolve the dispute informally by contacting the Company.</p>
-<h2>For European Union (EU) Users</h2>
-<p>If You are a European Union consumer, you will benefit from any mandatory provisions of the law of the country in which You are resident.</p>
-<h2>United States Legal Compliance</h2>
-<p>You represent and warrant that (i) You are not located in a country that is subject to the United States government embargo, or that has been designated by the United States government as a &quot;terrorist supporting&quot; country, and (ii) You are not listed on any United States government list of prohibited or restricted parties.</p>
-<h2>Severability and Waiver</h2>
-<h3>Severability</h3>
-<p>If any provision of these Terms is held to be unenforceable or invalid, such provision will be changed and interpreted to accomplish the objectives of such provision to the greatest extent possible under applicable law and the remaining provisions will continue in full force and effect.</p>
-<h3>Waiver</h3>
-<p>Except as provided herein, the failure to exercise a right or to require performance of an obligation under these Terms shall not affect a party's ability to exercise such right or require such performance at any time thereafter nor shall the waiver of a breach constitute a waiver of any subsequent breach.</p>
-<h2>Translation Interpretation</h2>
-<p>These Terms and Conditions may have been translated if We have made them available to You on our Service.
-You agree that the original English text shall prevail in the case of a dispute.</p>
-<h2>Changes to These Terms and Conditions</h2>
-<p>We reserve the right, at Our sole discretion, to modify or replace these Terms at any time. If a revision is material We will make reasonable efforts to provide at least 30 days' notice prior to any new terms taking effect. What constitutes a material change will be determined at Our sole discretion.</p>
-<p>By continuing to access or use Our Service after those revisions become effective, You agree to be bound by the revised terms. If You do not agree to the new terms, in whole or in part, please stop using the website and the Service.</p>
-<h2>Contact Us</h2>
-<p>If you have any questions about these Terms and Conditions, You can contact us:</p>
-<ul>
-<li>By visiting this page on our website: <a href="https://knob-shop-khaki.vercel.app/" rel="external nofollow noopener" target="_blank">https://knob-shop-khaki.vercel.app/</a></li>
-</ul>
-    </div>
+    <div
+        className='terms-and-condition-container'
+        dangerouslySetInnerHTML={{ __html: htmlContent }}
+      />
     <Footer/>
     </>
   )

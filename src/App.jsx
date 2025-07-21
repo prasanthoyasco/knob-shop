@@ -22,6 +22,11 @@ import PaymentPage from './Components/PaymentPage/PaymentPage';
 import { OrderTracking } from './Pages/OrderTracking';
 import OrderConfirmed from './Pages/OrderConfirmed';
 import { Notfound } from './Pages/Notfound';
+import Order from './Components/TermsAndCondition/Order';
+import Return from './Components/TermsAndCondition/Return';
+import Pricing from './Components/TermsAndCondition/Pricing';
+import Waranty from './Components/TermsAndCondition/Waranty';
+import ShippingPage from './Components/ShippingPage/ShippingPage'
 // import NavbarTop from './Components/Navbar/NavbarTop/NavbarTop';
 
 function App() {
@@ -40,6 +45,11 @@ function App() {
        <Route path='/categories' element={<CategoriesHeader/>}></Route>
        <Route path='/terms-condition' element={<TermsAndCondition/>}></Route>
        <Route path='/privacy-policy' element={<PrivacyPolicy/>}></Route>
+       <Route path='/return-policy' element={<Return/>}></Route>
+       <Route path='/waranty-policy' element={<Waranty/>}></Route>
+       <Route path='/pricing-policy' element={<Pricing/>}></Route>
+       <Route path='/order-policy' element={<Order/>}></Route>
+       <Route path='/shipping' element={<ShippingPage/>}></Route>
        <Route path='/view-cart' element={<CartPage/>}></Route>
        <Route path='/payment' element={<PaymentPage/>}></Route>
        <Route path='/Tracking' element={<OrderTracking/>}></Route>

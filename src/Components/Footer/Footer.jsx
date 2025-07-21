@@ -16,7 +16,9 @@ const aboutContent = [
 const policyContent = [
   {text : "Terms &  Condition" , href : "/terms-condition"},
   {text : "Privacy policy" , href : "/privacy-policy"},
-  {text : "Furniture" , href : "/furniture"},
+  {text : "Order policy" , href : "/order-policy"},
+  {text : "Return policy" , href : "/return-policy"},
+  {text : "Waranty policy" , href : "/waranty-policy"},
 ]
 const helpContent = [
   {text : "Payment" , href : "/payment"},
