@@ -3,7 +3,7 @@ import NavbarTop from '../Navbar/NavbarTop/NavbarTop'
 import Footer from '../Footer/Footer'
 const htmlContent = `
 
-<h2>1) Pricing and availability</h2>
+<h1>Pricing and availability</h1>
 <p>
   We list availability information for products sold by us on the website, including on each
   product information page. Beyond what we say on that page or otherwise on the website, we

@@ -2,7 +2,7 @@ import React from 'react'
 const htmlContent = `
 
 <div class="section">
-<h2>40) Damaged, Missing, or Wrong Items</h2>
+<h1>Damaged, Missing, or Wrong Items</h1>
 <p>If your package arrives:</p>
 <ul>
   <li>Damaged</li>

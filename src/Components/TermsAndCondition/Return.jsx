@@ -6,7 +6,7 @@ const htmlContent = `
 
 <h2>1) Order Cancellation</h2>
 <ul>
-  <li>YYou can cancel your order before it is invoiced by emailing ecom@knobsshop.store
+  <li>You can cancel your order before it is invoiced by emailing ecom@knobsshop.store
   with your order number and date. </li>
   <li>Once shipped, orders cannot be canceled.</li>
   <li>Refunds (for cancelled orders only) will be processed within 7 business days to the

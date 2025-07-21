@@ -1,4 +1,6 @@
 import React from 'react'
+import NavbarTop from '../Navbar/NavbarTop/NavbarTop';
+import Footer from '../Footer/Footer';
 const htmlContent = `
   <h1>Shipping & Transportation Policy</h1>
   <p>Below is our shipping and transport policy to ensure transparency and trust in every order.</p>
@@ -110,10 +112,14 @@ const htmlContent = `
 `
 function ShippingPage() {
   return (
+    <>
+    <NavbarTop/>
     <div
         className='terms-and-condition-container'
         dangerouslySetInnerHTML={{ __html: htmlContent }}
       />
+      <Footer/>
+      </>
   )
 }
 

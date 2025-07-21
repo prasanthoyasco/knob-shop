@@ -3,12 +3,17 @@ import NavbarTop from '../Navbar/NavbarTop/NavbarTop'
 import Footer from '../Footer/Footer'
 const htmlContent = `
 
-<h1>CONDITIONS OF SALE (BETWEEN SELLERS AND THE CUSTOMER)</h1>
+<h1>CONDITIONS OF SALE</h1>
 
 <div class="section">
-  <p>Please read these conditions carefully before placing an order for any products with the Sellers ("We" or "Our" or "Us", wherever applicable) on the Knobsshopstore.in (the website). These conditions signify your agreement to be bound by these conditions.</p>
+  <p>Please read these conditions carefully before placing an order for any products with the Sellers
+  ("We" or "Our" or "Us", wherever applicable) on the Knobsshopstore.in (the website). These
+  conditions signify your agreement to be bound by these conditions.</p>
 
-  <p>In addition, when you use any current or future Knobsshopstore.in service (e.g.: Wishlist or Marketplace or Knobsshop MP3 Service), you will also be subject to the terms, guidelines and conditions applicable to that service ("Terms"). If these Conditions of Sale are inconsistent with such Terms, the Terms will control.</p>
+  <p>In addition, when you use any current or future Knobsshopstore.in service (e.g.: Wishlist or
+    Marketplace or Knobsshop MP3 Service), you will also be subject to the terms, guidelines and
+    conditions applicable to that service ("Terms"). If these Conditions of Sale are inconsistent
+    with such Terms, the Terms will control.</p>
 </div>
 
 <div class="section">

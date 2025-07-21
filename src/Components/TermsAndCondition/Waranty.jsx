@@ -2,7 +2,7 @@ import React from 'react'
 import NavbarTop from '../Navbar/NavbarTop/NavbarTop'
 import Footer from '../Footer/Footer'
 const htmlContent = `
-<h2>3) Warranty Claims Policy</h2>
+<h1>Warranty Claims Policy</h1>
 
 <h3>a) Warranty Overview</h3>
 <p>
