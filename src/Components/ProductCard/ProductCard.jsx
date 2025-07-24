@@ -72,16 +72,17 @@ console.log(product);
 
     <p className="mb-2">
      
-      <del className="text-muted">
-        ₹ {oldPrice.toLocaleString("en-IN")}
-      </del>{" "}
+    <del className="text-muted">
+  ₹ {(oldPrice ?? 0).toLocaleString("en-IN")}
+</del>
        <strong style={{ color: "#D6791F" }}>
         ₹ {(price ? +price : 0).toLocaleString("en-IN")}
       </strong>
     </p>
     <p className="text-success mb-2">
-      You Save ₹ {(oldPrice - price).toLocaleString("en-IN")}
-    </p>
+  You Save ₹ {(Math.max((oldPrice ?? 0) - (price ?? 0), 0)).toLocaleString("en-IN")}
+</p>
+
 
 <div className="product-colors d-flex gap-2 my-2">
   <input type="radio" name="color" className="color-dot brown" />

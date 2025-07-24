@@ -7,19 +7,35 @@ import {
 } from 'lucide-react';
 import './ProductImageSlider.css'
 import { useSwipeable } from 'react-swipeable';
-
+import { useParams } from "react-router-dom";
+import { getProductById } from "../../API/productApi";
 const ProductImageSlider = () => {
-  const images = [
-    'https://yaleonline.in/cdn/shop/products/3_81f1fa71-fe33-40c6-afa8-fc7243435f3f.jpg',
-    'https://yaleonline.in/cdn/shop/products/21_57828a49-9545-4168-a2eb-b0a29dd50131.jpg',
-    'https://yaleonline.in/cdn/shop/products/14_683d1601-6f39-4192-bf20-1d0f944faaa4.jpg',
-    'https://yaleonline.in/cdn/shop/products/15_fe89450a-8fdd-462b-92be-4073db244414.jpg',
-    'https://yaleonline.in/cdn/shop/products/16_db69c429-7a80-4a72-b3fd-06e4fd06b573.jpg',
-    'https://yaleonline.in/cdn/shop/products/17_904527a7-a5a5-444a-9893-1e8b3b31d424.jpg',
-    'https://yaleonline.in/cdn/shop/products/3_81f1fa71-fe33-40c6-afa8-fc7243435f3f.jpg',
-    'https://yaleonline.in/cdn/shop/products/21_57828a49-9545-4168-a2eb-b0a29dd50131.jpg',
-    'https://yaleonline.in/cdn/shop/products/14_683d1601-6f39-4192-bf20-1d0f944faaa4.jpg',
-  ];
+  const { id } = useParams(); // get product id from URL
+  const [product, setProduct] = useState(null);
+
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        const res = await getProductById(id);
+        console.log("productsDetails : ",res)
+        setProduct(res); // adjust if your API shape differs
+
+      } catch (err) {
+        console.error("Failed to fetch product", err);
+      }
+    };
+
+    fetchProduct();
+  }, [id]);
+
+  const images =
+    product?.images?.length > 0
+      ? product.images
+      : product?.image
+      ? [product.image]
+      : [];
+
+
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const thumbnailRefs = useRef([]);
