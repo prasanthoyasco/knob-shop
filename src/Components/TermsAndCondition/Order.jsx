@@ -46,11 +46,11 @@ const htmlContent = `
   </ul>
 
   <p>You can review return policy for products listed on Knobsshopstore.in by clicking here:
-    <a href="https://Knobsstore.in" target="_blank">https://Knobsstore.in</a>
+    <a href="https://www.Knobsshop.store" target="_blank">https://www.Knobsshop.store</a>
   </p>
 
   <p>For the products that are returned by the customer, the refund is issued to the original payment method (in case of pre-paid transactions) or to the bank account / as Knobsshop Pay balance (in case of Pay on Delivery orders), the details for making such refund and the timelines are detailed in the refund policy available here:
-    <a href="https://www.Knobsshopstore.in" target="_blank">https://www.Knobsshopstore.in</a>
+    <a href="https://www.Knobsshop.store" target="_blank">https://www.Knobsshop.store</a>
   </p>
 
   <p>Please review our Returns Policy, which applies to products sold by us.</p>

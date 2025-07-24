@@ -6,7 +6,7 @@ const htmlContent = `
 <h1>KNOBS SHOP TERMS AND CONDITIONS</h1>
 
 <p>
-The website www.Knobsshopstore.com ("Knobsstore.in") is operated by Knobsshop Seller
+The website www.Knobsshopstore.com is operated by Knobsshop Seller
 Services Private Limited ("Knobsshopstore " or "us" or "we" or "our"), having its Registered
 Head Office located at Door No. 746 - 747, Mettupalayam Road,Sukrawar Pettai, R.S Puram,
 Coimbatore, Tamil Nadu – 641 002. Please read the Conditions of Use document carefully
@@ -26,8 +26,7 @@ eithersubject to our Privacy Notice or follow practices at least as protective a
 in our Privacy Notice. We also share information with third-party service providers. For
 example, we use third-party service providers to fulfill orders for products or services, and to
 deliver packages. For any further details on oursecuritypractices please read our PrivacyNotice.
-For any queries or issues relating to Knobsstore.in, you can contact us by clicking www.
-Knobsstore.in.
+For any queries or issues relating to Knobsshop, you can contact us by clicking www.Knobsshop.store
 </p>
 
 <h2>1) Your Account</h2>
@@ -52,7 +51,7 @@ accounts, remove or edit content at any time without notice to you.
 <h2>2) Privacy</h2>
 <p>
 The personal information / data provided to us by you during the course of usage of
-Knobsstore.in will be treated as strictly confidential and in accordance with the Privacy Notice
+www.Knobsshop.store will be treated as strictly confidential and in accordance with the Privacy Notice
 and applicable laws and regulations. If you object to your information being transferred or used,
 please do not use the website.
 
@@ -69,7 +68,7 @@ between you and the sellers on Knobsshopstore.in.
 
 </p>
 
-<h2>4) Access to Knobsstore.in</h2>
+<h2>4) Access to www.Knobsshop.store</h2>
 <p>
 We will do our utmost to ensure that availability of the website will be uninterrupted and that
 transmissions will be error-free. However, due to the nature of the Internet, this cannot be
