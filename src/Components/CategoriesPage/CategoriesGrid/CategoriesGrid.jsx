@@ -1,5 +1,6 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
+import {fetchCategories} from '../../../API/'
 import './CategoriesGrid.css'
 import image1 from '../../../Assets/CategoriesImge/image.jpg'
 import image2 from '../../../Assets/CategoriesImge/image-2.jpg'

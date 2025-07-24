@@ -14,8 +14,8 @@ const CategoryHero = ({ title, count, backgroundImage }) => {
         <p className=" breadgrum text-uppercase small mb-2">
           Home / Shop by Categories / {title}
         </p>
-        <h1 className="fw-semibold h1">{product.text}</h1>
-        <p className="small mt-1">{product.items}</p>
+        <h1 className="fw-semibold h1">{product.category_name}</h1>
+        <p className="small mt-1">{product.productCount}</p>
       </div>
     </div>
   );

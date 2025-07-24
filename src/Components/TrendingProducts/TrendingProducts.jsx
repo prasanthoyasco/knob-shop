@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import ProductCard from "../ProductCard/ProductCard";
 import "./TrendingProducts.css";
 import { useNavigate } from "react-router-dom";
-
+import { getAllProducts } from "../../API/productApi";
 import chair from "../../Assets/product-category/p1.jpg";
 import chair2 from "../../Assets/product-category/p6.jpg";
 import sofa from "../../Assets/product-category/p2.jpg";
@@ -18,79 +18,115 @@ const tabs = [
   "Featured Products",
 ];
 
-const products = [
-  {
-    id: 1,
-    title: "Door Knob",
-    price: 22490,
-    oldPrice: 23599,
-    discount: 5,
-    rating: 4.9,
-    image: bchair,
-    icons: [
-      { name: "Card Key", imgUrl: "/product-icon/card_key.svg" },
-      { name: "Pin Code", imgUrl: "/product-icon/pin_code.svg" },
-      { name: "Fingerprint", imgUrl: "/product-icon/fingerprint.svg" },
-      { name: "Machnic Key", imgUrl: "/product-icon/machnic_key.svg" },
-    ],
-    hoverImage: bchair1,
-  },
-  {
-    id: 3,
-    title: "Safty Locker",
-    price: 9490,
-    oldPrice: 17997,
-    discount: 47,
-    rating: 4.9,
-    image: chair,
-    hoverImage: chair2,
-  },
-  {
-    id: 4,
-    title: "Door Hinje",
-    price: 12290,
-    oldPrice: 14412,
-    discount: 15,
-    rating: 4.8,
-    image: sofa3,
-    hoverImage: sofa3,
-  },
-  {
-    id: 2,
-    title: "Knobs- Door Knob",
-    price: 16290,
-    oldPrice: 19412,
-    discount: 25,
-    rating: 4.9,
-    icons: [
-      { name: "Card Key", imgUrl: "/product-icon/card_key.svg" },
-      { name: "Pin Code", imgUrl: "/product-icon/pin_code.svg" },
-      { name: "Fingerprint", imgUrl: "/product-icon/fingerprint.svg" },
-      { name: "Machnic Key", imgUrl: "/product-icon/machnic_key.svg" },
-    ],
-    image: sofa2,
-    hoverImage: sofa,
-  },
-  {
-    id: 5,
-    title: "Knobs",
-    price: 19490,
-    oldPrice: 23997,
-    discount: 19,
-    rating: 4.9,
-    image: sofa,
-    hoverImage: sofa2,
-  },
-];
+// const products = [
+//   {
+//     id: 1,
+//     title: "Door Knob",
+//     price: 22490,
+//     oldPrice: 23599,
+//     discount: 5,
+//     rating: 4.9,
+//     image: bchair,
+//     icons: [
+//       { name: "Card Key", imgUrl: "/product-icon/card_key.svg" },
+//       { name: "Pin Code", imgUrl: "/product-icon/pin_code.svg" },
+//       { name: "Fingerprint", imgUrl: "/product-icon/fingerprint.svg" },
+//       { name: "Machnic Key", imgUrl: "/product-icon/machnic_key.svg" },
+//     ],
+//     hoverImage: bchair1,
+//   },
+//   {
+//     id: 3,
+//     title: "Safty Locker",
+//     price: 9490,
+//     oldPrice: 17997,
+//     discount: 47,
+//     rating: 4.9,
+//     image: chair,
+//     hoverImage: chair2,
+//   },
+//   {
+//     id: 4,
+//     title: "Door Hinje",
+//     price: 12290,
+//     oldPrice: 14412,
+//     discount: 15,
+//     rating: 4.8,
+//     image: sofa3,
+//     hoverImage: sofa3,
+//   },
+//   {
+//     id: 2,
+//     title: "Knobs- Door Knob",
+//     price: 16290,
+//     oldPrice: 19412,
+//     discount: 25,
+//     rating: 4.9,
+//     icons: [
+//       { name: "Card Key", imgUrl: "/product-icon/card_key.svg" },
+//       { name: "Pin Code", imgUrl: "/product-icon/pin_code.svg" },
+//       { name: "Fingerprint", imgUrl: "/product-icon/fingerprint.svg" },
+//       { name: "Machnic Key", imgUrl: "/product-icon/machnic_key.svg" },
+//     ],
+//     image: sofa2,
+//     hoverImage: sofa,
+//   },
+//   {
+//     id: 5,
+//     title: "Knobs",
+//     price: 19490,
+//     oldPrice: 23997,
+//     discount: 19,
+//     rating: 4.9,
+//     image: sofa,
+//     hoverImage: sofa2,
+//   },
+// ];
 
 const TrendingProducts = () => {
   const [activeTab, setActiveTab] = useState("All Products");
+  const [products, setProducts] = useState([]);
   const scrollRef = useRef(null);
   const autoScrollRef = useRef(null);
   const isDragging = useRef(false);
   const startPos = useRef(0);
   const scrollLeft = useRef(0);
   const navigate = useNavigate();
+
+  const fetchProducts = async () => {
+    try {
+      const data = await getAllProducts();
+      console.log("data from trending products:",data)
+      setProducts(data)
+    } catch (err) {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  const getFilteredProducts = () => {
+    switch (activeTab) {
+      case "Latest Products":
+        return [...products]
+          .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+          .slice(0, 10); // Adjust count if needed
+  
+      case "Best Sellers":
+        return products.filter(product => product.price > 10000); // Example logic
+  
+      case "Featured Products":
+        return products.filter(product => product.discount?.isActive);
+  
+      case "All Products":
+      default:
+        return products;
+    }
+  };
+  
+
   const handleViewAll = () => {
     navigate("/category/all-products", {
       state: {
@@ -126,6 +162,7 @@ const TrendingProducts = () => {
     startAutoScroll();
     return () => clearInterval(autoScrollRef.current);
   }, []);
+
 
   const onMouseDown = (e) => {
     isDragging.current = true;
@@ -194,11 +231,35 @@ const TrendingProducts = () => {
               // onMouseEnter={() => clearInterval(autoScrollRef.current)}
               // onMouseLeave={startAutoScroll}
             >
-              {products.map((product, index) => (
-                <div key={index} className="product-scroll-item">
-                  <ProductCard product={product} />
-                </div>
-              ))}
+{getFilteredProducts().map((product, index) => {
+  const {
+    _id,
+    name,
+    price,
+    compare_price,
+    images,
+    discount,
+    features,
+  } = product;
+
+  const transformedProduct = {
+    id: _id,
+    title: name,
+    price: price || 0,
+    oldPrice: compare_price || price || 0,
+    discount: discount?.isActive ? discount.value : 0,
+    rating: 4.9, // or product.rating if available from backend
+    image: images?.[0] || chair, // fallback image
+    hoverImage: images?.[1] || images?.[0] || chair2, // fallback
+  };
+
+  return (
+    <div key={index} className="product-scroll-item">
+      <ProductCard product={transformedProduct} />
+    </div>
+  );
+})}
+
             </div>
           </div>
           <div className="d-flex align-items-center justify-content-center mt-3">
