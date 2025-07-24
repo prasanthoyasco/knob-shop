@@ -12,31 +12,50 @@ import lockerBg from "../Assets/CategoriesImge/image.jpg"
 import Footer from "../Components/Footer/Footer";
 import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { fetchProductsByCategory } from "../API/productApi";
 export const ProductList = () => {
-  const location=useLocation()
-  const productData = location.state?.product
-  console.log("Received Product Data:", productData);
-  const products = productData?.productList?.map((item, index) => ({
-    id: index + 1,
-    title: item.name || "Product",
-    brand: "Brand Name",
-    category: productData?.text || "Category",
-    availability: "In Stock",
-    price: 9990, // Optional: set dynamically if available
-    oldPrice: 10990,
-    discount: 10,
-    rating: 4.8,
-    image: item.image,
-    hoverImage: item.image,
-    colors: ["#000000", "#fbe9e7"],
-    features: ["Feature 1", "Feature 2"],
-    icons: [
-      { name: "Card Key", imgUrl: "/product-icon/card_key.svg" },
-      { name: "Pin Code", imgUrl: "/product-icon/pin_code.svg" },
-      { name: "Fingerprint", imgUrl: "/product-icon/fingerprint.svg" },
-      { name: "Machnic Key", imgUrl: "/product-icon/machnic_key.svg" },
-    ],
-  }));
+  const { categoryId } = useParams();
+  const location = useLocation();
+  const category = location.state?.category;
+  const [products, setProducts] = useState([]);
+  console.log("Received Product Data:", products);
+  useEffect(() => {
+    const loadProducts = async () => {
+      try {
+        const res = await fetchProductsByCategory(categoryId); // returns { success, count, data }
+        const mapped = res.data.map((item, index) => ({
+          id: item._id,
+          title: item.name,
+          brand: item.brand,
+          category: item.category?.category_name,
+          availability: item.stock > 0 ? "In Stock" : "Out of Stock",
+          price: item.price,
+          oldPrice: item.compare_price,
+          discount: item.discount?.value || 0,
+          rating: 4.5, // Set dynamically if available
+          image: item.images?.[0],
+          hoverImage: item.images?.[0],
+          colors: item.variant?.map(v => v.value) || ["#000"],
+          features: item.features?.map(f => f.title) || [],
+          icons: [
+            { name: "Card Key", imgUrl: "/product-icon/card_key.svg" },
+            { name: "Pin Code", imgUrl: "/product-icon/pin_code.svg" },
+            { name: "Fingerprint", imgUrl: "/product-icon/fingerprint.svg" },
+            { name: "Machnic Key", imgUrl: "/product-icon/machnic_key.svg" },
+          ],
+        }));
+        setProducts(mapped);
+      } catch (error) {
+        console.error("Product fetch failed:", error);
+        setProducts([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadProducts();
+  }, [categoryId]);
 const [loading, setLoading] = useState(true);
 
   useEffect(() => {

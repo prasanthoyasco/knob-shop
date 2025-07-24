@@ -2,11 +2,11 @@ import './CategoryHero.css';
 import { useLocation } from 'react-router-dom';
 const CategoryHero = ({ title, count, backgroundImage }) => {
   const location = useLocation()
-  const product = location.state?.product;
+  const category = location.state?.category;
   return (
     <div
       className="category-hero d-flex align-items-center justify-content-center text-white text-center"
-      style={{ backgroundImage: `url(${product.bannerImage || product.image})` }}
+      style={{ backgroundImage: `url(${category.bannerImage || category.image})` }}
     >
       <div className="overlay"></div>
 
@@ -14,8 +14,8 @@ const CategoryHero = ({ title, count, backgroundImage }) => {
         <p className=" breadgrum text-uppercase small mb-2">
           Home / Shop by Categories / {title}
         </p>
-        <h1 className="fw-semibold h1">{product.category_name}</h1>
-        <p className="small mt-1">{product.productCount}</p>
+        <h1 className="fw-semibold h1">{category.category_name}</h1>
+        <p className="small mt-1">{category.productCount}</p>
       </div>
     </div>
   );

@@ -40,7 +40,7 @@ function App() {
       <div className="page-fade">
       <Routes>
         <Route path="/" element={<Home />} />
-       <Route path='/category/:id' element={<ProductList/>}></Route>
+        <Route path='/category/:categoryId' element={<ProductList />} />
        <Route path='/product/:id' element={<ProductDetails/>}></Route>
        <Route path='/categories' element={<CategoriesHeader/>}></Route>
        <Route path='/terms-condition' element={<TermsAndCondition/>}></Route>

@@ -59,14 +59,19 @@ const CategoryPageLayout2 = ({ products = [] }) => {
     }
 
     if (colors.length > 0) {
-      result = result.filter((p) => colors.includes(p.color));
+      result = result.filter((p) =>
+        p.colors?.some((c) => colors.includes(c))
+      );
     }
 
     if (features.length > 0) {
-      result = result.filter((p) => {
-        const title = p.title?.toLowerCase() || "";
-        return features.some((feat) => title.includes(feat.toLowerCase()));
-      });
+      result = result.filter((p) =>
+        p.features?.some((f) =>
+          features.some((selected) =>
+            f.toLowerCase().includes(selected.toLowerCase())
+          )
+        )
+      );
     }
 
     if (accessType.length > 0) {

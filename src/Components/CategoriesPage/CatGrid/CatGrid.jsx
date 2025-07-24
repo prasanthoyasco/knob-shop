@@ -21,8 +21,8 @@ function CatGrid() {
   }, []);
 
   const handleClick = (data) => {
-    navigate(`/category/${data._id}`, { state: { product: data } });
-  };
+    navigate(`/category/${data._id}`, { state: { category: data } });
+  };  
 
   // Layout logic based on index (to match your exact first-layout, second-layout, etc.)
   const groupCategories = (data) => {
