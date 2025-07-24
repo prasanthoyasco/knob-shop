@@ -1,10 +1,25 @@
-import React from 'react';
+import React,{useState,useEffect} from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import ProductCard from '../ProductCard/ProductCard'; // update the path accordingly
-
+import {getAllProducts} from '../../API/productApi'
 const RelatedProductsSection = ({ products = [] }) => {
   const sliderRef = React.useRef(null);
+  const [allProduct, setAllProduct] = useState([]);
 
+  useEffect(() => {
+    const fetchAllProduct = async () => {
+      try {
+        const res = await getAllProducts();
+        console.log("All products Details : ",res)
+        setAllProduct(res); // adjust if your API shape differs
+
+      } catch (err) {
+        console.error("Failed to fetch product", err);
+      }
+    };
+
+    fetchAllProduct();
+  }, []);
   const scrollLeft = () => {
     sliderRef.current.scrollBy({ left: -300, behavior: 'smooth' });
   };
@@ -37,11 +52,25 @@ const RelatedProductsSection = ({ products = [] }) => {
             msOverflowStyle: 'none',
           }}
         >
-          {products.map((product, i) => (
-            <div key={i} className='product-scroll-item'>
-              <ProductCard product={product} />
-            </div>
-          ))}
+{allProduct?.map((product, i) => {
+  const formattedProduct = {
+    id: product?._id,
+    title: product?.name,
+    price: product?.price,
+    oldPrice: product?.compare_price,
+    discount: product?.discount?.value,
+    rating: product?.rating ?? 4.5, // fallback if no rating
+    image: product?.images?.[0],
+    hoverImage: product.images?.[1] || product.images?.[0],
+  };
+
+  return (
+    <div key={i} className="product-scroll-item">
+      <ProductCard product={formattedProduct} />
+    </div>
+  );
+})}
+
         </div>
 
         {/* Right Arrow */}

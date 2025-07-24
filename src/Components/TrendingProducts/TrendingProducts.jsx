@@ -128,6 +128,7 @@ const TrendingProducts = () => {
   
 
   const handleViewAll = () => {
+    console.log("Products being passed to category page:", products);
     navigate("/category/all-products", {
       state: {
         product: {

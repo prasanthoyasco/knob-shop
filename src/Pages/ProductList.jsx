@@ -17,37 +17,50 @@ import { fetchProductsByCategory } from "../API/productApi";
 export const ProductList = () => {
   const { categoryId } = useParams();
   const location = useLocation();
-  const category = location.state?.category;
+  const passedState = location.state?.product;
   const [products, setProducts] = useState([]);
   console.log("Received Product Data:", products);
+  const mapProduct = (item) => ({
+    id: item._id,
+    title: item.name,
+    brand: item.brand,
+    category: item.category?.category_name,
+    availability: item.stock > 0 ? "In Stock" : "Out of Stock",
+    price: item.price,
+    oldPrice: item.compare_price,
+    discount: item.discount?.value || 0,
+    rating: 4.5, // Optional: set from backend
+    image: item.images?.[0],
+    hoverImage: item.images?.[1] || item.images?.[0],
+    colors: item.variant?.map((v) => v.value) || ["#000"],
+    features: item.features?.map((f) => f.title) || [],
+    icons: [
+      { name: "Card Key", imgUrl: "/product-icon/card_key.svg" },
+      { name: "Pin Code", imgUrl: "/product-icon/pin_code.svg" },
+      { name: "Fingerprint", imgUrl: "/product-icon/fingerprint.svg" },
+      { name: "Machnic Key", imgUrl: "/product-icon/machnic_key.svg" },
+    ],
+  });
+
   useEffect(() => {
     const loadProducts = async () => {
+      setLoading(true);
+
+      // Case 1: Navigated via "View All Products" (state passed)
+      if (categoryId === "all-products" && passedState?.productList) {
+        const transformed = passedState.productList.map(mapProduct);
+        setProducts(transformed);
+        setLoading(false);
+        return;
+      }
+
+      // Case 2: Specific categoryId from params (fetch from API)
       try {
-        const res = await fetchProductsByCategory(categoryId); // returns { success, count, data }
-        const mapped = res.data.map((item, index) => ({
-          id: item._id,
-          title: item.name,
-          brand: item.brand,
-          category: item.category?.category_name,
-          availability: item.stock > 0 ? "In Stock" : "Out of Stock",
-          price: item.price,
-          oldPrice: item.compare_price,
-          discount: item.discount?.value || 0,
-          rating: 4.5, // Set dynamically if available
-          image: item.images?.[0],
-          hoverImage: item.images?.[0],
-          colors: item.variant?.map(v => v.value) || ["#000"],
-          features: item.features?.map(f => f.title) || [],
-          icons: [
-            { name: "Card Key", imgUrl: "/product-icon/card_key.svg" },
-            { name: "Pin Code", imgUrl: "/product-icon/pin_code.svg" },
-            { name: "Fingerprint", imgUrl: "/product-icon/fingerprint.svg" },
-            { name: "Machnic Key", imgUrl: "/product-icon/machnic_key.svg" },
-          ],
-        }));
+        const res = await fetchProductsByCategory(categoryId);
+        const mapped = res.data.map(mapProduct);
         setProducts(mapped);
-      } catch (error) {
-        console.error("Product fetch failed:", error);
+      } catch (err) {
+        console.error("Error fetching category products", err);
         setProducts([]);
       } finally {
         setLoading(false);
@@ -55,7 +68,7 @@ export const ProductList = () => {
     };
 
     loadProducts();
-  }, [categoryId]);
+  }, [categoryId, passedState]);
 const [loading, setLoading] = useState(true);
 
   useEffect(() => {

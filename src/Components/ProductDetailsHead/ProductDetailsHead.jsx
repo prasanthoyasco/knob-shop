@@ -1,9 +1,13 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import "./ProductDetailsHead.css";
 import ProductImageSlider from "../ProductImageSlider/ProductImageSlider";
 import { useCart } from "../../Context/CartContext"; // Make sure the path is correct
-
+import { getProductById } from "../../API/productApi";
+import { useParams } from "react-router-dom";
 export default function ProductDetailsHead() {
+  const { id } = useParams(); // get product id from URL
+  const [product, setProduct] = useState(null);
+
   const [selectedColor, setSelectedColor] = useState("black");
   const [quantity, setQuantity] = useState(1);
   const [pincode, setPincode] = useState("");
@@ -11,15 +15,35 @@ export default function ProductDetailsHead() {
 
   const { addToCart, toggleDrawer } = useCart();
 
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        const res = await getProductById(id);
+        console.log("productsDetails : ",res)
+        setProduct(res); // adjust if your API shape differs
+
+      } catch (err) {
+        console.error("Failed to fetch product", err);
+      }
+    };
+
+    fetchProduct();
+  }, [id]);
+
+
+
   const cartItem = {
-    id: "ydme100nxt",
-    title: "YDM50NXT Smart Door Lock",
-    image:
-      "https://yaleonline.in/cdn/shop/products/3_81f1fa71-fe33-40c6-afa8-fc7243435f3f.jpg",
-    price: 89299,
-    quantity: quantity,
-    color: selectedColor,
+    id: product?._id,
+    title: product?.name, // <- use 'name' not 'title'
+    image: product?.images?.[0] || "default.jpg",
+    price: product?.price,
+    quantity,
+    color: selectedColor || null,
+    category: product?.category?.category_name || "", // <- correct property name
+    productId: product?.productId || "",
   };
+  
+  
 
   const handleCheck = () => {
     if (pincode.trim()) {
@@ -54,7 +78,7 @@ export default function ProductDetailsHead() {
           <span className="breadcrumb-item">Home</span>
           <span className="breadcrumb-item">Shop by Categories</span>
           <span className="breadcrumb-item">Digital Lockers</span>
-          <span className="breadcrumb-item active">YDME100NxT</span>
+          <span className="breadcrumb-item active">{cartItem.title}</span>
         </nav>
 
         <div className="row g-4">
@@ -82,7 +106,7 @@ export default function ProductDetailsHead() {
               </div>
             </div>
 
-            <h3 className="fw-bold mb-2">YDME50NxT Smart Door Lock</h3>
+            <h3 className="fw-bold mb-2">{cartItem.title}</h3>
 
             <div className="d-flex align-items-center mb-2 flex-wrap gap-1">
               <span className="text-warning me-2 fs-5">★ ★ ★ ★ ☆</span>
@@ -101,7 +125,7 @@ export default function ProductDetailsHead() {
             {/* Pricing */}
             <div className="mb-3">
               <h4 className="fw-bold d-flex align-items-center flex-wrap gap-2">
-                <span style={{ color: "#D6791F" }}>₹ 89,299</span>
+                <span style={{ color: "#D6791F" }}>{cartItem.price}</span>
                 <span
                   className="fw-semibold text-info"
                   style={{ fontSize: "14px" }}
