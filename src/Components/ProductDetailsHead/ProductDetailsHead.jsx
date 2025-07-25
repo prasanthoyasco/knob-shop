@@ -7,7 +7,7 @@ import { useParams } from "react-router-dom";
 export default function ProductDetailsHead() {
   const { id } = useParams(); // get product id from URL
   const [product, setProduct] = useState(null);
-
+  const [pincodeInfo, setPincodeInfo] = useState(null);
   const [selectedColor, setSelectedColor] = useState("black");
   const [quantity, setQuantity] = useState(1);
   const [pincode, setPincode] = useState("");
@@ -19,7 +19,7 @@ export default function ProductDetailsHead() {
     const fetchProduct = async () => {
       try {
         const res = await getProductById(id);
-        console.log("productsDetails : ",res)
+        console.log("product variant title: ", res?.variant?.[0]?.title);
         setProduct(res); // adjust if your API shape differs
 
       } catch (err) {
@@ -34,22 +34,57 @@ export default function ProductDetailsHead() {
 
   const cartItem = {
     id: product?._id,
-    title: product?.name, // <- use 'name' not 'title'
+    title: product?.name,
     image: product?.images?.[0] || "default.jpg",
     price: product?.price,
+    mrpPrice: product?.compare_price,
+    brand: product?.brand,
     quantity,
-    color: selectedColor || null,
-    category: product?.category?.category_name || "", // <- correct property name
+    color: selectedColor || product?.variant?.[0]?.value || null,
+    colorsText: product?.variant?.[0]?.title || "", // ← safe fallback
+    category: product?.category?.category_name || "",
     productId: product?.productId || "",
+    savePrice: product?.compare_price - product?.price,
+    Features :  product?.key_features?.title,
+    FeaturesIcon :  product?.key_features?.image,
   };
+  
+  
   
   
 
-  const handleCheck = () => {
-    if (pincode.trim()) {
-      setIsChecked(true);
+  const handleCheck = async () => {
+    const pinRegex = /^[1-9][0-9]{5}$/;
+  
+    if (!pinRegex.test(pincode)) {
+      setIsChecked("invalid");
+      setPincodeInfo(null);
+      return;
+    }
+  
+    try {
+      const res = await fetch(`https://api.postalpincode.in/pincode/${pincode}`);
+      const data = await res.json();
+  
+      if (data[0].Status === "Success" && data[0].PostOffice?.length > 0) {
+        const office = data[0].PostOffice[0];
+        setPincodeInfo({
+          name: office.Name,
+          district: office.District,
+          state: office.State,
+        });
+        setIsChecked("valid");
+      } else {
+        setIsChecked("not_found");
+        setPincodeInfo(null);
+      }
+    } catch (error) {
+      console.error("Pincode check error:", error);
+      setIsChecked("error");
+      setPincodeInfo(null);
     }
   };
+  
 
   const handleShare = async () => {
     const shareData = {
@@ -90,7 +125,7 @@ export default function ProductDetailsHead() {
           {/* Details */}
           <div className="col-12 col-md-6">
             <div className="d-flex justify-content-between align-items-center mb-3 mb-md-2">
-              <p className="text-muted fw-semibold mb-0">Brand : Yale</p>
+              <p className="text-muted fw-semibold mb-0">Brand : {cartItem.brand}</p>
               <div className="d-flex gap-3">
                 <img
                   src="/share.svg"
@@ -130,13 +165,13 @@ export default function ProductDetailsHead() {
                   className="fw-semibold text-info"
                   style={{ fontSize: "14px" }}
                 >
-                  05% OFF
+                  {cartItem.discount}% OFF
                 </span>
               </h4>
               <p className="text-muted">
-                MRP: ₹ <s>90,000</s>{" "}
+                MRP: ₹ <s>{cartItem.mrpPrice}</s>{" "}
                 <span className="text-success fw-semibold ms-2">
-                  You Save ₹ 701
+                  You Save ₹ {cartItem.savePrice}
                 </span>
               </p>
               <p className="text-muted small">Inclusive of all taxes</p>
@@ -144,25 +179,31 @@ export default function ProductDetailsHead() {
 
             {/* Color Selection */}
             <div className="mb-3">
-              <p className="text-muted mb-1">
-                Color:{" "}
-                <span className="fw-semibold">Black & Gray Pattern</span>
-              </p>
+            <p className="text-muted mb-1">
+  Color:{" "}
+  <span className="fw-semibold">
+    {Array.isArray(cartItem.colorsText)
+      ? cartItem.colorsText.join(" & ")
+      : cartItem.colorsText}
+  </span>
+</p>
+
+
               <div className="d-flex gap-2">
-                {["black", "gray"].map((color) => (
-                  <button
-                    key={color}
-                    className={`rounded-circle border ${
-                      selectedColor === color ? "border-dark p-1" : ""
-                    }`}
-                    style={{
-                      backgroundColor: color === "black" ? "#000" : "#ddd",
-                      width: 24,
-                      height: 24,
-                    }}
-                    onClick={() => setSelectedColor(color)}
-                  />
-                ))}
+              {(product?.variant || []).map((variantOption, index) => (
+    <button
+      key={index}
+      className={`rounded-circle border ${
+        selectedColor === variantOption.value ? "border-dark p-1" : ""
+      }`}
+      style={{
+        backgroundColor: variantOption.value || "#ddd",
+        width: 24,
+        height: 24,
+      }}
+      onClick={() => setSelectedColor(variantOption.value)}
+    />
+  ))}
               </div>
             </div>
 
@@ -214,7 +255,8 @@ export default function ProductDetailsHead() {
             </div>
 
             {/* Features */}
-            <div className="d-flex flex-wrap flex-md-nowrap justify-content-between gap-2 border rounded p-3 mb-3 fw-semibold small">
+            {product?.key_features?.length > 0 && (
+            <div className="d-flex flex-wrap flex-md-nowrap justify-content-start gap-2 border rounded p-3 mb-3 fw-semibold small">
               <div className="d-block w-100 mb-3 d-md-none">
                 <span
                   style={{
@@ -227,14 +269,8 @@ export default function ProductDetailsHead() {
                 </span>
               </div>
 
-              {[
-                { icon: "fingerprint", label: "Fingerprint" },
-                { icon: "card_key", label: "Manual Card Access" },
-                { icon: "machnic_key", label: "Manual Key Access" },
-                { icon: "pin_code", label: "RFID" },
-              ].map((item) => (
+              {product.key_features.map((feature, index) => (
                 <div
-                  key={item.icon}
                   className="icons-data d-flex align-items-center gap-2"
                 >
                   <div
@@ -247,15 +283,16 @@ export default function ProductDetailsHead() {
                     }}
                   >
                     <img
-                      src={`/product-icon/${item.icon}.svg`}
-                      alt={item.label}
+                      src={`/product-icon/${feature.image}.svg`}
+                      alt={feature.title}
                       height={20}
                     />
                   </div>
-                  {item.label}
+                  {feature.title}
                 </div>
               ))}
             </div>
+            )}
 
             {/* Pincode checker */}
             <div className="mb-3">
@@ -284,18 +321,45 @@ export default function ProductDetailsHead() {
                     </button>
                   </div>
                 </div>
-                <div className="broucher fs-5 btn btn-link text-decoration-none">
-                  <h5 className="d-flex align-items-center m-0 gap-1">
+                <div className="broucher fs-5 btn btn-link text-decoration-none text-black">
+                  <a 
+                        href={product?.brochure}
+                        download
+                        target="_blank"
+                        rel="noopener noreferrer"
+                  className="d-flex align-items-center m-0 gap-1 text-decoration-none text-black">
+                    
                     <i className="bi bi-cloud-arrow-down-fill fs-4 me-1" />
                     Download Broucher
-                  </h5>
+                  </a>
                 </div>
               </div>
-              {isChecked && (
-                <p className="text-success mt-1 ms-3 fw-semibold small">
-                  Hurray!! Delivery is available!
-                </p>
-              )}
+              {isChecked === "valid" && pincodeInfo && (
+  <p className="text-success mt-1 ms-3 fw-semibold small">
+    Delivery available to <strong>{pincodeInfo.name}</strong>,{" "}
+    {pincodeInfo.district}, {pincodeInfo.state}.
+  </p>
+)}
+
+{isChecked === "invalid" && (
+  <p className="text-danger mt-1 ms-3 fw-semibold small">
+    Invalid pincode format. Please enter a 6-digit pincode.
+  </p>
+)}
+
+{isChecked === "not_found" && (
+  <p className="text-warning mt-1 ms-3 fw-semibold small">
+    Could not find details for this pincode.
+  </p>
+)}
+
+{isChecked === "error" && (
+  <p className="text-danger mt-1 ms-3 fw-semibold small">
+    Something went wrong while checking pincode.
+  </p>
+)}
+
+
             </div>
           </div>
         </div>

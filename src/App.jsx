@@ -27,6 +27,7 @@ import Return from './Components/TermsAndCondition/Return';
 import Pricing from './Components/TermsAndCondition/Pricing';
 import Waranty from './Components/TermsAndCondition/Waranty';
 import ShippingPage from './Components/ShippingPage/ShippingPage'
+import Broucher from './Components/Broucher/Broucher';
 // import NavbarTop from './Components/Navbar/NavbarTop/NavbarTop';
 
 function App() {
@@ -54,6 +55,7 @@ function App() {
        <Route path='/payment' element={<PaymentPage/>}></Route>
        <Route path='/Tracking' element={<OrderTracking/>}></Route>
        <Route path='/order-confirmed' element={<OrderConfirmed/>}></Route>
+       <Route path="/brouchers" element={<Broucher/>} />
        <Route path="*" element={<Notfound />} />
       </Routes>
       </div>

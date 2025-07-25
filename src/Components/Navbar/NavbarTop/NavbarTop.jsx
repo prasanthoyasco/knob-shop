@@ -29,7 +29,7 @@ function NavbarTop() {
                 <div className='navbar-top-facebook-insta-icon-div'>
                     <div className='navbar-top-mail-id'>
                         <img src={mail_icon} alt="E-mail" />
-                        <p>akashrajan1602@gmail.com, ecom@knobsshop.store</p>
+                        <p>ecom@knobsshop.store</p>
                     </div>
                     <div className='navbar-top-facebook-insta-icon'>
                         <img src={facebook_icon} alt="Facebook" />

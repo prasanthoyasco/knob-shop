@@ -16,3 +16,7 @@ export const getAllProducts = async () => {
         const res = await axios.get(`${BASE_URL}/category/${categoryId}`);
         return res.data;
       };
+      export const getProductBroucher = async () => {
+        const res = await axios.get(`${BASE_URL}/brochures`);
+        return res.data;
+      };

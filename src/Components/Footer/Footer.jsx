@@ -12,6 +12,7 @@ const shopContent = [
 const aboutContent = [
   {text : "About Us" , href : "/about-us"},
   {text : "Blogs" , href : "/blogs"},
+  {text : "Brouchers" , href : "/brouchers"},
 ]
 const policyContent = [
   {text : "Terms &  Condition" , href : "/terms-condition"},
@@ -90,7 +91,6 @@ function Footer() {
           <div className='icon-and-mail-id'>
           <i className="bi bi-envelope-fill"></i>
             <div className='email-id'>
-              <p>akashrajan1602@gmail.com</p>
               <p>ecom@knobsshop.store</p>
             </div>
           </div>

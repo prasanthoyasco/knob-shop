@@ -5,41 +5,58 @@ import ProductFeatures from './ProductFeatures';
 import ProductSpecificationTable from './ProductSpecificationTable';
 import YouTubeEmbed from '../YouTubeEmbed/YouTubeEmbed';
 import ReviewSection from '../ReviewSection/ReviewSection';
-
-const tabData = {
-  Description: (
-    <>
-      <p className='mt-3'>
-        YDME50 Nxt smart lock in brown color, is a smart and extremely convenient solution for your home.
-        You can have all the various access options to enter your home either via our new biometric fingerprint scan,
-        personalized PIN code.
-      </p>
-      <p className='mt-3'>
-        With so many ways to unlock today's doors, the passcode (PIN) or fingerprint seem to be the best defense
-        against intruders wanting access to your doors. With YDME 50NXT you can do just that and more with the
-        fashionable and advanced touch keypad technology.
-      </p>
-      <ul className='mt-4'>
-        <li className='my-2'><strong>Various Access:</strong> YDME 50Nxt has multiple options to access the lock – Fingerprint, Pin Code, RFID Card and Manual Key.</li>
-        <li className='mb-2'><strong>Secure Fingerprint Access:</strong> Unlock your door with a precise and rapid one-touch fingerprint.</li>
-        <li className='mb-2'><strong>Convenience:</strong> Upgrade your existing door lock (LH & RH) and supports thickness from 35mm to 65mm.</li>
-        <li className='mb-2'><strong>Warning Alert:</strong> After 3 incorrect attempts, the door locks and sounds an alarm for 3 minutes.</li>
-        <li className='mb-2'><strong>Low battery alarm:</strong> Warns in case of low battery. Uses 4× AA batteries. Retains credentials even after replacement.</li>
-        <li className='mb-2'><strong>Emergency power supply:</strong> USB-based emergency power support available for lock access.</li>
-      </ul>
-    </>
-  ),
-  Features: <ProductFeatures />,
-  'Technical Specification': <ProductSpecificationTable />,
-  Video: <YouTubeEmbed videoId="lc1msHWRvjw" />,
-  'Customer Reviews': <ReviewSection />,
-};
-
-const tabKeys = Object.keys(tabData);
+import { useParams } from 'react-router-dom';
+import { getProductById } from '../../API/productApi';
 
 export default function ProductTabs() {
+  const { id } = useParams();
   const [activeTab, setActiveTab] = useState('Description');
+  const [product, setProduct] = useState(null);
   const tabRefs = useRef({});
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await getProductById(id);
+      console.log("data from desc",data)
+      setProduct(data);
+    };
+    fetchData();
+  }, [id]);
+
+  const tabData = {
+    Description: product?.description ? (
+      <div className='mt-3' dangerouslySetInnerHTML={{ __html: product?.description }} />
+    ) : (
+      <p className="mt-3">No description available.</p>
+    ),
+
+    Features: <ProductFeatures />,
+
+    'Technical Specification': product?.specifications?.length ? (
+      <table className="table table-bordered mt-3">
+        <tbody>
+          {product.specifications.map((spec, index) => (
+            <tr key={index}>
+              <td><strong>{spec.label}</strong></td>
+              <td>{spec.value}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    ) : (
+      <ProductSpecificationTable />
+    ),
+
+    Video: product?.videoUrl ? (
+      <YouTubeEmbed videoId={extractYouTubeVideoId(product.videoUrl)} />
+    ) : (
+      <p className='mt-3'>No product video available.</p>
+    ),
+
+    'Customer Reviews': <ReviewSection />,
+  };
+
+  const tabKeys = Object.keys(tabData);
 
   const currentIndex = tabKeys.indexOf(activeTab);
 
@@ -58,13 +75,17 @@ export default function ProductTabs() {
     trackMouse: false,
   });
 
-  // 🔄 Scroll active tab into view on mobile when changed
   useEffect(() => {
     const tabButton = tabRefs.current[activeTab];
     if (tabButton && window.innerWidth < 768) {
       tabButton.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
     }
   }, [activeTab]);
+
+  function extractYouTubeVideoId(url) {
+    const match = url?.match(/(?:youtube\.com\/.*v=|youtu\.be\/)([^&]+)/);
+    return match ? match[1] : null;
+  }
 
   return (
     <div className="product-tabs my-2 mt-md-5 mx-4">

@@ -18,70 +18,71 @@ const tabs = [
   "Featured Products",
 ];
 
-// const products = [
-//   {
-//     id: 1,
-//     title: "Door Knob",
-//     price: 22490,
-//     oldPrice: 23599,
-//     discount: 5,
-//     rating: 4.9,
-//     image: bchair,
-//     icons: [
-//       { name: "Card Key", imgUrl: "/product-icon/card_key.svg" },
-//       { name: "Pin Code", imgUrl: "/product-icon/pin_code.svg" },
-//       { name: "Fingerprint", imgUrl: "/product-icon/fingerprint.svg" },
-//       { name: "Machnic Key", imgUrl: "/product-icon/machnic_key.svg" },
-//     ],
-//     hoverImage: bchair1,
-//   },
-//   {
-//     id: 3,
-//     title: "Safty Locker",
-//     price: 9490,
-//     oldPrice: 17997,
-//     discount: 47,
-//     rating: 4.9,
-//     image: chair,
-//     hoverImage: chair2,
-//   },
-//   {
-//     id: 4,
-//     title: "Door Hinje",
-//     price: 12290,
-//     oldPrice: 14412,
-//     discount: 15,
-//     rating: 4.8,
-//     image: sofa3,
-//     hoverImage: sofa3,
-//   },
-//   {
-//     id: 2,
-//     title: "Knobs- Door Knob",
-//     price: 16290,
-//     oldPrice: 19412,
-//     discount: 25,
-//     rating: 4.9,
-//     icons: [
-//       { name: "Card Key", imgUrl: "/product-icon/card_key.svg" },
-//       { name: "Pin Code", imgUrl: "/product-icon/pin_code.svg" },
-//       { name: "Fingerprint", imgUrl: "/product-icon/fingerprint.svg" },
-//       { name: "Machnic Key", imgUrl: "/product-icon/machnic_key.svg" },
-//     ],
-//     image: sofa2,
-//     hoverImage: sofa,
-//   },
-//   {
-//     id: 5,
-//     title: "Knobs",
-//     price: 19490,
-//     oldPrice: 23997,
-//     discount: 19,
-//     rating: 4.9,
-//     image: sofa,
-//     hoverImage: sofa2,
-//   },
-// ];
+const productsDefault = [
+  {
+    id: 1,
+    title: "Door Knob",
+    price: 22490,
+    oldPrice: 23599,
+    discount: 5,
+    rating: 4.9,
+    image: bchair,
+    icons: [
+      { name: "Card Key", imgUrl: "/product-icon/card_key.svg" },
+      { name: "Pin Code", imgUrl: "/product-icon/pin_code.svg" },
+      { name: "Fingerprint", imgUrl: "/product-icon/fingerprint.svg" },
+      { name: "Machnic Key", imgUrl: "/product-icon/machnic_key.svg" },
+    ],
+    hoverImage: bchair1,
+  },
+  {
+    id: 3,
+    title: "Safty Locker",
+    price: 9490,
+    oldPrice: 17997,
+    discount: 47,
+    rating: 4.9,
+    image: chair,
+    hoverImage: chair2,
+  },
+  {
+    id: 4,
+    title: "Door Hinje",
+    price: 12290,
+    oldPrice: 14412,
+    discount: 15,
+    rating: 4.8,
+    image: sofa3,
+    hoverImage: sofa3,
+  },
+  {
+    id: 2,
+    title: "Knobs- Door Knob",
+    price: 16290,
+    oldPrice: 19412,
+    discount: 25,
+    rating: 4.9,
+    icons: [
+      { name: "Card Key", imgUrl: "/product-icon/card_key.svg" },
+      { name: "Pin Code", imgUrl: "/product-icon/pin_code.svg" },
+      { name: "Fingerprint", imgUrl: "/product-icon/fingerprint.svg" },
+      { name: "Machnic Key", imgUrl: "/product-icon/machnic_key.svg" },
+    ],
+    image: sofa2,
+    hoverImage: sofa,
+  },
+  {
+    id: 5,
+    title: "Knobs",
+    price: 19490,
+    oldPrice: 23997,
+    discount: 19,
+    rating: 4.9,
+    image: sofa,
+    hoverImage: sofa2,
+  },
+];
+
 
 const TrendingProducts = () => {
   const [activeTab, setActiveTab] = useState("All Products");
@@ -108,31 +109,33 @@ const TrendingProducts = () => {
   }, []);
 
   const getFilteredProducts = () => {
+    const actualProducts = products.length === 0 ? productsDefault : products;
+
     switch (activeTab) {
       case "Latest Products":
-        return [...products]
-          .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-          .slice(0, 10); // Adjust count if needed
-  
+        return [...actualProducts]
+          .sort((a, b) => new Date(b.createdAt || Date.now()) - new Date(a.createdAt || Date.now()))
+          .slice(0, 10);
+
       case "Best Sellers":
-        return products.filter(product => product.price > 10000); // Example logic
-  
+        return actualProducts.filter((product) => product.price > 10000);
+
       case "Featured Products":
-        return products.filter(product => product.discount?.isActive);
-  
-      case "All Products":
+        return actualProducts.filter((product) => product.discount || product.discount?.isActive);
+
       default:
-        return products;
+        return actualProducts;
     }
   };
+
   
 
   const handleViewAll = () => {
-    console.log("Products being passed to category page:", products);
+    const actualProducts = products.length === 0 ? productsDefault : products;
     navigate("/category/all-products", {
       state: {
         product: {
-          productList: products,
+          productList: actualProducts,
           text: "All Products",
         },
       },
@@ -248,10 +251,12 @@ const TrendingProducts = () => {
     title: name,
     price: price || 0,
     oldPrice: compare_price || price || 0,
-    discount: discount?.isActive ? discount.value : 0,
+    discount: discount?.isActive ? discount.value : "",
     rating: 4.9, // or product.rating if available from backend
     image: images?.[0] || chair, // fallback image
     hoverImage: images?.[1] || images?.[0] || chair2, // fallback
+    features: features || [],
+    icons: product.icons || productsDefault.find((item) => item.icons)?.icons || [],
   };
 
   return (
