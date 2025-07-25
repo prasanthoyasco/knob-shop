@@ -1,23 +1,23 @@
-import React, { useRef, useState, useEffect } from 'react';
-import { useSwipeable } from 'react-swipeable';
-import './ProductTabs.css';
-import ProductFeatures from './ProductFeatures';
-import ProductSpecificationTable from './ProductSpecificationTable';
-import YouTubeEmbed from '../YouTubeEmbed/YouTubeEmbed';
-import ReviewSection from '../ReviewSection/ReviewSection';
-import { useParams } from 'react-router-dom';
-import { getProductById } from '../../API/productApi';
+import React, { useRef, useState, useEffect } from "react";
+import { useSwipeable } from "react-swipeable";
+import "./ProductTabs.css";
+import ProductFeatures from "./ProductFeatures";
+import ProductSpecificationTable from "./ProductSpecificationTable";
+import YouTubeEmbed from "../YouTubeEmbed/YouTubeEmbed";
+import ReviewSection from "../ReviewSection/ReviewSection";
+import { useParams } from "react-router-dom";
+import { getProductById } from "../../API/productApi";
 
 export default function ProductTabs() {
   const { id } = useParams();
-  const [activeTab, setActiveTab] = useState('Description');
+  const [activeTab, setActiveTab] = useState("Description");
   const [product, setProduct] = useState(null);
   const tabRefs = useRef({});
 
   useEffect(() => {
     const fetchData = async () => {
       const data = await getProductById(id);
-      console.log("data from desc",data)
+      console.log("data from desc", data);
       setProduct(data);
     };
     fetchData();
@@ -25,35 +25,30 @@ export default function ProductTabs() {
 
   const tabData = {
     Description: product?.description ? (
-      <div className='mt-3' dangerouslySetInnerHTML={{ __html: product?.description }} />
+      <div className="mt-3">
+        {product.description.split("\n").map((line, i) => (
+          <p key={i} className="mb-1">
+            {line}
+          </p>
+        ))}
+      </div>
     ) : (
       <p className="mt-3">No description available.</p>
     ),
 
     Features: <ProductFeatures />,
 
-    'Technical Specification': product?.specifications?.length ? (
-      <table className="table table-bordered mt-3">
-        <tbody>
-          {product.specifications.map((spec, index) => (
-            <tr key={index}>
-              <td><strong>{spec.label}</strong></td>
-              <td>{spec.value}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    ) : (
-      <ProductSpecificationTable />
-    ),
+    ...(product?.tech_spec?.length > 0 && {
+      "Technical Specification": (
+        <ProductSpecificationTable specifications={product.tech_spec} />
+      ),
+    }),
 
-    Video: product?.videoUrl ? (
-      <YouTubeEmbed videoId={extractYouTubeVideoId(product.videoUrl)} />
-    ) : (
-      <p className='mt-3'>No product video available.</p>
-    ),
+    ...(product?.videoUrl && {
+      Video: <YouTubeEmbed videoId={extractYouTubeVideoId(product.videoUrl)} />,
+    }),
 
-    'Customer Reviews': <ReviewSection />,
+    "Customer Reviews": <ReviewSection />,
   };
 
   const tabKeys = Object.keys(tabData);
@@ -78,7 +73,11 @@ export default function ProductTabs() {
   useEffect(() => {
     const tabButton = tabRefs.current[activeTab];
     if (tabButton && window.innerWidth < 768) {
-      tabButton.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+      tabButton.scrollIntoView({
+        behavior: "smooth",
+        inline: "center",
+        block: "nearest",
+      });
     }
   }, [activeTab]);
 
@@ -94,7 +93,7 @@ export default function ProductTabs() {
           <li className="nav-item" key={tab}>
             <button
               ref={(el) => (tabRefs.current[tab] = el)}
-              className={`nav-link ${activeTab === tab ? 'active' : ''}`}
+              className={`nav-link ${activeTab === tab ? "active" : ""}`}
               onClick={() => setActiveTab(tab)}
             >
               {tab}
@@ -106,7 +105,7 @@ export default function ProductTabs() {
       <div
         {...swipeHandlers}
         className="tab-content border-noborder p-2 p-md-4 bg-white"
-        style={{ touchAction: 'pan-y' }}
+        style={{ touchAction: "pan-y" }}
       >
         {tabData[activeTab]}
       </div>
