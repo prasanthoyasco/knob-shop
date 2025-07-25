@@ -58,9 +58,10 @@ const RelatedProductsSection = ({ products = [] }) => {
     title: product?.name,
     price: product?.price,
     oldPrice: product?.compare_price,
-    discount: product?.discount?.value,
+    discount: product?.discount?.value || "",
     rating: product?.rating ?? 4.5, // fallback if no rating
     image: product?.images?.[0],
+    icons: product?.key_features,
     hoverImage: product.images?.[1] || product.images?.[0],
   };
 

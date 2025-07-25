@@ -97,10 +97,29 @@ const ProductCard = ({ product }) => {
 let icons = product.icons;
 
 // If icons are not available, find a match in productsDefault by title
+
+// If no icons are provided in product, fallback to matching product from productsDefault
 if (!icons || icons.length === 0) {
-  const defaultMatch = productsDefault.find((p) => p.title === title);
+  const defaultMatch = productsDefault.find(
+    (p) => p.title?.trim().toLowerCase() === title?.trim().toLowerCase()
+  );
   icons = defaultMatch?.icons || [];
+
+  if (icons.length > 0) {
+    console.log("✅ Using fallback icons from productsDefault:", icons);
+  } else {
+    console.warn("⚠️ No icons found for:", title, " → using default icons.");
+    // ✅ Default icon set
+    icons = [
+      { name: "Card Key", imgUrl: "/product-icon/card_key.svg" },
+      { name: "Pin Code", imgUrl: "/product-icon/pin_code.svg" },
+      { name: "Fingerprint", imgUrl: "/product-icon/fingerprint.svg" },
+      { name: "Machnic Key", imgUrl: "/product-icon/machnic_key.svg" },
+    ];
+  }
 }
+
+
 
   return (
    <div className="card product-card h-100 position-relative curser-pointer">
