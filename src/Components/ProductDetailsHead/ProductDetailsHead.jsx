@@ -269,8 +269,9 @@ export default function ProductDetailsHead() {
                 </span>
               </div>
 
-              {product.key_features.map((feature, index) => (
+              {product.key_features && product.key_features.map((feature, index) => (
                 <div
+                key={index}
                   className="icons-data d-flex align-items-center gap-2"
                 >
                   <div
@@ -283,7 +284,7 @@ export default function ProductDetailsHead() {
                     }}
                   >
                     <img
-                      src={`/product-icon/${feature.image}.svg`}
+                      src={`/${feature.image}`}
                       alt={feature.title}
                       height={20}
                     />
@@ -321,6 +322,7 @@ export default function ProductDetailsHead() {
                     </button>
                   </div>
                 </div>
+                { product?.brochure &&
                 <div className="broucher fs-5 btn btn-link text-decoration-none text-black">
                   <a 
                         href={product?.brochure}
@@ -333,7 +335,9 @@ export default function ProductDetailsHead() {
                     Download Broucher
                   </a>
                 </div>
+                }
               </div>
+              
               {isChecked === "valid" && pincodeInfo && (
   <p className="text-success mt-1 ms-3 fw-semibold small">
     Delivery available to <strong>{pincodeInfo.name}</strong>,{" "}
