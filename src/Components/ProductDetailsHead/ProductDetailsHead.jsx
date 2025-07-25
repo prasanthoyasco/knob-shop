@@ -39,13 +39,13 @@ export default function ProductDetailsHead() {
     title: product?.name,
     image: product?.images?.[0] || "default.jpg",
     price: product?.price,
+    productId: product?.productId,
     mrpPrice: product?.compare_price,
     brand: product?.brand,
     quantity,
     color: selectedColor || product?.variant?.[0]?.value || null,
     colorsText: product?.variant?.[0]?.title || "", // ← safe fallback
     category: product?.category?.category_name || "",
-    productId: product?.productId || "",
     savePrice: product?.compare_price - product?.price,
     Features: product?.key_features?.title,
     FeaturesIcon: product?.key_features?.image,
@@ -147,8 +147,8 @@ export default function ProductDetailsHead() {
           {/* Details */}
           <div className="col-12 col-md-6">
             <div className="d-flex justify-content-between align-items-center mb-3 mb-md-2">
-              <p className="text-muted fw-semibold mb-0">
-                Brand : {cartItem.brand}
+              <p className="text-muted fw-medium mb-0 d-flex gap-2">
+                <strong>Brand :</strong> {cartItem.brand} <strong> SKU :</strong> {cartItem.productId}
               </p>
               <div className="d-flex gap-3">
                 <img
@@ -384,6 +384,9 @@ export default function ProductDetailsHead() {
                   Something went wrong while checking pincode.
                 </p>
               )}
+              <p className="text-gray mt-4 ms-3 fw-medium small">
+                  For other Querys call this  <a href="tel:+919876543210" className="text-black fw-bold">+91 98765 43210</a>
+                </p>
             </div>
           </div>
         </div>
