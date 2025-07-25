@@ -82,7 +82,7 @@ export const ProductDetails = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const timeout = setTimeout(() => setLoading(false), 10000); // 10 seconds
+    const timeout = setTimeout(() => setLoading(false), 2000); // 10 seconds
     return () => clearTimeout(timeout);
   }, []);
 

@@ -59,6 +59,8 @@ function Broucher() {
     async function fetchBrochures() {
       try {
         const response = await getProductBroucher();
+        console.log(response);
+        
         setBrochures(response || []);
       } catch (error) {
         console.error("Error fetching brochures:", error);
