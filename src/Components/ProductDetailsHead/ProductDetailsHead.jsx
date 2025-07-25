@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import "./ProductDetailsHead.css";
 import ProductImageSlider from "../ProductImageSlider/ProductImageSlider";
 import { useCart } from "../../Context/CartContext"; // Make sure the path is correct
@@ -11,61 +11,61 @@ export default function ProductDetailsHead() {
   const [selectedColor, setSelectedColor] = useState("black");
   const [quantity, setQuantity] = useState(1);
   const [pincode, setPincode] = useState("");
+  const [loading, setLoading] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
 
   const { addToCart, toggleDrawer } = useCart();
 
   useEffect(() => {
     const fetchProduct = async () => {
+      setLoading(true);
       try {
         const res = await getProductById(id);
         console.log("product variant title: ", res?.variant?.[0]?.title);
         setProduct(res); // adjust if your API shape differs
-
       } catch (err) {
         console.error("Failed to fetch product", err);
+      }
+      finally{
+        setLoading(false);
       }
     };
 
     fetchProduct();
   }, [id]);
 
-
-
   const cartItem = {
     id: product?._id,
     title: product?.name,
     image: product?.images?.[0] || "default.jpg",
     price: product?.price,
+    productId: product?.productId,
     mrpPrice: product?.compare_price,
     brand: product?.brand,
     quantity,
     color: selectedColor || product?.variant?.[0]?.value || null,
     colorsText: product?.variant?.[0]?.title || "", // ← safe fallback
     category: product?.category?.category_name || "",
-    productId: product?.productId || "",
     savePrice: product?.compare_price - product?.price,
-    Features :  product?.key_features?.title,
-    FeaturesIcon :  product?.key_features?.image,
+    Features: product?.key_features?.title,
+    FeaturesIcon: product?.key_features?.image,
   };
-  
-  
-  
-  
 
   const handleCheck = async () => {
     const pinRegex = /^[1-9][0-9]{5}$/;
-  
+
     if (!pinRegex.test(pincode)) {
       setIsChecked("invalid");
       setPincodeInfo(null);
       return;
     }
-  
+
     try {
-      const res = await fetch(`https://api.postalpincode.in/pincode/${pincode}`);
+      const res = await fetch(
+        `https://api.postalpincode.in/pincode/${pincode}`
+      );
       const data = await res.json();
-  
+
       if (data[0].Status === "Success" && data[0].PostOffice?.length > 0) {
         const office = data[0].PostOffice[0];
         setPincodeInfo({
@@ -84,7 +84,6 @@ export default function ProductDetailsHead() {
       setPincodeInfo(null);
     }
   };
-  
 
   const handleShare = async () => {
     const shareData = {
@@ -105,6 +104,26 @@ export default function ProductDetailsHead() {
     }
   };
 
+  const ProductDetailsSkeleton = () => (
+  <div className="row g-4">
+    <div className="col-12 col-md-6">
+      <div className="skeleton-box w-100" style={{ height: "400px" }}></div>
+    </div>
+    <div className="col-12 col-md-6">
+      <div className="skeleton-box mb-2" style={{ height: "20px", width: "30%" }}></div>
+      <div className="skeleton-box mb-3" style={{ height: "30px", width: "60%" }}></div>
+      <div className="skeleton-box mb-3" style={{ height: "100px", width: "100%" }}></div>
+      <div className="skeleton-box mb-2" style={{ height: "40px", width: "40%" }}></div>
+      <div className="d-flex gap-2">
+        <div className="skeleton-box rounded-circle" style={{ height: 24, width: 24 }}></div>
+        <div className="skeleton-box rounded-circle" style={{ height: 24, width: 24 }}></div>
+        <div className="skeleton-box rounded-circle" style={{ height: 24, width: 24 }}></div>
+      </div>
+    </div>
+  </div>
+);
+
+
   return (
     <>
       <div className="container-fluid pt-4 px-3 px-md-5">
@@ -116,6 +135,9 @@ export default function ProductDetailsHead() {
           <span className="breadcrumb-item active">{cartItem.title}</span>
         </nav>
 
+    {loading ? (
+      <ProductDetailsSkeleton />
+    ) :(
         <div className="row g-4">
           {/* Image Section */}
           <div className="col-12 col-md-6">
@@ -125,7 +147,9 @@ export default function ProductDetailsHead() {
           {/* Details */}
           <div className="col-12 col-md-6">
             <div className="d-flex justify-content-between align-items-center mb-3 mb-md-2">
-              <p className="text-muted fw-semibold mb-0">Brand : {cartItem.brand}</p>
+              <p className="text-muted fw-medium mb-0 d-flex gap-2">
+                <strong>Brand :</strong> {cartItem.brand} <strong> SKU :</strong> {cartItem.productId}
+              </p>
               <div className="d-flex gap-3">
                 <img
                   src="/share.svg"
@@ -152,9 +176,7 @@ export default function ProductDetailsHead() {
 
             <div className="mb-3 d-flex gap-2">
               <img src="/up-arrow.svg" alt="" style={{ height: "18px" }} />
-              <span className="text-muted small">
-                Ordered by 39 Customers
-              </span>
+              <span className="text-muted small">Ordered by 39 Customers</span>
             </div>
 
             {/* Pricing */}
@@ -179,31 +201,32 @@ export default function ProductDetailsHead() {
 
             {/* Color Selection */}
             <div className="mb-3">
-            <p className="text-muted mb-1">
-  Color:{" "}
-  <span className="fw-semibold">
-    {Array.isArray(cartItem.colorsText)
-      ? cartItem.colorsText.join(" & ")
-      : cartItem.colorsText}
-  </span>
-</p>
-
+              <p className="text-muted mb-1">
+                Color:{" "}
+                <span className="fw-semibold">
+                  {Array.isArray(cartItem.colorsText)
+                    ? cartItem.colorsText.join(" & ")
+                    : cartItem.colorsText}
+                </span>
+              </p>
 
               <div className="d-flex gap-2">
-              {(product?.variant || []).map((variantOption, index) => (
-    <button
-      key={index}
-      className={`rounded-circle border ${
-        selectedColor === variantOption.value ? "border-dark p-1" : ""
-      }`}
-      style={{
-        backgroundColor: variantOption.value || "#ddd",
-        width: 24,
-        height: 24,
-      }}
-      onClick={() => setSelectedColor(variantOption.value)}
-    />
-  ))}
+                {(product?.variant || []).map((variantOption, index) => (
+                  <button
+                    key={index}
+                    className={`rounded-circle border ${
+                      selectedColor === variantOption.value
+                        ? "border-dark p-1"
+                        : ""
+                    }`}
+                    style={{
+                      backgroundColor: variantOption.value || "#ddd",
+                      width: 24,
+                      height: 24,
+                    }}
+                    onClick={() => setSelectedColor(variantOption.value)}
+                  />
+                ))}
               </div>
             </div>
 
@@ -214,9 +237,7 @@ export default function ProductDetailsHead() {
                 style={{ height: 50 }}
               >
                 <button
-                  onClick={() =>
-                    setQuantity((prev) => Math.max(prev - 1, 1))
-                  }
+                  onClick={() => setQuantity((prev) => Math.max(prev - 1, 1))}
                   className="btn btn-sm px-2"
                 >
                   −
@@ -256,43 +277,44 @@ export default function ProductDetailsHead() {
 
             {/* Features */}
             {product?.key_features?.length > 0 && (
-            <div className="d-flex flex-wrap flex-md-nowrap justify-content-start gap-2 border rounded p-3 mb-3 fw-semibold small">
-              <div className="d-block w-100 mb-3 d-md-none">
-                <span
-                  style={{
-                    color: "#d6791f",
-                    fontWeight: "600",
-                    fontSize: "18px",
-                  }}
-                >
-                  Product Specifications
-                </span>
-              </div>
-
-              {product.key_features && product.key_features.map((feature, index) => (
-                <div
-                key={index}
-                  className="icons-data d-flex align-items-center gap-2"
-                >
-                  <div
-                    className="rounded-circle p-2 d-flex align-items-center justify-content-center"
+              <div className="d-flex flex-wrap flex-md-nowrap justify-content-start gap-2 border rounded p-3 mb-3 fw-semibold small">
+                <div className="d-block w-100 mb-3 d-md-none">
+                  <span
                     style={{
-                      width: 34,
-                      height: 34,
-                      border: "1px solid #515151",
-                      background: "#F8F8F8",
+                      color: "#d6791f",
+                      fontWeight: "600",
+                      fontSize: "18px",
                     }}
                   >
-                    <img
-                      src={`/${feature.image}`}
-                      alt={feature.title}
-                      height={20}
-                    />
-                  </div>
-                  {feature.title}
+                    Product Specifications
+                  </span>
                 </div>
-              ))}
-            </div>
+
+                {product.key_features &&
+                  product.key_features.map((feature, index) => (
+                    <div
+                      key={index}
+                      className="icons-data d-flex align-items-center gap-2"
+                    >
+                      <div
+                        className="rounded-circle p-2 d-flex align-items-center justify-content-center"
+                        style={{
+                          width: 34,
+                          height: 34,
+                          border: "1px solid #515151",
+                          background: "#F8F8F8",
+                        }}
+                      >
+                        <img
+                          src={`/${feature.image}`}
+                          alt={feature.title}
+                          height={20}
+                        />
+                      </div>
+                      {feature.title}
+                    </div>
+                  ))}
+              </div>
             )}
 
             {/* Pincode checker */}
@@ -322,51 +344,53 @@ export default function ProductDetailsHead() {
                     </button>
                   </div>
                 </div>
-                { product?.brochure &&
-                <div className="broucher fs-5 btn btn-link text-decoration-none text-black">
-                  <a 
-                        href={product?.brochure}
-                        download
-                        target="_blank"
-                        rel="noopener noreferrer"
-                  className="d-flex align-items-center m-0 gap-1 text-decoration-none text-black">
-                    
-                    <i className="bi bi-cloud-arrow-down-fill fs-4 me-1" />
-                    Download Broucher
-                  </a>
-                </div>
-                }
+                {product?.brochure && (
+                  <div className="broucher fs-5 btn btn-link text-decoration-none text-black">
+                    <a
+                      href={product?.brochure}
+                      download
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="d-flex align-items-center m-0 gap-1 text-decoration-none text-black"
+                    >
+                      <i className="bi bi-cloud-arrow-down-fill fs-4 me-1" />
+                      Download Broucher
+                    </a>
+                  </div>
+                )}
               </div>
-              
+
               {isChecked === "valid" && pincodeInfo && (
-  <p className="text-success mt-1 ms-3 fw-semibold small">
-    Delivery available to <strong>{pincodeInfo.name}</strong>,{" "}
-    {pincodeInfo.district}, {pincodeInfo.state}.
-  </p>
-)}
+                <p className="text-success mt-1 ms-3 fw-semibold small">
+                  Delivery available to <strong>{pincodeInfo.name}</strong>,{" "}
+                  {pincodeInfo.district}, {pincodeInfo.state}.
+                </p>
+              )}
 
-{isChecked === "invalid" && (
-  <p className="text-danger mt-1 ms-3 fw-semibold small">
-    Invalid pincode format. Please enter a 6-digit pincode.
-  </p>
-)}
+              {isChecked === "invalid" && (
+                <p className="text-danger mt-1 ms-3 fw-semibold small">
+                  Invalid pincode format. Please enter a 6-digit pincode.
+                </p>
+              )}
 
-{isChecked === "not_found" && (
-  <p className="text-warning mt-1 ms-3 fw-semibold small">
-    Could not find details for this pincode.
-  </p>
-)}
+              {isChecked === "not_found" && (
+                <p className="text-warning mt-1 ms-3 fw-semibold small">
+                  Could not find details for this pincode.
+                </p>
+              )}
 
-{isChecked === "error" && (
-  <p className="text-danger mt-1 ms-3 fw-semibold small">
-    Something went wrong while checking pincode.
-  </p>
-)}
-
-
+              {isChecked === "error" && (
+                <p className="text-danger mt-1 ms-3 fw-semibold small">
+                  Something went wrong while checking pincode.
+                </p>
+              )}
+              <p className="text-gray mt-4 ms-3 fw-medium small">
+                  For other Querys call this  <a href="tel:+919876543210" className="text-black fw-bold">+91 98765 43210</a>
+                </p>
             </div>
           </div>
         </div>
+        )}
       </div>
     </>
   );
