@@ -44,6 +44,19 @@ export default function ProductTabs() {
       ),
     }),
 
+    ...(product?.description && {
+      "Instalization Guide": (
+        <div className="mt-3">
+          {product.description.split("\n").map((line, i) => (
+            <p key={i} className="mb-1">
+              {line}
+            </p>
+          ))}
+        </div>
+      ),
+    }),
+    
+
     ...(product?.videoUrl && {
       Video: <YouTubeEmbed videoId={extractYouTubeVideoId(product.videoUrl)} />,
     }),
