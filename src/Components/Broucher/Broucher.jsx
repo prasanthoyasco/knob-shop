@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./Broucher.css";
 import NavbarTop from "../Navbar/NavbarTop/NavbarTop";
 import Footer from "../Footer/Footer";
-import { getProductBroucher } from "../../API/productApi";
+import { getAllBrochures } from "../../API/brochures";
 import image1 from "../../Assets/Product Categories and its Product (Knobs Shop)/Smart Door Lock/Smart Door Lock/Luna Pro+ Facial/1_3819cf62-66f2-4a8a-b562-eddb7d96a57c.webp";
 
 function Broucher() {
@@ -10,14 +10,14 @@ function Broucher() {
   const [filteredBrochures, setFilteredBrochures] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [sortVisible, setSortVisible] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState("All");
 
   useEffect(() => {
     async function fetchBrochures() {
       try {
-        const response = await getProductBroucher();
-        console.log(response);
+        const response = await getAllBrochures();
         
-        setBrochures(response || []);
+        setBrochures(response.brochures || []);
         setFilteredBrochures(response || []);
       } catch (error) {
         console.error("Error fetching brochures:", error);
@@ -30,25 +30,30 @@ function Broucher() {
   // Filter + Sort
   useEffect(() => {
     let temp = [...brochures];
-
+  
     if (searchTerm.trim() !== "") {
       temp = temp.filter((item) =>
-        item.name?.toLowerCase().includes(searchTerm.toLowerCase())
+        item.title?.toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
-
+  
+    if (selectedCategory !== "All") {
+      temp = temp.filter((item) => item.category === selectedCategory);
+    }
+  
     setFilteredBrochures(temp);
-  }, [searchTerm, brochures]);
+  }, [searchTerm, selectedCategory, brochures]);
+  
 
   const handleSort = (type) => {
     const sorted = [...filteredBrochures];
 
     switch (type) {
-      case "name":
-        sorted.sort((a, b) => a.name.localeCompare(b.name));
+      case "title":
+        sorted.sort((a, b) => a.title.localeCompare(b.title));
         break;
-      case "sku":
-        sorted.sort((a, b) => a.SKU.localeCompare(b.SKU));
+      case "category":
+        sorted.sort((a, b) => a.category.localeCompare(b.category));
         break;
       case "newest":
         sorted.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
@@ -103,8 +108,8 @@ function Broucher() {
 
               {sortVisible && (
                 <div className="broucher-sort-dropdown">
-                  <div onClick={() => handleSort("name")}>Name (A-Z)</div>
-                  <div onClick={() => handleSort("sku")}>SKU (A-Z)</div>
+                  <div onClick={() => handleSort("title")}>Name (A-Z)</div>
+                  <div onClick={() => handleSort("category")}>Categories (A-Z)</div>
                   <div onClick={() => handleSort("newest")}>Newest First</div>
                 </div>
               )}
@@ -119,7 +124,7 @@ function Broucher() {
                 <div className="brochure-preview-frame-wrapper">
                   <iframe
                     src={`https://docs.google.com/gview?url=${encodeURIComponent(
-                      item.brochure
+                      item.pdfLink
                     )}&embedded=true`}
                     title={`Brochure for ${item.name}`}
                     className="brochure-preview-iframe"
@@ -128,9 +133,9 @@ function Broucher() {
                 </div>
                 <div className="brochure-meta">
                   <p>
-                    <strong>{item.name}</strong>
+                    <strong>{item.title}</strong>
                   </p>
-                  <p>SKU: {item.SKU}</p>
+                  <p>Categories: {item.category}</p>
                 </div>
               </div>
             ))
