@@ -6,7 +6,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
-import singleCarosal1 from '../../Assets/Untitled/w1.jpg';
+import singleCarosal1 from '../../Assets/blogcoverphoto.jpg';
 import singleCarosal2 from '../../Assets/Untitled/w2.jpg';
 import singleCarosal3 from '../../Assets/Untitled/w3.jpg';
 import './SingleCarosal.css';
