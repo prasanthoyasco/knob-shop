@@ -13,7 +13,8 @@ export default function ProductDetailsHead() {
   const [pincode, setPincode] = useState("");
   const [loading, setLoading] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
-
+  const [selectedVariant, setSelectedVariant] = useState(null);
+  const [currentImages, setCurrentImages] = useState([]);
   const { addToCart, toggleDrawer } = useCart();
 
   useEffect(() => {
@@ -21,32 +22,38 @@ export default function ProductDetailsHead() {
       setLoading(true);
       try {
         const res = await getProductById(id);
-        console.log("product variant title: ", res?.variant?.[0]?.title);
-        setProduct(res); // adjust if your API shape differs
+        setProduct(res);
+        setCurrentImages(res.images); // default images
+        setSelectedVariant(null);     // no variant selected initially
       } catch (err) {
         console.error("Failed to fetch product", err);
-      }
-      finally{
+      } finally {
         setLoading(false);
       }
     };
-
+  
     fetchProduct();
   }, [id]);
+  
+
+  const handleVariantClick = (variant) => {
+    setSelectedVariant(variant);
+    setCurrentImages(variant.images);
+  };
 
   const cartItem = {
     id: product?._id,
     title: product?.name,
-    image: product?.images?.[0] || "default.jpg",
+    image: selectedVariant?.images?.[0] || product?.images?.[0] || "default.jpg",
     price: product?.price,
     productId: product?.productId,
     mrpPrice: product?.compare_price,
     brand: product?.brand,
     quantity,
-    color: selectedColor || product?.variant?.[0]?.value || null,
-    colorsText: product?.variant?.[0]?.title || "", // ← safe fallback
+    color: selectedVariant?.value || "",
+    colorsText: selectedVariant?.title || "",
     category: product?.category?.category_name || "",
-    savePrice: product?.compare_price - product?.price,
+    savePrice: product?.compare_price - (selectedVariant?.price || product?.price),
     Features: product?.key_features?.title,
     FeaturesIcon: product?.key_features?.image,
   };
@@ -141,7 +148,7 @@ export default function ProductDetailsHead() {
         <div className="row g-4">
           {/* Image Section */}
           <div className="col-12 col-md-6">
-            <ProductImageSlider />
+ {currentImages.length > 0 && <ProductImageSlider imageList={currentImages} />}
           </div>
 
           {/* Details */}
@@ -204,29 +211,26 @@ export default function ProductDetailsHead() {
               <p className="text-muted mb-1">
                 Color:{" "}
                 <span className="fw-semibold">
-                  {Array.isArray(cartItem.colorsText)
-                    ? cartItem.colorsText.join(" & ")
-                    : cartItem.colorsText}
+                {selectedVariant?.title}
                 </span>
               </p>
 
               <div className="d-flex gap-2">
-                {(product?.variant || []).map((variantOption, index) => (
-                  <button
-                    key={index}
-                    className={`rounded-circle border ${
-                      selectedColor === variantOption.value
-                        ? "border-dark p-1"
-                        : ""
-                    }`}
-                    style={{
-                      backgroundColor: variantOption.value || "#ddd",
-                      width: 24,
-                      height: 24,
-                    }}
-                    onClick={() => setSelectedColor(variantOption.value)}
-                  />
-                ))}
+              {product?.variant?.map((variant) => (
+          <button
+            key={variant._id}
+            onClick={() => handleVariantClick(variant)}
+            style={{
+              backgroundColor: variant.value,
+              width: "24px",
+              height: "24px",
+              borderRadius: "50%",
+              border: selectedVariant?._id === variant._id ? "2px solid black" : "1px solid gray",
+              cursor: "pointer",
+            }}
+            title={variant.title}
+          />
+        ))}
               </div>
             </div>
 

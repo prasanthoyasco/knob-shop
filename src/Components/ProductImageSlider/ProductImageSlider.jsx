@@ -7,53 +7,35 @@ import {
 } from "lucide-react";
 import "./ProductImageSlider.css";
 import { useSwipeable } from "react-swipeable";
-import { useParams } from "react-router-dom";
-import { getProductById } from "../../API/productApi";
-const ProductImageSlider = () => {
-  const { id } = useParams(); // get product id from URL
-  const [product, setProduct] = useState(null);
+
+const ProductImageSlider = ({ imageList = [] }) => {
   const [imageLoading, setImageLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchProduct = async () => {
-      try {
-        const res = await getProductById(id);
-        console.log("productsDetails : ", res);
-        setProduct(res); // adjust if your API shape differs
-      } catch (err) {
-        console.error("Failed to fetch product", err);
-      }
-    };
-
-    fetchProduct();
-  }, [id]);
-
-  const images =
-    product?.images?.length > 0
-      ? product.images
-      : product?.image
-      ? [product.image]
-      : [];
-
   const [currentIndex, setCurrentIndex] = useState(0);
   const thumbnailRefs = useRef([]);
 
   useEffect(() => {
-    if (thumbnailRefs.current[currentIndex]) {
-      thumbnailRefs.current[currentIndex].scrollIntoView({
-        behavior: "smooth",
-        block: "nearest",
-        inline: "nearest",
-      });
-    }
-  }, [currentIndex]);
+    // Reset to first image when images change
+    setCurrentIndex(0);
+  }, [imageList]);
+
+  const handleThumbnailClick = (index) => {
+    setCurrentIndex(index);
+    thumbnailRefs.current[index]?.scrollIntoView({
+      behavior: "smooth",
+      inline: "center",
+    });
+  };
 
   const handlePrev = () => {
-    setCurrentIndex((prev) => (prev > 0 ? prev - 1 : images.length - 1));
+    setCurrentIndex((prev) =>
+      prev > 0 ? prev - 1 : imageList.length - 1
+    );
   };
 
   const handleNext = () => {
-    setCurrentIndex((prev) => (prev < images.length - 1 ? prev + 1 : 0));
+    setCurrentIndex((prev) =>
+      prev < imageList.length - 1 ? prev + 1 : 0
+    );
   };
 
   const swipeHandlers = useSwipeable({
@@ -70,7 +52,7 @@ const ProductImageSlider = () => {
         className="d-flex flex-row flex-md-column align-items-center"
         style={{ maxHeight: 700 }}
       >
-        {/* Arrow - Up (only visible on md+) */}
+        {/* Arrow - Up */}
         <button
           onClick={handlePrev}
           className="btn d-none d-md-block w-100 mb-2"
@@ -92,13 +74,13 @@ const ProductImageSlider = () => {
             overflowY: "auto",
           }}
         >
-          {images.map((img, i) => (
+          {imageList.map((img, i) => (
             <img
               key={i}
               ref={(el) => (thumbnailRefs.current[i] = el)}
               src={img}
               alt={`Thumb ${i + 1}`}
-              onClick={() => setCurrentIndex(i)}
+              onClick={() => handleThumbnailClick(i)}
               className={`img-thumbnail ${
                 currentIndex === i ? "border border-dark" : ""
               }`}
@@ -114,7 +96,7 @@ const ProductImageSlider = () => {
           ))}
         </div>
 
-        {/* Arrow - Down (only visible on md+) */}
+        {/* Arrow - Down */}
         <button
           onClick={handleNext}
           className="btn d-none d-md-block w-100 mt-2"
@@ -134,14 +116,11 @@ const ProductImageSlider = () => {
             className="position-absolute top-0 start-0 mx-auto w-100 h-100 d-flex align-items-center justify-content-center bg-light"
             style={{ zIndex: 1 }}
           >
-            <span
-              className="spinner-border text-secondary"
-              role="status"
-            ></span>
+            <span className="spinner-border text-secondary" role="status"></span>
           </div>
         )}
         <img
-          src={images[currentIndex]}
+          src={imageList[currentIndex]}
           alt="Main Product"
           className="img-fluid main-image"
           onLoad={() => setImageLoading(false)}
