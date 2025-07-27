@@ -20,7 +20,7 @@ const RecommendedSlider = ({ recommendedItems = [], onAddToCart }) => {
           </button>
           <button
             className="btn btn-sm btn-outline-secondary rounded-circle"
-            onClick={() => scroll(360)}
+            onClick={() => scroll(365)}
           >
             <i className="bi bi-chevron-right" />
           </button>
@@ -34,13 +34,13 @@ const RecommendedSlider = ({ recommendedItems = [], onAddToCart }) => {
       >
         {recommendedItems.map((item) => (
           <div
-            key={item.id}
+            key={item._id}
             className="d-flex flex-shrink-0 rounded p-2"
             style={{ width: "350px", minWidth: "300px" }}
           >
             <img
-              src={item.image}
-              alt={item.title}
+              src={item.images?.[0]}
+              alt={item.name}
               style={{
                 width: "100px",
                 height: "100px",
@@ -50,9 +50,9 @@ const RecommendedSlider = ({ recommendedItems = [], onAddToCart }) => {
             />
             <div className="d-flex justify-content-between w-100">
               <div>
-                <p className="mb-1 fw-semibold">{item.title}</p>
+                <p className="mb-1 fw-semibold">{item.name}</p>
                 <p className="mb-1 small text-decoration-line-through text-muted">
-                  ₹{item.oldPrice}
+                  ₹{item.compare_price}
                 </p>
                 <p className="mb-1 fw-bold price">₹{item.price}</p>
               </div>
