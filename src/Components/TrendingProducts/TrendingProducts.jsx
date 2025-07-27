@@ -246,18 +246,22 @@ const TrendingProducts = () => {
     features,
   } = product;
 
+  const firstVariant = product.variant?.[0];
+  const firstSize = firstVariant?.sizes?.[0];
+  
   const transformedProduct = {
     id: _id,
     title: name,
-    price: price || 0,
-    oldPrice: compare_price || price || 0,
-    discount: discount?.isActive ? discount.value : "",
-    rating: 4.9, // or product.rating if available from backend
-    image: images?.[0] || chair, // fallback image
-    hoverImage: images?.[1] || images?.[0] || chair2, // fallback
+    price: price ?? firstSize?.sellingPrice ?? 0,
+    oldPrice: compare_price ?? firstSize?.mrp ?? price ?? 0,
+    discount: firstSize?.discountPercentage ?? discount?.value ?? "",
+    rating: 4.9,
+    image: images?.[0] || chair,
+    hoverImage: images?.[1] || images?.[0] || chair2,
     features: features || [],
     icons: product.icons || productsDefault.find((item) => item.icons)?.icons || [],
   };
+  
 
   return (
     <div key={index} className="product-scroll-item">

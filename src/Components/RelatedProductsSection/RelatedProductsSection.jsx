@@ -56,8 +56,8 @@ const RelatedProductsSection = ({ products = [] }) => {
   const formattedProduct = {
     id: product?._id,
     title: product?.name,
-    price: product?.price,
-    oldPrice: product?.compare_price,
+    price: product?.price || product?.variant?.[0]?.sizes?.[0]?.sellingPrice,
+    oldPrice: product?.compare_price || product?.variant?.[0]?.sizes?.[0]?.mrp,
     discount: product?.discount?.value || "",
     rating: product?.rating ?? 4.5, // fallback if no rating
     image: product?.images?.[0],

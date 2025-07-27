@@ -45,15 +45,15 @@ export default function ProductDetailsHead() {
     id: product?._id,
     title: product?.name,
     image: selectedVariant?.images?.[0] || product?.images?.[0] || "default.jpg",
-    price: product?.price,
+    price: product?.price || product?.variant?.[0]?.sizes?.[0]?.sellingPrice,
     productId: product?.productId,
-    mrpPrice: product?.compare_price,
+    mrpPrice: product?.compare_price || product?.variant?.[0]?.sizes?.[0]?.mrp,
     brand: product?.brand,
     quantity,
     color: selectedVariant?.value || "",
     colorsText: selectedVariant?.title || "",
     category: product?.category?.category_name || "",
-    savePrice: product?.compare_price - (selectedVariant?.price || product?.price),
+    savePrice:( product?.compare_price || product?.variant?.[0]?.sizes?.[0]?.mrp) - (selectedVariant?.price || product?.price || product?.variant?.[0]?.sizes?.[0]?.sellingPrice),
     Features: product?.key_features?.title,
     FeaturesIcon: product?.key_features?.image,
   };
@@ -200,7 +200,7 @@ export default function ProductDetailsHead() {
               <p className="text-muted">
                 MRP: ₹ <s>{cartItem.mrpPrice}</s>{" "}
                 <span className="text-success fw-semibold ms-2">
-                  You Save ₹ {cartItem.savePrice}
+                You Save ₹ {cartItem.savePrice.toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                 </span>
               </p>
               <p className="text-muted small">Inclusive of all taxes</p>

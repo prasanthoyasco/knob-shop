@@ -106,9 +106,7 @@ if (!icons || icons.length === 0) {
   icons = defaultMatch?.icons || [];
 
   if (icons.length > 0) {
-    console.log("✅ Using fallback icons from productsDefault:", icons);
   } else {
-    console.warn("⚠️ No icons found for:", title, " → using default icons.");
     // ✅ Default icon set
     icons = [
       { name: "Card Key", imgUrl: "/product-icon/card_key.svg" },
