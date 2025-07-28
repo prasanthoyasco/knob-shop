@@ -312,8 +312,7 @@
 
   .broucher-search-box-icon input,
   .broucher-search-box-icon i {
-    width: 100%;
-    border-radius: 22px;
+    width: 80%;
   }
 
   .broucher-product-grid {

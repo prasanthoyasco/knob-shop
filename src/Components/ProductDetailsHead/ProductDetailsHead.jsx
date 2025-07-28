@@ -14,7 +14,8 @@ export default function ProductDetailsHead() {
   const [pincode, setPincode] = useState("");
   const [loading, setLoading] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
-
+  const [selectedVariant, setSelectedVariant] = useState(null);
+  const [currentImages, setCurrentImages] = useState([]);
   const { addToCart, toggleDrawer } = useCart();
 
   useEffect(() => {
@@ -37,10 +38,11 @@ export default function ProductDetailsHead() {
       } catch (err) {
         console.error("Failed to fetch product", err);
       } finally {
+      } finally {
         setLoading(false);
       }
     };
-
+  
     fetchProduct();
   }, [id]);
 

@@ -8,13 +8,18 @@ import {
 import "./ProductImageSlider.css";
 import { useSwipeable } from "react-swipeable";
 
+<<<<<<< HEAD
 // ✅ Accept dynamic images and fallback to fetching from API
 const ProductImageSlider = ({ images: propImages = [], fetchById = true }) => {
   const [product, setProduct] = useState(null);
+=======
+const ProductImageSlider = ({ imageList = [] }) => {
+>>>>>>> b183bfb9211a312eb4a1e93b33421bf33067a148
   const [imageLoading, setImageLoading] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
   const thumbnailRefs = useRef([]);
 
+<<<<<<< HEAD
   // Optional: Only fetch from API if fetchById is true
   useEffect(() => {
     const fetchProduct = async () => {
@@ -45,20 +50,39 @@ const ProductImageSlider = ({ images: propImages = [], fetchById = true }) => {
       : [];
 
   // Scroll active thumbnail into view
+=======
+>>>>>>> b183bfb9211a312eb4a1e93b33421bf33067a148
   useEffect(() => {
-    if (thumbnailRefs.current[currentIndex]) {
-      thumbnailRefs.current[currentIndex].scrollIntoView({
-        behavior: "smooth",
-        block: "nearest",
-        inline: "nearest",
-      });
-    }
-  }, [currentIndex]);
+    // Reset to first image when images change
+    setCurrentIndex(0);
+  }, [imageList]);
 
+  const handleThumbnailClick = (index) => {
+    setCurrentIndex(index);
+    thumbnailRefs.current[index]?.scrollIntoView({
+      behavior: "smooth",
+      inline: "center",
+    });
+  };
+
+<<<<<<< HEAD
   const handlePrev = () =>
     setCurrentIndex((prev) => (prev > 0 ? prev - 1 : images.length - 1));
   const handleNext = () =>
     setCurrentIndex((prev) => (prev < images.length - 1 ? prev + 1 : 0));
+=======
+  const handlePrev = () => {
+    setCurrentIndex((prev) =>
+      prev > 0 ? prev - 1 : imageList.length - 1
+    );
+  };
+
+  const handleNext = () => {
+    setCurrentIndex((prev) =>
+      prev < imageList.length - 1 ? prev + 1 : 0
+    );
+  };
+>>>>>>> b183bfb9211a312eb4a1e93b33421bf33067a148
 
   const swipeHandlers = useSwipeable({
     onSwipedLeft: handleNext,
@@ -83,6 +107,10 @@ const ProductImageSlider = ({ images: propImages = [], fetchById = true }) => {
         className="d-flex flex-row flex-md-column align-items-center"
         style={{ maxHeight: 700 }}
       >
+<<<<<<< HEAD
+=======
+        {/* Arrow - Up */}
+>>>>>>> b183bfb9211a312eb4a1e93b33421bf33067a148
         <button
           onClick={handlePrev}
           className="btn d-none d-md-block w-100 mb-2"
@@ -103,13 +131,13 @@ const ProductImageSlider = ({ images: propImages = [], fetchById = true }) => {
             overflowY: "auto",
           }}
         >
-          {images.map((img, i) => (
+          {imageList.map((img, i) => (
             <img
               key={i}
               ref={(el) => (thumbnailRefs.current[i] = el)}
               src={img.url}
               alt={`Thumb ${i + 1}`}
-              onClick={() => setCurrentIndex(i)}
+              onClick={() => handleThumbnailClick(i)}
               className={`img-thumbnail ${
                 currentIndex === i ? "border border-dark" : ""
               }`}
@@ -125,6 +153,10 @@ const ProductImageSlider = ({ images: propImages = [], fetchById = true }) => {
           ))}
         </div>
 
+<<<<<<< HEAD
+=======
+        {/* Arrow - Down */}
+>>>>>>> b183bfb9211a312eb4a1e93b33421bf33067a148
         <button
           onClick={handleNext}
           className="btn d-none d-md-block w-100 mt-2"
@@ -144,14 +176,15 @@ const ProductImageSlider = ({ images: propImages = [], fetchById = true }) => {
             className="position-absolute top-0 start-0 mx-auto w-100 h-100 d-flex align-items-center justify-content-center bg-light"
             style={{ zIndex: 1 }}
           >
-            <span
-              className="spinner-border text-secondary"
-              role="status"
-            ></span>
+            <span className="spinner-border text-secondary" role="status"></span>
           </div>
         )}
         <img
+<<<<<<< HEAD
           src={getTransformedImageUrl(images[currentIndex]?.url)}
+=======
+          src={imageList[currentIndex]}
+>>>>>>> b183bfb9211a312eb4a1e93b33421bf33067a148
           alt="Main Product"
           className="img-fluid main-image"
           onLoad={() => setImageLoading(false)}

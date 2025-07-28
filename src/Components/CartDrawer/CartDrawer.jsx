@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import RecommendedSlider from "./cart-drawer-recommend";
+import { getAllProducts } from "../../API/productApi";
 import "./CartDrawer.css";
 import { NotebookPen, TruckIcon, X } from "lucide-react";
 import { CountrySelect } from "./CountrySelect";
@@ -10,7 +11,6 @@ const CartDrawer = ({
   onClose,
   cartItems = [],
   onRemove,
-  recommendedItems = [],
   onAddToCart,
 }) => {
   const navigate = useNavigate();
@@ -20,10 +20,24 @@ const CartDrawer = ({
   const [postalCode, setPostalCode] = useState("");
   const ShipPrice = 123456;
   const [shippingRate, setShippingRate] = useState(null);
+  const [recommendedItems, setRecommendedItems] = useState([]);
   const total = cartItems.reduce(
     (sum, item) => sum + item.price * item.quantity,
     0
   );
+  useEffect(() => {
+    // Fetch recommended items on mount or when drawer opens
+    const fetchRecommended = async () => {
+      try {
+        const data = await getAllProducts(); // Or fetchProductsByCategory()
+        setRecommendedItems(data || []);
+      } catch (error) {
+        console.error("Failed to fetch recommended items", error);
+      }
+    };
+
+    if (show) fetchRecommended(); // fetch only if cart drawer is open
+  }, [show]);
 
   return (
     <>
@@ -64,8 +78,8 @@ const CartDrawer = ({
               {cartItems.map((item) => (
                 <div key={item.id} className="d-flex my-3">
                   <img
-                    src={item.image}
-                    alt={item.title}
+                    src={item.image || item.images?.[0]}
+                    alt={item.title || item.name}
                     className="me-3"
                     style={{
                       width: "100px",
@@ -74,8 +88,8 @@ const CartDrawer = ({
                     }}
                   />
                   <div className="flex-grow-1">
-                    <h6 className="mb-1">{item.title}</h6>
-                    <p className="text-muted mb-1">{item.color}</p>
+                    <h6 className="mb-1">{item.title || item.name}</h6>
+                    <p className="text-muted mb-1">{item.color || item.variant?.[0].title}</p>
                     <div className="d-flex justify-content-between align-items-center">
                       <span
                         className="fw-semibold"
