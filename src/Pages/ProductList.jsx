@@ -13,7 +13,7 @@ import Footer from "../Components/Footer/Footer";
 import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { fetchProductsByCategory } from "../API/productApi";
+import { fetchProductsByCategory,getAllProducts } from "../API/productApi";
 export const ProductList = () => {
   const { categoryId } = useParams();
   const location = useLocation();
@@ -47,11 +47,19 @@ export const ProductList = () => {
       setLoading(true);
 
       // Case 1: Navigated via "View All Products" (state passed)
-      if (categoryId === "all-products" && passedState?.productList) {
-        const transformed = passedState.productList.map(mapProduct);
-        setProducts(transformed);
+      if (categoryId === "all-products") {
+        try {
+        const res = await getAllProducts();
+        console.log(res);
+        
+        const mapped = res.data.map(mapProduct);
+        setProducts(mapped);
+      } catch (err) {
+        console.error("Error fetching category products", err);
+        setProducts([]);
+      } finally {
         setLoading(false);
-        return;
+      }
       }
 
       // Case 2: Specific categoryId from params (fetch from API)

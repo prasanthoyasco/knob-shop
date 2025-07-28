@@ -23,33 +23,57 @@ export default function ProductTabs() {
     fetchData();
   }, [id]);
 
-  const tabData = {
-    Description: product?.description ? (
-      <div className="mt-3">
-        {product.description.split("\n").map((line, i) => (
-          <p key={i} className="mb-1">
-            {line}
-          </p>
+  function extractYouTubeVideoId(url) {
+  const regex = /(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([^\s&?/]+)/;
+  const match = url?.match(regex);
+  return match ? match[1] : null;
+}
+
+
+const tabData = {
+  Description: product?.description ? (
+    <div className="mt-3">
+      {product.description.split("\n").map((line, i) => (
+        <p key={i} className="mb-1">{line}</p>
+      ))}
+    </div>
+  ) : (
+    <p className="mt-3">No description available.</p>
+  ),
+
+  Features: <ProductFeatures />,
+
+  ...(product?.tech_spec?.length > 0 && {
+    "Technical Specification": (
+      <ProductSpecificationTable specifications={product.tech_spec} />
+    ),
+  }),
+
+  ...(product?.video && {
+    Video: (
+      <YouTubeEmbed videoId={extractYouTubeVideoId(product.video)} />
+    ),
+  }),
+
+  ...(product?.installation?.content && {
+    Installation: (
+      <div className="mt-0">
+        {product.installation.videoUrl && (
+          <div className="mb-4">
+            <h4 className="mb-3">Installation Video</h4>
+            <YouTubeEmbed videoId={extractYouTubeVideoId(product.installation.videoUrl)} />
+          </div>
+        )}
+        {product.installation.content.split("\n").map((line, i) => (
+          <p key={i} className="mb-1">{line}</p>
         ))}
       </div>
-    ) : (
-      <p className="mt-3">No description available.</p>
     ),
+  }),
 
-    Features: <ProductFeatures />,
+  "Customer Reviews": <ReviewSection />,
+};
 
-    ...(product?.tech_spec?.length > 0 && {
-      "Technical Specification": (
-        <ProductSpecificationTable specifications={product.tech_spec} />
-      ),
-    }),
-
-    ...(product?.videoUrl && {
-      Video: <YouTubeEmbed videoId={extractYouTubeVideoId(product.videoUrl)} />,
-    }),
-
-    "Customer Reviews": <ReviewSection />,
-  };
 
   const tabKeys = Object.keys(tabData);
 
@@ -81,10 +105,7 @@ export default function ProductTabs() {
     }
   }, [activeTab]);
 
-  function extractYouTubeVideoId(url) {
-    const match = url?.match(/(?:youtube\.com\/.*v=|youtu\.be\/)([^&]+)/);
-    return match ? match[1] : null;
-  }
+  
 
   return (
     <div className="product-tabs my-2 mt-md-5 mx-4">

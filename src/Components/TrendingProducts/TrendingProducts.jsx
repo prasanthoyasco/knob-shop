@@ -83,7 +83,6 @@ const productsDefault = [
   },
 ];
 
-
 const TrendingProducts = () => {
   const [activeTab, setActiveTab] = useState("All Products");
   const [products, setProducts] = useState([]);
@@ -97,8 +96,8 @@ const TrendingProducts = () => {
   const fetchProducts = async () => {
     try {
       const data = await getAllProducts();
-      console.log("data from trending products:",data)
-      setProducts(data)
+      console.log("data from trending products:", data);
+      setProducts(data);
     } catch (err) {
       setLoading(false);
     }
@@ -114,21 +113,25 @@ const TrendingProducts = () => {
     switch (activeTab) {
       case "Latest Products":
         return [...actualProducts]
-          .sort((a, b) => new Date(b.createdAt || Date.now()) - new Date(a.createdAt || Date.now()))
+          .sort(
+            (a, b) =>
+              new Date(b.createdAt || Date.now()) -
+              new Date(a.createdAt || Date.now())
+          )
           .slice(0, 10);
 
       case "Best Sellers":
         return actualProducts.filter((product) => product.price > 10000);
 
       case "Featured Products":
-        return actualProducts.filter((product) => product.discount || product.discount?.isActive);
+        return actualProducts.filter(
+          (product) => product.discount || product.discount?.isActive
+        );
 
       default:
         return actualProducts;
     }
   };
-
-  
 
   const handleViewAll = () => {
     const actualProducts = products.length === 0 ? productsDefault : products;
@@ -166,7 +169,6 @@ const TrendingProducts = () => {
     startAutoScroll();
     return () => clearInterval(autoScrollRef.current);
   }, []);
-
 
   const onMouseDown = (e) => {
     isDragging.current = true;
@@ -235,41 +237,47 @@ const TrendingProducts = () => {
               // onMouseEnter={() => clearInterval(autoScrollRef.current)}
               // onMouseLeave={startAutoScroll}
             >
-{getFilteredProducts().map((product, index) => {
-  const {
-    _id,
-    name,
-    price,
-    compare_price,
-    images,
-    discount,
-    features,
-  } = product;
+              {getFilteredProducts().map((product, index) => {
+                const {
+                  _id,
+                  name,
+                  price,
+                  compare_price,
+                  images,
+                  variant,
+                  discount,
+                  features,
+                } = product;
 
-  const transformedProduct = {
-    id: _id,
-    title: name,
-    price: price || 0,
-    oldPrice: compare_price || price || 0,
-    discount: discount?.isActive ? discount.value : "",
-    rating: 4.9, // or product.rating if available from backend
-    image: images?.[0] || chair, // fallback image
-    hoverImage: images?.[1] || images?.[0] || chair2, // fallback
-    features: features || [],
-    icons: product.icons || productsDefault.find((item) => item.icons)?.icons || [],
-  };
+                const transformedProduct = {
+                  id: _id,
+                  title: name,
+                  price: price || 0,
+                  oldPrice: compare_price || price || 0,
+                  discount: discount?.isActive ? discount.value : "",
+                  rating: 4.9, // or product.rating if available from backend
+                  variant: variant || chair, // fallback image
+                  hoverImage: images?.[1] || images?.[0] || chair2, // fallback
+                  features: features || [],
+                  icons:
+                    product.icons ||
+                    productsDefault.find((item) => item.icons)?.icons ||
+                    [],
+                };
 
-  return (
-    <div key={index} className="product-scroll-item">
-      <ProductCard product={transformedProduct} />
-    </div>
-  );
-})}
-
+                return (
+                  <div key={index} className="product-scroll-item">
+                    <ProductCard product={transformedProduct} />
+                  </div>
+                );
+              })}
             </div>
           </div>
           <div className="d-flex align-items-center justify-content-center mt-3">
-            <button className="ctn btn-animation" onClick={handleViewAll}> view All Products</button>
+            <button className="ctn btn-animation" onClick={handleViewAll}>
+              {" "}
+              view All Products
+            </button>
           </div>
         </div>
       </div>

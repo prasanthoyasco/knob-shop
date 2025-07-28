@@ -5,6 +5,8 @@ import SortDropdown from "./SortDropdown";
 import CategoryFilters from "./CategoryFilters";
 
 const CategoryPageLayout2 = ({ products = [] }) => {
+  console.log(products);
+  
   const [filteredProducts, setFilteredProducts] = useState(products);
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(false);
@@ -22,6 +24,7 @@ const CategoryPageLayout2 = ({ products = [] }) => {
 
   const itemsPerPage = 12;
   const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
+
   const paginatedProducts = filteredProducts.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
@@ -34,19 +37,9 @@ const CategoryPageLayout2 = ({ products = [] }) => {
     }));
   };
 
-  useEffect(() => {
-    setLoading(true);
-    setTimeout(() => {
-      applyFilters();
-      setCurrentPage(1); // Reset to page 1 on filters/sort change
-      setLoading(false);
-    }, 100);
-  }, [filters, sortOrder, products]);
-
   const applyFilters = () => {
     let result = [...products];
-    const { brand, availability, colors, features, accessType, priceRange } =
-      filters;
+    const { brand, availability, colors, features, accessType, priceRange } = filters;
 
     if (brand.length > 0) {
       result = result.filter((p) => brand.includes(p.brand));
@@ -59,9 +52,7 @@ const CategoryPageLayout2 = ({ products = [] }) => {
     }
 
     if (colors.length > 0) {
-      result = result.filter((p) =>
-        p.colors?.some((c) => colors.includes(c))
-      );
+      result = result.filter((p) => p.colors?.some((c) => colors.includes(c)));
     }
 
     if (features.length > 0) {
@@ -76,8 +67,7 @@ const CategoryPageLayout2 = ({ products = [] }) => {
 
     if (accessType.length > 0) {
       result = result.filter((p) => {
-        const iconNames =
-          p.icons?.map((icon) => icon.name?.toLowerCase()) || [];
+        const iconNames = p.icons?.map((icon) => icon.name?.toLowerCase()) || [];
         return accessType.some((type) =>
           iconNames.some((icon) => icon.includes(type.toLowerCase()))
         );
@@ -93,8 +83,25 @@ const CategoryPageLayout2 = ({ products = [] }) => {
       result.sort((a, b) => b.price - a.price);
     }
 
+    setCurrentPage(1); // ✅ Move page reset here
     setFilteredProducts(result);
   };
+
+  // 🛠️ Main filter effect
+  useEffect(() => {
+    setLoading(true);
+    setTimeout(() => {
+      applyFilters();
+      setLoading(false);
+    }, 100);
+  }, [filters, sortOrder, products]);
+
+  // ✅ Clamp page if it goes out of range due to filters
+  useEffect(() => {
+    if (currentPage > totalPages) {
+      setCurrentPage(totalPages || 1);
+    }
+  }, [totalPages]);
 
   const handleCheckboxChange = (filterName, value, checked) => {
     setFilters((prev) => ({
@@ -138,9 +145,7 @@ const CategoryPageLayout2 = ({ products = [] }) => {
               <i className="bi bi-filter me-2"></i>Filters
             </span>
             <i
-              className={`bi ${
-                showMobileFilters ? "bi-chevron-up" : "bi-chevron-down"
-              }`}
+              className={`bi ${showMobileFilters ? "bi-chevron-up" : "bi-chevron-down"}`}
             ></i>
           </button>
         </div>
@@ -176,19 +181,18 @@ const CategoryPageLayout2 = ({ products = [] }) => {
         {/* Products + Sort + Pagination */}
         <div className="col-md-9">
           <div
-  className="d-flex justify-content-between p-2 p-md-3 align-items-center mb-3 flex-wrap"
-  style={{ border: "1px solid #DADADA", borderRadius: "4px" }}
->
-          <span className="item-count fw-medium" style={{ color: "#252525" }}>
-          ({filteredProducts.length} Of {products?.length} Items)
-        </span>
+            className="d-flex justify-content-between p-2 p-md-3 align-items-center mb-3 flex-wrap"
+            style={{ border: "1px solid #DADADA", borderRadius: "4px" }}
+          >
+            <span className="item-count fw-medium" style={{ color: "#252525" }}>
+              ({filteredProducts.length} Of {products.length} Items)
+            </span>
 
-        <div className="d-flex align-items-center gap-2 sort-control">
-          <span className="text-muted small">Sort by:</span>
-          <SortDropdown onChange={(sortValue) => setSortOrder(sortValue)} />
-        </div>
-        </div>
-
+            <div className="d-flex align-items-center gap-2 sort-control">
+              <span className="text-muted small">Sort by:</span>
+              <SortDropdown onChange={(sortValue) => setSortOrder(sortValue)} />
+            </div>
+          </div>
 
           {/* Product Grid */}
           <div className="row g-3">
@@ -218,14 +222,10 @@ const CategoryPageLayout2 = ({ products = [] }) => {
                     return (
                       <li
                         key={page}
-                        className={`page-item ${
-                          currentPage === page ? "active" : ""
-                        }`}
+                        className={`page-item ${currentPage === page ? "active" : ""}`}
                       >
                         <button
-                          className={`page-link ${
-                            currentPage === page ? "active-link" : "no-border"
-                          }`}
+                          className={`page-link ${currentPage === page ? "active-link" : "no-border"}`}
                           onClick={() => handlePageChange(page)}
                         >
                           {page}

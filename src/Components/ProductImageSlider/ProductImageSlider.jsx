@@ -7,37 +7,44 @@ import {
 } from "lucide-react";
 import "./ProductImageSlider.css";
 import { useSwipeable } from "react-swipeable";
-import { useParams } from "react-router-dom";
-import { getProductById } from "../../API/productApi";
-const ProductImageSlider = () => {
-  const { id } = useParams(); // get product id from URL
+
+// ✅ Accept dynamic images and fallback to fetching from API
+const ProductImageSlider = ({ images: propImages = [], fetchById = true }) => {
   const [product, setProduct] = useState(null);
   const [imageLoading, setImageLoading] = useState(true);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const thumbnailRefs = useRef([]);
 
+  // Optional: Only fetch from API if fetchById is true
   useEffect(() => {
     const fetchProduct = async () => {
+      if (!fetchById) return;
+
+      const { id } = await import("react-router-dom").then((mod) => mod.useParams());
+      const { getProductById } = await import("../../API/productApi");
+
       try {
         const res = await getProductById(id);
-        console.log("productsDetails : ", res);
-        setProduct(res); // adjust if your API shape differs
+        setProduct(res);
       } catch (err) {
         console.error("Failed to fetch product", err);
       }
     };
 
     fetchProduct();
-  }, [id]);
+  }, [fetchById]);
 
+  // ✅ Use prop images if passed, otherwise fall back to API data
   const images =
-    product?.images?.length > 0
+    propImages.length > 0
+      ? propImages
+      : product?.images?.length
       ? product.images
       : product?.image
       ? [product.image]
       : [];
 
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const thumbnailRefs = useRef([]);
-
+  // Scroll active thumbnail into view
   useEffect(() => {
     if (thumbnailRefs.current[currentIndex]) {
       thumbnailRefs.current[currentIndex].scrollIntoView({
@@ -48,29 +55,34 @@ const ProductImageSlider = () => {
     }
   }, [currentIndex]);
 
-  const handlePrev = () => {
+  const handlePrev = () =>
     setCurrentIndex((prev) => (prev > 0 ? prev - 1 : images.length - 1));
-  };
-
-  const handleNext = () => {
+  const handleNext = () =>
     setCurrentIndex((prev) => (prev < images.length - 1 ? prev + 1 : 0));
-  };
 
   const swipeHandlers = useSwipeable({
     onSwipedLeft: handleNext,
     onSwipedRight: handlePrev,
     preventScrollOnSwipe: true,
-    trackMouse: false,
+    trackMouse: true,
   });
+
+  const getTransformedImageUrl = (url) => {
+  if (!url) return "";
+  return url.replace(
+    "/upload/",
+    "/upload/w_588,h_698,c_fill,q_auto,f_auto/"
+  );
+};
+
 
   return (
     <div className="d-flex flex-column-reverse flex-md-row gap-3 position-relative">
       {/* Thumbnails */}
-      <div
+      {/* <div
         className="d-flex flex-row flex-md-column align-items-center"
         style={{ maxHeight: 700 }}
       >
-        {/* Arrow - Up (only visible on md+) */}
         <button
           onClick={handlePrev}
           className="btn d-none d-md-block w-100 mb-2"
@@ -80,7 +92,6 @@ const ProductImageSlider = () => {
           <ChevronUp size={18} />
         </button>
 
-        {/* Thumbnail List */}
         <div
           className="d-flex flex-row flex-md-column gap-2 overflow-auto"
           style={{
@@ -96,7 +107,7 @@ const ProductImageSlider = () => {
             <img
               key={i}
               ref={(el) => (thumbnailRefs.current[i] = el)}
-              src={img}
+              src={img.url}
               alt={`Thumb ${i + 1}`}
               onClick={() => setCurrentIndex(i)}
               className={`img-thumbnail ${
@@ -114,7 +125,6 @@ const ProductImageSlider = () => {
           ))}
         </div>
 
-        {/* Arrow - Down (only visible on md+) */}
         <button
           onClick={handleNext}
           className="btn d-none d-md-block w-100 mt-2"
@@ -122,7 +132,7 @@ const ProductImageSlider = () => {
         >
           <ChevronDown size={18} />
         </button>
-      </div>
+      </div> */}
 
       {/* Main Image */}
       <div
@@ -141,7 +151,7 @@ const ProductImageSlider = () => {
           </div>
         )}
         <img
-          src={images[currentIndex]}
+          src={getTransformedImageUrl(images[currentIndex]?.url)}
           alt="Main Product"
           className="img-fluid main-image"
           onLoad={() => setImageLoading(false)}

@@ -117,8 +117,8 @@ if (!icons || icons.length === 0) {
 
 
   <div className="image-wrapper position-relative" onClick={()=>navigate(`/product/${id}`)}>
-  <img src={image} alt={title} className="card-img-top default-img" />
-  <img src={product.hoverImage} alt={title} className="card-img-top hover-img position-absolute top-0 start-0" />
+  <img src={product.variant?.[0].images?.[0]?.url} alt={title} className="card-img-top default-img" />
+  <img src={product.variant?.[0].images?.[1]?.url} alt={title} className="card-img-top hover-img position-absolute top-0 start-0" />
   {/* <div className="hover-button-wrapper">
     <button className="hover-button">Choose Option</button>
   </div> */}
