@@ -4,6 +4,7 @@ import ProductImageSlider from "../ProductImageSlider/ProductImageSlider";
 import { useCart } from "../../Context/CartContext"; // Make sure the path is correct
 import { getProductById } from "../../API/productApi";
 import { useParams } from "react-router-dom";
+
 export default function ProductDetailsHead() {
   const { id } = useParams(); // get product id from URL
   const [product, setProduct] = useState(null);
@@ -14,8 +15,7 @@ export default function ProductDetailsHead() {
   const [pincode, setPincode] = useState("");
   const [loading, setLoading] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
-  const [selectedVariant, setSelectedVariant] = useState(null);
-  const [currentImages, setCurrentImages] = useState([]);
+  // Removed the unused 'selectedVariant' state variable as it's a derived value
   const { addToCart, toggleDrawer } = useCart();
 
   useEffect(() => {
@@ -23,7 +23,7 @@ export default function ProductDetailsHead() {
       setLoading(true);
       try {
         const res = await getProductById(id);
-        console.log("product variant title: ", res?.variant?.[0]?.title);
+        console.log("product variant title: ", res?.variant?.[0]?.title); // Debug log, can be removed
         setProduct(res); // adjust if your API shape differs
         if (res?.variant?.length > 0) {
           const firstColor = res.variant[0].value;
@@ -38,14 +38,14 @@ export default function ProductDetailsHead() {
       } catch (err) {
         console.error("Failed to fetch product", err);
       } finally {
-      } finally {
         setLoading(false);
       }
     };
-  
+
     fetchProduct();
   }, [id]);
 
+  // Derive selectedVariant from product and selectedColor state
   const selectedVariant = product?.variant?.find(
     (v) => v.value === selectedColor
   );
@@ -65,14 +65,18 @@ export default function ProductDetailsHead() {
     quantity,
     color: selectedColor || product?.variant?.[0]?.value || null,
     size: selectedSize || null,
-    colorsText: product?.variant?.[0]?.title || "",
+    // Corrected to use selectedVariant's title, which reflects the chosen color
+    colorsText: selectedVariant?.title || "",
     category: product?.category?.category_name || "",
     savePrice:
       (selectedSizeObj?.mrp || product?.compare_price || 0) -
       (selectedSizeObj?.sellingPrice || product?.price || 0),
-    Features: product?.key_features?.title,
-    FeaturesIcon: product?.key_features?.image,
+    // Removed 'Features' and 'FeaturesIcon' as they were incorrectly mapped
+    // from an array of key_features to single string properties for cartItem.
+    // If you need to store features in the cart item, consider storing the
+    // key_features array or a processed summary string.
   };
+
   const mrp = selectedSizeObj?.mrp || product?.compare_price || 0;
   const selling = selectedSizeObj?.sellingPrice || product?.price || 0;
 
@@ -179,7 +183,8 @@ export default function ProductDetailsHead() {
         <nav className="breadcrumb mb-4 small">
           <span className="breadcrumb-item">Home</span>
           <span className="breadcrumb-item">Shop by Categories</span>
-          <span className="breadcrumb-item">Digital Lockers</span>
+          <span className="breadcrumb-item">Digital Lockers</span>{" "}
+          {/* Consider making this dynamic based on product.category */}
           <span className="breadcrumb-item active">{cartItem.title}</span>
         </nav>
 
@@ -236,7 +241,9 @@ export default function ProductDetailsHead() {
               {/* Pricing */}
               <div className="mb-3">
                 <h4 className="fw-bold d-flex align-items-center flex-wrap gap-2">
-                  <span style={{ color: "#D6791F" }}>₹ {cartItem.price?.toFixed(0)}</span>
+                  <span style={{ color: "#D6791F" }}>
+                    ₹ {cartItem.price?.toFixed(0)}
+                  </span>
                   {discountPercent > 0 && (
                     <span
                       className="fw-semibold text-info ms-3"

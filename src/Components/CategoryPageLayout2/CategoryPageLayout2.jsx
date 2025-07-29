@@ -5,7 +5,7 @@ import SortDropdown from "./SortDropdown";
 import CategoryFilters from "./CategoryFilters";
 
 const CategoryPageLayout2 = ({ products = [] }) => {
-  console.log(products);
+  console.log("product",products);
   
   const [filteredProducts, setFilteredProducts] = useState(products);
   const [currentPage, setCurrentPage] = useState(1);
@@ -25,10 +25,11 @@ const CategoryPageLayout2 = ({ products = [] }) => {
   const itemsPerPage = 12;
   const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
 
-  const paginatedProducts = filteredProducts.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
+  const safeCurrentPage = Math.min(currentPage, totalPages || 1);
+const paginatedProducts = filteredProducts.slice(
+  (safeCurrentPage - 1) * itemsPerPage,
+  safeCurrentPage * itemsPerPage
+);
 
   const toggleSection = (section) => {
     setOpenSections((prev) => ({
@@ -37,55 +38,64 @@ const CategoryPageLayout2 = ({ products = [] }) => {
     }));
   };
 
-  const applyFilters = () => {
-    let result = [...products];
-    const { brand, availability, colors, features, accessType, priceRange } = filters;
+ const applyFilters = () => {
+  let result = [...products];
+  console.log("Initial result (copy of products):", result);
 
-    if (brand.length > 0) {
-      result = result.filter((p) => brand.includes(p.brand));
-    }
+  const { brand, availability, colors, features, accessType, priceRange } = filters;
 
-    if (availability.length > 0) {
-      result = result.filter((p) =>
-        availability.includes(p.inStock ? "In Stock" : "Out of Stock")
-      );
-    }
+  if (brand.length > 0) {
+    result = result.filter((p) => brand.includes(p.brand));
+    console.log("After brand filter:", result);
+  }
 
-    if (colors.length > 0) {
-      result = result.filter((p) => p.colors?.some((c) => colors.includes(c)));
-    }
+  if (availability.length > 0) {
+    result = result.filter((p) =>
+      availability.includes(p.inStock ? "In Stock" : "Out of Stock")
+    );
+    console.log("After availability filter:", result);
+  }
 
-    if (features.length > 0) {
-      result = result.filter((p) =>
-        p.features?.some((f) =>
-          features.some((selected) =>
-            f.toLowerCase().includes(selected.toLowerCase())
-          )
+  if (colors.length > 0) {
+    result = result.filter((p) => p.colors?.some((c) => colors.includes(c)));
+    console.log("After colors filter:", result);
+  }
+
+  if (features.length > 0) {
+    result = result.filter((p) =>
+      p.features?.some((f) =>
+        features.some((selected) =>
+          f.toLowerCase().includes(selected.toLowerCase())
         )
+      )
+    );
+    console.log("After features filter:", result);
+  }
+
+  if (accessType.length > 0) {
+    result = result.filter((p) => {
+      const iconNames = p.icons?.map((icon) => icon.name?.toLowerCase()) || [];
+      return accessType.some((type) =>
+        iconNames.some((icon) => icon.includes(type.toLowerCase()))
       );
-    }
+    });
+    console.log("After accessType filter:", result);
+  }
 
-    if (accessType.length > 0) {
-      result = result.filter((p) => {
-        const iconNames = p.icons?.map((icon) => icon.name?.toLowerCase()) || [];
-        return accessType.some((type) =>
-          iconNames.some((icon) => icon.includes(type.toLowerCase()))
-        );
-      });
-    }
+  const [minPrice, maxPrice] = priceRange;
+  result = result.filter((p) => p.price >= minPrice && p.price <= maxPrice);
+  console.log("After priceRange filter:", result);
 
-    const [minPrice, maxPrice] = priceRange;
-    result = result.filter((p) => p.price >= minPrice && p.price <= maxPrice);
+  if (sortOrder === "lowToHigh") {
+    result.sort((a, b) => a.price - b.price);
+  } else if (sortOrder === "highToLow") {
+    result.sort((a, b) => b.price - a.price);
+  }
+  console.log("Final result after sorting:", result);
 
-    if (sortOrder === "lowToHigh") {
-      result.sort((a, b) => a.price - b.price);
-    } else if (sortOrder === "highToLow") {
-      result.sort((a, b) => b.price - a.price);
-    }
-
-    setCurrentPage(1); // ✅ Move page reset here
-    setFilteredProducts(result);
-  };
+  setCurrentPage(1);
+  setFilteredProducts(result);
+};
 
   // 🛠️ Main filter effect
   useEffect(() => {
@@ -131,6 +141,9 @@ const CategoryPageLayout2 = ({ products = [] }) => {
       setCurrentPage(pageNum);
     }
   };
+
+  console.log(paginatedProducts);
+  
 
   return (
     <div className="container-fluid my-4">
@@ -185,7 +198,7 @@ const CategoryPageLayout2 = ({ products = [] }) => {
             style={{ border: "1px solid #DADADA", borderRadius: "4px" }}
           >
             <span className="item-count fw-medium" style={{ color: "#252525" }}>
-              ({filteredProducts.length} Of {products.length} Items)
+              ({products.length} Of {products.length} Items)
             </span>
 
             <div className="d-flex align-items-center gap-2 sort-control">
@@ -198,8 +211,8 @@ const CategoryPageLayout2 = ({ products = [] }) => {
           <div className="row g-3">
             {loading ? (
               <div className="text-center py-5">Loading...</div>
-            ) : paginatedProducts.length > 0 ? (
-              paginatedProducts.map((product) => (
+            ) : products.length > 0 ? (
+              products.map((product) => (
                 <div
                   className="col-12 col-sm-6 col-md-4 col-lg-4 products"
                   key={product._id}

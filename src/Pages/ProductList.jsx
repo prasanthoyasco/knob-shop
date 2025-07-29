@@ -29,17 +29,13 @@ export const ProductList = () => {
     price: item.price,
     oldPrice: item.compare_price,
     discount: item.discount?.value || 0,
-    rating: 4.5, // Optional: set from backend
+    rating: 4.5, 
     image: item.images?.[0],
+    variant: item.variant,
     hoverImage: item.images?.[1] || item.images?.[0],
     colors: item.variant?.map((v) => v.value) || ["#000"],
     features: item.features?.map((f) => f.title) || [],
-    icons: [
-      { name: "Card Key", imgUrl: "/product-icon/card_key.svg" },
-      { name: "Pin Code", imgUrl: "/product-icon/pin_code.svg" },
-      { name: "Fingerprint", imgUrl: "/product-icon/fingerprint.svg" },
-      { name: "Machnic Key", imgUrl: "/product-icon/machnic_key.svg" },
-    ],
+    icons: item.key_features,
   });
 
   useEffect(() => {
@@ -65,7 +61,8 @@ export const ProductList = () => {
       // Case 2: Specific categoryId from params (fetch from API)
       try {
         const res = await fetchProductsByCategory(categoryId);
-        const mapped = res.data.map(mapProduct);
+        console.log(res.data);
+        const mapped =res.data.map(mapProduct);
         setProducts(mapped);
       } catch (err) {
         console.error("Error fetching category products", err);
@@ -79,10 +76,6 @@ export const ProductList = () => {
   }, [categoryId, passedState]);
 const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const timeout = setTimeout(() => setLoading(false), 5000); 
-    return () => clearTimeout(timeout);
-  }, []);
 
   if (loading) {
     return (

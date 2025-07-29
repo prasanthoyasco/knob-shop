@@ -1,8 +1,8 @@
-import React,{useState,useEffect} from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
-import ProductCard from '../ProductCard/ProductCard'; // update the path accordingly
-import {getAllProducts} from '../../API/productApi'
-const RelatedProductsSection = ({ products = [] }) => {
+import React, { useState, useEffect } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import ProductCard from "../ProductCard/ProductCard";
+import { getAllProducts } from "../../API/productApi";
+const RelatedProductsSection = () => {
   const sliderRef = React.useRef(null);
   const [allProduct, setAllProduct] = useState([]);
 
@@ -10,9 +10,8 @@ const RelatedProductsSection = ({ products = [] }) => {
     const fetchAllProduct = async () => {
       try {
         const res = await getAllProducts();
-        console.log("All products Details : ",res)
+        console.log("All products Details : ", res);
         setAllProduct(res); // adjust if your API shape differs
-
       } catch (err) {
         console.error("Failed to fetch product", err);
       }
@@ -21,11 +20,11 @@ const RelatedProductsSection = ({ products = [] }) => {
     fetchAllProduct();
   }, []);
   const scrollLeft = () => {
-    sliderRef.current.scrollBy({ left: -300, behavior: 'smooth' });
+    sliderRef.current.scrollBy({ left: -300, behavior: "smooth" });
   };
 
   const scrollRight = () => {
-    sliderRef.current.scrollBy({ left: 300, behavior: 'smooth' });
+    sliderRef.current.scrollBy({ left: 300, behavior: "smooth" });
   };
 
   return (
@@ -37,7 +36,13 @@ const RelatedProductsSection = ({ products = [] }) => {
         <button
           onClick={scrollLeft}
           className="btn btn-light position-absolute top-50 translate-middle-y shadow-sm d-none d-md-flex align-items-center"
-          style={{ zIndex: 10, borderRadius: '50%',height:'50px',width:'50px',left:10 }}
+          style={{
+            zIndex: 10,
+            borderRadius: "50%",
+            height: "50px",
+            width: "50px",
+            left: 10,
+          }}
         >
           <ChevronLeft size={20} />
         </button>
@@ -47,39 +52,45 @@ const RelatedProductsSection = ({ products = [] }) => {
           ref={sliderRef}
           className="d-flex overflow-auto gap-3 px-3 px-md-5 related-product"
           style={{
-            scrollBehavior: 'smooth',
-            scrollbarWidth: 'none',
-            msOverflowStyle: 'none',
+            scrollBehavior: "smooth",
+            scrollbarWidth: "none",
+            msOverflowStyle: "none",
           }}
         >
-{allProduct?.map((product, i) => {
-  const formattedProduct = {
-    id: product?._id,
-    title: product?.name,
-    price: product?.price,
-    oldPrice: product?.compare_price,
-    variant:product.variant,
-    discount: product?.discount?.value,
-    rating: product?.rating ?? 4.5, // fallback if no rating
-    image: product?.images?.[0],
-    icons: product?.key_features,
-    hoverImage: product.images?.[1] || product.images?.[0],
-  };
+          {allProduct?.map((product, i) => {
+            const hasKeyFeatures = Array.isArray(product?.key_features) && product.key_features.length > 0;
+            const formattedProduct = {
+              id: product?._id,
+              title: product?.name,
+              price: product?.price,
+              oldPrice: product?.compare_price,
+              variant: product.variant,
+              discount: product?.discount?.value,
+              rating: product?.rating ?? 4.5, 
+              image: product?.images?.[0],
+              ...(hasKeyFeatures && { icons: product.key_features }),
+              hoverImage: product.images?.[1] || product.images?.[0],
+            };
 
-  return (
-    <div key={i} className="product-scroll-item">
-      <ProductCard product={formattedProduct} />
-    </div>
-  );
-})}
-
+            return (
+              <div key={i} className="product-scroll-item">
+                <ProductCard product={formattedProduct} />
+              </div>
+            );
+          })}
         </div>
 
         {/* Right Arrow */}
         <button
           onClick={scrollRight}
           className="btn btn-light position-absolute top-50 translate-middle-y shadow-sm d-none d-md-flex align-items-center"
-          style={{ zIndex: 10, borderRadius: '50%',height:'50px',width:'50px',right:10 }}
+          style={{
+            zIndex: 10,
+            borderRadius: "50%",
+            height: "50px",
+            width: "50px",
+            right: 10,
+          }}
         >
           <ChevronRight size={30} />
         </button>

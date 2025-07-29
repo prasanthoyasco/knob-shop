@@ -1,10 +1,9 @@
-// components/ProductCard.jsx
 import { FaStar, FaHeart } from "react-icons/fa";
 import "./ProductCard.css";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useCart } from "../../Context/CartContext";
-// import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
-// import { useState } from "react";
+import { useState } from "react";
+
 import chair from "../../Assets/product-category/p1.jpg";
 import chair2 from "../../Assets/product-category/p6.jpg";
 import sofa from "../../Assets/product-category/p2.jpg";
@@ -12,6 +11,7 @@ import sofa2 from "../../Assets/product-category/p3.jpg";
 import sofa3 from "../../Assets/product-category/p4.jpg";
 import bchair from "../../Assets/product-category/p3.jpg";
 import bchair1 from "../../Assets/product-category/p7.jpg";
+
 const productsDefault = [
   {
     id: 1,
@@ -76,152 +76,182 @@ const productsDefault = [
     hoverImage: sofa2,
   },
 ];
+
 const ProductCard = ({ product }) => {
   const navigate = useNavigate();
   const { addToCart, toggleDrawer } = useCart();
-    // const [isWishlisted, setIsWishlisted] = useState(false);
 
-  // const toggleWishlist = () => {
-  //   setIsWishlisted(!isWishlisted);
-  // };
-  const {
-    id,
-    title,
-    price,
-    oldPrice,
-    discount,
-    rating,
-    image,
-    features,
-  } = product;
-let icons = product.icons;
+  const [selectedColorIndex, setSelectedColorIndex] = useState(0);
+  const initialSizeLabel = product.variant?.[0]?.sizes?.[0]?.label ?? null;
 
-// If icons are not available, find a match in productsDefault by title
+  const [selectedSizeLabel, setSelectedSizeLabel] = useState(initialSizeLabel);
 
-// If no icons are provided in product, fallback to matching product from productsDefault
-if (!icons || icons.length === 0) {
-  const defaultMatch = productsDefault.find(
-    (p) => p.title?.trim().toLowerCase() === title?.trim().toLowerCase()
-  );
-  icons = defaultMatch?.icons || [];
+  const { id, title, rating } = product;
 
-  if (icons.length > 0) {
-  } else {
-    // ✅ Default icon set
-    icons = [
+  let icons = product.icons;
+
+  // Use default icons if not present
+  if (!icons || icons.length === 0) {
+    const defaultMatch = productsDefault.find(
+      (p) => p.title?.trim().toLowerCase() === title?.trim().toLowerCase()
+    );
+    icons = defaultMatch?.icons || [
       { name: "Card Key", imgUrl: "/product-icon/card_key.svg" },
       { name: "Pin Code", imgUrl: "/product-icon/pin_code.svg" },
       { name: "Fingerprint", imgUrl: "/product-icon/fingerprint.svg" },
       { name: "Machnic Key", imgUrl: "/product-icon/machnic_key.svg" },
     ];
   }
-}
 
-
+  const selectedVariant = product.variant?.[selectedColorIndex] ?? {};
+  const selectedSize =
+    selectedVariant?.sizes?.find((s) => s.label === selectedSizeLabel) ??
+    selectedVariant?.sizes?.[0] ??
+    {};
+  const calculatedDiscount =
+    selectedSize.mrp && selectedSize.sellingPrice
+      ? Math.round(
+          ((selectedSize.mrp - selectedSize.sellingPrice) / selectedSize.mrp) *
+            100
+        )
+      : 0;
 
   return (
-   <div className="card product-card h-100 position-relative curser-pointer">
-  {discount && (
-    <span className="badge bg-dark text-white position-absolute top-0 start-0 m-2">
-      {discount}% off
-    </span>
-  )}
+    <div className="card product-card h-100 position-relative cursor-pointer">
+      {calculatedDiscount > 0 && (
+        <span className="badge bg-dark border-0 text-white position-absolute top-0 start-0 m-2">
+          {calculatedDiscount}% off
+        </span>
+      )}
 
-  <div className="position-absolute top-0 end-0 m-2 d-flex align-items-center rounded px-2 py-1 rating-overlay">
-  <FaStar className="text-warning me-1" size={18} />
-  <span className="normal">{rating}</span>
-</div>
-
-
-  <div className="image-wrapper position-relative" onClick={()=>navigate(`/product/${id}`)}>
-  <img src={product.variant?.[0].images?.[0]?.url} alt={title} className="card-img-top default-img" />
-  <img src={product.variant?.[0].images?.[1]?.url} alt={title} className="card-img-top hover-img position-absolute top-0 start-0" />
-  {/* <div className="hover-button-wrapper">
-    <button className="hover-button">Choose Option</button>
-  </div> */}
-</div>
-
-
-  <div className="card-body d-flex flex-column">
-   <div className="icons">
-    {icons?.length > 0 ? (
-      icons.map((icon, index) => (
-        <div className="icon" key={index}>
-          <img src={icon.imgUrl} alt={icon.name} />
-          <span className="tooltip">{icon.name}</span>
-        </div>
-      ))
-    ) : (
-      // Render empty placeholders if needed, or leave div empty to preserve space
-      null
-    )}
-    
-  </div>
-   <hr />
-    <div className="mt-2">
-    <h5 className="card-title">
-      {product.title}
-    </h5>
-
-    <p className="mb-2">
-     
-    <del className="text-muted">
-  ₹ {(oldPrice ?? 0).toLocaleString("en-IN")}
-</del>
-       <strong style={{ color: "#D6791F" }}>
-        ₹ {(price ? +price : 0).toLocaleString("en-IN")}
-      </strong>
-    </p>
-    <p className="text-success mb-2">
-  You Save ₹ {(Math.max((oldPrice ?? 0) - (price ?? 0), 0)).toLocaleString("en-IN")}
-</p>
-
-
-<div className="product-colors d-flex gap-2 my-2">
-  <input type="radio" name="color" className="color-dot brown" />
-  <input type="radio" name="color" className="color-dot gray" />
-  <input type="radio" name="color" className="color-dot red" />
-</div>
-<div className="card-buttons mt-3">
-  <button className="View-detail" onClick={()=>navigate(`/product/${id}`)}>View Details</button>
-  <button className="Addtocart" onClick={() => {
-                  addToCart(product);
-                  toggleDrawer(true);
-                }}>Add To cart</button>
-</div>
-    </div>
-    {/* <div className="product-colors">
-      <span className="color-dot brown"></span>
-      <span className="color-dot grey"></span>
-      <span className="color-dot red"></span>
-      <input type="radio" className="color-dot brown" />
-      <input type="radio" className="color-dot gray" />
-      <input type="radio" className="color-dot red" />
-    </div> */}
-
-    {/* <div className="card-actions mt-auto">
-      <button
-        className="btn btn-sm"
-        style={{
-          background: "#B07D51",
-          color: "#fff",
-          padding: "0.4rem 1.5rem",
-          fontSize: "0.75rem",
-        }}
-      >
-        Choose Option
-      </button>
-      <div onClick={toggleWishlist} className="wishlist-icon-wrapper">
-        {isWishlisted ? (
-          <AiFillHeart className="wishlist-icon animate" color="#ff002b" />
-        ) : (
-          <AiOutlineHeart className="wishlist-icon animate" />
-        )}
+      <div className="position-absolute top-0 end-0 m-2 d-flex align-items-center rounded px-2 py-1 rating-overlay">
+        <FaStar className="text-warning me-1" size={18} />
+        <span className="normal">{rating}</span>
       </div>
-    </div> */}
-  </div>
-</div>
 
+      <div
+        className="image-wrapper position-relative"
+        onClick={() => navigate(`/product/${id}`)}
+      >
+        <img
+          src={selectedVariant.images?.[0]?.url}
+          alt={title}
+          className="card-img-top default-img"
+        />
+        <img
+          src={selectedVariant.images?.[1]?.url}
+          alt={title}
+          className="card-img-top hover-img position-absolute top-0 start-0"
+        />
+      </div>
+
+      <div className="card-body d-flex flex-column">
+        {/* Icons */}
+        {(Array.isArray(icons) && icons.length > 0) ||
+        (Array.isArray(product.key_features) &&
+          product.key_features.length > 0) ? (
+          <div className="icons">
+            {(Array.isArray(icons) && icons.length > 0
+              ? icons
+              : product.key_features
+            ).map((icon, index) => (
+              <div className="icon" key={icon.id || icon.title || index}>
+                <img src={`/${icon.image}`} alt={icon.title} />
+                <span className="tooltip">{icon.title}</span>
+              </div>
+            ))}
+          </div>
+        ) : null}
+
+        <hr />
+
+        {/* Title & Price */}
+        <div className="mt-2">
+          <h5 className="card-title">{title}</h5>
+
+          <p className="mb-2">
+            <del className="text-muted">
+              ₹{(selectedSize.mrp ?? 0).toLocaleString("en-IN")}
+            </del>{" "}
+            <strong style={{ color: "#D6791F" }}>
+              ₹{(selectedSize.sellingPrice ?? 0).toLocaleString("en-IN")}
+            </strong>
+          </p>
+
+          <p className="text-success mb-2">
+            You Save ₹
+            {Math.max(
+              (selectedSize.mrp ?? 0) - (selectedSize.sellingPrice ?? 0),
+              0
+            ).toLocaleString("en-IN")}
+          </p>
+
+          {/* Color Select */}
+          <div className="product-colors d-flex align-items-center gap-2 my-2">
+            {product.variant?.map((color, index) => (
+              <input
+                key={index}
+                type="radio"
+                name={`color-${id}`}
+                title={color.title}
+                style={{
+                  backgroundColor: color.value,
+                  width: "24px",
+                  height: "24px",
+                  borderRadius: "9999px",
+                  border:
+                    selectedColorIndex === index
+                      ? "2px solid gray"
+                      : "1px solid gray",
+                  cursor: "pointer",
+                  appearance: "none",
+                }}
+                onChange={() => {
+                  setSelectedColorIndex(index);
+                  setSelectedSizeLabel(color.sizes?.[0]?.label ?? null);
+                }}
+              />
+            ))}
+          </div>
+
+          {/* Size Select */}
+          <div className="d-flex flex-wrap gap-2 mb-3">
+                        {selectedVariant.sizes?.map((size, idx) => (
+              <button
+                key={idx}
+                className={`px-3 py-1 rounded-pill border text-sm ${
+                  selectedSizeLabel === size.label
+                    ? "bg-dark text-white"
+                    : "border-gray-300 hover:bg-gray-100"
+                }`}
+                onClick={() => setSelectedSizeLabel(size.label)}
+              >
+                {size.label}
+              </button>
+            ))}
+          </div>
+
+          {/* Actions */}
+          <div className="card-buttons mt-2">
+            <button
+              className="View-detail"
+              onClick={() => navigate(`/product/${id}`)}
+            >
+              View Details
+            </button>
+            <button
+              className="Addtocart"
+              onClick={() => {
+                addToCart(product);
+                toggleDrawer(true);
+              }}
+            >
+              Add To Cart
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 

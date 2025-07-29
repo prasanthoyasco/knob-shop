@@ -99,7 +99,7 @@ const TrendingProducts = () => {
       console.log("data from trending products:", data);
       setProducts(data);
     } catch (err) {
-      setLoading(false);
+      console.log(err)
     }
   };
 
@@ -233,9 +233,6 @@ const TrendingProducts = () => {
               onMouseMove={onMouseMove}
               onMouseUp={onMouseUp}
               onMouseLeave={onMouseLeave}
-              // You can keep these if you still want auto-scroll to pause on hover
-              // onMouseEnter={() => clearInterval(autoScrollRef.current)}
-              // onMouseLeave={startAutoScroll}
             >
               {getFilteredProducts().map((product, index) => {
                 const {
@@ -245,9 +242,12 @@ const TrendingProducts = () => {
                   compare_price,
                   images,
                   variant,
+                  key_features,
                   discount,
                   features,
                 } = product;
+
+                console.log(variant)
 
                 const transformedProduct = {
                   id: _id,
@@ -256,13 +256,10 @@ const TrendingProducts = () => {
                   oldPrice: compare_price || price || 0,
                   discount: discount?.isActive ? discount.value : "",
                   rating: 4.9, // or product.rating if available from backend
-                  variant: variant || chair, // fallback image
+                  variant: variant, // fallback image
                   hoverImage: images?.[1] || images?.[0] || chair2, // fallback
                   features: features || [],
-                  icons:
-                    product.icons ||
-                    productsDefault.find((item) => item.icons)?.icons ||
-                    [],
+                  icons:key_features
                 };
 
                 return (
