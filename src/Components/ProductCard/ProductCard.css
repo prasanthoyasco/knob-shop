@@ -26,7 +26,8 @@
 
 .product-card .card-img-top {
   background-color: #F8F8F8;
-  object-fit: cover;
+  height:280px;
+  object-fit:contain;
   object-position: center center;
 }
 
@@ -133,7 +134,7 @@
   background: #F8F8F8;
   user-select: none;
   transition: all 0.5s ease-in-out;
-  height: 100%;
+  height: fit-content;
 }
 
 .image-wrapper .default-img,

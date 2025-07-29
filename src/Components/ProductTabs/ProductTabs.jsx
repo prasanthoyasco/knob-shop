@@ -40,9 +40,9 @@ const tabData = {
   ) : (
     <p className="mt-3">No description available.</p>
   ),
-
-  Features: <ProductFeatures />,
-
+...(product?.features?.length > 0 && {
+  Features: (<ProductFeatures features={product.features} />),
+  }),
   ...(product?.tech_spec?.length > 0 && {
     "Technical Specification": (
       <ProductSpecificationTable specifications={product.tech_spec} />

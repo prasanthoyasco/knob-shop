@@ -58,6 +58,8 @@ const RelatedProductsSection = () => {
           }}
         >
           {allProduct?.map((product, i) => {
+            console.log("New related product:",product);
+            
             const hasKeyFeatures = Array.isArray(product?.key_features) && product.key_features.length > 0;
             const formattedProduct = {
               id: product?._id,

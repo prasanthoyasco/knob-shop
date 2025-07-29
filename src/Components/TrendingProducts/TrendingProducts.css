@@ -196,9 +196,9 @@
   border-radius: 2px;
 }
 @media (min-width: 576px) {
-  .product-card .card-img-top {
+  /* .product-card .card-img-top {
     height: 100% !important;
-  }
+  } */
 }
 @media (max-width:768px){
   .product-scroll-container {
