@@ -28,6 +28,10 @@ import Pricing from './Components/TermsAndCondition/Pricing';
 import Waranty from './Components/TermsAndCondition/Waranty';
 import ShippingPage from './Components/ShippingPage/ShippingPage'
 import Broucher from './Components/Broucher/Broucher';
+import AuthAccount from './Components/AuthenticationPage/AuthAccount/AuthAccount';
+import AuthPassword from './Components/AuthenticationPage/AuthPassword/AuthPassword';
+import AuthForgotPass from './Components/AuthenticationPage/AuthForgotPass/AuthForgotPass';
+import AuthConfirm from './Components/AuthenticationPage/AuthConfirm/AuthConfirm';
 // import NavbarTop from './Components/Navbar/NavbarTop/NavbarTop';
 
 function App() {
@@ -57,6 +61,10 @@ function App() {
        <Route path='/Tracking' element={<OrderTracking/>}></Route>
        <Route path='/order-confirmed' element={<OrderConfirmed/>}></Route>
        <Route path="/brouchers" element={<Broucher/>} />
+       <Route path="/auth/register" element={<AuthAccount/>} />
+       <Route path="/auth/password" element={<AuthPassword/>} />
+       <Route path="/auth/forgot-pass" element={<AuthForgotPass/>} />
+       <Route path="/auth/confirm" element={<AuthConfirm/>} />
        <Route path="*" element={<Notfound />} />
       </Routes>
       </div>
