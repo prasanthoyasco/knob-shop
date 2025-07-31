@@ -3,19 +3,70 @@ import Slider from "react-slick";
 import './Brand.css'
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { useNavigate } from "react-router-dom";
+import brand2 from '../../Assets/BrandLogos/dorset-logo.webp'
+import brand3 from '../../Assets/BrandLogos/Dorma.png'
+import brand4 from '../../Assets/BrandLogos/l2.png'
+import brand5 from '../../Assets/BrandLogos/Ebco.webp'
+import brand6 from '../../Assets/BrandLogos/gaze.png'
+import brand7 from '../../Assets/BrandLogos/Godrej.png'
+import brand8 from '../../Assets/BrandLogos/Golden.png'
+import brand9 from '../../Assets/BrandLogos/haefele_logo.png'
+import brand10 from '../../Assets/BrandLogos/labacha.png'
+import brand11 from '../../Assets/BrandLogos/logo.svg.svg'
+import brand12 from '../../Assets/BrandLogos/magnum-logo.png'
+import brand13 from '../../Assets/BrandLogos/PlusPointWhite-CT5yed7t.png'
+import brand14 from '../../Assets/BrandLogos/Sris-ma-fils-trademark-and-logo.png'
+import brand15 from '../../Assets/brand3.png'
+import { getAllProducts } from "../../API/productApi";
+const images = [ brand2, brand3, brand4, brand5, brand6,brand7,brand8,brand9,brand10,brand11,brand12,brand13,brand14,brand15];
 
-import brand1 from '../../Assets/brand1.png'
-import brand2 from '../../Assets/brand2.png'
-import brand3 from '../../Assets/brand3.png'
-import brand4 from '../../Assets/brand4.png'
-import brand5 from '../../Assets/brand5.png'
-import brand6 from '../../Assets/brand6.png'
-
-const images = [brand1, brand2, brand3, brand4, brand5, brand6];
-
+const brandData = [
+  { name: "Dorset", image: brand2 },
+  { name: "Dorma", image: brand3 },
+  { name: "Decorpoint", image: brand4 },
+  { name: "Ebco", image: brand5 },
+  { name: "Gaze", image: brand6 },
+  { name: "Godrej", image: brand7 },
+  { name: "Golden", image: brand8 },
+  { name: "Haefele", image: brand9 },
+  { name: "Labacha", image: brand10 },
+  { name: "Blum", image: brand11 },
+  { name: "Magnum", image: brand12 },
+  { name: "PlusPoint", image: brand13 },
+  { name: "Sris-ma-fils", image: brand14 },
+  { name: "Yale", image: brand15 },
+];
 function Brand() {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const navigate = useNavigate();
+  const handleBrandClick = (brand) => {
+    navigate(`/products/brand/${brand.name}`, {
+      state: {
+        product: {
+          text: brand.name,
+          image: brand.image,
+        },
+      },
+    });
+  };
 
+  const handleViewAll = async () => {
+    try {
+      const allProducts = await getAllProducts(); // API call
+      navigate("/category/all-products", {
+        state: {
+          product: {
+            productList: allProducts,
+            text: "All Products",
+          },
+        },
+      });
+    } catch (error) {
+      console.error("Failed to fetch all products", error);
+    }
+  };
+  
   const slidesToShow = 6; // default slidesToShow, same as in settings
 
   const settings = {
@@ -55,20 +106,46 @@ function Brand() {
       <h5>TRUSTED BY TOP BRANDS</h5>
       <div className='brand-carousel'>
         <Slider {...settings}>
-        {images.map((image, index) => {
-  const total = images.length;
-  const startIndex = currentSlide % total;
-  const endIndex = (startIndex + slidesToShow - 1) % total;
-
-  let classNames = `brand-slide index-${index}`;
+        {brandData.map((brand, index) => {
+          const { name, image } = brand;
+          const total = brandData.length;
+          const startIndex = currentSlide % total;
+          const endIndex = (startIndex + slidesToShow - 1) % total;
+        
+          let classNames = `brand-slide index-${index}`;
 
   // Optional: grey out edges
   if (index === startIndex || index === endIndex) {
     classNames += ' greyed';
   }
 
+  if (image.includes('l2.png')) {
+    classNames += ' l2-black';
+  }
+  if (image.includes('PlusPointWhite-CT5yed7t.png')) {
+    classNames += ' PlusPointWhite-color';
+  }
+  if (image.includes('labacha.png')) {
+    classNames += ' labacha-size';
+  }
+  if (image.includes('Golden.png')) {
+    classNames += ' Golden-size';
+  }
+  if (image.includes('dorset-logo.webp')) {
+    classNames += ' dorset-size';
+  }
+  if (image.includes('PlusPointWhite-CT5yed7t.png')) {
+    classNames += ' PlusPoint-size';
+  }
+  if (image.includes('Dorma.png')) {
+    classNames += ' Dorma-size';
+  }
+  if (image.includes('Ebco.webp')) {
+    classNames += ' Ebco-color';
+  }
+
   return (
-    <div key={index} className={classNames}>
+    <div key={index} className={classNames} onClick={() => handleBrandClick(brand)}>
       <img src={image} alt={`brand-${index}`} />
     </div>
   );
@@ -76,7 +153,7 @@ function Brand() {
 
         </Slider>
       </div>
-      <button>SEE ALL BRANDS</button>
+      <button onClick={handleViewAll}>SEE ALL BRANDS</button>
     </div>
   )
 }

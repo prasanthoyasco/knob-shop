@@ -42,6 +42,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path='/category/:categoryId' element={<ProductList />} />
+        <Route path='/products/brand/:brandName' element={<ProductList />} />
        <Route path='/product/:id' element={<ProductDetails/>}></Route>
        <Route path='/categories' element={<CategoriesHeader/>}></Route>
        <Route path='/terms-condition' element={<TermsAndCondition/>}></Route>

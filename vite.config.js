@@ -8,4 +8,5 @@ export default defineConfig({
     include: ['swiper', 'react-slick', 'slick-carousel'],  // Add packages here
   },
   assetsInclude: ['**/*.png', '**/*.jpg', '**/*.jpeg', '**/*.svg'],  // Handle image files
+  assetsInclude: ['**/*.cdr'],
 })
