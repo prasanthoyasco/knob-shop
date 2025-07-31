@@ -5,6 +5,7 @@ import { fetchCategories } from "../../../API/categoriesApi";
 
 function CatGrid() {
   const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -14,7 +15,9 @@ function CatGrid() {
         setCategories(data); // Expecting array from API
       } catch (error) {
         console.error("Failed to fetch categories:", error);
-      }
+      }finally {
+      setLoading(false);
+    }
     };
 
     getCategories();
@@ -55,7 +58,35 @@ function CatGrid() {
 
   const rows = groupCategories(categories);
 
+  const renderSkeletons = () => {
+  const dummyItems = new Array(6).fill(null);
   return (
+    <div className="cat-data-grid-wrapper">
+      <div className="cat-data-grid-row first-layout">
+        {dummyItems.map((_, index) => (
+          <div key={index} className="cat-data-grid-div">
+            <div className="cat-data-image-wrapper">
+              <div className="placeholder-glow w-100" style={{ height: '150px', borderRadius: '8px' }}>
+                <div className="placeholder w-100 h-100" />
+              </div>
+            </div>
+            <div className="cat-data-grid-text mt-2">
+              <h5 className="placeholder-glow">
+                <span className="placeholder col-6"></span>
+              </h5>
+              <p className="placeholder-glow">
+                <span className="placeholder col-8"></span>
+              </p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+
+  return  loading ? renderSkeletons() : (
     <div className="cat-data-grid-wrapper">
       {rows.map((row, rowIndex) => (
         <div key={rowIndex} className={`cat-data-grid-row ${row.layout}`}>
@@ -71,7 +102,7 @@ function CatGrid() {
             >
               <div className="cat-data-image-wrapper">
                 <img
-                  src={data.categoryImageUrl}
+                  src={data.categoryImageUrl?.trim()}
                   alt={data.category_name}
                   className="cat-data-grid-image"
                 />
