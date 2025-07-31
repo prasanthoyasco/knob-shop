@@ -187,7 +187,7 @@ function PrivacyPolicy() {
 <h2>Contact Us</h2>
 <p>If you have any questions about this Privacy Policy, You can contact us:</p>
 <ul>
-<li>By visiting this page on our website: <a href="https://knob-shop-khaki.vercel.app/" rel="external nofollow noopener" target="_blank">https://knob-shop-khaki.vercel.app/</a></li>
+<li>By visiting this page on our website: <a href="https://knobsshop.store/" rel="external nofollow noopener" target="_blank">https://knob-shop-khaki.vercel.app/</a></li>
 </ul>
     </div>
     <Footer/>
