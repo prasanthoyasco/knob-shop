@@ -14,16 +14,15 @@ const ProductCard = ({ product }) => {
   const [selectedSizeLabel, setSelectedSizeLabel] = useState(initialSizeLabel);
 
   const { id, title, rating } = product;
-  console.log(product);
 
   // Use default icons if not present
   const icons =
     Array.isArray(product.key_features) && product.key_features.length > 0
       ? product.key_features.map((f) => ({
           title: f.title,
-          image: f.image, 
+          image: f.image,
         }))
-      :product.icons;
+      : product.icons;
 
   const selectedVariant = product.variant?.[selectedColorIndex] ?? {};
   const selectedSize =
@@ -42,8 +41,8 @@ const ProductCard = ({ product }) => {
     if (!url?.includes("/upload/")) return url;
 
     return url.replace(
-      "/upload/",
-      `/upload/c_fill,g_auto,w_${width},h_${height}/`
+      /\/upload\/(v\d+\/)?/,
+      `/upload/w_${width},h_${height},c_pad,b_gen_fill,f_webp,q_auto:best,e_upscale,dpr_auto/$1`
     );
   }
 
@@ -66,16 +65,16 @@ const ProductCard = ({ product }) => {
       >
         <img
           src={getCloudinaryTransformedUrl(selectedVariant.images?.[0]?.url)}
-          alt={title}
+          alt={title?.substring(0, 30)}
           className="card-img-top default-img"
         />
-        {selectedVariant.images?.[1]?.url && (
           <img
-            src={getCloudinaryTransformedUrl(selectedVariant.images?.[1]?.url)}
-            alt={title}
+            src={getCloudinaryTransformedUrl(
+      selectedVariant.images?.[1]?.url || selectedVariant.images?.[0]?.url
+    )}
+            alt={selectedVariant.images?.[1]?.url}
             className="card-img-top hover-img position-absolute top-0 start-0"
           />
-        )}
       </div>
 
       <div className="card-body d-flex flex-column">
@@ -94,7 +93,7 @@ const ProductCard = ({ product }) => {
 
         {/* Title & Price */}
         <div className="mt-2">
-          <h5 className="card-title">{title}</h5>
+          <h5 className="card-title single-line">{title}</h5>
 
           <p className="mb-2">
             <del className="text-muted">
@@ -143,19 +142,23 @@ const ProductCard = ({ product }) => {
 
           {/* Size Select */}
           <div className="d-flex flex-wrap gap-2 mb-3">
-            {selectedVariant.sizes?.map((size, idx) => (
-              <button
-                key={idx}
-                className={`px-3 py-1 rounded-pill border text-sm ${
-                  selectedSizeLabel === size.label
-                    ? "bg-dark text-white"
-                    : "border-gray-300 hover:bg-gray-100"
-                }`}
-                onClick={() => setSelectedSizeLabel(size.label)}
-              >
-                {size.label}
-              </button>
-            ))}
+            {selectedVariant.sizes?.map((size, idx) => {
+              if (!size.label?.length) return null;
+
+              return (
+                <button
+                  key={idx}
+                  className={`px-3 py-1 rounded-pill border text-sm ${
+                    selectedSizeLabel === size.label
+                      ? "bg-dark text-white"
+                      : "border-gray-300 hover:bg-gray-100"
+                  }`}
+                  onClick={() => setSelectedSizeLabel(size.label)}
+                >
+                  {size.label}
+                </button>
+              );
+            })}
           </div>
 
           {/* Actions */}

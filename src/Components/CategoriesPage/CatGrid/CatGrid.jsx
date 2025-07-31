@@ -12,7 +12,7 @@ function CatGrid() {
     const getCategories = async () => {
       try {
         const data = await fetchCategories();
-        setCategories(data); // Expecting array from API
+        setCategories(data);
       } catch (error) {
         console.error("Failed to fetch categories:", error);
       }finally {

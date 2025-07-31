@@ -49,8 +49,13 @@
   font-weight: 600;
   margin-bottom: 0.5rem;
   color: #222 !important;
+  max-width: 250px;
 }
-
+.single-line {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
 .product-card .card-actions {
   display: flex;
   align-items: center;

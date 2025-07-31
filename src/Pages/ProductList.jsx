@@ -10,16 +10,13 @@ import lockerBg from "../Assets/CategoriesImge/image.jpg"
 // import bchair from "../Assets/product-category/p3.jpg";
 // import bchair1 from "../Assets/product-category/p7.jpg";
 import Footer from "../Components/Footer/Footer";
-import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { fetchProductsByCategory,getAllProducts } from "../API/productApi";
+import { fetchProductsByCategory , getAllProducts } from "../API/productApi";
 export const ProductList = () => {
   const { categoryId } = useParams();
-  const location = useLocation();
-  const passedState = location.state?.product;
   const [products, setProducts] = useState([]);
-  console.log("Received Product Data:", products);
+  const [count, setCount] = useState([]);
   const mapProduct = (item) => ({
     id: item._id,
     title: item.name,
@@ -39,41 +36,34 @@ export const ProductList = () => {
   });
 
   useEffect(() => {
-    const loadProducts = async () => {
-      setLoading(true);
+  const loadProducts = async () => {
+    setLoading(true);
 
-      // Case 1: Navigated via "View All Products" (state passed)
+    try {
+      let res;
+      let mapped;
       if (categoryId === "all-products") {
-        try {
-        const res = await getAllProducts();
-        console.log(res);
-        
-        const mapped = res.data.map(mapProduct);
-        setProducts(mapped);
-      } catch (err) {
-        console.error("Error fetching category products", err);
-        setProducts([]);
-      } finally {
-        setLoading(false);
+        res = await getAllProducts();
+        setCount( res?.length || 0)
+         mapped = res?.map(mapProduct);
+      } else {
+        res = await fetchProductsByCategory(categoryId);
+        setCount(res?.data?.length || 0)
+         mapped = res.data.map(mapProduct);
       }
-      }
+      
+      setProducts(mapped);
+    } catch (err) {
+      console.error("Error fetching products", err);
+      setProducts([]);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-      // Case 2: Specific categoryId from params (fetch from API)
-      try {
-        const res = await fetchProductsByCategory(categoryId);
-        console.log(res.data);
-        const mapped =res.data.map(mapProduct);
-        setProducts(mapped);
-      } catch (err) {
-        console.error("Error fetching category products", err);
-        setProducts([]);
-      } finally {
-        setLoading(false);
-      }
-    };
+  loadProducts();
+}, [categoryId]);
 
-    loadProducts();
-  }, [categoryId, passedState]);
 const [loading, setLoading] = useState(true);
 
 
@@ -98,7 +88,7 @@ const [loading, setLoading] = useState(true);
      <NavbarTop/>
       <CategoryHero
         title="Digital Safe Lockers"
-        count={200}
+        count={count}
         backgroundImage={lockerBg}
       />
       {/* <CategoryPageLayout products={products}/> */}

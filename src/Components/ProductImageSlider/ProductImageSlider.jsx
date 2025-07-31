@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   ChevronDown,
   ChevronLeft,
@@ -13,7 +13,7 @@ const ProductImageSlider = ({ images: propImages = [], fetchById = true }) => {
   const [product, setProduct] = useState(null);
   const [imageLoading, setImageLoading] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const thumbnailRefs = useRef([]);
+  // const thumbnailRefs = useRef([]);
 
   // Optional: Only fetch from API if fetchById is true
   useEffect(() => {
@@ -70,13 +70,16 @@ const ProductImageSlider = ({ images: propImages = [], fetchById = true }) => {
     trackMouse: true,
   });
 
-  const getTransformedImageUrl = (url) => {
-  if (!url) return "";
+  const getTransformedImageUrl = (url, width = 700, height = 700) => {
+  if (!url?.includes("/upload/")) return url;
+
   return url.replace(
-    "/upload/",
-    "/upload/w_650,h_700,c_fill,q_auto,f_auto/"
+    /\/upload\/(v\d+\/)?/,
+    `/upload/w_${width},h_${height},c_pad,b_white,q_auto:best,e_upscale,f_auto,dpr_auto/$1`
   );
 };
+
+
 
 
   return (
