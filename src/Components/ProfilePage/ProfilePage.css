@@ -1,0 +1,13 @@
+.profile-page-wrapper {
+    display: flex;
+    margin-top: 5%;
+    justify-content: center;
+    gap: 20px;
+  }
+  .profile-page-right-section{
+    width: 70%;
+    border: 1px solid rgb(222, 220, 220);
+    height: fit-content;
+    padding: 40px;
+  }
+  
