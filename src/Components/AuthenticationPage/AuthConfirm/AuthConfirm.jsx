@@ -29,7 +29,7 @@ const AuthConfirm = () => {
         {/* Heading */}
         <h2 className="fw-bold mb-2 text-center">Your have been signed in successfully</h2>
         <div className='confirm-btn-div'>
-        <button className='confirm-page-btn' onClick={()=>navigate('/auth/password')}>continue</button>
+        <button className='confirm-page-btn' onClick={()=>navigate('/profile-page')}>continue</button>
       </div>
       </div>
     </>

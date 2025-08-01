@@ -32,6 +32,8 @@ import AuthAccount from './Components/AuthenticationPage/AuthAccount/AuthAccount
 import AuthPassword from './Components/AuthenticationPage/AuthPassword/AuthPassword';
 import AuthForgotPass from './Components/AuthenticationPage/AuthForgotPass/AuthForgotPass';
 import AuthConfirm from './Components/AuthenticationPage/AuthConfirm/AuthConfirm';
+import ProfilePageSidebar from './Components/ProfilePage/ProfilePageSidebar/ProfilePageSidebar';
+import ProfilePage from './Components/ProfilePage/ProfilePage';
 // import NavbarTop from './Components/Navbar/NavbarTop/NavbarTop';
 
 function App() {
@@ -65,6 +67,7 @@ function App() {
        <Route path="/auth/password" element={<AuthPassword/>} />
        <Route path="/auth/forgot-pass" element={<AuthForgotPass/>} />
        <Route path="/auth/confirm" element={<AuthConfirm/>} />
+       <Route path="/profile-page" element={<ProfilePage/>} />
        <Route path="*" element={<Notfound />} />
       </Routes>
       </div>
