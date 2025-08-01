@@ -11,10 +11,12 @@ import lockerBg from "../Assets/CategoriesImge/image.jpg"
 // import bchair1 from "../Assets/product-category/p7.jpg";
 import Footer from "../Components/Footer/Footer";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { fetchProductsByCategory , getAllProducts } from "../API/productApi";
+import { useLocation, useParams } from "react-router-dom";
+import { fetchProductsByCategory,getAllProducts,getProductsByBrand  } from "../API/productApi";
 export const ProductList = () => {
-  const { categoryId } = useParams();
+  const { categoryId,brandName  } = useParams();
+  const location = useLocation();
+  const passedState = location.state?.product;
   const [products, setProducts] = useState([]);
   const [count, setCount] = useState([]);
   const mapProduct = (item) => ({
@@ -36,34 +38,38 @@ export const ProductList = () => {
   });
 
   useEffect(() => {
-  const loadProducts = async () => {
-    setLoading(true);
-
-    try {
-      let res;
-      let mapped;
-      if (categoryId === "all-products") {
-        res = await getAllProducts();
-        setCount( res?.length || 0)
-         mapped = res?.map(mapProduct);
-      } else {
-        res = await fetchProductsByCategory(categoryId);
-        setCount(res?.data?.length || 0)
-         mapped = res.data.map(mapProduct);
+    const loadProducts = async () => {
+      setLoading(true);
+      try {
+        let res;
+    
+        if (brandName) {
+          res = await getProductsByBrand(brandName);
+          console.log(res.data);
+          
+          setCount(res?.data?.length);
+        } else if (categoryId === "all-products") {
+          res = await getAllProducts();
+          setCount(res?.length);
+        } else {
+          res = await fetchProductsByCategory(categoryId);
+        }
+    
+        // Normalize: support both array and { data: [...] }
+        const productArray = Array.isArray(res) ? res : res.data;
+        const mapped = productArray.map(mapProduct);
+        setProducts(mapped);
+      } catch (err) {
+        console.error("Error fetching products", err);
+        setProducts([]);
+      } finally {
+        setLoading(false);
       }
-      
-      setProducts(mapped);
-    } catch (err) {
-      console.error("Error fetching products", err);
-      setProducts([]);
-    } finally {
-      setLoading(false);
-    }
-  };
+    };
+    
 
-  loadProducts();
-}, [categoryId]);
-
+    loadProducts();
+  }, [categoryId, brandName, passedState]);
 const [loading, setLoading] = useState(true);
 
 

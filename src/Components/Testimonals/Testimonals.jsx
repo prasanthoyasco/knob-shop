@@ -16,7 +16,7 @@ import testinomalImage13 from '../../Assets/Textimonis/Karthikeyan T.JPG';
 import testinomalImage14 from '../../Assets/Textimonis/Nivas S.JPG';
 import testinomalImage15 from '../../Assets/Textimonis/Bhavesh Mehta.jpg';
 import testinomalImage16 from '../../Assets/Textimonis/Mahesh Prasanna.jpg';
-import testinomalImage17 from '../../Assets/Textimonis/Santhana Selvan J.JPG';
+import testinomalImage17 from '../../Assets/Textimonis/MR.Visagamuruthi.jpg';
 import testinomalImage18 from '../../Assets/Textimonis/SANJEEV M.jpg';
 import testinomalImage19 from '../../Assets/Textimonis/Dr. Kalaivani R..JPG';
 import testinomalImage20 from '../../Assets/Textimonis/K Saravanan.jpg';
@@ -198,7 +198,7 @@ Fraternity, had an apartment made.
   {
     idx: 0,
     imgage: testinomalImage17,
-    name: "Visagamoorthi D",
+    name: "MR.Visagamuruthi",
     profession: "Insighters India",
     message:`
     They also expressed that quality of the materials given by them

@@ -6,15 +6,15 @@ const htmlContent = `
 
 <h2>1) Order Cancellation</h2>
 <ul>
-  <li>You can cancel your order before it is invoiced by emailing ecom@knobsshop.store
-  with your order number and date. </li>
-  <li>Once shipped, orders cannot be canceled.</li>
+  <li>your order before it is invoiced by emailing ecom@knobsshop.store
+  with your order number and date.  </li>
+  <li>Once shipped, orders cannot be canceled. </li>
   <li>Refunds (for cancelled orders only) will be processed within 7 business days to the
-  original payment method. Please consult your bank for further details. </li>
+  original payment method. Please consult your bank for further details.</li>
 </ul>
 
 <h2>2) Non-Returnable Items</h2>
-<p>We cannot accept returns for:</p>
+<p>We cannot accept returns for: </p>
 <ul>
   <li>Customized or personalized products</li>
   <li>Sale items or gift cards offers.</li>
@@ -45,6 +45,18 @@ const htmlContent = `
   <li>If your product is damaged during transit delivery, replacements are at knobs shop discretion.</li>
   <li>Details with photoshoot sent within 2 days of receiving the order.</li>
 </ul>
+
+<h2>7) Discount: </h2>
+<p>
+Any trade, cash, or special discounts are at Knobsshop and may change without notice. 
+</p>
+<h2>7) Delivery Issues: </h2>
+<p>
+If your order is returned due to refusal to accept or recipient unavailability, we can:
+Refund the amount after deducting shipping and restocking fees, or Reship the product once
+shipping costs are paid.  
+</p>
+
 `
 function Return() {
   return (

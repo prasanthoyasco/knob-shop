@@ -5,10 +5,10 @@ import cart_icon from "../../../Assets/cart-icon.svg";
 import heart_icon from "../../../Assets/heart-icon.svg";
 import profile_icon from "../../../Assets/profile-icon.svg";
 import { useCart } from "../../../Context/CartContext"; 
-
+import { useNavigate } from "react-router-dom";
 function NavbarMiddle() {
   const { cartItems, toggleDrawer } = useCart(); 
-
+  const navigate = useNavigate()
   return (
     <>
       <div className="navbar-middle-container">
@@ -39,7 +39,7 @@ function NavbarMiddle() {
           </div>
 
           {/* Profile Section */}
-          <div className="profile">
+          <div className="profile" onClick={()=>navigate('/auth/register')}>
             <img src={profile_icon} alt="Profile" />
             <div>
               <p>Sign in</p>

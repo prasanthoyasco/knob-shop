@@ -20,3 +20,7 @@ export const getAllProducts = async () => {
         const res = await axios.get(`${BASE_URL}/brochures`);
         return res.data;
       };
+      export const getProductsByBrand = async (brandName) => {
+        const res = await axios.get(`${BASE_URL}/brand/${brandName}`);
+        return res.data;
+      };

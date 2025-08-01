@@ -7,5 +7,5 @@ export default defineConfig({
   optimizeDeps: {
     include: ['swiper', 'react-slick', 'slick-carousel'],  // Add packages here
   },
-  assetsInclude: ['**/*.png', '**/*.jpg', '**/*.jpeg', '**/*.svg'],  // Handle image files
+  assetsInclude: ['**/*.png', '**/*.jpg', '**/*.jpeg', '**/*.svg','**/*.cdr'],  // Handle image files
 })
