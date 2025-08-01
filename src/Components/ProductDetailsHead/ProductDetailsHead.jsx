@@ -320,21 +320,27 @@ export default function ProductDetailsHead() {
                   <p className="text-muted mb-2">
                     Size:{" "}
                     <span className="fw-semibold">
-                      {selectedSize || "Select a size"}
+                      {selectedSize || "Default Size"}
                     </span>
                   </p>
                   <div className="d-flex gap-2 flex-wrap">
-                    {selectedVariant.sizes.map((size, index) => (
-                      <button
-                        key={index}
-                        className={`btn py-1 px-3 fs-6 rounded-pill m-0 ${
-                          selectedSize === size.label ? "btn-dark" : "btn-light"
-                        }`}
-                        onClick={() => setSelectedSize(size.label)}
-                      >
-                        {size.label}
-                      </button>
-                    ))}
+                    {selectedVariant.sizes.map((size, index) => {
+                      if (!size.label?.length) return null;
+
+                      return (
+                        <button
+                          key={index}
+                          className={`btn py-1 px-3 fs-6 rounded-pill m-0 ${
+                            selectedSize === size.label
+                              ? "btn-dark"
+                              : "btn-light"
+                          }`}
+                          onClick={() => setSelectedSize(size.label)}
+                        >
+                          {size.label}
+                        </button>
+                      );
+                    })}
                   </div>
                 </div>
               )}
@@ -361,9 +367,9 @@ export default function ProductDetailsHead() {
                 </div>
 
                 <button
-                  className="btn btn-dark cart-btn py-3 m-0 rounded-pill"
+                  className="btn btn-dark cart-btn py-3 m-0 rounded-pill cursor-pointer"
                   style={{ padding: "0 3rem" }}
-                  disabled={!selectedSize}
+                  // disabled={!selectedSize}
                   onClick={() => {
                     addToCart(cartItem);
                     toggleDrawer(true);
