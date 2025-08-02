@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./AuthAccount.css";
-import { useNavigate } from "react-router-dom";
 import logoImage from "../../../Assets/logo.png";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { auth } from "../../firebase";
 import countryCodes from "../../../Assets/CountryCodes.json";
+import { checkUser, Login, Signup } from "../../../API/authApi";
 
 function AuthAccount() {
   const [countries, setCountries] = useState([]);
@@ -15,83 +15,142 @@ function AuthAccount() {
   const [step, setStep] = useState("enter");
   const [password, setPassword] = useState("");
   const [confirmationResult, setConfirmationResult] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-  const navigate = useNavigate();
-  const recaptchaVerifier = useRef(null);
+  const recaptchaVerifierRef = useRef(null);
 
-  // Initialize reCAPTCHA once
   useEffect(() => {
-    if (!recaptchaVerifier.current) {
-      recaptchaVerifier.current = new RecaptchaVerifier(
+    // Initialize reCAPTCHA on component mount
+    if (!recaptchaVerifierRef.current) {
+      recaptchaVerifierRef.current = new RecaptchaVerifier(
         auth,
         "recaptcha-container",
         {
           size: "invisible",
-          callback: (response) => {
-            console.log("reCAPTCHA solved:", response);
-          },
-          "expired-callback": () => {
-            console.warn("reCAPTCHA expired");
-          },
+          callback: (response) => console.log("reCAPTCHA solved:", response),
+          "expired-callback": () => console.warn("reCAPTCHA expired"),
         }
       );
-
-      recaptchaVerifier.current.render().then((widgetId) => {
-        window.recaptchaWidgetId = widgetId;
-      });
     }
-
     setCountries(countryCodes);
   }, []);
 
-  const loginWithEmail = () => {
-  if (!email || !password) {
-    return alert("Please enter both email and password.");
-  }
+  const loginWithEmail = async () => {
+    if (!email || !password) {
+      return alert("Please enter both email and password.");
+    }
+    setLoading(true);
+    try {
+      const data = await Login({ email, password });
+      localStorage.setItem("authToken", data.token);
+      window.location.back();
+    } catch (err) {
+      console.error("Login failed", err);
+      alert("Invalid email or password.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
-  // Replace this with your actual login logic
-  alert(`Logging in with ${email} / ${password}`);
-  navigate("/");
-};
-  const handleContinue = () => {
+  const handleContinue = async () => {
     if (email && !phone) {
-      setStep("password");
+      setLoading(true);
+      try {
+        const data = await checkUser({ email });
+        if (data.exists) {
+          setStep("password");
+        } else {
+          setStep("set-password");
+        }
+      } catch (err) {
+        console.error("Error checking user:", err);
+        alert("Something went wrong.");
+      } finally {
+        setLoading(false);
+      }
     } else if (phone && !email) {
       sendOtp();
     } else {
-      alert("Please enter either phone number or email.");
+      alert("Please enter either a phone number or an email.");
     }
   };
 
   const sendOtp = async () => {
-    if (!phone) return alert("Enter phone number");
+    if (!phone || phone.trim().length < 6) {
+      return alert("Please enter a valid phone number.");
+    }
 
-    const phoneNumber = `${selectedCode}${phone}`;
+    setLoading(true);
+    const phoneNumber = `${selectedCode}${phone.trim()}`;
 
     try {
-      const appVerifier = window.recaptchaVerifier;
-      const result = await signInWithPhoneNumber(
-        auth,
-        phoneNumber,
-        appVerifier
-      );
+      const appVerifier = recaptchaVerifierRef.current;
+      if (!appVerifier) {
+        throw new Error("reCAPTCHA not initialized.");
+      }
+
+      const result = await signInWithPhoneNumber(auth, phoneNumber, appVerifier);
       setConfirmationResult(result);
       setStep("otp");
+      alert("OTP sent successfully!");
     } catch (error) {
-      console.error(error);
-      alert("Failed to send OTP. " + error.message);
+      console.error("Failed to send OTP:", error);
+      alert(`Failed to send OTP. Error: ${error.message}`);
+    } finally {
+      setLoading(false);
     }
   };
 
   const verifyOtp = async () => {
-    if (!otp) return alert("Enter the OTP");
+    if (!otp) return alert("Please enter the OTP.");
+
+    setLoading(true);
     try {
+      if (!confirmationResult) {
+        throw new Error("Confirmation result is missing. Please resend the OTP.");
+      }
+      
       await confirmationResult.confirm(otp);
-      alert("OTP verified!");
-      navigate("/");
+      
+      const phoneNumber = `${selectedCode}${phone.trim()}`;
+      const data = await checkUser({ phone: phoneNumber });
+      
+      if (data.exists) {
+        const loginData = await Login({ phone: phoneNumber });
+        localStorage.setItem("authToken", loginData.token);
+        window.location.back();
+      } else {
+        setStep("set-password");
+      }
     } catch (error) {
-      console.error(error);
-      alert("Invalid OTP");
+      console.error("OTP verification failed:", error);
+      // Firebase auth/code-expired or auth/invalid-code errors often return with generic network errors.
+      // Displaying the specific Firebase error message is more helpful.
+      alert(`Invalid OTP. Please try again. Error: ${error.message}`);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSignup = async () => {
+    setLoading(true);
+    try {
+      if (!password) {
+        return alert("Please set a password.");
+      }
+      
+      const body = email
+        ? { email, password }
+        : { phone: `${selectedCode}${phone.trim()}`, password };
+
+      const data = await Signup(body);
+      localStorage.setItem("authToken", data.token);
+      window.location.back();
+    } catch (err) {
+      alert("Signup failed");
+      console.error(err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -111,6 +170,10 @@ function AuthAccount() {
           <h1>
             {step === "enter"
               ? "Enter your email or phone number to login or create an account"
+              : step === "password"
+              ? "Enter your password"
+              : step === "set-password"
+              ? "Set a new password"
               : "Enter the OTP sent to your phone"}
           </h1>
         </div>
@@ -123,7 +186,7 @@ function AuthAccount() {
                 onChange={(e) => setSelectedCode(e.target.value)}
               >
                 {countries.map((c) => (
-                  <option key={c.dial_code} value={c.dial_code}>
+                  <option key={c.code} value={c.dial_code}>
                     {c.name} ({c.dial_code})
                   </option>
                 ))}
@@ -133,7 +196,7 @@ function AuthAccount() {
             <div className="register-page-input phone-input-wrapper">
               <span className="country-code">{selectedCode}</span>
               <input
-                type="text"
+                type="tel"
                 placeholder="Phone Number*"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
@@ -146,7 +209,7 @@ function AuthAccount() {
 
             <div className="register-page-input">
               <input
-                type="text"
+                type="email"
                 placeholder="Email*"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -177,13 +240,13 @@ function AuthAccount() {
           </div>
         )}
 
-        {step === "otp" && (
+        {step === "set-password" && (
           <div className="register-page-input">
             <input
-              type="text"
-              placeholder="Enter OTP"
-              value={otp}
-              onChange={(e) => setOtp(e.target.value)}
+              type="password"
+              placeholder="Set a password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
           </div>
         )}
@@ -202,26 +265,42 @@ function AuthAccount() {
             </button>
           )}
           {step === "otp" && (
-            <button onClick={sendOtp} className="resend-btn">
-              Resend OTP
+            <button onClick={sendOtp} className="resend-btn" disabled={loading}>
+              {loading ? "Sending..." : "Resend OTP"}
             </button>
           )}
-          <button
-            className="register-page-btn"
-            onClick={
-              step === "enter"
-                ? handleContinue
+
+          {step !== "set-password" && (
+            <button
+              className="register-page-btn"
+              onClick={
+                step === "enter"
+                  ? handleContinue
+                  : step === "otp"
+                  ? verifyOtp
+                  : loginWithEmail
+              }
+              disabled={loading}
+            >
+              {loading
+                ? "Loading..."
+                : step === "enter"
+                ? "Continue"
                 : step === "otp"
-                ? verifyOtp
-                : loginWithEmail
-            }
-          >
-            {step === "enter"
-              ? "Continue"
-              : step === "otp"
-              ? "Verify OTP"
-              : "Login"}
-          </button>
+                ? "Verify OTP"
+                : "Login"}
+            </button>
+          )}
+
+          {step === "set-password" && (
+            <button
+              className="register-page-btn"
+              onClick={handleSignup}
+              disabled={loading}
+            >
+              {loading ? "Signing up..." : "Sign Up"}
+            </button>
+          )}
         </div>
 
         <div id="recaptcha-container"></div>
