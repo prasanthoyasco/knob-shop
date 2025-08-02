@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState,useEffect} from "react";
 import "./NavbarMiddle.css";
 import logoImage from "../../../Assets/logo.png";
 import cart_icon from "../../../Assets/cart-icon.svg";
@@ -6,9 +6,36 @@ import heart_icon from "../../../Assets/heart-icon.svg";
 import profile_icon from "../../../Assets/profile-icon.svg";
 import { useCart } from "../../../Context/CartContext"; 
 import { useNavigate } from "react-router-dom";
+import { searchProductsByParam } from "../../../API/productApi";
 function NavbarMiddle() {
   const { cartItems, toggleDrawer } = useCart(); 
   const navigate = useNavigate()
+  const [query, setQuery] = useState("");
+  const [results, setResults] = useState([]);
+
+  // Debounce search (optional but recommended)
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(() => {
+      if (query.trim() !== "") {
+        searchProducts();
+      } else {
+        setResults([]);
+      }
+    }, 300); // delay in ms
+
+    return () => clearTimeout(delayDebounceFn);
+  }, [query]);
+
+  const searchProducts = async () => {
+    try {
+      const res = await searchProductsByParam(query);
+      console.log("query",res)
+      setResults(res?.results || []);
+    } catch (error) {
+      console.error("Search failed:", error);
+    }
+  };
+  
   return (
     <>
       <div className="navbar-middle-container">
@@ -18,9 +45,22 @@ function NavbarMiddle() {
           </a>
         </div>
 
-        <div className="navbar-middle-search-box-icon">
-          <input type="search" placeholder="Search" />
+        <div className="navbar-middle-search-box-icon search-wrapper">
+          <input type="search" placeholder="Search"value={query}
+            onChange={(e) => setQuery(e.target.value)} />
           <i className="bi bi-search"></i>
+                    {/* Search Result Dropdown (optional styling needed) */}
+                    {query && results.length > 0 && (
+  <ul className="search-results-dropdown">
+    {results.map((item) => (
+      <li key={item._id} onClick={() => navigate(`/product/${item._id}`)}>
+        <img src={item.thumbnailUrl || "/fallback.jpg"} alt={item.name} />
+        <span>{item.name}</span>
+      </li>
+    ))}
+  </ul>
+)}
+
         </div>
 
         <div className="heart-cart-person-signIn-icon">
