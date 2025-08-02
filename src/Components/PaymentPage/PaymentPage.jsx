@@ -4,6 +4,9 @@ import Footer from "../Footer/Footer";
 import NavbarTop from "../Navbar/NavbarTop/NavbarTop";
 import productImage from "../../Assets/Product Categories and its Product (Knobs Shop)/Smart Door Lock/Smart Door Lock/Luna Pro+ Facial/14_0fb7187f-b413-411d-a145-e62b8c9e41bb.jpg";
 import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import { createDTDCConsignment } from "../../API/createOrderConsigment";
+import { createOrderWithShipping } from "../../API/orderApi";
 const cardImages = [
   "/payment-icon/discover.svg",
   "/payment-icon/master.svg",
@@ -21,9 +24,16 @@ function PaymentPage() {
   const [lastName, setLastName] = useState("");
   const [deliveryAddress, setDeliveryAddress] = useState("");
   const [city, setCity] = useState("");
+  const [state, setState] = useState("");
+
   const [zipCode, setZipCode] = useState("");
   const [deliveryCompleted, setDeliveryCompleted] = useState(false);
-
+  const location = useLocation();
+  const cartItems = location.state?.cartItems || [];
+  const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  useEffect(() => {
+    console.log("PaymentPage - cartItems:", cartItems);
+  }, [cartItems]);
   useEffect(() => {
     const allFilled =
       firstName.trim() &&
@@ -34,7 +44,94 @@ function PaymentPage() {
     setDeliveryCompleted(!!allFilled);
   }, [firstName, lastName, deliveryAddress, city, zipCode]);
   const navigate = useNavigate();
-
+  const handlePayment = async () => {
+    try {
+      const totalWeight = cartItems.reduce((sum, item) => sum + (item.weight || 1), 0);
+      const totalValue = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  
+      const declaredLength = 70.0;
+      const declaredWidth = 70.0;
+      const declaredHeight = 65.0;
+  
+      // ✅ Define shippingAddress at the top
+      const shippingAddress = {
+        name: `${firstName} ${lastName}`,
+        phone: contactInfo,
+        alternate_phone: contactInfo,
+        street: deliveryAddress,
+        city: city,
+        district: city,
+        pincode: zipCode,
+        state: state || "Tamil Nadu",
+      };
+  
+      // ✅ DTDC payload (only used for DTDC API)
+      const dtdcPayload = {
+        _id: `ORDER-${Date.now()}`,
+        invoiceNo: `INV-${Date.now()}`,
+        invoiceDate: new Date().toISOString().split('T')[0],
+        totalAmount: totalValue,
+        ewayBill: "12345678",
+        shippingAddress,
+        cartItems,
+        dimensions: {
+          length: declaredLength,
+          width: declaredWidth,
+          height: declaredHeight,
+          weight: totalWeight.toFixed(1),
+        },
+      };
+  
+      console.log("📦 Creating DTDC Consignment...");
+      const dtdcResponse = await createDTDCConsignment(dtdcPayload);
+  
+      let referenceNumber = "";
+      if (dtdcResponse?.data?.length > 0) {
+        referenceNumber = dtdcResponse.data[0].customer_reference_number || "N/A";
+        console.log("✅ Got DTDC Reference:", referenceNumber);
+      } else {
+        console.warn("⚠️ DTDC response missing reference number.");
+      }
+  
+      // ✅ Internal order data (to your DB)
+      const userId = localStorage.getItem("userId") || "6878e138b855f799f008bb6a";
+      const orderData = {
+        userId,// Replace with real userId
+        items: cartItems.map(item => ({
+          productId: item._id || item.productId,
+          productName: item.title || item.productName,
+          quantity: item.quantity,
+          price: item.price,
+          total: item.price * item.quantity,
+        })),
+        totalAmount: totalValue,
+        shippingAddress,
+        dtdcReferenceNumber: referenceNumber,
+        paymentMethod: selectedPayment || "cod",
+        paymentStatus: "pending",
+        status: "pending",
+      };
+  
+      console.log("📁 Creating order in DB...");
+      console.log("📦 Final orderData to backend:", orderData);
+      const orderResponse = await createOrderWithShipping(orderData);
+      console.log("✅ Order created:", orderResponse);
+  
+      // ✅ Navigate to confirmation page
+      navigate("/order-confirmed", {
+        state: {
+          orderId: orderResponse.orderId,
+          reference: referenceNumber,
+        },
+      });
+  
+    } catch (error) {
+      console.error("❌ Error during order/DTDC creation:", error);
+      alert("Something went wrong while placing the order.");
+    }
+  };
+  
+  
   return (
     <>
       <NavbarTop />
@@ -144,11 +241,17 @@ function PaymentPage() {
                   value={city}
                   onChange={(e) => setCity(e.target.value)}
                 />
-                <select className="first-name-input">
-                  <option>Tamil Nadu</option>
-                  <option>Kerala</option>
-                  <option>Andhra</option>
-                </select>
+<select
+  className="first-name-input"
+  value={state}
+  onChange={(e) => setState(e.target.value)}
+>
+  <option value="">Select State</option>
+  <option value="Tamil Nadu">Tamil Nadu</option>
+  <option value="Kerala">Kerala</option>
+  <option value="Andhra">Andhra</option>
+</select>
+
                 <input
                   type="text"
                   placeholder="Zip Code"
@@ -269,12 +372,17 @@ function PaymentPage() {
                   placeholder="City"
                   className="first-name-input"
                 />
-                <select className="first-name-input">
-                  <option disabled>state</option>
-                  <option>Tamil Nadu</option>
-                  <option>Kerala</option>
-                  <option>Andhra</option>
-                </select>
+<select
+  className="first-name-input"
+  value={state}
+  onChange={(e) => setState(e.target.value)}
+>
+  <option value="">Select State</option>
+  <option value="Tamil Nadu">Tamil Nadu</option>
+  <option value="Kerala">Kerala</option>
+  <option value="Andhra">Andhra</option>
+</select>
+
                 <input
                   type="text"
                   placeholder="Zip Code"
@@ -389,9 +497,7 @@ function PaymentPage() {
           </div>
           <button
             className="btn pay-now-btn rounded-0"
-            onClick={() => {
-              navigate("/order-confirmed");
-            }}
+            onClick={handlePayment}
           >
             PAY NOW
           </button>
@@ -400,31 +506,36 @@ function PaymentPage() {
         <div className="payment-page-right-side">
           <h5>Arriving 19 jun 2025</h5>
           <p>If you order in the next 20 hours and 34 minutes</p>
-          <div className="payment-product-image-div">
-            <div className="payment-product-image">
-              <img src={productImage} loading="lazy" />
-              <div className="payment-product-image-content">
-                <p>Brand : yale</p>
-                <h3>YDME50NxT Smart door lock</h3>
-                <p>Color :Black</p>
-              </div>
-            </div>
-            <p className="payment-price">₹ 89,999</p>
-          </div>
-          <div className="total-calc">
-            <div className="sub-cal">
-              <p>Subtotal</p>
-              <p>₹ 89,999</p>
-            </div>
-            <div className="sub-cal">
-              <p>Shipping</p>
-              <p>₹ 00</p>
-            </div>
-            <div className="sub-cal">
-              <h5>Total</h5>
-              <h5>₹ 89,999</h5>
-            </div>
-          </div>
+          {cartItems.map((item, index) => (
+  <div key={index} className="payment-product-image-div">
+    <div className="payment-product-image">
+      <img src={item.image} alt={item.title} loading="lazy" />
+      <div className="payment-product-image-content">
+        <p>Brand: {item.brand}</p>
+        <h3>{item.title}</h3>
+        <p>Color: {item.color}</p>
+        <p>Quantity: {item.quantity}</p>
+      </div>
+    </div>
+    <p className="payment-price">₹ {(item.price * item.quantity).toLocaleString("en-IN")}</p>
+  </div>
+))}
+
+<div className="total-calc">
+  <div className="sub-cal">
+    <p>Subtotal</p>
+    <p>₹ {subtotal.toLocaleString("en-IN")}</p>
+  </div>
+  <div className="sub-cal">
+    <p>Shipping</p>
+    <p>₹ 0</p>
+  </div>
+  <div className="sub-cal">
+    <h5>Total</h5>
+    <h5>₹ {subtotal.toLocaleString("en-IN")}</h5>
+  </div>
+</div>
+
         </div>
       </div>
       <Footer />

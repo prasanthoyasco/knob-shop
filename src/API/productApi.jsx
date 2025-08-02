@@ -24,3 +24,7 @@ export const getAllProducts = async () => {
         const res = await axios.get(`${BASE_URL}/brand/${brandName}`);
         return res.data;
       };
+      export const searchProductsByParam = async (query) => {
+        const res = await axios.get(`${BASE_URL}/search/${query}`);
+        return res.data;
+      };
