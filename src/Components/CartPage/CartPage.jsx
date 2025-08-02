@@ -88,6 +88,10 @@ function CartPage() {
     (sum, item) => sum + item.price * item.quantity,
     0
   );
+  useEffect(() => {
+    console.log("CartPage - cartItems:", cartItems);
+  }, [cartItems]);
+  
 
   return (
     <>
@@ -144,9 +148,27 @@ function CartPage() {
             <h3>Subtotal ₹ {subtotal.toLocaleString("en-IN")}</h3>
             <p>Taxes and Shipping Calculated at Checkout</p>
             <div className="mobile-checkout-sticky">
-              <button className="mobile-checkout-button" onClick={()=>navigate('/payment')}>CHECK OUT</button>
+            <button
+  className="Desktop-checkout-button"
+  onClick={() => {
+    console.log("Navigating to payment with cartItems:", cartItems);
+    navigate("/payment", { state: { cartItems } });
+  }}
+>
+  CHECK OUT
+</button>
+
             </div>
-             <button className="Desktop-checkout-button" onClick={()=>navigate('/payment')}>CHECK OUT</button>
+            <button
+  className="Desktop-checkout-button"
+  onClick={() => {
+    console.log("Navigating to payment with cartItems:", cartItems);
+    navigate("/payment", { state: { cartItems } });
+  }}
+>
+  CHECK OUT
+</button>
+
             <p>We accept</p>
             <div className="card-images-container">
               {cardImages.map((img, index) => (

@@ -267,7 +267,7 @@ const CartDrawer = ({
               >
                 View Cart
               </button>
-              <button className="btn btn-dark w-100 h-100 m-0 py-2" onClick={()=>{onClose(); navigate('/payment')}}>
+              <button className="btn btn-dark w-100 h-100 m-0 py-2" onClick={()=>{onClose(); navigate('/payment', { state: { cartItems } })}}>
                 Checkout
               </button>
             </div>
