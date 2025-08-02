@@ -54,7 +54,15 @@ function NavbarMiddle() {
   <ul className="search-results-dropdown">
     {results.map((item) => (
       <li key={item._id} onClick={() => navigate(`/product/${item._id}`)}>
-        <img src={item.thumbnailUrl || "/fallback.jpg"} alt={item.name} />
+<img
+  src={
+    item?.images?.[0] ||                        // First product image
+    item?.category?.categoryImageUrl ||         // Fallback to category image
+    "/fallback.jpg"                             // Final fallback image
+  }
+  alt={item.name}
+/>
+
         <span>{item.name}</span>
       </li>
     ))}
