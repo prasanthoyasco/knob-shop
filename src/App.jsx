@@ -35,6 +35,7 @@ import AuthConfirm from './Components/AuthenticationPage/AuthConfirm/AuthConfirm
 import ProfilePageSidebar from './Components/ProfilePage/ProfilePageSidebar/ProfilePageSidebar';
 import ProfilePage from './Components/ProfilePage/ProfilePage';
 import BookConsult from './Components/BookConsultatonPage/BookConsult/BookConsult';
+import { Subpage } from './Components/Subpage/Subpage';
 // import NavbarTop from './Components/Navbar/NavbarTop/NavbarTop';
 
 function App() {
@@ -61,6 +62,7 @@ function App() {
        <Route path='/pricing-policy' element={<Pricing/>}></Route>
        <Route path='/order-policy' element={<Order/>}></Route>
        <Route path='/shipping' element={<ShippingPage/>}></Route>
+       <Route path='/subpage/:brandName' element={<Subpage/>}></Route>
        <Route path='/view-cart' element={<CartPage/>}></Route>
        <Route path='/payment' element={<PaymentPage/>}></Route>
        <Route path='/Tracking' element={<OrderTracking/>}></Route>
@@ -70,7 +72,7 @@ function App() {
        <Route path="/auth/password" element={<AuthPassword/>} />
        <Route path="/auth/forgot-pass" element={<AuthForgotPass/>} />
        <Route path="/auth/confirm" element={<AuthConfirm/>} />
-       <Route path="/profile-page" element={<ProfilePage/>} />
+       <Route path="/account" element={<ProfilePage/>} />
        <Route path="*" element={<Notfound />} />
       </Routes>
       </div>

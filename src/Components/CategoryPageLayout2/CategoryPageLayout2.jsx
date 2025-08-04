@@ -26,10 +26,11 @@ const CategoryPageLayout2 = ({ products = [] }) => {
   const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
 
   const safeCurrentPage = Math.min(currentPage, totalPages || 1);
-const paginatedProducts = filteredProducts.slice(
+const paginatedProducts = (Array.isArray(filteredProducts) ? filteredProducts : []).slice(
   (safeCurrentPage - 1) * itemsPerPage,
   safeCurrentPage * itemsPerPage
 );
+
 
   const toggleSection = (section) => {
     setOpenSections((prev) => ({

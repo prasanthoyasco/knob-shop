@@ -14,6 +14,19 @@ function NavbarMiddle() {
   const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(false);
   const [results, setResults] = useState([]);
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem("authUser");
+    console.log("Stored User:", storedUser);
+    if (storedUser) {
+      try {
+        setUser(JSON.parse(storedUser));
+      } catch (err) {
+        console.error("Invalid user data in localStorage", err);
+      }
+    }
+  }, []);
 
   // Debounced search effect
   useEffect(() => {
@@ -128,11 +141,26 @@ function NavbarMiddle() {
           </div>
 
           {/* Profile */}
-          <div className="profile" onClick={() => navigate("/auth/register")}>
+          <div
+            className="profile"
+            onClick={() =>
+              user ? navigate("/account") : navigate("/auth/register")
+            }
+            style={{ cursor: "pointer" }}
+          >
             <img src={profile_icon} alt="Profile" />
             <div>
-              <p>Sign in</p>
-              <h6>Account</h6>
+              {user ? (
+                <>
+                  <p>Hello,</p>
+                  <h6>{user.name}</h6>
+                </>
+              ) : (
+                <>
+                  <p>Sign in</p>
+                  <h6>Account</h6>
+                </>
+              )}
             </div>
           </div>
         </div>

@@ -42,8 +42,6 @@ function AuthAccount() {
     setLoading(true);
     try {
       const data = await Login({ email, password });
-      console.log("Login successful:", data);
-      
       localStorage.setItem("authUser", JSON.stringify(data.user));
       localStorage.setItem("authToken", data.token);
       console.log(localStorage.getItem("authToken"));
@@ -136,8 +134,7 @@ function AuthAccount() {
 
       if (data.exists) {
         const loginData = await Login({ phone: phoneNumber });
-        console.log(loginData);
-        localStorage.setItem("authUser", loginData.user);
+        localStorage.setItem("authUser", JSON.stringify(loginData.user));
         localStorage.setItem("authToken", loginData.token);
         // go back one step if possible
         if (window.history.length > 1) {
@@ -170,7 +167,7 @@ function AuthAccount() {
       const data = await Signup(body);
       console.log(data);
       
-      localStorage.setItem("authUser", JSON.stringify(data.user));
+      localStorage.setItem("authUser", data.user);
       localStorage.setItem("authToken", data.token);
       if (window.history.length > 1) {
         window.history.back(); 
