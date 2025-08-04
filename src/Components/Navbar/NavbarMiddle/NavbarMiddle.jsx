@@ -11,6 +11,7 @@ function NavbarMiddle() {
   const { cartItems, toggleDrawer } = useCart();
   const navigate = useNavigate();
   const [query, setQuery] = useState("");
+  const [loading, setLoading] = useState(false);
   const [results, setResults] = useState([]);
 
   // Debounce search (optional but recommended)
@@ -27,14 +28,16 @@ function NavbarMiddle() {
   }, [query]);
 
   const searchProducts = async () => {
-    try {
-      const res = await searchProductsByParam(query);
-      console.log("query", res);
-      setResults(res?.results || []);
-    } catch (error) {
-      console.error("Search failed:", error);
-    }
-  };
+  try {
+    setLoading(true);
+    const res = await searchProductsByParam(query);
+    setResults(res?.results || []);
+  } catch (error) {
+    console.error("Search failed:", error);
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <>
@@ -46,39 +49,46 @@ function NavbarMiddle() {
         </div>
 
         <div className="navbar-middle-search-box-icon search-wrapper">
-          <input
-            type="search"
-            placeholder="Search"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-          />
-          <i className="bi bi-search"></i>
-          {/* Search Result Dropdown (optional styling needed) */}
-          {query && results.length > 0 && (
-            <ul className="search-results-dropdown">
-              {results.map((item) => (
-                <li
-                  key={item._id}
-                  onClick={() => {
-                    navigate(`/product/${item._id}`);
-                    setQuery("");
-                  }}
-                >
-                  <img
-                    src={
-                      item?.images?.[0] || // First product image
-                      item?.category?.categoryImageUrl || // Fallback to category image
-                      "/fallback.jpg" // Final fallback image
-                    }
-                    alt={item.name}
-                  />
+  <input
+    type="search"
+    placeholder="Search"
+    value={query}
+    onChange={(e) => {
+      setQuery(e.target.value);
+      searchProducts(); // You can debounce this in real use
+    }}
+  />
+  <i className="bi bi-search"></i>
 
-                  <span>{item.name}</span>
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
+  {(query && (loading || results.length > 0)) && (
+    <ul className="search-results-dropdown">
+      {loading ? (
+        <li className="search-loading">Searching...</li>
+      ) : (
+        results.map((item) => (
+          <li
+            key={item._id}
+            onClick={() => {
+              navigate(`/product/${item._id}`);
+              setQuery("");
+            }}
+          >
+            <img
+              src={
+                item?.images?.[0] ||
+                item?.category?.categoryImageUrl ||
+                "/fallback.jpg"
+              }
+              alt={item.name}
+            />
+            <span>{item.name}</span>
+          </li>
+        ))
+      )}
+    </ul>
+  )}
+</div>
+
 
         <div className="heart-cart-person-signIn-icon">
           {/* Wishlist Icon */}
