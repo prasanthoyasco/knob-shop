@@ -3,16 +3,19 @@ import { useEffect, useRef, useCallback } from "react"; // Removed useState for 
 import { Navigation, Pagination, Autoplay, EffectFade } from "swiper/modules";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import "swiper/css";
+import { useState } from "react";
+
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/effect-fade";
 import "./NewHero.css";
 import { useNavigate } from "react-router-dom";
+import video from '../../Assets/New folder/New folder/Faber.webm'
 import lunaProImage from '../../Assets/Product Categories and its Product (Knobs Shop)/Smart Door Lock/Smart Door Lock/Luna Pro+ Facial/1_3819cf62-66f2-4a8a-b562-eddb7d96a57c.webp'
 import yaleImage from '../../Assets/Product Categories and its Product (Knobs Shop)/Smart Door Lock/Smart Door Lock/Luna Pro+ Facial/14_0fb7187f-b413-411d-a145-e62b8c9e41bb.jpg'
 import YMI70AYHImage from '../../Assets/Product Categories and its Product (Knobs Shop)/Smart Door Lock/Smart Door Lock/YMI70A-YH/YMI70_RED-GOLD-01.jpg'
 const slides = [
-  { id: 1, img: "/slider/lock.png", imgheight: 400, bg: "/slider/bg-1.jpg", offer: "Flat 15% Off All Items", text: "Digital Door Lock", circleColor: "#9CB8A5", description: "Bench suitable for living room Lorem ipsum dolor sit amet consectetur adipiscing elit sed incididunt et dolore magna labore et dolore magna aliqua.", number: "01",link:"/category/Digital Door Lock",productList:[
+  { id: 1,route:"digital lock", img: "/slider/lock.png", imgheight: 400, bg: "/slider/bg-1.jpg", offer: "Flat 15% Off All Items", text: "Digital Door Lock", circleColor: "#9CB8A5", description: "Bench suitable for living room Lorem ipsum dolor sit amet consectetur adipiscing elit sed incididunt et dolore magna labore et dolore magna aliqua.", number: "01",link:"/category/Digital Door Lock",productList:[
     {
       name: "YDME 200NxT",
       image:lunaProImage
@@ -43,6 +46,7 @@ const slides = [
 const NewHero = () => {
   const navigate= useNavigate()
   const prevRef = useRef(null);
+  const [showVideo, setShowVideo] = useState(true);
   const nextRef = useRef(null);
   // Removed: const [activeSlideIndex, setActiveSlideIndex] = useState(0);
   const swiperRef = useRef(null);
@@ -65,10 +69,16 @@ const NewHero = () => {
     retriggerAnimations();
   }, [retriggerAnimations]);
 
-  const handleSlideChange = useCallback(() => {
-    // Removed: setActiveSlideIndex(swiper.realIndex);
+  const handleSlideChange = useCallback((swiper) => {
     retriggerAnimations();
+    if (swiper.realIndex === slides.length - 1) {
+      setTimeout(() => {
+        setShowVideo(true);
+        swiper.slideTo(0); // ✅ swiper is defined now
+      }, 3000);
+    }
   }, [retriggerAnimations]);
+  
   const handleShopNow = (slide) => {
     const query = slide.route || slide.text || "all";
     navigate(`/products/search/${encodeURIComponent(query)}`);
@@ -77,6 +87,19 @@ const NewHero = () => {
   
   return (
     <div className="lighting-home-slider">
+      {showVideo ? (
+        <video
+          key={Date.now()}
+          src={video}
+          autoPlay
+          muted
+          playsInline
+          onEnded={() => setShowVideo(false)}
+          className="full-banner-video"
+          style={{ width: "100%", height: "600px", objectFit: "cover" }}
+        />
+      ) : (
+      <>
       <div className="custom-nav">
         <button ref={prevRef} className="custom-nav-btn">
           <IoIosArrowUp />
@@ -129,7 +152,7 @@ const NewHero = () => {
                 <p className="offer animate-on-slide-left text-animation-delay-1">{slide.offer}</p>
                 <h2 className="title animate-on-slide-left text-animation-delay-2">{slide.text}</h2>
                 <p className="description animate-on-slide-left text-animation-delay-3">{slide.description}</p>
-                <button className="shop-btn animate-on-slide-left text-animation-delay-4" onClick={() => handleShopNow(slide)}>SHOP NOW</button>
+                <button className="shop-btn animate-on-slide-left text-animation-delay-4" style={{position:"relative",zIndex:"9999"}} onClick={() => handleShopNow(slide)}>SHOP NOW</button>
                 <div className="hero-slide-number">
                   <div className="horizantal-line"></div>
                   {slide.number}
@@ -158,6 +181,8 @@ const NewHero = () => {
           </SwiperSlide>
         ))}
       </Swiper>
+      </>
+      )}
     </div>
   );
 };

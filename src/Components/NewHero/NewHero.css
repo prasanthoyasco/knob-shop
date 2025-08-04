@@ -3,6 +3,11 @@
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/effect-fade"; */
+video.product-img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
 
 .lighting-home-slider {
   width: 100%;
@@ -135,6 +140,8 @@ import "swiper/css/effect-fade"; */
   font-weight: 400;
   border-radius: 3px;
   letter-spacing: 1px;
+  position: relative !important;
+  z-index: 9999 !important;
 }
 
 .shop-btn:hover {
