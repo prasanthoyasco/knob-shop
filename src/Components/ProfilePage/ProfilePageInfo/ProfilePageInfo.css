@@ -58,9 +58,12 @@
     border: 1px solid gray;
 }
 .profile-info-gender-icon.selected-gender {
-    background-color: #4e79ff;
+    background-color: #000000;
     color: white;
-    border-color: #4e79ff;
+    border-color: #000000;
+  }
+  .profile-info-gender-icon.selected-gender p{
+    color: white !important;
   }
   
   .profile-page-info-input input:disabled {

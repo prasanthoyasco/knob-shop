@@ -380,7 +380,7 @@ const [loading, setLoading] = useState(true);
   <>
    <NavbarTop/>
    {/* <Navbar/> */}
-     <div data-aos="fade-up" data-aos-delay="100" style={{zIndex:"-1000",position:"relative"}}><NewHero /></div>
+     <div data-aos="fade-up" data-aos-delay="10" ><NewHero /></div>
       {/* <LockSlider/> */}
      <div data-aos="fade-up" data-aos-delay="100" ><ProductCarousel products={products} /></div>
       {/* <CollectionsCarosal/> */}

@@ -96,7 +96,7 @@ const TrendingProducts = () => {
   const fetchProducts = async () => {
     try {
       const data = await getAllProducts();
-      console.log("data from trending products:", data);
+      // console.log("data from trending products:", data);
       setProducts(data);
     } catch (err) {
       console.log(err)
@@ -246,8 +246,6 @@ const TrendingProducts = () => {
                   discount,
                   features,
                 } = product;
-
-                console.log(variant)
 
                 const transformedProduct = {
                   id: _id,

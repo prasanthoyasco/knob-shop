@@ -42,8 +42,16 @@ function AuthAccount() {
     setLoading(true);
     try {
       const data = await Login({ email, password });
+      console.log("Login successful:", data);
+      
+      localStorage.setItem("authUser", JSON.stringify(data.user));
       localStorage.setItem("authToken", data.token);
-      window.location.back();
+      console.log(localStorage.getItem("authToken"));
+      if (window.history.length > 1) {
+        window.history.back(); 
+      } else {
+        window.location.href = "/";
+      }
     } catch (err) {
       console.error("Login failed", err);
       alert("Invalid email or password.");
@@ -57,6 +65,7 @@ function AuthAccount() {
       setLoading(true);
       try {
         const data = await checkUser({ email });
+        console.log("User check result:", data);
         if (data.exists) {
           setStep("password");
         } else {
@@ -89,7 +98,11 @@ function AuthAccount() {
         throw new Error("reCAPTCHA not initialized.");
       }
 
-      const result = await signInWithPhoneNumber(auth, phoneNumber, appVerifier);
+      const result = await signInWithPhoneNumber(
+        auth,
+        phoneNumber,
+        appVerifier
+      );
       setConfirmationResult(result);
       setStep("otp");
       alert("OTP sent successfully!");
@@ -107,25 +120,36 @@ function AuthAccount() {
     setLoading(true);
     try {
       if (!confirmationResult) {
-        throw new Error("Confirmation result is missing. Please resend the OTP.");
+        throw new Error(
+          "Confirmation result is missing. Please resend the OTP."
+        );
       }
-      
+
       await confirmationResult.confirm(otp);
-      
+
       const phoneNumber = `${selectedCode}${phone.trim()}`;
       const data = await checkUser({ phone: phoneNumber });
-      
+      console.log("User check result:", data);
+      if (!data) {
+        return alert("User not found. Please sign up.");
+      }
+
       if (data.exists) {
         const loginData = await Login({ phone: phoneNumber });
+        console.log(loginData);
+        localStorage.setItem("authUser", loginData.user);
         localStorage.setItem("authToken", loginData.token);
-        window.location.back();
+        // go back one step if possible
+        if (window.history.length > 1) {
+          window.history.back(); // or window.history.go(-1)
+        } else {
+          window.location.href = "/"; // fallback if no history
+        }
       } else {
         setStep("set-password");
       }
     } catch (error) {
       console.error("OTP verification failed:", error);
-      // Firebase auth/code-expired or auth/invalid-code errors often return with generic network errors.
-      // Displaying the specific Firebase error message is more helpful.
       alert(`Invalid OTP. Please try again. Error: ${error.message}`);
     } finally {
       setLoading(false);
@@ -138,14 +162,21 @@ function AuthAccount() {
       if (!password) {
         return alert("Please set a password.");
       }
-      
+
       const body = email
         ? { email, password }
         : { phone: `${selectedCode}${phone.trim()}`, password };
 
       const data = await Signup(body);
+      console.log(data);
+      
+      localStorage.setItem("authUser", JSON.stringify(data.user));
       localStorage.setItem("authToken", data.token);
-      window.location.back();
+      if (window.history.length > 1) {
+        window.history.back(); 
+      } else {
+        window.location.href = "/";
+      }
     } catch (err) {
       alert("Signup failed");
       console.error(err);
@@ -153,6 +184,8 @@ function AuthAccount() {
       setLoading(false);
     }
   };
+
+  console.log("User Data on login",localStorage.getItem("authUser"));
 
   return (
     <>

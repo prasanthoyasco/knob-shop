@@ -12,7 +12,7 @@ function ProfilePage() {
     <>
     <NavbarTop/>
     <div className='profile-page-wrapper'>
-      <ProfilePageSidebar setActiveSection={setActiveSection} />
+      <ProfilePageSidebar setActiveSection={setActiveSection} activeSection={activeSection} />
       <div className='profile-page-right-section'>
         {activeSection === 'personal' && <ProfilePageInfo />}
         {activeSection === 'address' && <ProductPageAddress/>}
