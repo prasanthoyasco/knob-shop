@@ -34,6 +34,7 @@ import AuthForgotPass from './Components/AuthenticationPage/AuthForgotPass/AuthF
 import AuthConfirm from './Components/AuthenticationPage/AuthConfirm/AuthConfirm';
 import ProfilePageSidebar from './Components/ProfilePage/ProfilePageSidebar/ProfilePageSidebar';
 import ProfilePage from './Components/ProfilePage/ProfilePage';
+import BookConsult from './Components/BookConsultatonPage/BookConsult/BookConsult';
 // import NavbarTop from './Components/Navbar/NavbarTop/NavbarTop';
 
 function App() {
@@ -48,6 +49,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path='/category/:categoryId' element={<ProductList />} />
+        <Route path='/book-consultation' element={<BookConsult/>} />
+        <Route path="/products/search/:query" element={<ProductList />} />
         <Route path='/products/brand/:brandName' element={<ProductList />} />
        <Route path='/product/:id' element={<ProductDetails/>}></Route>
        <Route path='/categories' element={<CategoriesHeader/>}></Route>

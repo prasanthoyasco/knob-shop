@@ -43,7 +43,11 @@ const slides = [
 const Hero = () => {
   const prevRef = useRef(null);
   const nextRef = useRef(null);
-
+  const handleShopNow = (slide) => {
+    const query = slide.route || slide.text || "all";
+    navigate(`/products/search/${encodeURIComponent(query)}`);
+  };
+  
   return (
     <div className="lighting-home-slider">
       {/* Custom navigation buttons */}
@@ -97,7 +101,7 @@ const Hero = () => {
                 <p className="offer">{slide.offer}</p>
                 <h2 className="title">{slide.title}</h2>
                 <p className="description">{slide.description}</p>
-                <button className="shop-btn">SHOP NOW</button>
+                <button className="shop-btn" onClick={handleShopNow}>SHOP NOW</button>
                 <div className="slide-number d-flex align-items-center"><div className="horizantal-line"></div>{slide.number}</div>
               </div>
             </div>

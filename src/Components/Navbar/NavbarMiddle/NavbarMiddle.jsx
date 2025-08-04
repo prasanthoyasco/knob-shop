@@ -7,6 +7,7 @@ import profile_icon from "../../../Assets/profile-icon.svg";
 import { useCart } from "../../../Context/CartContext";
 import { useNavigate } from "react-router-dom";
 import { searchProductsByParam } from "../../../API/productApi";
+
 function NavbarMiddle() {
   const { cartItems, toggleDrawer } = useCart();
   const navigate = useNavigate();
@@ -14,7 +15,7 @@ function NavbarMiddle() {
   const [loading, setLoading] = useState(false);
   const [results, setResults] = useState([]);
 
-  // Debounce search (optional but recommended)
+  // Debounced search effect
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
       if (query.trim() !== "") {
@@ -22,8 +23,7 @@ function NavbarMiddle() {
       } else {
         setResults([]);
       }
-    }, 300); // delay in ms
-
+    }, 300);
     return () => clearTimeout(delayDebounceFn);
   }, [query]);
 
@@ -39,38 +39,54 @@ function NavbarMiddle() {
     }
   };
 
+  const handleSearchSubmit = () => {
+    if (query.trim()) {
+      navigate(`/products/search/${encodeURIComponent(query.trim())}`);
+      setQuery("");
+      setResults([]);
+    }
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleSearchSubmit();
+    }
+  };
+
   return (
     <>
       <div className="navbar-middle-container">
+        {/* Logo */}
         <div className="navbar-middle-logo-wrapper">
           <a href="/">
             <img src={logoImage} alt="Logo" className="navbar-middle-logo" />
           </a>
         </div>
 
+        {/* Search Box */}
         <div className="navbar-middle-search-box-icon search-wrapper">
           <input
             type="search"
             placeholder="Search"
             value={query}
-            onChange={(e) => {
-              setQuery(e.target.value);
-              searchProducts(); // You can debounce this in real use
-            }}
+            onChange={(e) => setQuery(e.target.value)}
+            onKeyDown={handleKeyDown}
           />
-          <i className="bi bi-search"></i>
+          <i className="bi bi-search" onClick={handleSearchSubmit}></i>
 
-          {query && (loading || results.length > 0) && (
+          {/* Dropdown Results */}
+          {query && (
             <ul className="search-results-dropdown">
               {loading ? (
                 <li className="search-loading">Searching...</li>
-              ) : (
+              ) : results.length > 0 ? (
                 results.map((item) => (
                   <li
                     key={item._id}
                     onClick={() => {
                       navigate(`/product/${item._id}`);
                       setQuery("");
+                      setResults([]);
                     }}
                   >
                     <img
@@ -84,20 +100,22 @@ function NavbarMiddle() {
                     <span>{item.name}</span>
                   </li>
                 ))
+              ) : (
+                <li className="search-no-results">No results found.</li>
               )}
             </ul>
           )}
         </div>
 
+        {/* Icons */}
         <div className="heart-cart-person-signIn-icon">
-          {/* Wishlist Icon */}
+          {/* Wishlist */}
           <div className="icon-wrapper">
             <img src={heart_icon} alt="Wishlist" />
-            <span className="count-badge">5</span>{" "}
-            {/* Replace with real wishlist count later */}
+            <span className="count-badge">5</span>
           </div>
 
-          {/* Cart Icon with real count & click to open drawer */}
+          {/* Cart */}
           <div
             className="icon-wrapper"
             onClick={() => toggleDrawer(true)}
@@ -109,7 +127,7 @@ function NavbarMiddle() {
             )}
           </div>
 
-          {/* Profile Section */}
+          {/* Profile */}
           <div className="profile" onClick={() => navigate("/auth/register")}>
             <img src={profile_icon} alt="Profile" />
             <div>

@@ -34,10 +34,10 @@ const slides = [
       image:YMI70AYHImage
     }
   ]},
-  { id: 2, img: "/slider/keyboard_tray.png", imgheight: 400, bg: "/slider/bg-2.jpg", offer: "NEW SEASON ARRIVAL", text: "Keyboard tray", circleColor: "#F08A58", description: "Bench suitable for living room Lorem ipsum dolor sit amet consectetur adipiscing elit sed incididunt et dolore magna labore et dolore magna aliqua.", number: "02" },
-  { id: 3, img: "/slider/folding_table.png", imgheight: 400, bg: "/slider/bg-3.jpg", offer: "Flat 15% Off All Items", text: "table folding bracket", circleColor: "#00759F", description: "Bench suitable for living room Lorem ipsum dolor sit amet consectetur adipiscing elit sed incididunt et dolore magna labore et dolore magna aliqua.", number: "03" },
-  { id: 4, img: "/slider/Door_stoper.png", imgheight: 200, bg: "/slider/bg-5.jpg", offer: "Flat 15% Off All Items", text: "door stoppers home depot", circleColor: "#DF7A26", description: "Bench suitable for living room Lorem ipsum dolor sit amet consectetur adipiscing elit sed incididunt et dolore magna labore et dolore magna aliqua.", number: "04" },
-  { id: 5, img: "/slider/vIntage_lock.png", imgheight: 330, bg: "/slider/bg-6.jpg", offer: "Flat 15% Off All Items", text: "navtal lock decor", circleColor: "#54ef7d73", description: "Bench suitable for living room Lorem ipsum dolor sit amet consectetur adipiscing elit sed incididunt et dolore magna labore et dolore magna aliqua.", number: "05" },
+  { id: 2, img: "/slider/keyboard_tray.png", imgheight: 400, bg: "/slider/bg-2.jpg", offer: "NEW SEASON ARRIVAL", text: "Keyboard tray", circleColor: "#F08A58", description: "A keyboard tray is a sliding platform mounted under a desk, designed to hold a keyboard and mouse, improving ergonomics and saving workspace on the desktop.", number: "02",route:"Keyboard Tray" },
+  { id: 3, img: "/slider/folding_table.png", imgheight: 400, bg: "/slider/bg-3.jpg", offer: "Flat 15% Off All Items", text: "table folding bracket", circleColor: "#00759F", description: "A table folding bracket is a space-saving hardware device that allows tables to fold down or up securely, ideal for wall-mounted, collapsible, or adjustable furniture designs.", number: "03",route:"table folding bracket"},
+  { id: 4, img: "/slider/Door_stoper.png", imgheight: 200, bg: "/slider/bg-5.jpg", offer: "Flat 15% Off All Items", text: "door stoppers home depot", circleColor: "#DF7A26", description: "Door stoppers from Home Depot include solid baseboard-mounted models and spring‑steel flexible wire types, designed to prevent wall and doorknob damage. ", number: "04",route:"stopper"},
+  { id: 5, img: "/slider/vIntage_lock.png", imgheight: 330, bg: "/slider/bg-6.jpg", offer: "Flat 15% Off All Items", text: "navtal lock decor", circleColor: "#54ef7d73", description: "Navtal lock decor combines security with aesthetics, featuring brass or stainless steel padlocks in stylish finishes, often used on doors or cabinets for both function and design appeal.", number: "05",route:"lock"},
 ];
 
 const NewHero = () => {
@@ -70,8 +70,10 @@ const NewHero = () => {
     retriggerAnimations();
   }, [retriggerAnimations]);
   const handleShopNow = (slide) => {
-    navigate(slide.link, { state: { product: slide } });
+    const query = slide.route || slide.text || "all";
+    navigate(`/products/search/${encodeURIComponent(query)}`);
   };
+  
   
   return (
     <div className="lighting-home-slider">

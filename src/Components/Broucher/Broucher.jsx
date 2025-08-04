@@ -4,7 +4,6 @@ import NavbarTop from "../Navbar/NavbarTop/NavbarTop";
 import Footer from "../Footer/Footer";
 import { getAllBrochures } from "../../API/brochures";
 import image1 from "../../Assets/Product Categories and its Product (Knobs Shop)/Smart Door Lock/Smart Door Lock/Luna Pro+ Facial/1_3819cf62-66f2-4a8a-b562-eddb7d96a57c.webp";
-
 function Broucher() {
   const [brochures, setBrochures] = useState([]);
   const [filteredBrochures, setFilteredBrochures] = useState([]);
