@@ -42,7 +42,7 @@ const ProductCard = ({ product }) => {
 
     return url.replace(
       /\/upload\/(v\d+\/)?/,
-      `/upload/w_${width},h_${height},c_pad,b_gen_fill,f_webp,q_auto:best,e_upscale,dpr_auto/$1`
+      `/upload/w_${width},h_${height},c_pad,f_webp,q_auto:best,e_upscale,dpr_auto/$1`
     );
   }
 
@@ -68,13 +68,27 @@ const ProductCard = ({ product }) => {
           alt={title?.substring(0, 30)}
           className="card-img-top default-img"
         />
-          <img
-            src={getCloudinaryTransformedUrl(
-      selectedVariant.images?.[1]?.url || selectedVariant.images?.[0]?.url
-    )}
-            alt={selectedVariant.images?.[1]?.url}
-            className="card-img-top hover-img position-absolute top-0 start-0"
-          />
+        <img
+          src={getCloudinaryTransformedUrl(
+            selectedVariant.images?.[1]?.url || selectedVariant.images?.[0]?.url
+          )}
+          alt={selectedVariant.images?.[1]?.url}
+          className="card-img-top hover-img position-absolute top-0 start-0"
+          onError={(e) => {
+            const img = e.target;
+            const originalUrl = getCloudinaryTransformedUrl(
+              selectedVariant.images?.[1]?.url ||
+                selectedVariant.images?.[0]?.url
+            );
+
+            if (!img.dataset.retried) {
+              img.dataset.retried = "true";
+              img.src = originalUrl + `?retry=${Date.now()}`; // retry once
+            } else {
+              img.src = "/fallback.png"; // fallback image path
+            }
+          }}
+        />
       </div>
 
       <div className="card-body d-flex flex-column">

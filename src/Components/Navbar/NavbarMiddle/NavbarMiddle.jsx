@@ -79,7 +79,7 @@ function NavbarMiddle() {
             <ul className="search-results-dropdown">
               {loading ? (
                 <li className="search-loading">Searching...</li>
-              ) : (
+              ) : results.length > 0 ? (
                 results.map((item) => (
                   <li
                     key={item._id}
@@ -100,6 +100,8 @@ function NavbarMiddle() {
                     <span>{item.name}</span>
                   </li>
                 ))
+              ) : (
+                <li className="search-no-results">No results found.</li>
               )}
             </ul>
           )}

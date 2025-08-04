@@ -18,8 +18,23 @@
 .profile-page-sidebar-icon-text{
     display: flex;
     flex-direction: row;
+    cursor: pointer;
     gap: 10px;
+    padding: 10px;
     align-items: center;
+}
+.profile-page-sidebar-icon-text:hover{
+    background-color: #ffffff;
+    padding: 10px;
+    border-radius: 8px;
+}
+.profile-page-sidebar-icon-text.active{
+    background-color: #e18436;
+    color: white;
+    border-radius: 8px;
+}
+.profile-page-sidebar-icon-text.active h5{
+    color: white !important;
 }
 .profile-page-sidebar-icon-text h5{
     font-size: 18px;
