@@ -1,8 +1,8 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import "./NavbarBottom.css";
 import todayDealImage from "../../../Assets/today-deal.png";
 import sbc_icon from "../../../Assets/shop-by-category-icon.svg";
-import {fetchCategories} from '../../../API/categoriesApi'
+import { fetchCategories } from "../../../API/categoriesApi";
 const navbarContent = [
   {
     href: "living-room",
@@ -41,15 +41,11 @@ function NavbarBottom() {
   const [openCategory, setOpenCategory] = useState(null); // State to manage which category's sub-items are open
   const [category, setCategory] = useState([]);
 
-
   useEffect(() => {
     const fetchAllCategories = async () => {
       try {
         const res = await fetchCategories();
-        const allCategories = [
-          { _id: "all", name: "All Categories" },
-          ...res,
-        ];
+        const allCategories = [{ _id: "all", name: "All Categories" }, ...res];
         setCategory(allCategories);
       } catch (err) {
         console.error("Failed to fetch categories", err);
@@ -75,24 +71,23 @@ function NavbarBottom() {
           <div className="vertical-line desktop-only"></div>
 
           <div className="category-dropdown-menu">
-          {category.length === 0 ? (
+            {category.length === 0 ? (
               <p className="dropdown-item">Loading...</p>
             ) : (
               category.map((cat) => (
-<a
-  key={cat._id}
-  href={
-    cat._id === "all"
-      ? "/categories"
-      : `/category/${(cat._id)
-          .toLowerCase()
-          .replace(/\s+/g, "-")}`
-  }
-  className="dropdown-item"
->
-  {cat.category_name || cat.name}
-</a>
-
+                <a
+                  key={cat._id}
+                  href={
+                    cat._id === "all" 
+                      ? "/categories"
+                      : `/category/${cat._id
+                          ?.toLowerCase()
+                          ?.replace(/\s+/g, "-")}`
+                  }
+                  className="dropdown-item"
+                >
+                  {cat.category_name || cat.name}
+                </a>
               ))
             )}
           </div>

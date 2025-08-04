@@ -213,7 +213,7 @@ const TrendingProducts = () => {
           </div>
 
           <ul className="custom-tabs mb-4">
-            {tabs.map((tab) => (
+            {tabs?.map((tab) => (
               <li className="nav-item" key={tab}>
                 <button
                   className={`nav-link ${activeTab === tab ? "active" : ""}`}
@@ -234,7 +234,7 @@ const TrendingProducts = () => {
               onMouseUp={onMouseUp}
               onMouseLeave={onMouseLeave}
             >
-              {getFilteredProducts().map((product, index) => {
+              {getFilteredProducts()?.map((product, index) => {
                 const {
                   _id,
                   name,
