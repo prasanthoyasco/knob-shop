@@ -15,6 +15,11 @@ import lunaProImage from '../../Assets/Product Categories and its Product (Knobs
 import yaleImage from '../../Assets/Product Categories and its Product (Knobs Shop)/Smart Door Lock/Smart Door Lock/Luna Pro+ Facial/14_0fb7187f-b413-411d-a145-e62b8c9e41bb.jpg'
 import YMI70AYHImage from '../../Assets/Product Categories and its Product (Knobs Shop)/Smart Door Lock/Smart Door Lock/YMI70A-YH/YMI70_RED-GOLD-01.jpg'
 const slides = [
+  {
+    id: "video",
+    type: "video",
+    videoSrc: video,
+  },
   { id: 1,route:"digital lock", img: "/slider/lock.png", imgheight: 400, bg: "/slider/bg-1.jpg", offer: "Flat 15% Off All Items", text: "Digital Door Lock", circleColor: "#9CB8A5", description: "Bench suitable for living room Lorem ipsum dolor sit amet consectetur adipiscing elit sed incididunt et dolore magna labore et dolore magna aliqua.", number: "01",link:"/category/Digital Door Lock",productList:[
     {
       name: "YDME 200NxT",
@@ -69,6 +74,17 @@ const NewHero = () => {
     retriggerAnimations();
   }, [retriggerAnimations]);
 
+    // Timer for video display
+    useEffect(() => {
+      let timer;
+      if (showVideo) {
+        timer = setTimeout(() => {
+          setShowVideo(false);
+        }, 15000); // Video plays for 15 seconds
+      }
+      return () => clearTimeout(timer);
+    }, [showVideo]);
+
   const handleSlideChange = useCallback((swiper) => {
     retriggerAnimations();
     if (swiper.realIndex === slides.length - 1) {
@@ -87,18 +103,6 @@ const NewHero = () => {
   
   return (
     <div className="lighting-home-slider">
-      {showVideo ? (
-        <video
-          key={Date.now()}
-          src={video}
-          autoPlay
-          muted
-          playsInline
-          onEnded={() => setShowVideo(false)}
-          className="full-banner-video"
-          style={{ width: "100%", height: "600px", objectFit: "cover" }}
-        />
-      ) : (
       <>
       <div className="custom-nav">
         <button ref={prevRef} className="custom-nav-btn">
@@ -140,6 +144,23 @@ const NewHero = () => {
       >
         {slides.map((slide) => (
           <SwiperSlide key={slide.id}>
+          {slide.type === "video" ? (
+            <video
+              key="promo-video"
+              src={slide.videoSrc}
+              autoPlay
+              muted
+              playsInline
+              className="full-banner-video"
+              style={{ width: "100%", height: "600px", objectFit: "cover" }}
+              onLoadedMetadata={(e) => {
+                const video = e.currentTarget;
+                setTimeout(() => {
+                  swiperRef.current.swiper.slideNext();
+                }, video.duration ? video.duration * 1000 : 15000); // fallback: 15s
+              }}
+            />
+          ) : (
             <div
               className="slide-content"
               style={{
@@ -178,11 +199,11 @@ const NewHero = () => {
                 </div>
               </div>
             </div>
+            )}
           </SwiperSlide>
         ))}
       </Swiper>
       </>
-      )}
     </div>
   );
 };

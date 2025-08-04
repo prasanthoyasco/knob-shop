@@ -52,7 +52,60 @@ import image3 from "../Assets/categoryBanner/smartSafe.webp";
 import image4 from "../Assets/categoryBanner/DigitalDoorLock.webp";
 import image5 from '../Assets/CategoriesImge/Knob Shop/clock.jpg'
 import image6 from '../Assets/CategoriesImge/Knob Shop/wardrobes.jpg'
+import { fetchCategories } from "../API/categoriesApi"; 
+import cat1 from '../Assets/New folder/New folder/01.png'
+import cat2 from '../Assets/New folder/New folder/02.png'
+import cat3 from '../Assets/New folder/New folder/3.png'
+import cat4 from '../Assets/New folder/New folder/4.png'
+import cat5 from '../Assets/New folder/New folder/5.png'
+import cat6 from '../Assets/New folder/New folder/6.png'
+import cat7 from '../Assets/New folder/New folder/7.png'
 export const Home = () => {
+  const [categories, setCategories] = useState([]);
+  const categoryImageMap = {
+    "Locks": cat1,
+    "Telescopic": cat2,
+    "Hexa Bolt": cat3,
+    "Door Knocker": cat4,
+    "Digital Locks": cat5,
+    "Auto HInges": cat6,
+    "Aldrop": cat7
+  };
+  
+  const TARGET_CATEGORY_NAMES = [
+    "Locks",
+    "Telescopic",
+    "Hexa Bolt",
+    "Door Knocker",
+    "Digital Locks",
+    "Auto HInges",
+    "Aldrop"
+  ];
+  useEffect(() => {
+    const getSelectedCategories = async () => {
+      try {
+        const data = await fetchCategories();
+        const selected = data
+          .filter(cat => TARGET_CATEGORY_NAMES.includes(cat.category_name))
+          .map(cat => ({
+            id : cat._id,
+            text: cat.category_name,
+            count: cat.productCount,
+            image: categoryImageMap[cat.category_name] || cat.categoryImageUrl,
+            bannerImage: cat.categoryImageUrl,
+            productList: [] // optional
+          }));
+        setCategories(selected);
+      } catch (err) {
+        console.error("Error fetching selected categories", err);
+      }
+    };
+  
+    getSelectedCategories();
+  }, []);
+
+
+
   useEffect(() => {
   AOS.init({
     duration: 900,       // animation duration
@@ -360,6 +413,8 @@ const [loading, setLoading] = useState(true);
     return () => clearTimeout(timeout);
   }, []);
 
+  
+
   if (loading) {
     return (
       <div className="d-flex justify-content-center align-items-center vh-100">
@@ -382,7 +437,7 @@ const [loading, setLoading] = useState(true);
    {/* <Navbar/> */}
      <div data-aos="fade-up" data-aos-delay="100"><NewHero /></div>
       {/* <LockSlider/> */}
-     <div data-aos="fade-up" data-aos-delay="100" ><ProductCarousel products={products} /></div>
+     <div data-aos="fade-up" data-aos-delay="100" ><ProductCarousel products={categories} /></div>
       {/* <CollectionsCarosal/> */}
       <div data-aos="fade-up" data-aos-delay="100"><CubeCarousel /></div>
       <div data-aos="fade-up" data-aos-delay="100"><ShelfHighlight /></div>

@@ -86,4 +86,5 @@
 }
 .book-form-right-checkbox strong{
     text-decoration: underline;
+    cursor: pointer;
 }

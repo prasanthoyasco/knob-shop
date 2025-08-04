@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import './BookConsultForm.css';
 import { createConsultation } from '../../../API/consultationApi'; // adjust path as needed
-
+import { useNavigate } from 'react-router-dom';
 function BookConsultForm() {
+    const navigate = useNavigate()
   const [formData, setFormData] = useState({
     location: '',
     pincode: '',
@@ -112,7 +113,7 @@ function BookConsultForm() {
           <div className='book-form-right-checkbox'>
             <input type="checkbox" />
             <p className='book-form-right-checkbox-p'>
-              By submitting, you agree to our <strong>Privacy Policy.</strong>
+              By submitting, you agree to our <strong onClick={()=>navigate('/privacy-policy')}>Privacy Policy.</strong>
             </p>
           </div>
         </div>
