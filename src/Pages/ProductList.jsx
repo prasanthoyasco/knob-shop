@@ -13,10 +13,12 @@ import Footer from "../Components/Footer/Footer";
 import { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import { fetchProductsByCategory,getAllProducts,getProductsByBrand  } from "../API/productApi";
+import { searchProductsByParam } from '../API/productApi'
 export const ProductList = () => {
-  const { categoryId,brandName  } = useParams();
+  const { categoryId,brandName,query } = useParams();
   const location = useLocation();
   const passedState = location.state?.product;
+  const searchQuery = new URLSearchParams(location.search).get("query");
   const [products, setProducts] = useState([]);
   const [count, setCount] = useState([]);
   const mapProduct = (item) => ({
@@ -42,7 +44,17 @@ export const ProductList = () => {
       setLoading(true);
       try {
         let res;
-    
+        
+        if (query) {
+          res = await searchProductsByParam(query);
+          const data = res?.results || res?.data || [];
+          console.log("querry data res : ", res)
+          console.log("querry data : ", data)
+          setProducts(data.map(mapProduct));
+          setCount(data.length);
+          return;
+        }
+        
         if (brandName) {
           res = await getProductsByBrand(brandName);
           console.log(res.data);
@@ -69,7 +81,7 @@ export const ProductList = () => {
     
 
     loadProducts();
-  }, [categoryId, brandName, passedState]);
+  }, [categoryId, brandName, passedState,searchQuery]);
 const [loading, setLoading] = useState(true);
 
 

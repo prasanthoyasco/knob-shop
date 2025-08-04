@@ -35,7 +35,19 @@ function NavbarMiddle() {
       console.error("Search failed:", error);
     }
   };
-  
+  const handleSearchSubmit = () => {
+    if (query.trim()) {
+      navigate(`/products/search/${encodeURIComponent(query.trim())}`);
+      setResults([]);
+      setQuery("");
+    }
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleSearchSubmit();
+    }
+  };
   return (
     <>
       <div className="navbar-middle-container">
@@ -47,8 +59,9 @@ function NavbarMiddle() {
 
         <div className="navbar-middle-search-box-icon search-wrapper">
           <input type="search" placeholder="Search"value={query}
-            onChange={(e) => setQuery(e.target.value)} />
-          <i className="bi bi-search"></i>
+            onChange={(e) => setQuery(e.target.value)}
+            onKeyDown={handleKeyDown}/>
+          <i className="bi bi-search" onClick={handleSearchSubmit}></i>
                     {/* Search Result Dropdown (optional styling needed) */}
                     {query && results.length > 0 && (
   <ul className="search-results-dropdown">

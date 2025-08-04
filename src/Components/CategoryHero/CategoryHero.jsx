@@ -6,7 +6,7 @@ import { getCategoryById } from '../../API/categoriesApi'; // adjust the path as
 const CategoryHero = ({count, backgroundImage }) => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { categoryId } = useParams();
+  const { categoryId,query  } = useParams();
   console.log(categoryId);
   
 
@@ -25,7 +25,7 @@ const CategoryHero = ({count, backgroundImage }) => {
   }, [categoryId, location.state?.category]);
 
   const bannerImage = category?.bannerImage || category?.image || backgroundImage;
-  const categoryTitle = category?.category_name || productState?.text || "Category";
+  const categoryTitle = category?.category_name || productState?.text || query  || "Category";
   const productCount = category?.productCount || count ||  0;
 
   return (
@@ -40,7 +40,7 @@ const CategoryHero = ({count, backgroundImage }) => {
           <span onClick={()=>navigate('/')}>Home</span> / <span onClick={()=>navigate('/categories')}>Shop by Categories</span> / {categoryTitle}
         </p>
         <h1 className="fw-semibold h1">{categoryTitle}</h1>
-        <p className="small mt-1">{productCount}</p>
+        <p className="small mt-1">(items : {productCount})</p>
       </div>
     </div>
   );
