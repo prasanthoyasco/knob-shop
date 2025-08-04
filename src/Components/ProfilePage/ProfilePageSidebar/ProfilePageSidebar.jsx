@@ -1,6 +1,8 @@
 import "./ProfilePageSidebar.css";
 import profileImage from "../../../Assets/CategoriesImge/Knob Shop/personImage.jpg";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Toast } from "react-bootstrap";
 
 function ProfilePageSidebar({ setActiveSection, activeSection }) {
   const isActive = (section) =>
@@ -13,16 +15,23 @@ function ProfilePageSidebar({ setActiveSection, activeSection }) {
   });
   useEffect(() => {
     localStorage.getItem("authUser") &&
-    console.log(localStorage.getItem("authUser"));    
-      setProfileData(JSON.parse(localStorage.getItem("authUser")));
-  },[setProfileData]);
+      console.log(localStorage.getItem("authUser"));
+    setProfileData(JSON.parse(localStorage.getItem("authUser")));
+  }, [setProfileData]);
 
+  const navigate = useNavigate();
+
+  const handleSignOut = () => {
+    localStorage.removeItem("authUser"); // or clear all: localStorage.clear();
+    alert("Signed out successfully"); // Optional
+    navigate("/"); // Redirect to login page or home
+  };
   return (
     <div className="profile-page-sidebar-con">
       <div className="profile-page-sidebar-image">
-        <img src={profileImage} alt="Profile" />
+        <img src={profiledata?.profileUrl || profileImage} alt="Profile" />
         <h4>{profiledata?.name}</h4>
-        <p>{profiledata?.email}</p>
+        <p>{profiledata?.email || profiledata?.phone}</p>
       </div>
 
       <div>
@@ -77,7 +86,11 @@ function ProfilePageSidebar({ setActiveSection, activeSection }) {
           </div>
         </div>
 
-        <div className="profile-page-sidebar-info">
+        <div
+          className="profile-page-sidebar-info"
+          onClick={handleSignOut}
+          style={{ cursor: "pointer" }}
+        >
           <div className="profile-page-sidebar-icon-text">
             <i className="bi bi-box-arrow-in-left"></i>
             <h5>Sign Out</h5>

@@ -1,7 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./ProfilePageInfo.css";
+import { getUserById, updateUser } from "../../../API/authApi";
 
-function ProfilePageInfo({ setActiveSection }) {
+function ProfilePageInfo() {
+   const [user, setUser] = useState(null);
+   const [isediting,SetIsediting] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [selectedGender, setSelectedGender] = useState("");
   const [formData, setFormData] = useState({
@@ -11,6 +14,34 @@ function ProfilePageInfo({ setActiveSection }) {
     mobile: "",
     dob: "",
   });
+
+ useEffect(() => {
+  const storedUser = localStorage.getItem("authUser");
+  if (!storedUser) return;
+
+const parsedUser = JSON.parse(storedUser);
+const id = parsedUser.id || parsedUser._id; 
+  const loadUser = async () => {
+    try {
+      const data = await getUserById(id);
+      setUser(data.user);
+
+      setFormData({
+        firstName: data.user.name?.split(" ")[0] || "",
+        lastName: data.user.name?.split(" ")[1] || "",
+        email: data.user.email || "",
+        mobile: data.user.phone || "",
+        dob: data.user.dob || "",
+      });
+
+      setSelectedGender(data.user.gender || "");
+    } catch (err) {
+      console.error("Failed to fetch user:", err);
+    }
+  };
+
+  loadUser();
+}, []); // ✅ Add empty dependency array to run only on mount
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -25,10 +56,29 @@ function ProfilePageInfo({ setActiveSection }) {
 
   const handleEdit = () => setEditMode(true);
   const handleCancel = () => setEditMode(false);
-  const handleSave = () => {
-    // TODO: Save to backend
+  const handleSave = async () => {
+    SetIsediting(true)
+  try {
+    const storedUser = JSON.parse(localStorage.getItem("authUser"));
+    const fullName = `${formData.firstName} ${formData.lastName}`.trim();
+
+    const updated = await updateUser(storedUser.id, {
+      name: fullName,
+      email: formData.email,
+      phone: formData.mobile,
+      gender: selectedGender,
+      dob: formData.dob,
+    });
+
+    setUser(updated.user);
     setEditMode(false);
-  };
+    localStorage.setItem("authUser", JSON.stringify(updated.user));
+  } catch (err) {
+    console.error("Failed to update user:", err);
+  }finally{
+    SetIsediting(true)
+  }
+}
 
   return (
     <div className="profile-page-info-con">
@@ -42,14 +92,6 @@ function ProfilePageInfo({ setActiveSection }) {
           placeholder="First Name"
           name="firstName"
           value={formData.firstName}
-          onChange={handleInputChange}
-          disabled={!editMode}
-        />
-        <input
-          type="text"
-          placeholder="Last Name"
-          name="lastName"
-          value={formData.lastName}
           onChange={handleInputChange}
           disabled={!editMode}
         />
@@ -108,7 +150,7 @@ function ProfilePageInfo({ setActiveSection }) {
       <div className="profile-info-btn-div">
         {!editMode ? (
           <button onClick={handleEdit} className="profile-info-btn-edit">
-            Edit
+           {isediting? "Editing..." :  "Edit"}
           </button>
         ) : (
           <div className="profile-info-btns-div">
