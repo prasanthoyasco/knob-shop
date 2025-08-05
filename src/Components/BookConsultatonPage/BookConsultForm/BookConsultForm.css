@@ -88,3 +88,49 @@
     text-decoration: underline;
     cursor: pointer;
 }
+
+@media screen and (max-width: 768px) {
+    .book-form-con {
+      flex-direction: column;
+      padding: 20px;
+      gap: 30px;
+    }
+  
+    .book-form-right,
+    .book-form-left {
+      width: 100%;
+    }
+  
+    .book-consultation-button {
+      width: 100%;
+      font-size: 1rem;
+    }
+  
+    .book-consultation-button-div {
+      margin-top: 20px;
+    }
+  
+    .book-form-right-select {
+      width: 100%;
+    }
+  
+    .book-form-container {
+      width: 95%;
+      padding: 20px 10px;
+    }
+  
+    .book-form-header {
+      font-size: 1rem;
+    }
+  
+    .book-form-right-checkbox {
+      display: flex;
+      align-items: flex-start;
+    }
+  
+    .book-form-right-checkbox-p {
+      font-size: 1rem;
+      margin-top: -3px !important;
+    }
+  }
+  
