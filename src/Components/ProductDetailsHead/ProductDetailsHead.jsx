@@ -3,13 +3,18 @@ import "./ProductDetailsHead.css";
 import ProductImageSlider from "../ProductImageSlider/ProductImageSlider";
 import { useCart } from "../../Context/CartContext"; // Make sure the path is correct
 import { getProductById } from "../../API/productApi";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { useWishlist } from "../../Context/WishlistContext";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
 
 export default function ProductDetailsHead() {
+const navigate = useNavigate();
   const { id } = useParams(); // get product id from URL
   const [product, setProduct] = useState(null);
   const [selectedSize, setSelectedSize] = useState(null);
   const [pincodeInfo, setPincodeInfo] = useState(null);
+  const { addToWishlist, removeFromWishlist, wishlistItems } = useWishlist();
+  const isWished = wishlistItems.some((w) => w.id === product.id);
   const [selectedColor, setSelectedColor] = useState("black");
   const [quantity, setQuantity] = useState(1);
   const [pincode, setPincode] = useState("");
@@ -17,6 +22,25 @@ export default function ProductDetailsHead() {
   const [isChecked, setIsChecked] = useState(false);
   // Removed the unused 'selectedVariant' state variable as it's a derived value
   const { addToCart, toggleDrawer } = useCart();
+
+  const handleWishlistClick = () => {
+    const authUser = localStorage.getItem("authUser");
+    const authToken = localStorage.getItem("authToken");
+
+    if (!authToken && !authUser) {
+      // Optionally show a toast or redirect to login
+      alert("Please login to add items to your wishlist.");
+      navigate("/auth/register"); 
+      // Or use a toast library: toast.error("Please login first.");
+      return;
+    }
+
+    if (isWished) {
+      removeFromWishlist(product.id);
+    } else {
+      addToWishlist(product);
+    }
+  };
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -208,17 +232,31 @@ export default function ProductDetailsHead() {
                   <strong> SKU :</strong> {cartItem.productId}
                 </p>
                 <div className="d-flex gap-3">
-                  <img
-                    src="/share.svg"
-                    alt="Share"
-                    style={{ cursor: "pointer" }}
-                    onClick={handleShare}
-                  />
-                  <img
-                    src="/wishList.svg"
-                    alt="Wishlist"
-                    style={{ cursor: "pointer" }}
-                  />
+                  <div className="d-flex gap-3 align-items-center">
+                    <img
+                      src="/share.svg"
+                      alt="Share"
+                      style={{ cursor: "pointer" }}
+                      onClick={handleShare}
+                    />
+                    <div className="wish-icon-wrapper">
+                    {isWished ? (
+                      <FaHeart
+                        size={16}
+                        style={{cursor:'pointer'}}
+                        className="text-danger wish-icon"
+                        onClick={handleWishlistClick}
+                      />
+                    ) : (
+                      <FaRegHeart
+                        size={16}
+                        style={{cursor:'pointer'}}
+                        className="text-muted wish-icon"
+                        onClick={handleWishlistClick}
+                      />
+                    )}
+                    </div>
+                  </div>
                 </div>
               </div>
 

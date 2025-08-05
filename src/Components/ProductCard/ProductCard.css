@@ -74,7 +74,23 @@
 .product-card .wishlist-icon.animate:hover {
   transform: scale(1.1);
 }
+.wishlist-icon-wrapper {
+  cursor: pointer;
+  font-size: 1.25rem;
+  z-index: 10;
+}
 
+.wishlist-icon {
+  transition: transform 0.2s ease, color 0.3s ease;
+}
+
+.wishlist-icon:hover {
+  transform: scale(1.2);
+}
+
+.wishlist-icon.active {
+  color: #d9534f; /* red */
+}
 /* Optional color selectors */
 .product-card .product-colors {
   display: flex;

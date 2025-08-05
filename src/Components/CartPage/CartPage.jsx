@@ -5,7 +5,6 @@ import NavbarTop from "../Navbar/NavbarTop/NavbarTop";
 import Footer from "../Footer/Footer";
 import { useNavigate } from "react-router-dom";
 import defaultImage from "../../Assets/Product Categories and its Product (Knobs Shop)/Smart Door Lock/Smart Door Lock/Luna Pro+ Facial/14_0fb7187f-b413-411d-a145-e62b8c9e41bb.jpg";
-
 import cardImage1 from "/payment-icon/visa.svg";
 import cardImage2 from "/payment-icon/master.svg";
 import cardImage3 from "/payment-icon/paypal.svg";
@@ -16,7 +15,7 @@ import { CountrySelect } from "../CartDrawer/CountrySelect";
 const cardImages = [cardImage1, cardImage2, cardImage3, cardImage4];
 
 function CartPage() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const location = useLocation();
   const [country, setCountry] = useState("India");
   const passedItems = location.state?.cartItems;
@@ -91,7 +90,6 @@ function CartPage() {
   useEffect(() => {
     console.log("CartPage - cartItems:", cartItems);
   }, [cartItems]);
-  
 
   return (
     <>
@@ -101,13 +99,12 @@ function CartPage() {
           <h1>YOUR SHOPPING CART</h1>
         </div>
 
-       <CartItemsList
-  cartItems={cartItems}
-  handleIncrement={handleIncrement}
-  handleDecrement={handleDecrement}
-  handleDelete={handleDelete}
-/>
-
+        <CartItemsList
+          cartItems={cartItems}
+          handleIncrement={handleIncrement}
+          handleDecrement={handleDecrement}
+          handleDelete={handleDelete}
+        />
 
         <div className="shopping-details-container">
           <div className="instruction-container">
@@ -131,7 +128,7 @@ function CartPage() {
               <option value="UK">UK</option>
               <option value="India">India</option>
             </select> */}
-            <CountrySelect  country={country} setCountry={setCountry}/>
+            <CountrySelect country={country} setCountry={setCountry} />
             <input
               type="text"
               placeholder="Postal/Zip Code"
@@ -148,26 +145,28 @@ function CartPage() {
             <h3>Subtotal ₹ {subtotal.toLocaleString("en-IN")}</h3>
             <p>Taxes and Shipping Calculated at Checkout</p>
             <div className="mobile-checkout-sticky">
-            <button
-  className="Desktop-checkout-button"
-  onClick={() => {
-    console.log("Navigating to payment with cartItems:", cartItems);
-    navigate("/payment", { state: { cartItems } });
-  }}
->
-  CHECK OUT
-</button>
-
+              <button
+                className="Desktop-checkout-button"
+                onClick={() => {
+                  console.log(
+                    "Navigating to payment with cartItems:",
+                    cartItems
+                  );
+                  navigate("/payment", { state: { cartItems } });
+                }}
+              >
+                CHECK OUT
+              </button>
             </div>
             <button
-  className="Desktop-checkout-button"
-  onClick={() => {
-    console.log("Navigating to payment with cartItems:", cartItems);
-    navigate("/payment", { state: { cartItems } });
-  }}
->
-  CHECK OUT
-</button>
+              className="Desktop-checkout-button"
+              onClick={() => {
+                console.log("Navigating to payment with cartItems:", cartItems);
+                navigate("/payment", { state: { cartItems } });
+              }}
+            >
+              CHECK OUT
+            </button>
 
             <p>We accept</p>
             <div className="card-images-container">

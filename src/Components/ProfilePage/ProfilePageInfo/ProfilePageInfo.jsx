@@ -31,7 +31,7 @@ const id = parsedUser.id || parsedUser._id;
         lastName: data.user.name?.split(" ")[1] || "",
         email: data.user.email || "",
         mobile: data.user.phone || "",
-        dob: data.user.dob || "",
+        dob: data.user.dateofbirth || "",
       });
 
       setSelectedGender(data.user.gender || "");
@@ -60,14 +60,15 @@ const id = parsedUser.id || parsedUser._id;
     SetIsediting(true)
   try {
     const storedUser = JSON.parse(localStorage.getItem("authUser"));
+    const id = storedUser.id || storedUser._id;  
     const fullName = `${formData.firstName} ${formData.lastName}`.trim();
 
-    const updated = await updateUser(storedUser.id, {
+    const updated = await updateUser(id, {
       name: fullName,
       email: formData.email,
       phone: formData.mobile,
       gender: selectedGender,
-      dob: formData.dob,
+      dateofbirth: formData.dob,
     });
 
     setUser(updated.user);
@@ -120,7 +121,7 @@ const id = parsedUser.id || parsedUser._id;
         <input
           type="date"
           name="dob"
-          value={formData.dob}
+          value={formData.dob ? formData.dob.slice(0, 10) : ""}
           onChange={handleInputChange}
           disabled={!editMode}
         />

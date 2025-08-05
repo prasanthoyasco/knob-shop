@@ -92,6 +92,7 @@ function AuthAccount() {
 
     try {
       const appVerifier = recaptchaVerifierRef.current;
+      await appVerifier.render();
       if (!appVerifier) {
         throw new Error("reCAPTCHA not initialized.");
       }
@@ -296,7 +297,7 @@ function AuthAccount() {
           )}
           {step === "otp" && (
             <button onClick={sendOtp} className="resend-btn" disabled={loading}>
-              {loading ? "Sending..." : "Resend OTP"}
+              Resend OTP
             </button>
           )}
 

@@ -95,7 +95,7 @@ const CartDrawer = ({
                         className="fw-semibold"
                         style={{ color: "#d6791f" }}
                       >
-                        ₹{item.price.toLocaleString()}
+                        ₹{item.variant?.[0]?.sizes[0].mrp?.toLocaleString()}
                       </span>
                       <button
                         className="btn btn-link btn-sm text-danger p-0"

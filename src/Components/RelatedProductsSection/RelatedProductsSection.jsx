@@ -10,7 +10,6 @@ const RelatedProductsSection = () => {
     const fetchAllProduct = async () => {
       try {
         const res = await getAllProducts();
-        console.log("All products Details : ", res);
         setAllProduct(res); // adjust if your API shape differs
       } catch (err) {
         console.error("Failed to fetch product", err);

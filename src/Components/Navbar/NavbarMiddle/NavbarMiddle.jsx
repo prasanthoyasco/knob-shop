@@ -7,6 +7,7 @@ import profile_icon from "../../../Assets/profile-icon.svg";
 import { useCart } from "../../../Context/CartContext";
 import { useNavigate } from "react-router-dom";
 import { searchProductsByParam } from "../../../API/productApi";
+import { useWishlist } from "../../../Context/WishlistContext";
 
 function NavbarMiddle() {
   const { cartItems, toggleDrawer } = useCart();
@@ -15,6 +16,7 @@ function NavbarMiddle() {
   const [loading, setLoading] = useState(false);
   const [results, setResults] = useState([]);
   const [user, setUser] = useState(null);
+  const { wishlistItems, toggleDrawer: toggleWishlistDrawer } = useWishlist();
 
   useEffect(() => {
     const storedUser = localStorage.getItem("authUser");
@@ -123,9 +125,15 @@ function NavbarMiddle() {
         {/* Icons */}
         <div className="heart-cart-person-signIn-icon">
           {/* Wishlist */}
-          <div className="icon-wrapper">
+          <div
+            className="icon-wrapper"
+            style={{ cursor: "pointer" }}
+            onClick={() => toggleWishlistDrawer(true)}
+          >
             <img src={heart_icon} alt="Wishlist" />
-            <span className="count-badge">5</span>
+            {wishlistItems.length > 0 && (
+              <span className="count-badge">{wishlistItems.length}</span>
+            )}
           </div>
 
           {/* Cart */}

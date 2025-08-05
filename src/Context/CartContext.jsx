@@ -20,6 +20,7 @@ export const CartProvider = ({ children }) => {
   const toggleDrawer = (state) => {
     setDrawerOpen(state);
   };
+  const clearCart = () => setCartItems([]);
 
   const recommendedItems = [
     {
@@ -58,6 +59,7 @@ export const CartProvider = ({ children }) => {
         addToCart,
         removeFromCart,
         drawerOpen,
+        clearCart,
         toggleDrawer,
         recommendedItems,
       }}

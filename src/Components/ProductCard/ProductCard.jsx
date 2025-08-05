@@ -2,11 +2,15 @@ import { FaStar, FaHeart } from "react-icons/fa";
 import "./ProductCard.css";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../../Context/CartContext";
+import { useWishlist } from "../../Context/WishlistContext";
 import { useState } from "react";
 
 const ProductCard = ({ product }) => {
   const navigate = useNavigate();
+
   const { addToCart, toggleDrawer } = useCart();
+  const { addToWishlist, removeFromWishlist, wishlistItems } = useWishlist();
+  const isWished = wishlistItems.some((w) => w.id === product.id);
 
   const [selectedColorIndex, setSelectedColorIndex] = useState(0);
   const initialSizeLabel = product.variant?.[0]?.sizes?.[0]?.label ?? null;
@@ -14,6 +18,24 @@ const ProductCard = ({ product }) => {
   const [selectedSizeLabel, setSelectedSizeLabel] = useState(initialSizeLabel);
 
   const { id, title, rating } = product;
+  const handleWishlistClick = () => {
+  const authToken = localStorage.getItem("authToken");
+
+  if (!authToken) {
+    // Optionally show a toast or redirect to login
+    alert("Please login to add items to your wishlist.");
+    navigate("/auth/register"); 
+    // Or use a toast library: toast.error("Please login first.");
+    return;
+  }
+
+  if (isWished) {
+    removeFromWishlist(product.id);
+  } else {
+    addToWishlist(product);
+  }
+};
+
 
   // Use default icons if not present
   const icons =
@@ -53,8 +75,19 @@ const ProductCard = ({ product }) => {
           {calculatedDiscount}% off
         </span>
       )}
+      <div
+        className={`wishlist-icon-wrapper position-absolute top-0 end-0 m-2 ${
+          isWished ? "text-danger" : "text-muted"
+        }`}
+        onClick={handleWishlistClick}
+      >
+        <FaHeart
+          size={20}
+          className={`wishlist-icon ${isWished ? "active" : ""}`}
+        />
+      </div>
 
-      <div className="position-absolute top-0 end-0 m-2 d-flex align-items-center rounded px-2 py-1 rating-overlay">
+      <div className="position-absolute bottom-50 end-0 m-2 d-flex align-items-center rounded px-2 py-1 rating-overlay">
         <FaStar className="text-warning me-1" size={18} />
         <span className="normal">{rating}</span>
       </div>
