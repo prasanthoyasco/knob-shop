@@ -79,7 +79,7 @@ const ProductCarouselSwiper = ({ products = [] }) => {
           </SwiperSlide>
         ))}
       </Swiper>
-     <div className="d-flex justify-content-center mt-2"> <button className="ctn big-ctn" onClick={()=>navigate('/categories')}>Shop Now</button></div>
+     <div className="d-flex justify-content-center mt-2"> <button className="ctn big-ctn" onClick={()=>navigate('/categories')}>Explore Now</button></div>
     </section>
   );
 };

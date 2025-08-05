@@ -3,6 +3,7 @@ import effortless from '../../Assets/Front Page Doc and Images/Front Page Doc an
 import kitchen from '../../Assets/Front Page Doc and Images/Front Page Doc and Images/sec - 5 &7/sec - 5 &7/Colortek/127f7890019a8da809712fe43661bd11.jpg';
 import shelves from '../../Assets/EssentialsSection/shelves.jpg';
 import './EssentialsSection.css'; // We'll write styles here
+import { useNavigate } from 'react-router-dom';
 
 const cards = [
   {
@@ -26,6 +27,7 @@ const cards = [
 ];
 
 export default function EssentialsSection() {
+  const navigate = useNavigate()
   return (
     <section className="p-5 bg-light essentials-bg-img d-flex align-items-center justify-content-center">
       <div className="d-flex align-items-center flex-column">
@@ -60,7 +62,7 @@ export default function EssentialsSection() {
       </div>
       
       <div className="text-center mt-4">
-          <button className="dark-btn rounded-pill px-4 py-2">
+          <button className="dark-btn rounded-pill px-4 py-2" onClick={() => navigate('/category/all-products')}>
             CHECK ALL PRODUCTS
           </button>
         </div>

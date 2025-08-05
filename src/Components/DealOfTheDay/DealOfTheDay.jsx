@@ -2,9 +2,11 @@ import React, { useEffect, useState } from "react";
 import "./DealOfTheDay.css";
 import dealoftheday from "../../Assets/dealoftheday.jpg";
 import dealdaybtnarrow from "../../Assets/dealdaybtnarrow.svg";
+import { useNavigate } from "react-router-dom";
 const DealOfTheDay = () => {
+  const navigate = useNavigate();
   const calculateTimeLeft = () => {
-    const targetDate = new Date("2025-07-10T00:00:00");
+    const targetDate = new Date("2025-08-20T00:00:00");
     const now = new Date();
     const difference = targetDate - now;
 
@@ -93,6 +95,9 @@ const DealOfTheDay = () => {
           className="shop-button"
           data-aos="fade-right"
           data-aos-delay="230"
+          onClick={() => {
+            navigate("/category/all-products");
+          }}
         >
           SHOP NOW{" "}
           <img

@@ -1,8 +1,10 @@
 import React from 'react';
 import shelfImage from '../../Assets/wood-shelf.png'; // adjust the path as needed
 import './ShelfHighlight.css'; // optional for additional styles
+import { useNavigate } from 'react-router-dom';
 
 const ShelfHighlight = () => {
+  const navigate = useNavigate();
   return (
     <div className="container-fluid pt-3 mt-3 bg-light-blue">
       <div className="container">
@@ -13,7 +15,7 @@ const ShelfHighlight = () => {
             <p className="lead text-muted">
               With its smooth and neat finish, the Book Shelf facilitates easy cleaning and maintenance.
             </p>
-            <button className="shelf-ctn px-4 py-2 mt-3">
+            <button className="shelf-ctn px-4 py-2 mt-3" onClick={() => navigate('/categories')}>
               Similar Products
             </button>
           </div>
