@@ -4,6 +4,8 @@ import { createConsultation } from '../../../API/consultationApi'; // adjust pat
 import { useNavigate } from 'react-router-dom';
 function BookConsultForm() {
     const navigate = useNavigate()
+    const [submissionMessage, setSubmissionMessage] = useState('');
+
   const [formData, setFormData] = useState({
     location: '',
     pincode: '',
@@ -26,7 +28,6 @@ function BookConsultForm() {
   const handleSubmit = async () => {
     try {
       const response = await createConsultation(formData);
-      alert('Consultation booked successfully!');
       console.log(response);
       setFormData({
         location: '',
@@ -38,12 +39,26 @@ function BookConsultForm() {
         budget: '',
         interest: '',
       });
+      setSubmissionMessage('Your booking has been submitted successfully! We will call you soon.');
+
+      navigate('/')
     } catch (err) {
       console.error(err);
-      alert('Failed to submit. Try again.');
+      setSubmissionMessage('Failed to submit. Please try again.');
+
+
     }
   };
-
+  const indianStates = [
+    "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh", "Goa",
+    "Gujarat", "Haryana", "Himachal Pradesh", "Jharkhand", "Karnataka", "Kerala",
+    "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya", "Mizoram", "Nagaland",
+    "Odisha", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana", "Tripura",
+    "Uttar Pradesh", "Uttarakhand", "West Bengal", "Andaman and Nicobar Islands",
+    "Chandigarh", "Dadra and Nagar Haveli and Daman and Diu", "Delhi", "Jammu and Kashmir",
+    "Ladakh", "Lakshadweep", "Puducherry"
+  ];
+  
   return (
     <div className='book-form-container'>
       <div className='book-form-header'>
@@ -55,9 +70,12 @@ function BookConsultForm() {
           <div className='input-and-text'>
             <p>Your Location</p>
             <select name="location" value={formData.location} onChange={handleChange}>
-              <option value="" disabled>Select an option</option>
-              <option value="Tamil Nadu">Tamil Nadu</option>
-            </select>
+  <option value="" disabled>Select your state</option>
+  {indianStates.map((state) => (
+    <option key={state} value={state}>{state}</option>
+  ))}
+</select>
+
           </div>
 
           <div className='input-and-text'>
@@ -96,13 +114,19 @@ function BookConsultForm() {
             <h5>Please tell us about your interests</h5>
           </div>
 
-          <select className='book-form-right-select' name="interest" value={formData.interest} onChange={handleChange}>
-            <option value="" disabled>Tell us what you are shopping for</option>
-            <option value="Gold">Gold</option>
-            <option value="Diamond">Diamond</option>
-            <option value="Silver">Silver</option>
-            <option value="Platinum">Platinum</option>
-          </select>
+          <textarea
+  className='book-form-right-select'
+  name="interest"
+  placeholder="Tell us what you are shopping for"
+  value={formData.interest}
+  onChange={handleChange}
+/>
+{submissionMessage && (
+  <div className="submission-message">
+    <p>{submissionMessage}</p>
+  </div>
+)}
+
 
           <div className='book-consultation-button-div'>
             <button className='book-consultation-button' onClick={handleSubmit}>
