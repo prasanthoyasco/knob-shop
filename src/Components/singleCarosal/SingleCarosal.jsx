@@ -79,7 +79,7 @@ const SingleCarosal = () => {
                     )
                   }
                 >
-                  SHOP NOW
+                  Explore NOW
                 </button>
               </div>
             </div>

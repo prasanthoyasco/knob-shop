@@ -116,7 +116,10 @@
 .category-dropdown-menu {
   display: none;
   position: absolute;
-  top: 35px;
+  column-count: 3;
+  column-gap: 20px;
+  max-height: 75vh;
+  top: 40px;
   left: 0;
   background-color: white;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);

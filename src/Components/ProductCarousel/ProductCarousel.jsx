@@ -12,7 +12,7 @@ const ProductCarouselSwiper = ({ products = [] }) => {
   const navigate = useNavigate()
   const handleClick = (item) => {
     console.log("Clicked:", item);
-    navigate(`/categories/${item.id}`,{ state: { product: item } });
+    navigate(`/category/${item.id}`,{ state: { product: item } });
   };
   return (
     <section className="py-1 bg-white mt-3 container-fluid product-carosal"> {/* Changed container-fluied to container-fluid */}
@@ -79,7 +79,7 @@ const ProductCarouselSwiper = ({ products = [] }) => {
           </SwiperSlide>
         ))}
       </Swiper>
-     <div className="d-flex justify-content-center mt-2"> <button className="ctn big-ctn" onClick={()=>navigate('/categories')}>Shop Now</button></div>
+     <div className="d-flex justify-content-center mt-2"> <button className="ctn big-ctn" onClick={()=>navigate('/categories')}>Explore Now</button></div>
     </section>
   );
 };

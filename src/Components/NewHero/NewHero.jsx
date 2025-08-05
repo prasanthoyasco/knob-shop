@@ -1,117 +1,161 @@
 import { Swiper, SwiperSlide } from "swiper/react";
-import { useEffect, useRef, useCallback } from "react"; // Removed useState for activeSlideIndex
+import { useEffect, useRef, useCallback, useState } from "react";
 import { Navigation, Pagination, Autoplay, EffectFade } from "swiper/modules";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
-import "swiper/css";
-import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
+import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/effect-fade";
 import "./NewHero.css";
-import { useNavigate } from "react-router-dom";
-import video from '../../Assets/New folder/New folder/Faber.webm'
-import lunaProImage from '../../Assets/Product Categories and its Product (Knobs Shop)/Smart Door Lock/Smart Door Lock/Luna Pro+ Facial/1_3819cf62-66f2-4a8a-b562-eddb7d96a57c.webp'
-import yaleImage from '../../Assets/Product Categories and its Product (Knobs Shop)/Smart Door Lock/Smart Door Lock/Luna Pro+ Facial/14_0fb7187f-b413-411d-a145-e62b8c9e41bb.jpg'
-import YMI70AYHImage from '../../Assets/Product Categories and its Product (Knobs Shop)/Smart Door Lock/Smart Door Lock/YMI70A-YH/YMI70_RED-GOLD-01.jpg'
-const slides = [
+
+import video from "../../Assets/New folder/New folder/Faber.webm";
+import lunaProImage from "../../Assets/Product Categories and its Product (Knobs Shop)/Smart Door Lock/Smart Door Lock/Luna Pro+ Facial/1_3819cf62-66f2-4a8a-b562-eddb7d96a57c.webp";
+import yaleImage from "../../Assets/Product Categories and its Product (Knobs Shop)/Smart Door Lock/Smart Door Lock/Luna Pro+ Facial/14_0fb7187f-b413-411d-a145-e62b8c9e41bb.jpg";
+import YMI70AYHImage from "../../Assets/Product Categories and its Product (Knobs Shop)/Smart Door Lock/Smart Door Lock/YMI70A-YH/YMI70_RED-GOLD-01.jpg";
+
+const baseSlides = [
   {
     id: "video",
     type: "video",
     videoSrc: video,
   },
-  { id: 1,route:"digital lock", img: "/slider/lock.png", imgheight: 400, bg: "/slider/bg-1.jpg", offer: "Flat 15% Off All Items", text: "Digital Door Lock", circleColor: "#9CB8A5", description: "Bench suitable for living room Lorem ipsum dolor sit amet consectetur adipiscing elit sed incididunt et dolore magna labore et dolore magna aliqua.", number: "01",link:"/category/Digital Door Lock",productList:[
-    {
-      name: "YDME 200NxT",
-      image:lunaProImage
-    },
-    {
-      name: "YDME 100NxT",
-      image:yaleImage
-    },
-    {
-      name: "YDME 50NxT",
-      image:YMI70AYHImage
-    },
-    {
-      name: "YDME 50Pro",
-      image:YMI70AYHImage
-    },
-    {
-      name: "REFLECTA Lock",
-      image:YMI70AYHImage
-    }
-  ]},
-  { id: 2, img: "/slider/keyboard_tray.png", imgheight: 400, bg: "/slider/bg-2.jpg", offer: "NEW SEASON ARRIVAL", text: "Keyboard tray", circleColor: "#F08A58", description: "A keyboard tray is a sliding platform mounted under a desk, designed to hold a keyboard and mouse, improving ergonomics and saving workspace on the desktop.", number: "02",route:"Keyboard Tray" },
-  { id: 3, img: "/slider/folding_table.png", imgheight: 400, bg: "/slider/bg-3.jpg", offer: "Flat 15% Off All Items", text: "table folding bracket", circleColor: "#00759F", description: "A table folding bracket is a space-saving hardware device that allows tables to fold down or up securely, ideal for wall-mounted, collapsible, or adjustable furniture designs.", number: "03",route:"table folding bracket"},
-  { id: 4, img: "/slider/Door_stoper.png", imgheight: 200, bg: "/slider/bg-5.jpg", offer: "Flat 15% Off All Items", text: "door stoppers home depot", circleColor: "#DF7A26", description: "Door stoppers from Home Depot include solid baseboard-mounted models and spring‑steel flexible wire types, designed to prevent wall and doorknob damage. ", number: "04",route:"stopper"},
-  { id: 5, img: "/slider/vIntage_lock.png", imgheight: 330, bg: "/slider/bg-6.jpg", offer: "Flat 15% Off All Items", text: "navtal lock decor", circleColor: "#54ef7d73", description: "Navtal lock decor combines security with aesthetics, featuring brass or stainless steel padlocks in stylish finishes, often used on doors or cabinets for both function and design appeal.", number: "05",route:"lock"},
+  {
+    id: 1,
+    route: "digital lock",
+    img: "/slider/lock.png",
+    imgheight: 400,
+    bg: "/slider/bg-1.jpg",
+    offer: "Flat 15% Off All Items",
+    text: "Digital Door Lock",
+    circleColor: "#9CB8A5",
+    number: "01",
+    productList: [
+      { name: "YDME 200NxT", image: lunaProImage },
+      { name: "YDME 100NxT", image: yaleImage },
+      { name: "YDME 50NxT", image: YMI70AYHImage },
+      { name: "YDME 50Pro", image: YMI70AYHImage },
+      { name: "REFLECTA Lock", image: YMI70AYHImage },
+    ],
+    description:
+      "Bench suitable for living room Lorem ipsum dolor sit amet consectetur adipiscing elit sed incididunt et dolore magna labore et dolore magna aliqua.",
+  },
+  {
+    id: 2,
+    route: "Keyboard Tray",
+    img: "/slider/keyboard_tray.png",
+    imgheight: 400,
+    bg: "/slider/bg-2.jpg",
+    offer: "NEW SEASON ARRIVAL",
+    text: "Keyboard tray",
+    circleColor: "#F08A58",
+    number: "02",
+    description:
+      "A keyboard tray is a sliding platform mounted under a desk...",
+  },
+  {
+    id: 3,
+    route: "table folding bracket",
+    img: "/slider/folding_table.png",
+    imgheight: 400,
+    bg: "/slider/bg-3.jpg",
+    offer: "Flat 15% Off All Items",
+    text: "table folding bracket",
+    circleColor: "#00759F",
+    number: "03",
+    description:
+      "A table folding bracket is a space-saving hardware device...",
+  },
+  {
+    id: 4,
+    route: "stopper",
+    img: "/slider/Door_stoper.png",
+    imgheight: 200,
+    bg: "/slider/bg-5.jpg",
+    offer: "Flat 15% Off All Items",
+    text: "door stoppers home depot",
+    circleColor: "#DF7A26",
+    number: "04",
+    description:
+      "Door stoppers from Home Depot include solid baseboard-mounted models...",
+  },
+  {
+    id: 5,
+    route: "lock",
+    img: "/slider/vIntage_lock.png",
+    imgheight: 330,
+    bg: "/slider/bg-6.jpg",
+    offer: "Flat 15% Off All Items",
+    text: "navtal lock decor",
+    circleColor: "#54ef7d73",
+    number: "05",
+    description:
+      "Navtal lock decor combines security with aesthetics...",
+  },
 ];
 
 const NewHero = () => {
-  const navigate= useNavigate()
+  const navigate = useNavigate();
   const prevRef = useRef(null);
-  const [showVideo, setShowVideo] = useState(true);
   const nextRef = useRef(null);
-  // Removed: const [activeSlideIndex, setActiveSlideIndex] = useState(0);
   const swiperRef = useRef(null);
+  const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
+
+
+  const isMobile = window.innerWidth < 768;
+  const slides = isMobile
+    ? baseSlides.filter((slide) => slide.type !== "video")
+    : baseSlides;
 
   const retriggerAnimations = useCallback(() => {
-    const animatedElements = document.querySelectorAll('.animate-on-slide');
-
-    animatedElements.forEach(el => {
-      el.classList.remove('active-zoom-in');
-      // A small delay (e.g., 50ms) can sometimes help ensure the class removal is processed
-      // before re-adding, especially on very fast browsers or complex animations.
-      // However, void el.offsetWidth usually suffices for reflow.
+    const animatedElements = document.querySelectorAll(".animate-on-slide");
+    animatedElements.forEach((el) => {
+      el.classList.remove("active-zoom-in");
       setTimeout(() => {
-          el.classList.add('active-zoom-in');
-      }, 50); // Small delay to ensure re-animation
+        el.classList.add("active-zoom-in");
+      }, 50);
     });
   }, []);
 
-  useEffect(() => {
-    retriggerAnimations();
-  }, [retriggerAnimations]);
+  const handleSlideChange = useCallback(
+    (swiper) => {
+      setCurrentSlideIndex(swiper.activeIndex);
+      retriggerAnimations();
+      const isVideoSlide = slides[swiper.realIndex]?.type === "video";
 
-    // Timer for video display
-    useEffect(() => {
-      let timer;
-      if (showVideo) {
-        timer = setTimeout(() => {
-          setShowVideo(false);
-        }, 15000); // Video plays for 15 seconds
+      if (isVideoSlide) {
+        swiper.autoplay?.stop();
+      } else {
+        swiper.autoplay?.start();
       }
-      return () => clearTimeout(timer);
-    }, [showVideo]);
+    },
+    [retriggerAnimations, slides]
+  );
 
-  const handleSlideChange = useCallback((swiper) => {
-    retriggerAnimations();
-    if (swiper.realIndex === slides.length - 1) {
-      setTimeout(() => {
-        setShowVideo(true);
-        swiper.slideTo(0); // ✅ swiper is defined now
-      }, 3000);
-    }
-  }, [retriggerAnimations]);
-  
+  useEffect(() => {
+    return () => {
+      clearTimeout(window.__videoSlideTimeout);
+    };
+  }, []);
+
   const handleShopNow = (slide) => {
     const query = slide.route || slide.text || "all";
     navigate(`/products/search/${encodeURIComponent(query)}`);
   };
-  
-  
+
   return (
     <div className="lighting-home-slider">
-      <>
-      <div className="custom-nav">
-        <button ref={prevRef} className="custom-nav-btn">
-          <IoIosArrowUp />
-        </button>
-        <button ref={nextRef} className="custom-nav-btn">
-          <IoIosArrowDown />
-        </button>
-      </div>
+      {!isMobile  && slides[currentSlideIndex]?.type !== 'video' && (
+        <div className="custom-nav">
+          <button ref={prevRef} className="custom-nav-btn">
+            <IoIosArrowUp />
+          </button>
+          <button ref={nextRef} className="custom-nav-btn">
+            <IoIosArrowDown />
+          </button>
+        </div>
+      )}
 
       <Swiper
         ref={swiperRef}
@@ -126,7 +170,7 @@ const NewHero = () => {
           retriggerAnimations();
         }}
         onSlideChange={handleSlideChange}
-        navigation={true}
+        navigation
         pagination={{
           clickable: true,
           renderBullet: (index, className) => `
@@ -140,70 +184,94 @@ const NewHero = () => {
         }}
         autoplay={{ delay: 3000, disableOnInteraction: false }}
         effect="fade"
-        loop={true}
+        loop
       >
         {slides.map((slide) => (
           <SwiperSlide key={slide.id}>
-          {slide.type === "video" ? (
-            <video
-              key="promo-video"
-              src={slide.videoSrc}
-              autoPlay
-              muted
-              playsInline
-              className="full-banner-video"
-              style={{ width: "100%", height: "600px", objectFit: "cover" }}
-              onLoadedMetadata={(e) => {
-                const video = e.currentTarget;
-                setTimeout(() => {
-                  swiperRef.current.swiper.slideNext();
-                }, video.duration ? video.duration * 1000 : 15000); // fallback: 15s
-              }}
-            />
-          ) : (
-            <div
-              className="slide-content"
-              style={{
-                background: `url(${slide.bg}) no-repeat center`,
-                backgroundSize: 'cover',
-              }}
-            >
-              <div className="left-section">
-                {/* No longer using activeSlideIndex here, relies purely on retriggerAnimations */}
-                <p className="offer animate-on-slide-left text-animation-delay-1">{slide.offer}</p>
-                <h2 className="title animate-on-slide-left text-animation-delay-2">{slide.text}</h2>
-                <p className="description animate-on-slide-left text-animation-delay-3">{slide.description}</p>
-                <button className="shop-btn animate-on-slide-left text-animation-delay-4" style={{position:"relative",zIndex:"9999"}} onClick={() => handleShopNow(slide)}>SHOP NOW</button>
-                <div className="hero-slide-number">
-                  <div className="horizantal-line"></div>
-                  {slide.number}
-                </div>
-              </div>
+            {slide.type === "video" ? (
+              <video
+                src={slide.videoSrc}
+                autoPlay
+                muted
+                playsInline
+                className="full-banner-video"
+                style={{ width: "100%", height: "600px", objectFit: "cover" }}
+                onPlay={(e) => {
+                  const video = e.currentTarget;
+                  const swiper = swiperRef.current?.swiper;
+                  swiper?.autoplay?.stop();
 
-              <div className="rightImg">
-                <div className="circle-elements">
+                  const duration = (video.duration || 15) * 1000;
+                  clearTimeout(window.__videoSlideTimeout);
+
+                  window.__videoSlideTimeout = setTimeout(() => {
+                    swiper?.slideNext();
+                    swiper?.autoplay?.start();
+                  }, duration);
+                }}
+                onEnded={() => {
+                  const swiper = swiperRef.current?.swiper;
+                  swiper?.slideNext();
+                  swiper?.autoplay?.start();
+                }}
+              />
+            ) : (
+              <div
+                className="slide-content"
+                style={{
+                  background: `url(${slide.bg}) no-repeat center`,
+                  backgroundSize: "cover",
+                }}
+              >
+                <div className="left-section">
+                  <p className="offer animate-on-slide-left text-animation-delay-1">
+                    {slide.offer}
+                  </p>
+                  <h2 className="title animate-on-slide-left text-animation-delay-2">
+                    {slide.text}
+                  </h2>
+                  <p className="description animate-on-slide-left text-animation-delay-3">
+                    {slide.description}
+                  </p>
+                  <button
+                    className="shop-btn animate-on-slide-left text-animation-delay-4"
+                    onClick={() => handleShopNow(slide)}
+                  >
+                    SHOP NOW
+                  </button>
+                  <div className="hero-slide-number">
+                    <div className="horizantal-line"></div>
+                    {slide.number}
+                  </div>
+                </div>
+
+                <div className="rightImg">
+                  <div className="circle-elements">
                     <div
                       className="img-bg-clr circle-bg animate-on-slide"
                       style={{ backgroundColor: slide.circleColor }}
                     ></div>
                     <div className="circle-border animate-on-slide border-animation-delay">
-                      <img src="/hero-bg-strok.png" className="bg-strok" alt="" />
+                      <img
+                        src="/hero-bg-strok.png"
+                        className="bg-strok"
+                        alt=""
+                      />
                     </div>
                     <img
                       src={slide.img}
-                      alt={slide.title}
+                      alt={slide.text}
                       className="product-img img-fluid animate-on-slide product-animation-delay"
-                      height={`${slide.imgheight}px`}
+                      height={slide.imgheight}
                       style={{ maxHeight: "500px" }}
                     />
+                  </div>
                 </div>
               </div>
-            </div>
             )}
           </SwiperSlide>
         ))}
       </Swiper>
-      </>
     </div>
   );
 };

@@ -25,16 +25,16 @@ const navbarContent = [
   { href: "contact-us", text: "Contact Us", subItems: [] },
 ];
 
-const categoryItem = [
-  { id: 0, text: "All Category" },
-  { id: 1, text: "Cabinets & Storage" },
-  { id: 2, text: "Seating" },
-  { id: 3, text: "Beds & Materesses" },
-  { id: 4, text: "Dining Room" },
-  { id: 5, text: "Tables" },
-  { id: 6, text: "Living room" },
-  { id: 7, text: "Study & Home oofice" },
-];
+// const categoryItem = [
+//   { id: 0, text: "All Category" },
+//   { id: 1, text: "Cabinets & Storage" },
+//   { id: 2, text: "Seating" },
+//   { id: 3, text: "Beds & Materesses" },
+//   { id: 4, text: "Dining Room" },
+//   { id: 5, text: "Tables" },
+//   { id: 6, text: "Living room" },
+//   { id: 7, text: "Study & Home oofice" },
+// ];
 
 function NavbarBottom() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -85,6 +85,7 @@ function NavbarBottom() {
                           ?.replace(/\s+/g, "-")}`
                   }
                   className="dropdown-item"
+                  style={{textTransform:"Capitalize"}}
                 >
                   {cat.category_name || cat.name}
                 </a>
@@ -98,7 +99,7 @@ function NavbarBottom() {
       <div className="a-tag-container desktop-only">
         {navbarContent.map((item, index) => (
           <div className="a-tag-text-icon" key={index}>
-            <a>{item.text}</a>
+            <a style={{textTransform:'capitalize'}}>{item.text}</a>
             {item.subItems?.length > 0 && (
               <i className="bi bi-chevron-down"></i>
             )}

@@ -4,6 +4,7 @@ import roomImage from '../../Assets/room.jpg';
 import tableImg from '../../Assets/table.png';
 import sofaImg from '../../Assets/sofa.png';
 import light_room from '../../Assets/light-room.png';
+import { useNavigate } from 'react-router-dom';
 
 const decorPoints = [
   {
@@ -33,6 +34,7 @@ const decorPoints = [
 ];
 
 const ShopTheRoom = () => {
+  const navigate = useNavigate();
   const defaultopen = decorPoints[0].id;
   const [activeId, setActiveId] = useState(defaultopen);
   const [cardHeights, setCardHeights] = useState({});
@@ -122,7 +124,7 @@ const ShopTheRoom = () => {
       </div>
 
       <div className="shop-the-room__btn-container">
-        <button className="shop-the-room__check-btn">Check All Products</button>
+        <button className="shop-the-room__check-btn" onClick={()=>navigate('/category/all-products')}>Check All Products</button>
       </div>
     </section>
   );
