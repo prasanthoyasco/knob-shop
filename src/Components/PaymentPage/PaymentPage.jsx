@@ -116,7 +116,19 @@ function PaymentPage() {
       console.log("📦 Final orderData to backend:", orderData);
       const orderResponse = await createOrderWithShipping(orderData);
       console.log("✅ Order created:", orderResponse);
-  
+      // ✅ Save order and cart data to localStorage for Invoice
+const invoicePayload = {
+  shippingAddress,
+  cartItems,
+  totalAmount: totalValue,
+  dtdcReferenceNumber: referenceNumber,
+  userId,
+  paymentMethod: selectedPayment || "cod",
+  invoiceDate: new Date().toLocaleDateString(),
+  orderId: orderResponse.orderId,
+};
+localStorage.setItem('latestInvoiceData', JSON.stringify(invoicePayload));
+
       // ✅ Navigate to confirmation page
       navigate("/order-confirmed", {
         state: {

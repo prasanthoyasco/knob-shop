@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 import './Invoice.css';
 import logo from '../../Assets/logo.png';
 import html2pdf from 'html2pdf.js';
@@ -173,6 +173,18 @@ function Invoice() {
         </div>
     </div>
         <div className="invoice">
+        <div className="invoice-company text-inverse f-w-600">
+            <span className="pull-right hidden-print">
+            <button onClick={handleDownloadPDF} className="btn btn-sm btn-white m-b-10 p-l-5">
+  <i className="fa fa-file t-plus-1 text-danger fa-fw fa-lg"></i> Export as PDF
+</button>
+
+              <a href="javascript:;" onClick={handlePrint} className="btn btn-sm btn-white m-b-10 p-l-5">
+                <i className="fa fa-print t-plus-1 fa-fw fa-lg"></i> Print
+              </a>
+            </span>
+            {company.name}
+          </div>
         <div className="invoice-header">
             <div className="invoice-from">
               <small>from</small>
@@ -218,51 +230,44 @@ function Invoice() {
                 </tr>
               </thead>
               <tbody>
-                {items.map((item, i) => {
-                  const amount = item.rate * item.hours;
-                  const discount = (amount * item.disc) / 100;
-                  const taxable = amount - discount;
-                  const gstAmt = (taxable * item.gst) / 100;
+  {items.map((item, i) => {
+    const amount = item.rate * item.hours;
+    const discount = (amount * item.disc) / 100;
+    const taxable = amount - discount;
+    const gstAmt = (taxable * item.gst) / 100;
 
-                  return (
-                    <tr key={i}>
-                      <td>{item.id}</td>
-                      <td>{item.title}<br /><small>{item.description}</small></td>
-                      <td>{item.hsc}</td>
-                      <td>₹{item.rate}</td>
-                      <td>{item.hours} {item.unit}</td>
-                      <td>{item.disc}%</td>
-                      <td>{item.gst}%</td>
-                      <td>₹{gstAmt.toFixed(2)}</td>
-                      <td>₹{(taxable + gstAmt).toFixed(2)}</td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
+    return (
+      <tr key={i}>
+        <td>{item.id}</td>
+        <td>{item.title}<br /><small>{item.description}</small></td>
+        <td>{item.hsc}</td>
+        <td>₹{item.rate}</td>
+        <td>{item.hours} {item.unit}</td>
+        <td>{item.disc}%</td>
+        <td>{item.gst}%</td>
+        <td>₹{gstAmt.toFixed(2)}</td>
+        <td>₹{(taxable + gstAmt).toFixed(2)}</td>
+      </tr>
+    );
+  })}
 
-          <div className="invoice-summary">
-            <h5>HSN-wise Summary</h5>
-            <table className="table">
-              <thead>
-                <tr>
-                  <th>HSN</th>
-                  <th>Taxable</th>
-                  <th>CGST</th>
-                  <th>SGST</th>
-                </tr>
-              </thead>
-              <tbody>
-                {Object.entries(hsnSummary).map(([hsn, data], i) => (
-                  <tr key={i}>
-                    <td>{hsn}</td>
-                    <td>₹{data.taxable.toFixed(2)}</td>
-                    <td>₹{data.cgst.toFixed(2)}</td>
-                    <td>₹{data.sgst.toFixed(2)}</td>
-                  </tr>
-                ))}
-              </tbody>
+  {/* Empty rows to maintain fixed height for 10 rows */}
+{Array.from({ length: 10 - items.length }).map((_, idx) => (
+  <tr key={`empty-${idx}`} className="empty-row">
+    <td>&nbsp;</td>
+    <td><br /><small>&nbsp;</small></td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td></td>
+  </tr>
+))}
+
+</tbody>
+
             </table>
           </div>
 
@@ -278,15 +283,85 @@ function Invoice() {
             </div>
 
           </div>
-
-          <div className="invoice-note">
-            {notes.map((note, i) => <div key={i}>{note}</div>)}
+          <div className="invoice-price">
+            <div className='sub-total-price-content word-price'>
+                <p>Amount Chargeable ( in words )</p>
+                <h5><em>{toWords(roundedTotal)}</em></h5>
+            </div>
           </div>
+          <div className="invoice-summary mt-4">
+  <h5>HSN/SAC Summary</h5>
+  <table className="table table-bordered">
+    <thead className="table-secondary">
+      <tr>
+        <th>HSN/SAC</th>
+        <th>Taxable Value</th>
+        <th>CGST %</th>
+        <th>CGST Amount</th>
+        <th>SGST %</th>
+        <th>SGST Amount</th>
+        <th>Total Tax</th>
+      </tr>
+    </thead>
+    <tbody>
+      {Object.entries(hsnSummary).map(([hsn, data], i) => {
+        const cgstRate = 18;
+        const sgstRate = 18;
+        const totalTax = data.cgst + data.sgst;
+        return (
+          <tr key={i}>
+            <td>{hsn}</td>
+            <td>₹{data.taxable.toFixed(2)}</td>
+            <td>{cgstRate}%</td>
+            <td>₹{data.cgst.toFixed(2)}</td>
+            <td>{sgstRate}%</td>
+            <td>₹{data.sgst.toFixed(2)}</td>
+            <td>₹{totalTax.toFixed(2)}</td>
+          </tr>
+        );
+      })}
+      <tr>
+        <td colSpan="6" className="text-end"><strong>Total</strong></td>
+        <td><strong>₹{totalGST.toFixed(2)}</strong></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
-          <div className="invoice-footer text-center">
-            THANK YOU FOR YOUR BUSINESS<br />
-            {company.website} | {company.phone} | {company.email}
-          </div>
+
+<div className="mt-4">
+  <p className='invoice-price p-3'><strong>Amount Chargeable (in words):</strong> {toWords(roundedTotal)}</p>
+<div className='bank-details-invoice mt-3 invoice-price p-4'>
+  <div className="mt-3">
+    <p><strong>Company's Bank Details</strong></p>
+    <p><strong>Bank Name:</strong> Kotak Mahindra Bank - 9043671585</p>
+    <p><strong>A/c No.:</strong> 9043671585 / 136530150450491</p>
+    <p><strong>Branch & IFS Code:</strong>KKBK0000490 / TMBL0000136</p>
+  </div>
+
+
+  <div className="mt-3">
+    <p><strong>Company's PAN:</strong> AHAPG8378C</p>
+  </div>
+  </div>
+  <div className="mt-4 declare-content-and-sign">
+    <div className='declartions-content-invoice'>
+        <p><strong>Declation</strong></p>
+        <p>We declare that this invoice shows the actual price of the</p>
+        <p>goods described and that all particulars are true and correct</p>
+    </div>
+    <div className="text-end">
+      <p><strong>for KNOBS SHOP</strong></p>
+      <p className="mt-5">Authorised Signatory</p>
+    </div>
+  </div>
+  <hr className='invoice-hr'/>
+  <div className='computer-invoice-text'>
+<h5>SUBJECT TO COIMBATORE JURISDICTION</h5>
+  <p><em>This is a Computer Generated Invoice</em></p>
+</div>
+</div>
+
         </div>
       </div>
     </div>

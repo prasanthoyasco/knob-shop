@@ -142,7 +142,7 @@
 .invoice-logo-icon {
     height: 500px;
     position: absolute;
-    top:-290%;
+    top:-500%;
     left: 50%;
     transform: translate(-50%, -50%);
     opacity: 0.1;
@@ -160,3 +160,35 @@
     gap: 40px;
     margin-left: 40px;
   }
+.word-price{
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+}
+.bank-details-invoice{
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    align-items: center;
+}
+.declare-content-and-sign{
+    display: flex;
+    justify-content: space-between;
+}
+.computer-invoice-text{
+    margin-top: 10px;
+    text-align: center;
+    position: relative;
+    bottom: 0 !important;
+}
+.invoice-hr{
+    margin: 20px 0 !important;
+}
+
+/* Hide border and background for empty invoice rows */
+.empty-row td {
+    border: none !important;
+    padding: 10px 0 !important;
+    background: transparent !important;
+  }
+  
