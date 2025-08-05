@@ -4,9 +4,8 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-
+import 'font-awesome/css/font-awesome.min.css';
 import { Home } from './Pages/Home';
 import NewsletterModal from './Components/NewsletterModal/NewsletterModal';
 import { ProductList } from './Pages/ProductList';
@@ -36,6 +35,7 @@ import ProfilePageSidebar from './Components/ProfilePage/ProfilePageSidebar/Prof
 import ProfilePage from './Components/ProfilePage/ProfilePage';
 import BookConsult from './Components/BookConsultatonPage/BookConsult/BookConsult';
 import { Subpage } from './Components/Subpage/Subpage';
+import Invoice from './Components/Invoice/Invoice';
 // import NavbarTop from './Components/Navbar/NavbarTop/NavbarTop';
 
 function App() {
@@ -73,6 +73,7 @@ function App() {
        <Route path="/auth/forgot-pass" element={<AuthForgotPass/>} />
        <Route path="/auth/confirm" element={<AuthConfirm/>} />
        <Route path="/account" element={<ProfilePage/>} />
+       <Route path="/invoice" element={<Invoice/>} />
        <Route path="*" element={<Notfound />} />
       </Routes>
       </div>
