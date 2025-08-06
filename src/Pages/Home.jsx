@@ -69,7 +69,6 @@ export const Home = () => {
     "Rim Lock":cat9,
     "Locks": cat1,
     "Telescopic": cat2,
-    "Door Knocker": cat5,
     "Digital Lock": cat4,
     "Auto Hinges": cat3,
     "Aldrop": cat7
@@ -80,7 +79,6 @@ export const Home = () => {
     "Rim Lock",
     "Locks",
     "Telescopic",
-    "Door Knocker",
     "Digital Lock",
     "Auto Hinges",
     "Aldrop"

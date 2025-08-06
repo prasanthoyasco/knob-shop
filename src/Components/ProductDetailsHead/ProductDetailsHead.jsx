@@ -25,8 +25,9 @@ const navigate = useNavigate();
 
   const handleWishlistClick = () => {
     const authUser = localStorage.getItem("authUser");
+    console.log("authUser :",authUser)
     const authToken = localStorage.getItem("authToken");
-
+    console.log("authUser :",authToken)
     if (!authToken && !authUser) {
       // Optionally show a toast or redirect to login
       alert("Please login to add items to your wishlist.");
@@ -37,8 +38,11 @@ const navigate = useNavigate();
 
     if (isWished) {
       removeFromWishlist(product.id);
+      console.log("WISHLIST REMOVED:", product.id);
     } else {
       addToWishlist(product);
+      console.log("WISHLIST ADDED:", product);
+
     }
   };
 

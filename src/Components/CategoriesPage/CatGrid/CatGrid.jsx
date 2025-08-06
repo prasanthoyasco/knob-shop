@@ -7,32 +7,33 @@ import { RetryableImage } from "./RetryableImage";
 function CatGrid() {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [allProducts, setAllProducts] = useState([]);
   const navigate = useNavigate();
   const location = useLocation();
-  const passedAllData = location.AllProductstate || null;
+  const passedAllData = location.state?.allProducts || null;
   const passedCategoryData = location.state?.category || null;
   const passedTitle = location.state?.title || null;
   
   useEffect(() => {
     if (passedAllData) {
-      setCategories(
-        passedAllData.map((item, index) => ({
-          _id: `${passedTitle}-${index}`, // fake unique ID for key
-          category_name: item.title,
-          description: "", // optional: set a description
-          categoryImageUrl: item.bgImage,
-        }))
-      );
+      const formatted = passedAllData.map((item, index) => ({
+        _id: `${passedTitle}-${index}`,
+        category_name: item.title,
+        description: item.description,
+        categoryImageUrl: item.bgImage,
+        categoryList: item.category?.length ? item.category : null,
+      }));
+      setAllProducts(formatted);      // save all data
+      setCategories(formatted);       // show full data initially
       setLoading(false);
     } else if (passedCategoryData) {
-      setCategories(
-        passedCategoryData.map((item, index) => ({
-          _id: `${passedTitle}-${index}`, // fake unique ID for key
-          category_name: item.catgoryName,
-          description: "", // optional: set a description
-          categoryImageUrl: item.image,
-        }))
-      );
+      const formatted = passedCategoryData.map((item, index) => ({
+        _id: `${passedTitle}-${index}`,
+        category_name: item.catgoryName,
+        description: item.description,
+        categoryImageUrl: item.image,
+      }));
+      setCategories(formatted);
       setLoading(false);
     } else {
       const getCategories = async () => {
@@ -47,11 +48,23 @@ function CatGrid() {
       };
       getCategories();
     }
-  }, [passedCategoryData]);
-  
+  }, [passedAllData, passedCategoryData]);
+  const handleFilterCategory = (item) => {
+    const filtered = item.categoryList.map((cat, index) => ({
+      _id: `${item.category_name}-sub-${index}`,
+      category_name: cat.catgoryName,
+      categoryImageUrl: cat.image,
+      description: "",
+    }));
+    setCategories(filtered);
+  };
 
   const handleClick = (data) => {
     navigate(`/category/${data._id}`, { state: { category: data } });
+  };
+
+  const handleReset = () => {
+    setCategories(allProducts);
   };
 
   // Layout logic based on index (to match your exact first-layout, second-layout, etc.)
@@ -117,18 +130,27 @@ function CatGrid() {
     renderSkeletons()
   ) : (
     <div className="cat-data-grid-wrapper">
+            {allProducts.length > 0 && allProducts.length !== categories.length && (
+        <div className="text-center my-3">
+          <button className="btn btn-outline-dark" onClick={handleReset}>
+            ← Back to All Products
+          </button>
+        </div>
+      )}
       {rows.map((row, rowIndex) => (
         <div key={rowIndex} className={`cat-data-grid-row ${row.layout}`}>
           {row.items.map((data, index) => {
             return (
               <div
                 key={data._id}
-                onClick={() => handleClick(data)}
                 className={`cat-data-grid-div ${
                   row.layout === "first-layout"
                     ? `first-layout-item-${index}`
                     : ""
                 }`}
+                onClick={() =>
+                  data.categoryList ? handleFilterCategory(data) : handleClick(data)
+                }                
               >
                 <div className="cat-data-image-wrapper">
                   <RetryableImage

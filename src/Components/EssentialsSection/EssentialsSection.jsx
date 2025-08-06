@@ -12,11 +12,11 @@ const cards = [
     description: 'Stylish space for relaxing, entertaining, and gatherings.',
     bgImage: effortless,
     category:[
-      {image:effortless, catgoryName : "Sofas & Sectionals"},
-      {image:effortless, catgoryName : "Coffee Tables"},
-      {image:effortless, catgoryName : "TV Units / Entertainment Units"},
-      {image:effortless, catgoryName : "Wall Shelves"},
-      {image:effortless, catgoryName : "Living Room Décor"},
+      {image:effortless, catgoryName : "Sofas & Sectionals",description: 'Stylish seating solutions for comfort, gatherings, and modern living spaces.'},
+      {image:effortless, catgoryName : "Coffee Tables",description: 'Central pieces for serving, style, and living room functionality.'},
+      {image:effortless, catgoryName : "TV Units / Entertainment Units",description: 'Organize media essentials with sleek, stylish entertainment storage units.'},
+      {image:effortless, catgoryName : "Wall Shelves",description: 'Decorative and functional shelves to display or store essentials attractively.'},
+      {image:effortless, catgoryName : "Living Room Décor",description: 'Elevate ambiance with accents, art, and elegant decorative accessories.'},
     ]
   },
   {
@@ -25,11 +25,11 @@ const cards = [
     description: 'Comfortable retreat designed for rest and privacy.',
     bgImage: kitchen,
     category:[
-      {image:kitchen, catgoryName : "Wardrobes"},
-      {image:kitchen, catgoryName : "Bedside Tables"},
-      {image:kitchen, catgoryName : "Dressing Tables"},
-      {image:kitchen, catgoryName : "Bedroom Sets"},
-      {image:kitchen, catgoryName : "Mirrors"},
+      {image:kitchen, catgoryName : "Wardrobes",description: 'Spacious storage solutions for clothing, accessories, and bedroom organization.'},
+      {image:kitchen, catgoryName : "Bedside Tables",description: 'Handy nightstand for essentials, lighting, and bedtime convenience.'},
+      {image:kitchen, catgoryName : "Dressing Tables",description: 'Elegant setup for grooming, makeup, and personal storage space.'},
+      {image:kitchen, catgoryName : "Bedroom Sets",description: 'Coordinated furniture sets that complete your stylish bedroom look.'},
+      {image:kitchen, catgoryName : "Mirrors",description: 'Functional and decorative mirrors for dressing and enhancing space.'},
     ]
   },
   {
@@ -38,10 +38,10 @@ const cards = [
     description: 'Functional area for cooking, dining, and storage.',
     bgImage: shelves,
     category:[
-      {image:shelves, catgoryName : "Modular Kitchen Units"},
-      {image:shelves, catgoryName : "Cabinets & Shutters"},
-      {image:shelves, catgoryName : "Kitchen Accessories "},
-      {image:shelves, catgoryName : "Pantry Units "},
+      {image:shelves, catgoryName : "Modular Kitchen Units",description: 'Customizable kitchen setups combining style, storage, and smart functionality.'},
+      {image:shelves, catgoryName : "Cabinets & Shutters",description: 'Sleek cabinet systems with durable shutters for organized kitchen storage.'},
+      {image:shelves, catgoryName : "Kitchen Accessories ",description: 'Essential tools and organizers to enhance cooking and kitchen efficiency.'},
+      {image:shelves, catgoryName : "Pantry Units ",description: 'Spacious, accessible storage units for groceries, supplies, and kitchen essentials.'},
     ]
   },
 ];
@@ -87,11 +87,11 @@ export default function EssentialsSection() {
           <button className="dark-btn rounded-pill px-4 py-2" 
 onClick={() =>
   navigate("/categories", {
-    AllProductstate: {
-      title: "All Products",
-      cards
+    state: {
+      allProducts: cards, // renamed for clarity
+      title: "All Products"
     },
-  })
+  })  
 }
 
           >

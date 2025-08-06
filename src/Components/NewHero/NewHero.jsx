@@ -3,10 +3,10 @@ import { useEffect, useRef, useCallback, useState } from "react";
 import { Navigation, Pagination, Autoplay, EffectFade } from "swiper/modules";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
-import img1 from '../../Assets/CategoriesImge/Knob Shop/mortice handle.jpg'
+import img1 from '../../Assets/CategoriesImge/Knob Shop/mortice_handle.png'
 import img2 from '../../Assets/CategoriesImge/Knob Shop/locker.png'
 import img3 from '../../Assets/CategoriesImge/Knob Shop/yale.png'
-import img4 from '../../Assets/CategoriesImge/Knob Shop/Knob.png'
+import img4 from '../../Assets/CategoriesImge/Knob Shop/Knob1.png'
 import img5 from '../../Assets/CategoriesImge/Knob Shop/Pull handle.png'
 import "swiper/css";
 import "swiper/css/navigation";
@@ -20,11 +20,6 @@ import yaleImage from "../../Assets/Product Categories and its Product (Knobs Sh
 import YMI70AYHImage from "../../Assets/Product Categories and its Product (Knobs Shop)/Smart Door Lock/Smart Door Lock/YMI70A-YH/YMI70_RED-GOLD-01.jpg";
 
 const baseSlides = [
-  {
-    id: "video",
-    type: "video",
-    videoSrc: video,
-  },
   {
     id: 1,
     route: "digital lock",
@@ -78,7 +73,7 @@ const baseSlides = [
     imgheight: 200,
     bg: "/slider/bg-5.jpg",
     offer: "Flat 15% Off All Items",
-    text: "4)	Knobs",
+    text: "Knobs",
     circleColor: "#DF7A26",
     number: "04",
     description:
@@ -96,6 +91,11 @@ const baseSlides = [
     number: "05",
     description:
       "Strong, ergonomic pull handles designed for smooth operation on glass, wood, or metal doors. Enhances accessibility and adds a sleek touch.",
+  },
+  {
+    id: "video",
+    type: "video",
+    videoSrc: video,
   },
 ];
 
