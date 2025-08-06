@@ -2,6 +2,8 @@ import React, { useRef } from "react";
 
 const RecommendedSlider = ({ recommendedItems = [], onAddToCart }) => {
   const scrollRef = useRef(null);
+  console.log(recommendedItems);
+  
 
   const scroll = (offset) => {
     scrollRef.current.scrollBy({ left: offset, behavior: "smooth" });
@@ -32,7 +34,7 @@ const RecommendedSlider = ({ recommendedItems = [], onAddToCart }) => {
         ref={scrollRef}
         style={{ scrollBehavior: "smooth" }}
       >
-        {recommendedItems.map((item) => (
+        {recommendedItems?.slice(0, 10)?.map((item) => (
           <div
             key={item._id}
             className="d-flex flex-shrink-0 rounded p-2"
@@ -50,11 +52,11 @@ const RecommendedSlider = ({ recommendedItems = [], onAddToCart }) => {
             />
             <div className="d-flex justify-content-between w-100">
               <div>
-                <p className="mb-1 fw-semibold">{item.name}</p>
+                <p className="mb-1 fw-semibold">{item.name?.trim().split(' ').slice(0, 3).join(' ')}</p>
                 <p className="mb-1 small text-decoration-line-through text-muted">
-                  ₹{item.compare_price}
+                  ₹{item.variant[0].sizes[0].mrp}
                 </p>
-                <p className="mb-1 fw-bold price">₹{item.price}</p>
+                <p className="mb-1 fw-bold price">₹{item.variant[0].sizes[0].sellingPrice}</p>
               </div>
               <button
                 className="btn btn-link m-0 btn-sm p-0 text-dark"

@@ -2,11 +2,15 @@ import { FaStar, FaHeart } from "react-icons/fa";
 import "./ProductCard.css";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../../Context/CartContext";
+import { useWishlist } from "../../Context/WishlistContext";
 import { useState } from "react";
 
 const ProductCard = ({ product }) => {
   const navigate = useNavigate();
+
   const { addToCart, toggleDrawer } = useCart();
+  const { addToWishlist, removeFromWishlist, wishlistItems } = useWishlist();
+  const isWished = wishlistItems.some((w) => w.id === product.id);
 
   const [selectedColorIndex, setSelectedColorIndex] = useState(0);
   const initialSizeLabel = product.variant?.[0]?.sizes?.[0]?.label ?? null;
@@ -14,6 +18,24 @@ const ProductCard = ({ product }) => {
   const [selectedSizeLabel, setSelectedSizeLabel] = useState(initialSizeLabel);
 
   const { id, title, rating } = product;
+  const handleWishlistClick = () => {
+    const authToken = localStorage.getItem("authToken");
+    const authUser = localStorage.getItem("authuser");
+
+    if (!authToken || !authUser) {
+      // Optionally show a toast or redirect to login
+      alert("Please login to add items to your wishlist.");
+      navigate("/auth/register");
+      // Or use a toast library: toast.error("Please login first.");
+      return;
+    }
+
+    if (isWished) {
+      removeFromWishlist(product.id);
+    } else {
+      addToWishlist(product);
+    }
+  };
 
   // Use default icons if not present
   const icons =
@@ -53,8 +75,19 @@ const ProductCard = ({ product }) => {
           {calculatedDiscount}% off
         </span>
       )}
+      <div
+        className={`wishlist-icon-wrapper position-absolute top-0 end-0 m-2 ${
+          isWished ? "text-danger" : "text-muted"
+        }`}
+        onClick={handleWishlistClick}
+      >
+        <FaHeart
+          size={20}
+          className={`wishlist-icon ${isWished ? "active" : ""}`}
+        />
+      </div>
 
-      <div className="position-absolute top-0 end-0 m-2 d-flex align-items-center rounded px-2 py-1 rating-overlay">
+      <div className="position-absolute bottom-50 end-0 m-2 d-flex align-items-center rounded px-2 py-1 rating-overlay">
         <FaStar className="text-warning me-1" size={18} />
         <span className="normal">{rating}</span>
       </div>
@@ -94,19 +127,21 @@ const ProductCard = ({ product }) => {
       <div className="card-body d-flex flex-column">
         {/* Icons */}
 
-        <div className="icons">
-          {icons?.map((icon, index) => (
-            <div className="icon" key={icon._id || icon.title || index}>
-              <img src={`/${icon.image}`} alt={icon.title} />
-              <span className="tooltip">{icon.title}</span>
-            </div>
-          ))}
-        </div>
+        {icons?.length > 0 && (
+          <div className="icons">
+            {icons?.map((icon, index) => (
+              <div className="icon" key={icon._id || icon.title || index}>
+                <img src={`/${icon.image}`} alt={icon.title} />
+                <span className="tooltip">{icon.title}</span>
+              </div>
+            ))}
+          </div>
+        )}
 
-        <hr />
+        {icons?.length > 0 && <hr />}
 
         {/* Title & Price */}
-        <div className="mt-2">
+        <div className="mt-5 d-flex flex-column flex-grow-1">
           <h5 className="card-title single-line">{title}</h5>
 
           <p className="mb-2">
@@ -155,24 +190,38 @@ const ProductCard = ({ product }) => {
           </div>
 
           {/* Size Select */}
-          <div className="d-flex flex-wrap gap-2 mb-3">
-            {selectedVariant.sizes?.map((size, idx) => {
-              if (!size.label?.length) return null;
+          <div className="d-flex flex-wrap gap-2 mb-3 align-items-center">
+            {selectedVariant.sizes?.filter((size) => size.label?.length)
+              .length > 0 ? (
+              <>
+                {selectedVariant.sizes
+                  .filter((size) => size.label?.length)
+                  .slice(0, 1)
+                  .map((size, idx) => (
+                    <button
+                      key={idx}
+                      className={`px-3 py-1 rounded-pill border text-sm ${
+                        selectedSizeLabel === size.label
+                          ? "bg-dark text-white"
+                          : "border-gray-300 hover:bg-gray-100"
+                      }`}
+                      onClick={() => setSelectedSizeLabel(size.label)}
+                    >
+                      {size.label.split(" ")[0].slice(0, 8) + "..."}
+                    </button>
+                  ))}
 
-              return (
-                <button
-                  key={idx}
-                  className={`px-3 py-1 rounded-pill border text-sm ${
-                    selectedSizeLabel === size.label
-                      ? "bg-dark text-white"
-                      : "border-gray-300 hover:bg-gray-100"
-                  }`}
-                  onClick={() => setSelectedSizeLabel(size.label)}
-                >
-                  {size.label}
-                </button>
-              );
-            })}
+                {selectedVariant.sizes.filter((s) => s.label?.length).length >
+                  2 && <span className="text-muted text-sm">+ more..</span>}
+              </>
+            ) : (
+              <button
+                className="px-3 py-1 rounded-pill border text-sm border-gray-300 hover:bg-gray-100"
+                onClick={() => setSelectedSizeLabel( "Default")}
+              >
+                Default size
+              </button>
+            )}
           </div>
 
           {/* Actions */}

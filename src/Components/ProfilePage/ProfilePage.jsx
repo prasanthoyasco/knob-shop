@@ -4,9 +4,13 @@ import ProfilePageInfo from './ProfilePageInfo/ProfilePageInfo';
 import './ProfilePage.css';
 import NavbarTop from '../Navbar/NavbarTop/NavbarTop';
 import ProductPageAddress from './ProductPageAddress/ProductPageAddress';
+import Wishlist from './Wishlist/Wishlist';
 
 function ProfilePage() {
   const [activeSection, setActiveSection] = useState('personal');
+  const storedUser = localStorage.getItem("authUser");
+  const userId = storedUser.id || JSON.parse(storedUser).id || storedUser._id; 
+  console.log("User ID:", userId);
 
   return (
     <>
@@ -17,7 +21,7 @@ function ProfilePage() {
         {activeSection === 'personal' && <ProfilePageInfo />}
         {activeSection === 'address' && <ProductPageAddress/>}
         {activeSection === 'cart' && <div><h1>My Cart</h1></div>}
-        {activeSection === 'wishlist' && <div><h1>My Wishlist</h1></div>}
+        {activeSection === 'wishlist' && <Wishlist userId={userId} />}
         {activeSection === 'orders' && <div><h1>My Orders</h1></div>}
         {activeSection === 'help' && <div><h1>Help Section</h1></div>}
       </div>

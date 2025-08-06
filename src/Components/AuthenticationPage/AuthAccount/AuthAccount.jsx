@@ -4,7 +4,13 @@ import logoImage from "../../../Assets/logo.png";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { auth } from "../../firebase";
 import countryCodes from "../../../Assets/CountryCodes.json";
-import { checkUser, Login, Signup } from "../../../API/authApi";
+import {
+  checkUser,
+  Login,
+  Signup,
+  sendOtpToEmail,
+  verifyEmailOtp,
+} from "../../../API/authApi";
 
 function AuthAccount() {
   const [countries, setCountries] = useState([]);
@@ -35,6 +41,36 @@ function AuthAccount() {
     setCountries(countryCodes);
   }, []);
 
+  const handleSendEmailOtp = async () => {
+    if (!email) return alert("Please enter your email.");
+    setLoading(true);
+    try {
+      await sendOtpToEmail(email);
+      alert("OTP sent to your email!");
+      setStep("otp-email");
+    } catch (err) {
+      console.error(err);
+      alert(err.error || "Failed to send OTP.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleVerifyEmailOtp = async () => {
+    if (!email || !otp) return alert("Please enter OTP.");
+    setLoading(true);
+    try {
+      await verifyEmailOtp(email, otp);
+      alert("OTP verified!");
+      setStep("set-password");
+    } catch (err) {
+      console.error(err);
+      alert(err.error || "OTP verification failed.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const loginWithEmail = async () => {
     if (!email || !password) {
       return alert("Please enter both email and password.");
@@ -46,7 +82,7 @@ function AuthAccount() {
       localStorage.setItem("authToken", data.token);
       console.log(localStorage.getItem("authToken"));
       if (window.history.length > 1) {
-        window.history.back(); 
+        window.history.back();
       } else {
         window.location.href = "/";
       }
@@ -67,7 +103,7 @@ function AuthAccount() {
         if (data.exists) {
           setStep("password");
         } else {
-          setStep("set-password");
+          await handleSendEmailOtp();
         }
       } catch (err) {
         console.error("Error checking user:", err);
@@ -92,6 +128,7 @@ function AuthAccount() {
 
     try {
       const appVerifier = recaptchaVerifierRef.current;
+      await appVerifier.render();
       if (!appVerifier) {
         throw new Error("reCAPTCHA not initialized.");
       }
@@ -166,11 +203,11 @@ function AuthAccount() {
 
       const data = await Signup(body);
       console.log(data);
-      
+
       localStorage.setItem("authUser", data.user);
       localStorage.setItem("authToken", data.token);
       if (window.history.length > 1) {
-        window.history.back(); 
+        window.history.back();
       } else {
         window.location.href = "/";
       }
@@ -182,7 +219,7 @@ function AuthAccount() {
     }
   };
 
-  console.log("User Data on login",localStorage.getItem("authUser"));
+  console.log("User Data on login", localStorage.getItem("authUser"));
 
   return (
     <>
@@ -248,6 +285,17 @@ function AuthAccount() {
           </>
         )}
 
+        {step === "otp-email" && (
+          <div className="register-page-input">
+            <input
+              type="text"
+              placeholder="Enter OTP from Email"
+              value={otp}
+              onChange={(e) => setOtp(e.target.value)}
+            />
+          </div>
+        )}
+
         {step === "otp" && (
           <div className="register-page-input">
             <input
@@ -296,7 +344,7 @@ function AuthAccount() {
           )}
           {step === "otp" && (
             <button onClick={sendOtp} className="resend-btn" disabled={loading}>
-              {loading ? "Sending..." : "Resend OTP"}
+              Resend OTP
             </button>
           )}
 
@@ -308,6 +356,8 @@ function AuthAccount() {
                   ? handleContinue
                   : step === "otp"
                   ? verifyOtp
+                  : step === "otp-email"
+                  ? handleVerifyEmailOtp
                   : loginWithEmail
               }
               disabled={loading}
@@ -317,6 +367,8 @@ function AuthAccount() {
                 : step === "enter"
                 ? "Continue"
                 : step === "otp"
+                ? "Verify OTP"
+                : step === "otp-email"
                 ? "Verify OTP"
                 : "Login"}
             </button>

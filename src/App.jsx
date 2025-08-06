@@ -31,15 +31,23 @@ import AuthAccount from './Components/AuthenticationPage/AuthAccount/AuthAccount
 import AuthPassword from './Components/AuthenticationPage/AuthPassword/AuthPassword';
 import AuthForgotPass from './Components/AuthenticationPage/AuthForgotPass/AuthForgotPass';
 import AuthConfirm from './Components/AuthenticationPage/AuthConfirm/AuthConfirm';
-import ProfilePageSidebar from './Components/ProfilePage/ProfilePageSidebar/ProfilePageSidebar';
 import ProfilePage from './Components/ProfilePage/ProfilePage';
 import BookConsult from './Components/BookConsultatonPage/BookConsult/BookConsult';
 import { Subpage } from './Components/Subpage/Subpage';
+import WishlistDrawer from './Components/WishlistDrawer/WishlistDrawer';
+import { useWishlist } from './Context/WishlistContext';
 import Invoice from './Components/Invoice/Invoice';
+import WhatsAppFloatButton from './Components/WhatsAppFloatButton/WhatsAppFloatButton';
 // import NavbarTop from './Components/Navbar/NavbarTop/NavbarTop';
 
 function App() {
   const { drawerOpen, toggleDrawer, cartItems, removeFromCart, recommendedItems, addToCart } = useCart();
+   const {
+    drawerOpen: wishlistDrawerOpen,
+    toggleDrawer: toggleWishlistDrawer,
+    wishlistItems,
+    removeFromWishlist,
+  } = useWishlist();
   return (
 
     <Router>
@@ -85,6 +93,13 @@ function App() {
         recommendedItems={recommendedItems}
         onAddToCart={addToCart}
       />
+        <WishlistDrawer
+        show={wishlistDrawerOpen}
+        onClose={() => toggleWishlistDrawer(false)}
+        wishlistItems={wishlistItems}
+        onRemove={removeFromWishlist}
+      />
+      <WhatsAppFloatButton />
     </Router>
   );
 }

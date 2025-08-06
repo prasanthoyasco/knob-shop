@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import { FaArrowTrendUp } from "react-icons/fa6";
 import "./AboutUs.css";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 
 const AboutUs = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [counter, setCounter] = useState(0);
   const [hasAnimated, setHasAnimated] = useState(false);
   const counterRef = useRef();

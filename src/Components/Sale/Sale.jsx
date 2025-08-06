@@ -10,7 +10,7 @@ function Sale() {
       <h3 className='mt-'>UP TO 50% OFF SELECTED STYLES</h3>
       <hr/>
       <p className='mt-2'>Get your own today. Connect with our designers!</p>
-      <button className='p-3 sale-button mt-4' onClick={()=>navigate('/book-consultation')}>BOOK CONSULTATION</button>
+      <button className='p-3 sale-button mt-4' onClick={()=>navigate("/book-consultation")}>BOOK CONSULTATION</button>
     </div>
   )
 }
