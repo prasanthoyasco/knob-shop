@@ -491,20 +491,6 @@ localStorage.setItem('latestInvoiceData', JSON.stringify(invoicePayload));
                   </div>
                 </div>
               )}
-              <div className="payment-page-delivery-sec">
-                <label className="radio-btn-delivery-text">
-                  <input
-                    type="radio"
-                    name="payment"
-                    className="radio-input"
-                    value="cod"
-                    checked={selectedPayment === "cod"}
-                    onChange={() => setSelectedPayment("cod")}
-                  />
-                  <span className="radio-btn-delivery"></span>
-                  <p className="radio-btn-text">Cash on Delivery(COD)</p>
-                </label>
-              </div>
             </div>
           </div>
           <button
