@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./CatGrid.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useLocation } from "react-router-dom";
 import { fetchCategories } from "../../../API/categoriesApi";
 import { RetryableImage } from "./RetryableImage";
 
@@ -8,21 +8,47 @@ function CatGrid() {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-
+  const location = useLocation();
+  const passedAllData = location.AllProductstate || null;
+  const passedCategoryData = location.state?.category || null;
+  const passedTitle = location.state?.title || null;
+  
   useEffect(() => {
-    const getCategories = async () => {
-      try {
-        const data = await fetchCategories();
-        setCategories(data);
-      } catch (error) {
-        console.error("Failed to fetch categories:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    getCategories();
-  }, []);
+    if (passedAllData) {
+      setCategories(
+        passedAllData.map((item, index) => ({
+          _id: `${passedTitle}-${index}`, // fake unique ID for key
+          category_name: item.title,
+          description: "", // optional: set a description
+          categoryImageUrl: item.bgImage,
+        }))
+      );
+      setLoading(false);
+    } else if (passedCategoryData) {
+      setCategories(
+        passedCategoryData.map((item, index) => ({
+          _id: `${passedTitle}-${index}`, // fake unique ID for key
+          category_name: item.catgoryName,
+          description: "", // optional: set a description
+          categoryImageUrl: item.image,
+        }))
+      );
+      setLoading(false);
+    } else {
+      const getCategories = async () => {
+        try {
+          const data = await fetchCategories();
+          setCategories(data);
+        } catch (error) {
+          console.error("Failed to fetch categories:", error);
+        } finally {
+          setLoading(false);
+        }
+      };
+      getCategories();
+    }
+  }, [passedCategoryData]);
+  
 
   const handleClick = (data) => {
     navigate(`/category/${data._id}`, { state: { category: data } });
