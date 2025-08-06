@@ -252,7 +252,7 @@ function Invoice() {
   })}
 
   {/* Empty rows to maintain fixed height for 10 rows */}
-{Array.from({ length: 10 - items.length }).map((_, idx) => (
+{Array.from({ length: 5 - items.length }).map((_, idx) => (
   <tr key={`empty-${idx}`} className="empty-row">
     <td>&nbsp;</td>
     <td><br /><small>&nbsp;</small></td>
@@ -357,7 +357,7 @@ function Invoice() {
   </div>
   <hr className='invoice-hr'/>
   <div className='computer-invoice-text'>
-<h5>SUBJECT TO COIMBATORE JURISDICTION</h5>
+<h6 style={{margin:"0"}}>SUBJECT TO COIMBATORE JURISDICTION</h6>
   <p><em>This is a Computer Generated Invoice</em></p>
 </div>
 </div>
