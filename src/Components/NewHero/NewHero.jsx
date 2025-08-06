@@ -3,7 +3,11 @@ import { useEffect, useRef, useCallback, useState } from "react";
 import { Navigation, Pagination, Autoplay, EffectFade } from "swiper/modules";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
-
+import img1 from '../../Assets/CategoriesImge/Knob Shop/mortice handle.jpg'
+import img2 from '../../Assets/CategoriesImge/Knob Shop/locker.png'
+import img3 from '../../Assets/CategoriesImge/Knob Shop/yale.png'
+import img4 from '../../Assets/CategoriesImge/Knob Shop/Knob.png'
+import img5 from '../../Assets/CategoriesImge/Knob Shop/Pull handle.png'
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -24,7 +28,7 @@ const baseSlides = [
   {
     id: 1,
     route: "digital lock",
-    img: "/slider/lock.png",
+    img:img3,
     imgheight: 400,
     bg: "/slider/bg-1.jpg",
     offer: "Flat 15% Off All Items",
@@ -39,59 +43,59 @@ const baseSlides = [
       { name: "REFLECTA Lock", image: YMI70AYHImage },
     ],
     description:
-      "Bench suitable for living room Lorem ipsum dolor sit amet consectetur adipiscing elit sed incididunt et dolore magna labore et dolore magna aliqua.",
+      "Secure your home with advanced digital locks featuring PIN codes, biometrics, or RFID. Ideal for keyless, modern, and convenient access control systems.",
   },
   {
     id: 2,
-    route: "Keyboard Tray",
-    img: "/slider/keyboard_tray.png",
+    route: "Safe Lock",
+    img:img2,
     imgheight: 400,
     bg: "/slider/bg-2.jpg",
     offer: "NEW SEASON ARRIVAL",
-    text: "Keyboard tray",
+    text: "Safe Lock",
     circleColor: "#F08A58",
     number: "02",
     description:
-      "A keyboard tray is a sliding platform mounted under a desk...",
+      "Reliable protection for valuables with safe locks offering mechanical or electronic locking options. Perfect for homes, offices, and secure storage needs.",
   },
   {
     id: 3,
-    route: "table folding bracket",
-    img: "/slider/folding_table.png",
+    route: "Mortice Handle",
+    img:img1,
     imgheight: 400,
     bg: "/slider/bg-3.jpg",
     offer: "Flat 15% Off All Items",
-    text: "table folding bracket",
+    text: "Mortice Handle",
     circleColor: "#00759F",
     number: "03",
     description:
-      "A table folding bracket is a space-saving hardware device...",
+      "Stylish mortice handles with internal locking mechanisms enhance door security and aesthetics. Available in various designs for residential and commercial doors.",
   },
   {
     id: 4,
-    route: "stopper",
-    img: "/slider/Door_stoper.png",
+    route: "Knobs",
+    img:img4,
     imgheight: 200,
     bg: "/slider/bg-5.jpg",
     offer: "Flat 15% Off All Items",
-    text: "door stoppers home depot",
+    text: "4)	Knobs",
     circleColor: "#DF7A26",
     number: "04",
     description:
-      "Door stoppers from Home Depot include solid baseboard-mounted models...",
+      "Durable and decorative door knobs available in multiple finishes. Ideal for both interior and exterior doors, combining function with elegant design.",
   },
   {
     id: 5,
-    route: "lock",
-    img: "/slider/vIntage_lock.png",
+    route: "Pull Handle ",
+    img:img5,
     imgheight: 330,
     bg: "/slider/bg-6.jpg",
     offer: "Flat 15% Off All Items",
-    text: "navtal lock decor",
+    text: "Pull Handle ",
     circleColor: "#54ef7d73",
     number: "05",
     description:
-      "Navtal lock decor combines security with aesthetics...",
+      "Strong, ergonomic pull handles designed for smooth operation on glass, wood, or metal doors. Enhances accessibility and adds a sleek touch.",
   },
 ];
 

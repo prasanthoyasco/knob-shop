@@ -8,21 +8,41 @@ import { useNavigate } from 'react-router-dom';
 const cards = [
   {
     number: '01',
-    title: 'Limocoat ',
-    description: 'Reliable movement for every cabinet and drawer.',
+    title: 'Living Room ',
+    description: 'Stylish space for relaxing, entertaining, and gatherings.',
     bgImage: effortless,
+    category:[
+      {image:effortless, catgoryName : "Sofas & Sectionals"},
+      {image:effortless, catgoryName : "Coffee Tables"},
+      {image:effortless, catgoryName : "TV Units / Entertainment Units"},
+      {image:effortless, catgoryName : "Wall Shelves"},
+      {image:effortless, catgoryName : "Living Room Décor"},
+    ]
   },
   {
     number: '02',
-    title: 'Colortek',
-    description: 'Reliable movement for every cabinet and drawer.',
+    title: 'Bedroom',
+    description: 'Comfortable retreat designed for rest and privacy.',
     bgImage: kitchen,
+    category:[
+      {image:kitchen, catgoryName : "Wardrobes"},
+      {image:kitchen, catgoryName : "Bedside Tables"},
+      {image:kitchen, catgoryName : "Dressing Tables"},
+      {image:kitchen, catgoryName : "Bedroom Sets"},
+      {image:kitchen, catgoryName : "Mirrors"},
+    ]
   },
   {
     number: '03',
-    title: 'Kitchen Wall Shelves',
-    description: 'Reliable movement for every cabinet and drawer.',
+    title: 'Kitchen',
+    description: 'Functional area for cooking, dining, and storage.',
     bgImage: shelves,
+    category:[
+      {image:shelves, catgoryName : "Modular Kitchen Units"},
+      {image:shelves, catgoryName : "Cabinets & Shutters"},
+      {image:shelves, catgoryName : "Kitchen Accessories "},
+      {image:shelves, catgoryName : "Pantry Units "},
+    ]
   },
 ];
 
@@ -41,7 +61,9 @@ export default function EssentialsSection() {
        <div className="box-number col-12 col-lg-8 d-flex gap-3 justify-content-start flex-wrap flex-md-nowrap">
           {cards.map((card, index) => (
             <div key={index} className="mb-4" style={{minWidth:'250px',maxWidth:'300px'}} data-aos="fade-up"
-          data-aos-delay={100 * (index+1)}>
+          data-aos-delay={100 * (index+1)}
+          onClick={() => navigate('/categories', { state: { title: card.title, category: card.category } })}
+          >
               <div
                 className="card essential-card text-start h-100 w-100"
                 style={{ '--bg-image': `url(${card.bgImage})` }}
@@ -51,7 +73,7 @@ export default function EssentialsSection() {
                      <div className='my-2'><h1 className="display-1 fw-bold stroke-text my-4">{card.number}</h1></div>
                   <div className='mt-5 d-flex flex-column gap-2 w-fit'><h5 className="h2 card-title fw-semibold text">{card.title}</h5>
                   <p className="card-text small text">{card.description}</p>
-                  <a href="#" className="text-decoration-underline text fw-medium small">Read More</a></div>
+                  <a href="/categories" className="text-decoration-underline text fw-medium small">Read More</a></div>
                  </div>
                 </div>
               </div>
@@ -62,7 +84,17 @@ export default function EssentialsSection() {
       </div>
       
       <div className="text-center mt-4">
-          <button className="dark-btn rounded-pill px-4 py-2" onClick={() => navigate('/category/all-products')}>
+          <button className="dark-btn rounded-pill px-4 py-2" 
+onClick={() =>
+  navigate("/categories", {
+    AllProductstate: {
+      title: "All Products",
+      cards
+    },
+  })
+}
+
+          >
             CHECK ALL PRODUCTS
           </button>
         </div>
