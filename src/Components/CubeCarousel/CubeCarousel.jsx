@@ -108,7 +108,7 @@ const CubeCarousel = () => {
                 <h5 className="cube-subtitle">{item.subtitle}</h5>
                 <h2 className="cube-title">{item.title}</h2>
                 <p className="cube-description">{item.description}</p>
-                <button className="cube-button">Shop Now</button>
+                <button className="cube-button">Explore Now</button>
               </div>
               <img src={item.rightImage} alt="" className="cube-image right" />
             </div>
