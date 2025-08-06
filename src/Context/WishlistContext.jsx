@@ -1,6 +1,7 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import {
   addToWishlist as addToWishlistAPI,
+  getWishlist,
   removeFromWishlist as removeFromWishlistAPI
 } from '../API/wishlistApi';
 
@@ -12,12 +13,40 @@ export const WishlistProvider = ({ children }) => {
   const [wishlistItems, setWishlistItems] = useState([]);
   const [drawerOpen, setDrawerOpen] = useState(false);
 
+  useEffect(() => {
+    const fetchWishlist = async () => {
+      try {
+        const storedUserRaw = localStorage.getItem("authUser");
+        const storedUser = storedUserRaw ? JSON.parse(storedUserRaw) : null;
+
+        if (!storedUser) return;
+
+        const userId = storedUser.id || storedUser._id;
+        const wishlist = await getWishlist(userId);
+        setWishlistItems(wishlist);
+      } catch (error) {
+        console.error("Failed to load wishlist:", error);
+      }
+    };
+
+    fetchWishlist();
+  }, []);
+
 const addToWishlist = async (item) => {
   try {
-    const storedUser = localStorage.getItem("authUser");
-    const userId = storedUser.id || storedUser._id; 
+    const storedUserRaw = localStorage.getItem("authUser");
+    console.log("Stored User:", storedUserRaw);
+
+    const storedUser = storedUserRaw ? JSON.parse(storedUserRaw) : null;
+    if (!storedUser) {
+      console.error("No user found in localStorage");
+      return;
+    }
+
+    const userId = storedUser.id || storedUser._id;
     console.log("Adding to wishlist for user:", userId);
-    const productId = item.id;
+
+    const productId = item.id || item._id;
     console.log("Product ID to add:", productId);
 
     await addToWishlistAPI({ userId, productId });
@@ -30,6 +59,7 @@ const addToWishlist = async (item) => {
     console.error('Add to wishlist failed:', error);
   }
 };
+
 
   const removeFromWishlist = async (item) => {
   try {

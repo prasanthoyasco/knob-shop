@@ -11,6 +11,7 @@ import {
   sendOtpToEmail,
   verifyEmailOtp,
 } from "../../../API/authApi";
+import { Eye, EyeOff } from "lucide-react";
 
 function AuthAccount() {
   const [countries, setCountries] = useState([]);
@@ -20,6 +21,7 @@ function AuthAccount() {
   const [otp, setOtp] = useState("");
   const [step, setStep] = useState("enter");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [confirmationResult, setConfirmationResult] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -204,7 +206,7 @@ function AuthAccount() {
       const data = await Signup(body);
       console.log(data);
 
-      localStorage.setItem("authUser", data.user);
+      localStorage.setItem("authUser", JSON.stringify(data.user));
       localStorage.setItem("authToken", data.token);
       if (window.history.length > 1) {
         window.history.back();
@@ -309,23 +311,52 @@ function AuthAccount() {
 
         {step === "password" && (
           <div className="register-page-input">
-            <input
-              type="password"
-              placeholder="Enter Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
+            <div
+              className="register-page-input"
+              style={{ position: "relative" }}
+            >
+              <input
+                type={showPassword ? "text" : "password"}
+                placeholder="Enter password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <div
+                onClick={() => setShowPassword((prev) => !prev)}
+                style={{
+                  position: "absolute",
+                  right: "10px",
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  cursor: "pointer",
+                }}
+              >
+                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+              </div>
+            </div>
           </div>
         )}
 
         {step === "set-password" && (
-          <div className="register-page-input">
+          <div className="register-page-input" style={{ position: "relative" }}>
             <input
-              type="password"
+              type={showPassword ? "text" : "password"}
               placeholder="Set a password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
+            <div
+              onClick={() => setShowPassword((prev) => !prev)}
+              style={{
+                position: "absolute",
+                right: "10px",
+                top: "50%",
+                transform: "translateY(-50%)",
+                cursor: "pointer",
+              }}
+            >
+              {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+            </div>
           </div>
         )}
 

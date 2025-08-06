@@ -38,7 +38,7 @@ const WishlistDrawer = ({
           ) : (
             wishlistItems.map((item) => (
               <>
-                <div key={item.id} className="d-flex my-3" onClick={() => navigate(`/product/${item.id}`)}>
+                <div key={item.id} className="d-flex my-3">
                   <img
                     src={
                       item.variant[0]?.images?.[0]?.url ||
@@ -46,6 +46,7 @@ const WishlistDrawer = ({
                       "/fallback.png"
                     }
                     alt={item.title || item.name}
+                    onClick={() => navigate(`/product/${item.id || item._id}`)}
                     style={{
                       width: "100px",
                       height: "100px",
@@ -91,7 +92,7 @@ const WishlistDrawer = ({
               className="btn btn-dark w-100 mb-2 py-3"
               onClick={() => {
                 onClose();
-                navigate("/wishlist");
+                navigate("/account", { state: { section: "wishlist" } });
               }}
             >
               View Full Wishlist
