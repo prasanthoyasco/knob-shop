@@ -10,7 +10,6 @@ const RelatedProductsSection = () => {
     const fetchAllProduct = async () => {
       try {
         const res = await getAllProducts();
-        setAllProduct(res); // adjust if your API shape differs
       } catch (err) {
         console.error("Failed to fetch product", err);
       }
@@ -57,7 +56,6 @@ const RelatedProductsSection = () => {
           }}
         >
           {allProduct?.map((product, i) => {
-            console.log("New related product:",product);
             
             const hasKeyFeatures = Array.isArray(product?.key_features) && product.key_features.length > 0;
             const formattedProduct = {

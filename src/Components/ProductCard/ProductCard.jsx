@@ -20,7 +20,7 @@ const ProductCard = ({ product }) => {
   const { id, title, rating } = product;
   const handleWishlistClick = () => {
     const authToken = localStorage.getItem("authToken");
-    const authUser = localStorage.getItem("authuser");
+    const authUser = localStorage.getItem("authUser");
 
     if (!authToken || !authUser) {
       // Optionally show a toast or redirect to login

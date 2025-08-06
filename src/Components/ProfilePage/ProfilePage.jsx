@@ -1,16 +1,23 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ProfilePageSidebar from './ProfilePageSidebar/ProfilePageSidebar';
 import ProfilePageInfo from './ProfilePageInfo/ProfilePageInfo';
 import './ProfilePage.css';
 import NavbarTop from '../Navbar/NavbarTop/NavbarTop';
 import ProductPageAddress from './ProductPageAddress/ProductPageAddress';
 import Wishlist from './Wishlist/Wishlist';
+import { useLocation } from 'react-router-dom';
 
 function ProfilePage() {
+   const location = useLocation();
   const [activeSection, setActiveSection] = useState('personal');
   const storedUser = localStorage.getItem("authUser");
   const userId = storedUser.id || JSON.parse(storedUser).id || storedUser._id; 
   console.log("User ID:", userId);
+  useEffect(() => {
+    if (location.state?.section) {
+      setActiveSection(location.state.section);
+    }
+  }, [location.state]);
 
   return (
     <>

@@ -9,28 +9,41 @@ export const CartProvider = ({ children }) => {
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   const addToCart = async (item) => {
-  try {
-    const userId = localStorage.getItem('authuser') // Ensure this is passed in the item
-
-    await addToCartAPI({
-      userId,
-      productId: item.id, // item.id should be your product _id
-      quantity: item.quantity || 1
-    });
-
+    const storedUser = localStorage.getItem('authUser');
+    const parsedUser = storedUser ? JSON.parse(storedUser) : null;
+    const userId = parsedUser?.id;
+    console.log("userId :", userId);
+  
+    // Update the local state cart
     setCartItems((prev) => {
       const exists = prev.find(i => i.id === item.id);
       if (exists) {
-        return prev.map(i => i.id === item.id ? { ...i, quantity: i.quantity + 1 } : i);
+        return prev.map(i =>
+          i.id === item.id ? { ...i, quantity: i.quantity + 1 } : i
+        );
       }
-      return [...prev, { ...item, quantity: 1 }];
+      return [...prev, { ...item, quantity: item.quantity || 1 }];
     });
-
+  
     setDrawerOpen(true);
-  } catch (error) {
-    console.error('Add to cart failed:', error);
-  }
-};
+  
+    // If user is logged in, sync to backend
+    if (userId) {
+      try {
+        await addToCartAPI({
+          userId,
+          productId: item.id,
+          quantity: item.quantity || 1,
+        });
+      } catch (error) {
+        console.error('Add to cart (API) failed:', error);
+      }
+    } else {
+      console.warn("Guest user - item only added to local cart.");
+    }
+  };
+  
+  
 
   const removeFromCart = async (id) => {
   try {

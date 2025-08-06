@@ -40,7 +40,7 @@ function Wishlist({ userId }) {
               }
               alt={product.name}
             />
-            <h4>{product.name.split(' ').slice(0, 3).join(' ')}</h4>
+            <h6>{product.name.split(' ').slice(0, 3).join(' ')}</h6>
             <p>Brand: <strong>{product.brand}</strong></p>
 
             {/* Variant Title */}

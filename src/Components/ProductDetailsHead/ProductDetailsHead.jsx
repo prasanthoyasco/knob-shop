@@ -3,18 +3,18 @@ import "./ProductDetailsHead.css";
 import ProductImageSlider from "../ProductImageSlider/ProductImageSlider";
 import { useCart } from "../../Context/CartContext"; // Make sure the path is correct
 import { getProductById } from "../../API/productApi";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useWishlist } from "../../Context/WishlistContext";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 
 export default function ProductDetailsHead() {
-const navigate = useNavigate();
+
   const { id } = useParams(); // get product id from URL
   const [product, setProduct] = useState(null);
   const [selectedSize, setSelectedSize] = useState(null);
   const [pincodeInfo, setPincodeInfo] = useState(null);
   const { addToWishlist, removeFromWishlist, wishlistItems } = useWishlist();
-  const isWished = wishlistItems.some((w) => w.id === product._id);
+  const isWished = wishlistItems.some((w) => w.id === product?.id || product?._id );
   const [selectedColor, setSelectedColor] = useState("black");
   const [quantity, setQuantity] = useState(1);
   const [pincode, setPincode] = useState("");
@@ -27,11 +27,12 @@ const navigate = useNavigate();
     const authUser = localStorage.getItem("authUser");
     console.log("authUser :",authUser)
     const authToken = localStorage.getItem("authToken");
-    console.log("authUser :",authToken)
+    console.log("Auth User:", authUser + " Auth Token:", authToken);
+    
+
     if (!authToken && !authUser) {
       // Optionally show a toast or redirect to login
       alert("Please login to add items to your wishlist.");
-      navigate("/auth/register"); 
       // Or use a toast library: toast.error("Please login first.");
       return;
     }
