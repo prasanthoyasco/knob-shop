@@ -22,26 +22,26 @@ const carouselData = [
   {
     leftImage: collectionCarosal1left,
     rightImage: collectionCarosal1right,
-    title: "ENHANCING YOUR SLEEP EXPERIENCE",
-    subtitle: "BEDS & MATTRESSES",
+    title: "ELEGANTLY DIVIDE YOUR SPACES",
+    subtitle: "GLASS PARTITIONS",
     description:
-      "Plywood is renowned for its quality craftsmanship and attention to detail when it comes to beds and mattresses.",
+      "Elegant glass partitions create open, bright spaces while maintaining privacy and enhancing modern interior design.",
   },
   {
     leftImage: collectionCarosal2left,
     rightImage: collectionCarosal2right,
-    title: "MAKE A KITCHEN PART OF THE FAMILY",
+    title: "DESIGN THAT COOKS WITH YOU",
     subtitle: "MODULAR KITCHENS",
     description:
-      "Modular kitchens tailor-made for the Indian style of cooking...",
+      "Modular kitchens offer efficient layouts, sleek storage, and customizable designs for a stylish, organized cooking space.",
   },
   {
     leftImage: collectionCarosal3left,
     rightImage: collectionCarosal3right,
-    title: "DOOR STEEL LOCKER UNIT ALMIRAH",
-    subtitle: "CABINETS & STORAGE",
+    title: "SEAMLESS STORAGE WITH STYLE",
+    subtitle: "WARDROBES",
     description:
-      "Bench suitable for living room Lorem ipsum dolor sit amet consectetur...",
+      "Stylish wardrobes provide ample storage, enhance room aesthetics, and can be tailored to fit any space perfectly.",
   },
 ];
 

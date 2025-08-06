@@ -38,3 +38,21 @@ export const updateUser = async (id, payload) => {
     throw err.response?.data || { error: "Update failed" };
   }
 };
+
+export const sendOtpToEmail = async (email) => {
+  try {
+    const res = await axios.post(`${BASE_URL}/send-otp`, { email });
+    return res.data;
+  } catch (err) {
+    throw err.response?.data || { error: "Update failed" };
+  }
+};
+
+export const verifyEmailOtp = async (email,otp) => {
+  try {
+    const res = await axios.post(`${BASE_URL}/verify-otp`, { email, otp });
+    return res.data;
+  } catch (err) {
+   throw err.response?.data || { error: "Update failed" };
+  }
+};

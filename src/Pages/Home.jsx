@@ -57,28 +57,32 @@ import cat1 from '../Assets/New folder/New folder/01.png'
 import cat2 from '../Assets/New folder/New folder/02.png'
 import cat3 from '../Assets/New folder/New folder/3.png'
 import cat4 from '../Assets/New folder/New folder/4.png'
-import cat5 from '../Assets/New folder/New folder/5.png'
+import cat5 from '../Assets/CategoriesImge/Knob Shop/knocker.png'
 import cat6 from '../Assets/New folder/New folder/6.png'
 import cat7 from '../Assets/New folder/New folder/7.png'
+import cat8 from '../Assets/CategoriesImge/Knob Shop/doorClosser.png'
+import cat9 from '../Assets/CategoriesImge/Knob Shop/rim.png'
 export const Home = () => {
   const [categories, setCategories] = useState([]);
   const categoryImageMap = {
+    "Door Closer":cat8,
+    "Rim Lock":cat9,
     "Locks": cat1,
     "Telescopic": cat2,
-    "Hexa Bolt": cat3,
-    "Door Knocker": cat4,
-    "Digital Locks": cat5,
-    "Auto HInges": cat6,
+    "Door Knocker": cat5,
+    "Digital Lock": cat4,
+    "Auto Hinges": cat3,
     "Aldrop": cat7
   };
   
   const TARGET_CATEGORY_NAMES = [
+    "Door Closer",
+    "Rim Lock",
     "Locks",
     "Telescopic",
-    "Hexa Bolt",
     "Door Knocker",
-    "Digital Locks",
-    "Auto HInges",
+    "Digital Lock",
+    "Auto Hinges",
     "Aldrop"
   ];
   useEffect(() => {

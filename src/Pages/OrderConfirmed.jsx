@@ -131,6 +131,9 @@ const OrderConfirmed = () => {
           <button className="btn btn-outline-dark rounded-0 m-0 px-4 py-3 small" style={{ flex: '0 0 40%' }} onClick={()=>{navigate('/')}}>
             Continue Shopping
           </button>
+          <button className="btn btn-outline-dark rounded-0 m-0 px-4 py-3 small" style={{ flex: '0 0 40%' }} onClick={()=>{navigate('/invoice')}}>
+            Invoice
+          </button>
         </div>
       </div>
     </>

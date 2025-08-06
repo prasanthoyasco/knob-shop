@@ -14,7 +14,7 @@ const navigate = useNavigate();
   const [selectedSize, setSelectedSize] = useState(null);
   const [pincodeInfo, setPincodeInfo] = useState(null);
   const { addToWishlist, removeFromWishlist, wishlistItems } = useWishlist();
-  const isWished = wishlistItems.some((w) => w.id === product.id);
+  const isWished = wishlistItems.some((w) => w.id === product._id);
   const [selectedColor, setSelectedColor] = useState("black");
   const [quantity, setQuantity] = useState(1);
   const [pincode, setPincode] = useState("");

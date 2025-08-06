@@ -4,9 +4,8 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-
+import 'font-awesome/css/font-awesome.min.css';
 import { Home } from './Pages/Home';
 import NewsletterModal from './Components/NewsletterModal/NewsletterModal';
 import { ProductList } from './Pages/ProductList';
@@ -37,6 +36,9 @@ import BookConsult from './Components/BookConsultatonPage/BookConsult/BookConsul
 import { Subpage } from './Components/Subpage/Subpage';
 import WishlistDrawer from './Components/WishlistDrawer/WishlistDrawer';
 import { useWishlist } from './Context/WishlistContext';
+import Invoice from './Components/Invoice/Invoice';
+import WhatsAppFloatButton from './Components/WhatsAppFloatButton/WhatsAppFloatButton';
+// import NavbarTop from './Components/Navbar/NavbarTop/NavbarTop';
 
 function App() {
   const { drawerOpen, toggleDrawer, cartItems, removeFromCart, recommendedItems, addToCart } = useCart();
@@ -79,6 +81,7 @@ function App() {
        <Route path="/auth/forgot-pass" element={<AuthForgotPass/>} />
        <Route path="/auth/confirm" element={<AuthConfirm/>} />
        <Route path="/account" element={<ProfilePage/>} />
+       <Route path="/invoice" element={<Invoice/>} />
        <Route path="*" element={<Notfound />} />
       </Routes>
       </div>
@@ -96,6 +99,7 @@ function App() {
         wishlistItems={wishlistItems}
         onRemove={removeFromWishlist}
       />
+      <WhatsAppFloatButton />
     </Router>
   );
 }

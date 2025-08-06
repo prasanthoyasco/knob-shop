@@ -1,8 +1,8 @@
 import React from 'react'
 import './Sale.css'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'
 function Sale() {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
   return (
     <div className='sale-container' >
       <p className='mb-3'>Mid Season Sale</p>
