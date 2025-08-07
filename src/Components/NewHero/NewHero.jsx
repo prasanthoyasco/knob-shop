@@ -23,7 +23,7 @@ const baseSlides = [
   {
     id: 1,
     route: "digital lock",
-    img:img3,
+    img: "/slider/lock.png",
     imgheight: 400,
     bg: "/slider/bg-1.jpg",
     offer: "Flat 15% Off All Items",

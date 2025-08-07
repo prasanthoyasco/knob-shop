@@ -174,14 +174,14 @@
     }
   }
   .l2-black img {
-    filter: brightness(0%) invert(0%);
+    filter: brightness(0%) invert(0%) !important;
     width: 250px !important;
   }
   .PlusPointWhite-color img {
-    filter: brightness(0%) invert(0%);
+    filter: brightness(0%) invert(0%) !important;
   }
   .Ebco-color img {
-    filter: brightness(0%) invert(0%);
+    filter: brightness(0%) invert(0%) !important;
     width: 80px !important;
   }
   .labacha-size img {
