@@ -3,8 +3,8 @@ import { useEffect, useRef, useCallback, useState } from "react";
 import { Navigation, Pagination, Autoplay, EffectFade } from "swiper/modules";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
-import img1 from '../../Assets/CategoriesImge/Knob Shop/mortice_handle.png'
-import img2 from '../../Assets/CategoriesImge/Knob Shop/locker.png'
+import img1 from '../../Assets/CategoriesImge/Knob Shop/mortice handle2.jpg'
+import img2 from '../../Assets/CategoriesImge/Knob Shop/Section-1.jpg'
 import img3 from '../../Assets/CategoriesImge/Knob Shop/yale.png'
 import img4 from '../../Assets/CategoriesImge/Knob Shop/Knob1.png'
 import img5 from '../../Assets/CategoriesImge/Knob Shop/Pull handle.png'

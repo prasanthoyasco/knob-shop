@@ -22,18 +22,18 @@ import { getAllProducts } from "../../API/productApi";
 const images = [ brand2, brand3, brand4, brand5, brand6,brand7,brand8,brand9,brand10,brand11,brand12,brand13,brand14,brand15];
 
 const brandData = [
-  { name: "Dorset", image: brand2 },
-  { name: "Dorma", image: brand3 },
-  { name: "Decorpoint", image: brand4 },
-  { name: "Ebco", image: brand5 },
+  { name: "Dorset", image: brand2, className: "dorset-size" },
+  { name: "Dorma", image: brand3, className: "Dorma-size" },
+  { name: "Decorpoint", image: brand4, className: "l2-black" },
+  { name: "Ebco", image: brand5, className: "Ebco-color" },
   { name: "Gaze", image: brand6 },
   { name: "Godrej", image: brand7 },
-  { name: "Golden", image: brand8 },
+  { name: "Golden", image: brand8, className: "Golden-size" },
   { name: "Haefele", image: brand9 },
-  { name: "Labacha", image: brand10 },
+  { name: "Labacha", image: brand10, className: "labacha-size" },
   { name: "Blum", image: brand11 },
   { name: "Magnum", image: brand12 },
-  { name: "PlusPoint", image: brand13 },
+  { name: "PlusPoint", image: brand13, className: "PlusPointWhite-color PlusPoint-size" },
   { name: "Sris-ma-fils", image: brand14 },
   { name: "Yale", image: brand15 },
 ];
@@ -114,35 +114,14 @@ function Brand() {
         
           let classNames = `brand-slide index-${index}`;
 
-  // Optional: grey out edges
-  if (index === startIndex || index === endIndex) {
-    classNames += ' greyed';
-  }
+          if (index === startIndex || index === endIndex) {
+            classNames += ' greyed';
+          }
+          if (brand.className) {
+            classNames += ` ${brand.className}`;
+          }
+  
 
-  if (image.includes('l2.png')) {
-    classNames += ' l2-black';
-  }
-  if (image.includes('PlusPointWhite-CT5yed7t.png')) {
-    classNames += ' PlusPointWhite-color';
-  }
-  if (image.includes('labacha.png')) {
-    classNames += ' labacha-size';
-  }
-  if (image.includes('Golden.png')) {
-    classNames += ' Golden-size';
-  }
-  if (image.includes('dorset-logo.webp')) {
-    classNames += ' dorset-size';
-  }
-  if (image.includes('PlusPointWhite-CT5yed7t.png')) {
-    classNames += ' PlusPoint-size';
-  }
-  if (image.includes('Dorma.png')) {
-    classNames += ' Dorma-size';
-  }
-  if (image.includes('Ebco.webp')) {
-    classNames += ' Ebco-color';
-  }
 
   return (
     <div key={index} className={classNames} onClick={() => handleBrandClick(brand)}>
