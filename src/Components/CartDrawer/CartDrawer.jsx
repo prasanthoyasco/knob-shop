@@ -22,7 +22,7 @@ const CartDrawer = ({
   const [shippingRate, setShippingRate] = useState(null);
   const [recommendedItems, setRecommendedItems] = useState([]);
   const total = cartItems.reduce(
-    (sum, item) => sum + item.price * item.quantity,
+    (sum, item) => sum + item.variant?.[0]?.sizes[0].sellingPrice * item.quantity,
     0
   );
   useEffect(() => {
@@ -95,7 +95,7 @@ const CartDrawer = ({
                         className="fw-semibold"
                         style={{ color: "#d6791f" }}
                       >
-                        ₹{item.variant?.[0]?.sizes[0].mrp?.toLocaleString()}
+                        ₹{item.variant?.[0]?.sizes[0].sellingPrice?.toLocaleString()}
                       </span>
                       <button
                         className="btn btn-link btn-sm text-danger p-0"
