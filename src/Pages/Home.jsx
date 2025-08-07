@@ -56,12 +56,10 @@ import { fetchCategories } from "../API/categoriesApi";
 import cat1 from '../Assets/New folder/New folder/01.png'
 import cat2 from '../Assets/New folder/New folder/02.png'
 import cat3 from '../Assets/New folder/New folder/3.png'
-import cat4 from '../Assets/New folder/New folder/4.png'
-import cat5 from '../Assets/CategoriesImge/Knob Shop/knocker.png'
-import cat6 from '../Assets/New folder/New folder/6.png'
 import cat7 from '../Assets/New folder/New folder/7.png'
 import cat8 from '../Assets/CategoriesImge/Knob Shop/doorClosser.png'
-import cat9 from '../Assets/CategoriesImge/Knob Shop/rim.png'
+import cat10 from '../Assets/CategoriesImge/Knob Shop/Hexa bolt.png'
+import cat9 from '../Assets/CategoriesImge/Knob Shop/black rim.png'
 export const Home = () => {
   const [categories, setCategories] = useState([]);
   const categoryImageMap = {
@@ -69,9 +67,9 @@ export const Home = () => {
     "Rim Lock":cat9,
     "Locks": cat1,
     "Telescopic": cat2,
-    "Digital Lock": cat4,
     "Auto Hinges": cat3,
-    "Aldrop": cat7
+    "Aldrop": cat7,
+    "Hexa bolt":cat10,
   };
   
   const TARGET_CATEGORY_NAMES = [
@@ -79,9 +77,9 @@ export const Home = () => {
     "Rim Lock",
     "Locks",
     "Telescopic",
-    "Digital Lock",
     "Auto Hinges",
-    "Aldrop"
+    "Aldrop",
+    "Hexa bolt"
   ];
   useEffect(() => {
     const getSelectedCategories = async () => {
