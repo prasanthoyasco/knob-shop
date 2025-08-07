@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import img1 from '../../Assets/CategoriesImge/Knob Shop/mortice handle2.jpg'
 import img2 from '../../Assets/CategoriesImge/Knob Shop/Section-1.jpg'
 import img3 from '../../Assets/CategoriesImge/Knob Shop/yale.png'
-import img4 from '../../Assets/CategoriesImge/Knob Shop/Knob1.png'
+import img4 from '../../Assets/CategoriesImge/Knob Shop/gold_handle.png'
 import img5 from '../../Assets/CategoriesImge/Knob Shop/Pull handle.png'
 import "swiper/css";
 import "swiper/css/navigation";
@@ -267,7 +267,9 @@ const NewHero = () => {
                       alt={slide.text}
                       className="product-img img-fluid animate-on-slide product-animation-delay"
                       height={slide.imgheight}
-                      style={{ maxHeight: "500px" }}
+                      style={{ maxHeight: "500px" ,
+    height: slide.img === img4 ? "350px" : "initial",
+    display: "block",}}
                     />
                   </div>
                 </div>

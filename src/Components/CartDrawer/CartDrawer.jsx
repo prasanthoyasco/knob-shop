@@ -78,7 +78,9 @@ const CartDrawer = ({
               {cartItems.map((item) => (
                 <div key={item.id} className="d-flex my-3">
                   <img
-                    src={item.images?.[0] || item.variant?.[0]?.images?.[0]?.url || "/fallback.png"}
+  src={
+    item.image || item.images?.[0] || item.variant?.[0]?.images?.[0]?.url || "/fallback.png"
+  }
                     alt={item.title || item.name}
                     className="me-3"
                     style={{
@@ -89,17 +91,28 @@ const CartDrawer = ({
                   />
                   <div className="flex-grow-1">
                     <h6 className="mb-1">{item.title || item.name}</h6>
-                    <p className="text-muted mb-1">{item.colorsText || item.variant?.[0].title}</p>
+                    <p className="text-muted mb-1">
+  {item.colorsText
+    ? item.colorsText
+    : item.variant?.[0]?.title
+    ? item.variant[0].title
+    : "Variant info unavailable"}
+</p>
+
                     <div className="d-flex justify-content-between align-items-center">
                     <span className="fw-semibold" style={{ color: "#d6791f" }}>
-  {item.variant?.[0]?.sizes[0].sellingPrice
-    ? `₹${item.variant[0].sizes[0].sellingPrice.toLocaleString("en-IN")} | ₹${item.price?.toLocaleString("en-IN")}`
-    : `₹${item.price?.toLocaleString("en-IN")}`}
+  ₹
+  {item.variant?.[0]?.sizes?.[0]?.sellingPrice
+    ? `${item.variant[0].sizes[0].sellingPrice.toLocaleString("en-IN")}` +
+      (item.price ? ` | ₹${item.price.toLocaleString("en-IN")}` : "")
+    : `${item.price?.toLocaleString("en-IN") || "0"}`}
 </span>
+
 
                       <button
                         className="btn btn-link btn-sm text-danger p-0"
-                        onClick={() => onRemove(item.id)}
+                        onClick={() => onRemove(item._id)
+                        }
                       >
                         Remove
                       </button>

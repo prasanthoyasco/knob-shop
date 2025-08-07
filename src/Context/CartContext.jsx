@@ -15,7 +15,7 @@ export const CartProvider = ({ children }) => {
   
     // Update the local state cart
     setCartItems((prev) => {
-      const exists = prev.find(i => i.id === item.id);
+      const exists = prev.find(i => i.id === item.id || i._id === item._id);
       if (exists) {
         return prev.map(i =>
           i.id === item.id ? { ...i, quantity: i.quantity + 1 } : i
@@ -46,13 +46,18 @@ export const CartProvider = ({ children }) => {
   
 
   const removeFromCart = async (id) => {
-  try {
-    await deleteCartItem(id);
-    setCartItems((prev) => prev.filter((item) => item._id !== id));
-  } catch (error) {
-    console.error('Remove from cart failed:', error);
-  }
-};
+    try {
+      await deleteCartItem(id); // Optional: only works if user is logged in
+    } catch (error) {
+      console.warn('API remove failed or user not logged in:', error.message);
+    }
+  
+    // Remove from local state regardless of API response
+    setCartItems((prev) =>
+      prev.filter((item) => item._id !== id && item.id !== id)
+    );
+  };
+  
 
   const toggleDrawer = (state) => {
     setDrawerOpen(state);
