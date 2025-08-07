@@ -75,7 +75,7 @@ export const Home = () => {
   const TARGET_CATEGORY_NAMES = [
     "Door Closer",
     "Rim Lock",
-    "Locks",
+    "locks",
     "Telescopic",
     "Auto HInges",
     "Aldrop",

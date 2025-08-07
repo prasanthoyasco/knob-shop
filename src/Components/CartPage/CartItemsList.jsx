@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 
 const CartItemsList = ({ cartItems, handleIncrement, handleDecrement, handleDelete,isTrackingPage = false }) => {
   const Navigate = useNavigate();
+  console.log("CartItemsList rendered with items:", cartItems);
+  
     if (!cartItems.length) {
     return (
       <div className="text-center my-5 d-flex flex-column align-items-center">
@@ -29,11 +31,11 @@ const CartItemsList = ({ cartItems, handleIncrement, handleDecrement, handleDele
         <div key={item.id} className="shopping-cart-table-product">
           <div>
             <div className="shopping-cart-table-product-image">
-              <img src={item.image} alt={item.title} loading="lazy" />
+              <img src={item.variant?.[0]?.images[0]?.url} alt={item.title} loading="lazy" />
               <div className="shopping-cart-table-product-image-content">
-                <p>Brand : {item.brand}</p>
-                <h3>{item.title}</h3>
-                <p>Color : {item.color}</p>
+               {item.brand && <p>Brand : {item.brand}</p>}
+                <h3>{item.title || item.name}</h3>
+                <p>Color : {item.variant?.[0]?.title}</p>
               </div>
             </div>
             <button className="continue-shopping-btn" onClick={()=>{Navigate('/')}}>CONTINUE SHOPPING</button>
@@ -55,7 +57,7 @@ const CartItemsList = ({ cartItems, handleIncrement, handleDecrement, handleDele
           </div>
 
           <div className="shopping-cart-table-product-total">
-            <h3>₹ {(item.price * item.quantity).toLocaleString("en-IN")}</h3>
+            <h3>₹ {(item.variant?.[0]?.sizes[0].sellingPrice * item.quantity).toLocaleString("en-IN")}</h3>
           </div>
         </div>
       ))}
@@ -69,7 +71,7 @@ const CartItemsList = ({ cartItems, handleIncrement, handleDecrement, handleDele
             <div className="cart-mobile-right">
               <h3>{item.title}</h3>
               <div className="price-row">
-                <span className="discount-price">₹ {item.price.toLocaleString("en-IN")}</span>
+                <span className="discount-price">₹ {item.variant?.[0]?.sizes[0]?.sellingPrice.toLocaleString("en-IN")}</span>
               </div>
               <div className="quantity-remove-row">
                 <div className="quantity-box">

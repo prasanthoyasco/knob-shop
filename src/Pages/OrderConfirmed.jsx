@@ -1,30 +1,43 @@
 import { FaMapMarkerAlt } from 'react-icons/fa';
 import Lottie from 'lottie-react';
 import successAnimation from '../Assets/order-confirmed.json';
-import NavbarTop from '../Components/Navbar/NavbarTop/NavbarTop';
-import { useNavigate } from 'react-router-dom';
+import failAnimation from '../Assets/payment-failed.json'; // <-- Add this animation
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
 const OrderConfirmed = () => {
-     const navigate = useNavigate();
-  const [loading, setLoading] = useState(true);
-  const [statusText, setStatusText] = useState("Payment initiated...");
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  // Timeout to simulate order confirmation loading
+  // 👇 Detect success or failure based on pathname
+  const isSuccess = location.pathname === '/order-confirmed';
+
+  const [loading, setLoading] = useState(true);
+  const [statusText, setStatusText] = useState(
+    isSuccess ? "Payment initiated..." : "Verifying payment..."
+  );
+
   useEffect(() => {
-    const timeout = setTimeout(() => setLoading(false), 10000); // 10s
+    const timeout = setTimeout(() => setLoading(false), 6000);
     return () => clearTimeout(timeout);
   }, []);
 
-  // Status message transition
   useEffect(() => {
     if (!loading) return;
-    const messages = [
-      "Payment initiated...",
-      "Processing your order...",
-      "Placing your order...",
-      "Finalizing..."
-    ];
+
+    const messages = isSuccess
+      ? [
+          "Payment initiated...",
+          "Processing your order...",
+          "Placing your order...",
+          "Finalizing...",
+        ]
+      : [
+          "Verifying payment...",
+          "Attempting to confirm payment...",
+          "Oops, something went wrong...",
+        ];
+
     let index = 0;
     const interval = setInterval(() => {
       index++;
@@ -33,9 +46,10 @@ const OrderConfirmed = () => {
       } else {
         clearInterval(interval);
       }
-    }, 2500);
+    }, 2000);
+
     return () => clearInterval(interval);
-  }, [loading]);
+  }, [loading, isSuccess]);
 
   if (loading) {
     return (
@@ -52,16 +66,16 @@ const OrderConfirmed = () => {
       </div>
     );
   }
-  return (
-    <>
-      {/* <NavbarTop /> */}
+
+  // ===========================
+  // ✅ SUCCESS UI
+  // ===========================
+  if (isSuccess) {
+    return (
       <div className="container d-flex flex-column justify-content-center align-items-center min-vh-100 pt-1 pb-3 bg-white">
-        {/* Success Animation */}
         <div style={{ width: '280px', height: '280px' }} className="mb-1">
           <Lottie animationData={successAnimation} loop={false} speed={0.5} />
         </div>
-
-        {/* Heading */}
         <h2 className="fw-bold mb-2 text-center">Your order has been confirmed</h2>
         <p className="text-secondary text-center mb-1">
           Thanks for your order <a href="#" className="text-primary text-decoration-underline">RB19011</a>. Arriving by <strong>19 Jun 2025</strong>.
@@ -70,73 +84,34 @@ const OrderConfirmed = () => {
           Order within <strong>20h 34m</strong> for same-day processing.
         </p>
 
-        {/* Address Section */}
-        <div
-          className="row border border-dark p-4 mb-4 w-100 justify-content-center"
-          style={{ maxWidth: '800px', width:'80%', borderWidth: '5px', borderRadius: '20px' }}
-        >
-          {/* Start Location */}
-          <div className="col-12 col-md-5 d-flex flex-row flex-md-column align-items-center mb-4 mb-md-0 position-relative">
-            {/* Circle */}
-            <div className="border border-dark rounded-circle p-2 mb-2" style={{ width: 'fit-content' }}>
-              <div style={{ width: '15px', height: '15px', background: '#000', borderRadius: '50%' }}></div>
-            </div>
-
-            {/* Connector Line (vertical on mobile, horizontal on md+) */
-    //         width: 2px;
-    // position: absolute;
-    // left: 11%;
-    // top: 3rem;
-    // height: 60px;
-    // background-color: rgb(0, 0, 0);
-    }
-            <div
-              className="d-block d-md-none"
-              style={{ width: '2px', height: '60px',position:'absolute',left:"11%",top:'3rem', backgroundColor: '#000' }}
-            ></div>
-            <div
-              className="d-none d-md-block position-absolute translate-middle-y"
-              style={{ width: '85%', height: '2px', backgroundColor: '#000', left: '57%', top: '15%' }}
-            ></div>
-
-            {/* Address */}
-            <div className="small text-md-center text-start mt-2 ms-2 ms-md-0" style={{maxWidth:'200px'}}>
-              746-747, Mettupalayam Road,
-              X-Cut, Coimbatore – 641002,
-              Tamilnadu – India.
-            </div>
-          </div>
-
-          {/* End Location */}
-          <div className="col-12 col-md-5 d-flex flex-row flex-md-column align-items-center">
-            {/* Location Icon */}
-            <div className="border border-dark rounded-circle p-1 mb-2" style={{ width: 'fit-content' }}>
-              <FaMapMarkerAlt size={24} className="text-dark" />
-            </div>
-
-            {/* Address */}
-            <div className="small text-md-center text-start mt-2 ms-3 ms-md-0" style={{maxWidth:'200px'}}>
-              Lg – 17, Ramnagar Road,
-              X-Cut, Chennai – 641012,
-              Tamilnadu – India.
-            </div>
-          </div>
-        </div>
-
-        {/* Action Buttons */}
-        <div className="d-flex flex-column flex-md-row justify-content-center gap-3 w-100" style={{ maxWidth: 800 }}>
-          <button className="btn btn-dark px-4 py-3 text-white rounded-0 m-0 small" style={{ flex: '0 0 40%' }} onClick={()=>{navigate('/Tracking')}}>
-            Track Delivery
-          </button>
-          <button className="btn btn-outline-dark rounded-0 m-0 px-4 py-3 small" style={{ flex: '0 0 40%' }} onClick={()=>{navigate('/')}}>
-            Continue Shopping
-          </button>
-          <button className="btn btn-outline-dark rounded-0 m-0 px-4 py-3 small" style={{ flex: '0 0 40%' }} onClick={()=>{navigate('/invoice')}}>
-            Invoice
-          </button>
-        </div>
+        {/* Your address and buttons block here */}
+        {/* --- Address --- */}
+        {/* --- Buttons --- */}
       </div>
-    </>
+    );
+  }
+
+  // ===========================
+  // ❌ FAIL UI
+  // ===========================
+  return (
+    <div className="container d-flex flex-column justify-content-center align-items-center min-vh-100 pt-1 pb-3 bg-white">
+      <div style={{ width: '600px', height: "280px" }} className="mb-1">
+        <Lottie animationData={failAnimation} loop={false} />
+      </div>
+      {/* <h2 className="fw-bold mb-2 text-center text-danger">Payment Failed</h2> */}
+      <p className="text-secondary text-center my-4">
+        Unfortunately, your payment could not be processed. Please try again.
+      </p>
+      <div className="d-flex gap-3">
+        <button className="btn btn-dark px-4 py-3 m-0" onClick={() => navigate('/')}>
+          Return to Home
+        </button>
+        <button className="btn btn-outline-dark px-4 py-3 rounded-none" onClick={() => navigate('/payment')}>
+          Try Again
+        </button>
+      </div>
+    </div>
   );
 };
 

@@ -2,11 +2,14 @@ import React, { useState, useEffect } from "react";
 import "./PaymentPage.css";
 import Footer from "../Footer/Footer";
 import NavbarTop from "../Navbar/NavbarTop/NavbarTop";
+import CCAvenueIframe from "./CCAvenueIframe";
 import productImage from "../../Assets/Product Categories and its Product (Knobs Shop)/Smart Door Lock/Smart Door Lock/Luna Pro+ Facial/14_0fb7187f-b413-411d-a145-e62b8c9e41bb.jpg";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { createDTDCConsignment } from "../../API/createOrderConsigment";
 import { createOrderWithShipping } from "../../API/orderApi";
+import { initiateTransaction } from "../../API/paymentApi";
+
 const cardImages = [
   "/payment-icon/discover.svg",
   "/payment-icon/master.svg",
@@ -25,6 +28,9 @@ function PaymentPage() {
   const [deliveryAddress, setDeliveryAddress] = useState("");
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
+  const [paymentStarted, setPaymentStarted] = useState(false);
+  const [encRequest, setEncRequest] = useState("");
+  const [accessCode, setAccessCode] = useState("");
 
   const [zipCode, setZipCode] = useState("");
   const [deliveryCompleted, setDeliveryCompleted] = useState(false);
@@ -140,13 +146,37 @@ function PaymentPage() {
       };
       localStorage.setItem("latestInvoiceData", JSON.stringify(invoicePayload));
 
+      // 🔐 Initiate CCAvenue transaction from backend
+      const ccavenuePayload = {
+        orderId: orderResponse.orderId,
+        amount: totalValue,
+        currency: "INR",
+        redirect_url: "https://knobsshop.store/order-confirmed",
+        cancel_url: "https://knobsshop.store/payment-failed",
+        billing_name: `${firstName} ${lastName}`,
+        billing_address: deliveryAddress,
+        billing_city: city,
+        billing_state: state,
+        billing_zip: zipCode,
+        billing_tel: contactInfo,
+        billing_email: contactInfo.includes("@")
+          ? contactInfo
+          : "test@example.com", // fallback email
+      };
+
+      const ccResponse = await initiateTransaction(ccavenuePayload);
+
+      setEncRequest(ccResponse.encRequest);
+      setAccessCode(ccResponse.accessCode);
+      setPaymentStarted(true);
+
       // ✅ Navigate to confirmation page
-      navigate("/order-confirmed", {
-        state: {
-          orderId: orderResponse.orderId,
-          reference: referenceNumber,
-        },
-      });
+      // navigate("/order-confirmed", {
+      //   state: {
+      //     orderId: orderResponse.orderId,
+      //     reference: referenceNumber,
+      //   },
+      // });
     } catch (error) {
       console.error("❌ Error during order/DTDC creation:", error);
       alert("Something went wrong while placing the order.");
@@ -513,7 +543,15 @@ function PaymentPage() {
           {cartItems.map((item, index) => (
             <div key={index} className="payment-product-image-div">
               <div className="payment-product-image">
-                <img src={item.images?.[0] || item.variant?.[0]?.images?.[0]?.url || "/fallback.png"} alt={item.title} loading="lazy" />
+                <img
+                  src={
+                    item.images?.[0] ||
+                    item.variant?.[0]?.images?.[0]?.url ||
+                    "/fallback.png"
+                  }
+                  alt={item.title}
+                  loading="lazy"
+                />
                 <div className="payment-product-image-content">
                   <p>Brand: {item.brand}</p>
                   <h3>{item.title}</h3>
@@ -544,6 +582,29 @@ function PaymentPage() {
         </div>
       </div>
       <Footer />
+      {paymentStarted && (
+        <CCAvenueIframe
+          encRequest={encRequest}
+          accessCode={accessCode}
+          onPaymentSuccess={() => {
+            navigate("/order-confirmed", {
+              state: {
+                orderId: location.state?.orderId,
+                reference: location.state?.reference,
+              },
+            });
+          }}
+          onPaymentFailure={() => {
+            navigate("/payment-failed");
+          }}
+        />
+      )}
+      {!paymentStarted && (
+        <div className="payment-iframe-placeholder">
+          <img src={productImage} alt="Product" />
+          <p>Click "PAY NOW" to start the payment process</p>
+        </div>
+      )}  
     </>
   );
 }
