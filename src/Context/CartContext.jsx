@@ -70,17 +70,32 @@ export const CartProvider = ({ children }) => {
   
   
 
-  const removeFromCart = async (id) => {
-    try {
-      await deleteCartItem(id); // For logged-in users
-    } catch (error) {
-      console.warn('API remove failed or user not logged in:', error.message);
+  const removeFromCart = async (itemToRemove) => {
+    const storedUser = localStorage.getItem('authUser');
+    const parsedUser = storedUser ? JSON.parse(storedUser) : null;
+    const userId = parsedUser?.id;
+  
+    if (userId) {
+      try {
+        await deleteCartItem(itemToRemove.id || itemToRemove._id);
+      } catch (error) {
+        console.warn('API remove failed:', error.message);
+      }
     }
   
     setCartItems((prev) =>
-      prev.filter((item) => item._id !== id && item.id !== id)
+      prev.filter(
+        (item) =>
+          !(
+            (item.id === itemToRemove.id || item._id === itemToRemove._id) &&
+            item.color === itemToRemove.color &&
+            item.size === itemToRemove.size
+          )
+      )
     );
   };
+  
+  
   
   
 

@@ -89,6 +89,7 @@ export default function ProductDetailsHead() {
     image: product?.images?.[0] || "default.jpg",
     price: selectedSizeObj?.sellingPrice || product?.price,
     productId: product?.productId,
+    categoryId:product?.category?._id,
     mrpPrice: selectedSizeObj?.mrp || product?.compare_price,
     brand: product?.brand,
     quantity,
@@ -285,7 +286,7 @@ export default function ProductDetailsHead() {
               <div className="mb-3">
                 <h4 className="fw-bold d-flex align-items-center flex-wrap gap-2">
                   <span style={{ color: "#D6791F" }}>
-                    ₹ {cartItem.price?.toFixed(0)}
+                    ₹ {cartItem.price}
                   </span>
                   {discountPercent > 0 && (
                     <span

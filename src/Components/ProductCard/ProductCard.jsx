@@ -235,7 +235,14 @@ const ProductCard = ({ product }) => {
             <button
               className="Addtocart"
               onClick={() => {
-                addToCart(product);
+                const itemToAdd = {
+                  ...product,
+                  color: selectedVariant?.value, // color hex or name
+                  size: selectedSizeLabel,
+                  quantity: 1,
+                  price: selectedSize.sellingPrice, // optional but useful for clarity
+                };
+                addToCart(itemToAdd);
                 toggleDrawer(true);
               }}
             >

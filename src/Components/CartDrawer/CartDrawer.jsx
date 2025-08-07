@@ -27,29 +27,30 @@ const CartDrawer = ({
     0
   );
 
-useEffect(() => {
-  const fetchRecommended = async () => {
-    try {
-      if (cartItems.length > 0 && cartItems[0].category?._id) {
-        const categoryId = cartItems[0].category._id;
-        const response = await fetchProductsByCategory(categoryId);
-  
-        const products = Array.isArray(response.data) ? response.data : [];
-        const cartItemIds = cartItems.map(item => item._id);
-  
-        const filtered = products.filter(p => !cartItemIds.includes(p._id));
-        setRecommendedItems(filtered);
-      } else {
-        setRecommendedItems([]);
+  useEffect(() => {
+    const fetchRecommended = async () => {
+      try {
+        if (cartItems.length > 0 && cartItems[0].categoryId) {
+          const categoryId = cartItems[0].categoryId;
+          const response = await fetchProductsByCategory(categoryId);
+          const products = Array.isArray(response.data) ? response.data : [];
+          const cartItemIds = cartItems.map((item) => item._id);
+          const filtered = products.filter((p) => !cartItemIds.includes(p._id));
+          setRecommendedItems(filtered);
+        } else {
+          // Fetch all products if cart is empty
+          const response = await getAllProducts();
+          setRecommendedItems(response);
+        }
+      } catch (error) {
+        console.error("Failed to fetch recommended items", error);
       }
-    } catch (error) {
-      console.error("Failed to fetch recommended items", error);
-    }
-  };
+    };
   
-
-  if (show) fetchRecommended();
-}, [show, cartItems]);
+    if (show) fetchRecommended();
+  }, [show, cartItems]);
+  
+  
 
 
   return (
@@ -127,12 +128,12 @@ useEffect(() => {
       item.price !== item.variant[0].sizes[0].sellingPrice
         ? ` | ₹${item.price.toLocaleString("en-IN")}`
         : "")
-    : `${item.price?.toLocaleString("en-IN") || "0"}`}
+    : `${item.price?.toLocaleString("en-IN") || "0"}`} X {item.quantity}
                       </span>
 
                       <button
                         className="btn btn-link btn-sm text-danger p-0"
-                        onClick={() => onRemove(item._id)}
+                        onClick={() => onRemove(item)}
                       >
                         Remove
                       </button>
