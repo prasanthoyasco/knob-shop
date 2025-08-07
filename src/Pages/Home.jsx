@@ -77,7 +77,7 @@ export const Home = () => {
     "Rim Lock",
     "Locks",
     "Telescopic",
-    "Auto Hinges",
+    "Auto HInges",
     "Aldrop",
     "Hexa Bolt"
   ];
