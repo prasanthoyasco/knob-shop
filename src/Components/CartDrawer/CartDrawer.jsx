@@ -78,7 +78,7 @@ const CartDrawer = ({
               {cartItems.map((item) => (
                 <div key={item.id} className="d-flex my-3">
                   <img
-                    src={item.image || item.images?.[0]}
+                    src={item.images?.[0] || item.variant?.[0]?.images?.[0]?.url || "/fallback.png"}
                     alt={item.title || item.name}
                     className="me-3"
                     style={{
