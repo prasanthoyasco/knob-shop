@@ -7,7 +7,6 @@ export const useCart = () => useContext(CartContext);
 export const CartProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);
   const [drawerOpen, setDrawerOpen] = useState(false);
-
   const addToCart = async (item) => {
     const storedUser = localStorage.getItem('authUser');
     const parsedUser = storedUser ? JSON.parse(storedUser) : null;
@@ -34,6 +33,7 @@ export const CartProvider = ({ children }) => {
           userId,
           productId: item.id,
           quantity: item.quantity || 1,
+          price:item.price
         });
       } catch (error) {
         console.error('Add to cart (API) failed:', error);

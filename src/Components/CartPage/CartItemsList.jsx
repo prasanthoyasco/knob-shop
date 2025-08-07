@@ -31,11 +31,11 @@ const CartItemsList = ({ cartItems, handleIncrement, handleDecrement, handleDele
         <div key={item.id} className="shopping-cart-table-product">
           <div>
             <div className="shopping-cart-table-product-image">
-              <img src={item.variant?.[0]?.images[0]?.url} alt={item.title} loading="lazy" />
+              <img src={item.variant?.[0]?.images[0]?.url || item.image} alt={item.title} loading="lazy" />
               <div className="shopping-cart-table-product-image-content">
                {item.brand && <p>Brand : {item.brand}</p>}
                 <h3>{item.title || item.name}</h3>
-                <p>Color : {item.variant?.[0]?.title}</p>
+                <p>Color : {item.variant?.[0]?.title || item.colorsText}</p>
               </div>
             </div>
             <button className="continue-shopping-btn" onClick={()=>{Navigate('/')}}>CONTINUE SHOPPING</button>
@@ -57,7 +57,12 @@ const CartItemsList = ({ cartItems, handleIncrement, handleDecrement, handleDele
           </div>
 
           <div className="shopping-cart-table-product-total">
-          <h3>₹ {(item.price * item.quantity).toLocaleString("en-IN")}</h3>
+          <h3>{item.variant?.[0]?.sizes?.[0]?.sellingPrice != null
+  ? `₹${item.variant[0].sizes[0].sellingPrice.toLocaleString("en-IN")}${item.price ? ` | ₹${item.price.toLocaleString("en-IN")}` : ""}`
+  : item.price != null
+    ? `₹${item.price.toLocaleString("en-IN")}`
+    : "Price not available"}
+</h3>
           </div>
         </div>
       ))}
@@ -71,7 +76,12 @@ const CartItemsList = ({ cartItems, handleIncrement, handleDecrement, handleDele
             <div className="cart-mobile-right">
               <h3>{item.title}</h3>
               <div className="price-row">
-                <span className="discount-price">₹ {item.variant?.[0]?.sizes[0]?.sellingPrice.toLocaleString("en-IN")}</span>
+                <span className="discount-price">{item.variant?.[0]?.sizes?.[0]?.sellingPrice != null
+  ? `₹${item.variant[0].sizes[0].sellingPrice.toLocaleString("en-IN")}${item.price ? ` | ₹${item.price.toLocaleString("en-IN")}` : ""}`
+  : item.price != null
+    ? `₹${item.price.toLocaleString("en-IN")}`
+    : "Price not available"}
+</span>
               </div>
               <div className="quantity-remove-row">
                 <div className="quantity-box">

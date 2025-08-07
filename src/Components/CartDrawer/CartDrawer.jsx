@@ -89,14 +89,14 @@ const CartDrawer = ({
                   />
                   <div className="flex-grow-1">
                     <h6 className="mb-1">{item.title || item.name}</h6>
-                    <p className="text-muted mb-1">{item.color || item.variant?.[0].title}</p>
+                    <p className="text-muted mb-1">{item.colorsText || item.variant?.[0].title}</p>
                     <div className="d-flex justify-content-between align-items-center">
-                      <span
-                        className="fw-semibold"
-                        style={{ color: "#d6791f" }}
-                      >
-                        ₹{item.variant?.[0]?.sizes[0].sellingPrice?.toLocaleString()}
-                      </span>
+                    <span className="fw-semibold" style={{ color: "#d6791f" }}>
+  {item.variant?.[0]?.sizes[0].sellingPrice
+    ? `₹${item.variant[0].sizes[0].sellingPrice.toLocaleString("en-IN")} | ₹${item.price?.toLocaleString("en-IN")}`
+    : `₹${item.price?.toLocaleString("en-IN")}`}
+</span>
+
                       <button
                         className="btn btn-link btn-sm text-danger p-0"
                         onClick={() => onRemove(item.id)}

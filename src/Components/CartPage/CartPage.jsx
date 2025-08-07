@@ -19,7 +19,47 @@ function CartPage() {
   const location = useLocation();
   const [country, setCountry] = useState("India");
   const passedItems = location.state?.cartItems;
+  const [postalCode, setPostalCode] = useState("");
+  const [availabilityStatus, setAvailabilityStatus] = useState(null); // "available" | "not-available" | "checking"
+  const [error, setError] = useState(null);
 
+  const checkAddressAvailability = async () => {
+    if (!postalCode.trim()) return;
+  
+    try {
+      setAvailabilityStatus("checking");
+      setError(null);
+  
+      const actualCountry =
+        typeof country === "object"
+          ? country.label || country.value || "India"
+          : country;
+  
+      // Zippopotam.us supports "IN" for India
+      const countryCode = actualCountry === "India" ? "IN" : actualCountry;
+  
+      const response = await fetch(`https://api.zippopotam.us/${countryCode}/${postalCode}`);
+  
+      if (!response.ok) {
+        setAvailabilityStatus("not-available");
+        return;
+      }
+  
+      const data = await response.json();
+      console.log("Postal code data:", data);
+  
+      // If we get data, it's available
+      setAvailabilityStatus("available");
+    } catch (err) {
+      console.error("Error checking shipping:", err);
+      setError("Failed to check availability. Try again.");
+      setAvailabilityStatus(null);
+    }
+  };
+  
+  
+  
+  
   const [cartItems, setCartItems] = useState(
     passedItems?.length
       ? passedItems
@@ -83,10 +123,14 @@ function CartPage() {
     setCartItems((prev) => prev.filter((item) => item.id !== id));
   };
 
-  const subtotal = cartItems.reduce(
-    (sum, item) => sum + item.price * item.quantity,
-    0
-  );
+  const subtotal = cartItems.reduce((sum, item) => {
+    const sellingPrice = item.variant?.[0]?.sizes?.[0]?.sellingPrice;
+    const price = sellingPrice != null ? sellingPrice : item.price;
+    const quantity = item.quantity ?? 1; // fallback to 1 if quantity is undefined
+  
+    return sum + Number(price || 0) * Number(quantity);
+  }, 0);
+  
   useEffect(() => {
     console.log("CartPage - cartItems:", cartItems);
   }, [cartItems]);
@@ -130,10 +174,23 @@ function CartPage() {
             </select> */}
             <CountrySelect country={country} setCountry={setCountry} />
             <input
-              type="text"
-              placeholder="Postal/Zip Code"
-              className="postal-code-input rounded"
-            />
+  type="text"
+  placeholder="Postal/Zip Code"
+  className="postal-code-input rounded"
+  value={postalCode}
+  onChange={(e) => setPostalCode(e.target.value)}
+  onBlur={checkAddressAvailability}
+/>
+
+{availabilityStatus === "checking" && <p>Checking availability...</p>}
+{availabilityStatus === "available" && (
+  <p style={{ color: "green" }}>Shipping is available to this location</p>
+)}
+{availabilityStatus === "not-available" && (
+  <p style={{ color: "red" }}>Sorry, shipping is not available here</p>
+)}
+{error && <p style={{ color: "red" }}>{error}</p>}
+
           </div>
 
           <div
