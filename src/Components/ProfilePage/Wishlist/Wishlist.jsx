@@ -47,12 +47,10 @@ function Wishlist({ userId }) {
             <p>Color: <strong> {product.variant?.[0]?.title}</strong></p>
 
             {/* Size & Selling Price */}
-            {product.variant?.[0]?.sizes?.map((size, index) => (
-              <div key={index}>
-                <p>Price: <strong>₹{size.sellingPrice}</strong></p>
-                {/* {size.label && <p>Size: {size.label}</p>} */}
-              </div>
-            ))}
+            <p>
+  Price: <strong>₹{product.variant?.[0]?.sizes?.[0]?.sellingPrice}</strong>
+</p>
+
           </div>
         ))}
       </div>

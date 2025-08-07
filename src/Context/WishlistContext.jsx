@@ -61,16 +61,27 @@ const addToWishlist = async (item) => {
 };
 
 
-  const removeFromWishlist = async (item) => {
+const removeFromWishlist = async (item) => {
   try {
-    const { userId, id: productId } = item;
+    const storedUserRaw = localStorage.getItem("authUser");
+    const storedUser = storedUserRaw ? JSON.parse(storedUserRaw) : null;
+
+    if (!storedUser) {
+      console.error("No user found in localStorage");
+      return;
+    }
+
+    const userId = storedUser.id || storedUser._id;
+    const productId = item.id || item._id;
+
     await removeFromWishlistAPI({ userId, productId });
 
-    setWishlistItems((prev) => prev.filter((i) => i.id !== productId));
+    setWishlistItems((prev) => prev.filter((i) => (i.id || i._id) !== productId));
   } catch (error) {
     console.error('Remove from wishlist failed:', error);
   }
 };
+
 
   const clearWishlist = () => setWishlistItems([]);
 

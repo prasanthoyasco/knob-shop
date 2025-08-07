@@ -1,7 +1,8 @@
 import { X, Heart } from "lucide-react";
 import "./WishlistDrawer.css"; // Reuse same styling
 import { useNavigate } from "react-router-dom";
-
+import { useCart } from "../../Context/CartContext";
+import { useState } from "react";
 const WishlistDrawer = ({
   show,
   onClose,
@@ -11,6 +12,8 @@ const WishlistDrawer = ({
 }) => {
   console.log("WishlistDrawer rendered with items:", wishlistItems);
   const navigate = useNavigate();
+  const { addToCart } = useCart();
+  const [addedItemIds, setAddedItemIds] = useState([]);
 
   return (
     <>
@@ -64,16 +67,37 @@ const WishlistDrawer = ({
                         ₹{item.variant?.[0]?.sizes?.[0].mrp.toLocaleString()}
                       </span>
                       <div>
-                        <button
-                          className="btn btn-sm btn-dark me-2"
-                          style={{ marginTop: "0" }}
-                          onClick={() => onMoveToCart(item)}
-                        >
-                          Add to Cart
-                        </button>
+                      {addedItemIds.includes(item.id || item._id) ? (
+  <button className="btn btn-sm btn-dark me-2" disabled>
+    Added
+  </button>
+) : (
+  <button
+    className="btn btn-sm btn-dark me-2"
+    onClick={() => {
+      const variant = item.variant?.[0];
+      const sellingPrice =
+        variant?.sizes?.[0]?.sellingPrice || item.price || 0;
+      const cartItem = {
+        id: item._id,
+        title: item.name,
+        price: sellingPrice,
+        quantity: 1,
+        variant: variant,
+        image: variant?.images?.[0]?.url || item.images?.[0],
+      };
+
+      addToCart(cartItem);
+      setAddedItemIds((prev) => [...prev, item.id || item._id]);
+    }}
+  >
+    Add to Cart
+  </button>
+)}
+
                         <button
                           className="btn btn-sm btn-link text-danger p-0"
-                          onClick={() => onRemove(item.id)}
+                          onClick={() => onRemove(item)}
                         >
                           Remove
                         </button>
