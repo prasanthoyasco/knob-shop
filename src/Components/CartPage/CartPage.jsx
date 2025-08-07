@@ -22,6 +22,7 @@ function CartPage() {
   const [postalCode, setPostalCode] = useState("");
   const [availabilityStatus, setAvailabilityStatus] = useState(null); // "available" | "not-available" | "checking"
   const [error, setError] = useState(null);
+  const [areaName, setAreaName] = useState(""); // new state
 
   const checkAddressAvailability = async () => {
     if (!postalCode.trim()) return;
@@ -29,33 +30,46 @@ function CartPage() {
     try {
       setAvailabilityStatus("checking");
       setError(null);
+      setAreaName(""); // clear previous result
   
-      const actualCountry =
-        typeof country === "object"
-          ? country.label || country.value || "India"
-          : country;
-  
-      // Zippopotam.us supports "IN" for India
-      const countryCode = actualCountry === "India" ? "IN" : actualCountry;
-  
-      const response = await fetch(`https://api.zippopotam.us/${countryCode}/${postalCode}`);
-  
-      if (!response.ok) {
-        setAvailabilityStatus("not-available");
-        return;
-      }
-  
+      const response = await fetch(
+        `https://api.postalpincode.in/pincode/${postalCode}`
+      );
       const data = await response.json();
-      console.log("Postal code data:", data);
+      console.log("Pincode API response:", data);
   
-      // If we get data, it's available
-      setAvailabilityStatus("available");
+      if (data[0].Status === "Success") {
+        const postOffice = data[0].PostOffice?.[0];
+        const apiState = postOffice?.State?.trim();
+        const district = postOffice?.District?.trim();
+        const area = postOffice?.Name?.trim();
+  
+        if (
+          apiState &&
+          country?.label &&
+          apiState.toLowerCase() === country.label.toLowerCase()
+        ) {
+          setAvailabilityStatus("available");
+          setAreaName(district || area || "your area");
+        } else {
+          setAvailabilityStatus("not-available");
+          setError(
+            `Pincode ${postalCode} does not belong to selected state ${country?.label}. It belongs to ${apiState}.`
+          );
+        }
+      } else {
+        setAvailabilityStatus("not-available");
+        setError("Invalid Pincode entered.");
+      }
     } catch (err) {
-      console.error("Error checking shipping:", err);
+      console.error("Error checking pincode:", err);
       setError("Failed to check availability. Try again.");
       setAvailabilityStatus(null);
     }
   };
+  
+  
+  
   
   
   
@@ -175,21 +189,31 @@ function CartPage() {
             <CountrySelect country={country} setCountry={setCountry} />
             <input
   type="text"
-  placeholder="Postal/Zip Code"
+  placeholder="Pincode"
   className="postal-code-input rounded"
   value={postalCode}
   onChange={(e) => setPostalCode(e.target.value)}
   onBlur={checkAddressAvailability}
 />
 
-{availabilityStatus === "checking" && <p>Checking availability...</p>}
+
+{availabilityStatus === "checking" && (
+  <p className="status-checking">Checking delivery availability...</p>
+)}
+
 {availabilityStatus === "available" && (
-  <p style={{ color: "green" }}>Shipping is available to this location</p>
+  <p className="status-available">
+    Delivery is available to <strong>{areaName}</strong>, {country?.label}
+  </p>
 )}
-{availabilityStatus === "not-available" && (
-  <p style={{ color: "red" }}>Sorry, shipping is not available here</p>
+
+{availabilityStatus === "not-available" && error && (
+  <p className="status-error">{error}</p>
 )}
-{error && <p style={{ color: "red" }}>{error}</p>}
+
+
+
+
 
           </div>
 

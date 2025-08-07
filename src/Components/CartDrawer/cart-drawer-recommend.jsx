@@ -60,7 +60,18 @@ const RecommendedSlider = ({ recommendedItems = [], onAddToCart }) => {
               </div>
               <button
                 className="btn btn-link m-0 btn-sm p-0 text-dark"
-                onClick={() => onAddToCart(item)}
+                onClick={() =>
+                  onAddToCart({
+                    ...item,
+                    id: item._id, // ensure id is present for consistent matching
+                    color: item.variant?.[0]?.color || "Default",
+                    size: item.variant?.[0]?.sizes?.[0]?.size || "Default",
+                    price: item.variant?.[0]?.sizes?.[0]?.sellingPrice || item.price,
+                    quantity: 1,
+                    image: item.images?.[0] || item.image || "/fallback.png",
+                  })
+                }
+                
               >
                 + Add to Cart
               </button>

@@ -1,3 +1,15 @@
+.status-checking {
+  color: #555 !important;
+}
+
+.status-available {
+  color: green !important;
+}
+
+.status-error {
+  color: red !important;
+}
+
 .shopping-cart-container{
     margin-top: 3%;
     display: flex;
