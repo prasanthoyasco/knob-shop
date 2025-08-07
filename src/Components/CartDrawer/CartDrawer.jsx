@@ -1,4 +1,4 @@
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import RecommendedSlider from "./cart-drawer-recommend";
 import { getAllProducts } from "../../API/productApi";
 import "./CartDrawer.css";
@@ -22,7 +22,8 @@ const CartDrawer = ({
   const [shippingRate, setShippingRate] = useState(null);
   const [recommendedItems, setRecommendedItems] = useState([]);
   const total = cartItems.reduce(
-    (sum, item) => sum + item.variant?.[0]?.sizes[0].sellingPrice * item.quantity,
+    (sum, item) =>
+      sum + item.variant?.[0]?.sizes[0].sellingPrice || item.price * item.quantity,
     0
   );
   useEffect(() => {
@@ -78,9 +79,12 @@ const CartDrawer = ({
               {cartItems.map((item) => (
                 <div key={item.id} className="d-flex my-3">
                   <img
-  src={
-    item.image || item.images?.[0] || item.variant?.[0]?.images?.[0]?.url || "/fallback.png"
-  }
+                    src={
+                      item.image ||
+                      item.images?.[0] ||
+                      item.variant?.[0]?.images?.[0]?.url ||
+                      "/fallback.png"
+                    }
                     alt={item.title || item.name}
                     className="me-3"
                     style={{
@@ -92,27 +96,32 @@ const CartDrawer = ({
                   <div className="flex-grow-1">
                     <h6 className="mb-1">{item.title || item.name}</h6>
                     <p className="text-muted mb-1">
-  {item.colorsText
-    ? item.colorsText
-    : item.variant?.[0]?.title
-    ? item.variant[0].title
-    : "Variant info unavailable"}
-</p>
+                      {item.colorsText
+                        ? item.colorsText
+                        : item.variant?.[0]?.title
+                        ? item.variant[0].title
+                        : ""}
+                    </p>
 
                     <div className="d-flex justify-content-between align-items-center">
-                    <span className="fw-semibold" style={{ color: "#d6791f" }}>
-  ₹
-  {item.variant?.[0]?.sizes?.[0]?.sellingPrice
-    ? `${item.variant[0].sizes[0].sellingPrice.toLocaleString("en-IN")}` +
-      (item.price ? ` | ₹${item.price.toLocaleString("en-IN")}` : "")
-    : `${item.price?.toLocaleString("en-IN") || "0"}`}
-</span>
-
+                      <span
+                        className="fw-semibold"
+                        style={{ color: "#d6791f" }}
+                      >
+                        ₹
+                        {item.variant?.[0]?.sizes?.[0]?.sellingPrice
+                          ? `${item.variant[0].sizes[0].sellingPrice.toLocaleString(
+                              "en-IN"
+                            )}` +
+                            (item.price
+                              ? ` | ₹${item.price.toLocaleString("en-IN")}`
+                              : "")
+                          : `${item.price?.toLocaleString("en-IN") || "0"}`}
+                      </span>
 
                       <button
                         className="btn btn-link btn-sm text-danger p-0"
-                        onClick={() => onRemove(item._id)
-                        }
+                        onClick={() => onRemove(item._id)}
                       >
                         Remove
                       </button>
@@ -141,12 +150,12 @@ const CartDrawer = ({
       </div> */}
         {(!activeTab || cartItems.length === 0) && (
           <RecommendedSlider
-          recommendedItems={recommendedItems}
-          onAddToCart={(item) => {
-            console.log("Adding from slider:", item); // Optional Debug
-            onAddToCart(item); // ✅ Pass full item object
-          }}
-        />
+            recommendedItems={recommendedItems}
+            onAddToCart={(item) => {
+              console.log("Adding from slider:", item); // Optional Debug
+              onAddToCart(item); // ✅ Pass full item object
+            }}
+          />
         )}
 
         {cartItems.length > 0 && (
@@ -280,7 +289,13 @@ const CartDrawer = ({
               >
                 View Cart
               </button>
-              <button className="btn btn-dark w-100 h-100 m-0 py-2" onClick={()=>{onClose(); navigate('/payment', { state: { cartItems } })}}>
+              <button
+                className="btn btn-dark w-100 h-100 m-0 py-2"
+                onClick={() => {
+                  onClose();
+                  navigate("/payment", { state: { cartItems } });
+                }}
+              >
                 Checkout
               </button>
             </div>

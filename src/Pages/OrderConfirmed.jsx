@@ -107,7 +107,7 @@ const OrderConfirmed = () => {
         <button className="btn btn-dark px-4 py-3 m-0" onClick={() => navigate('/')}>
           Return to Home
         </button>
-        <button className="btn btn-outline-dark px-4 py-3 rounded-none" onClick={() => navigate('/payment')}>
+        <button className="btn btn-outline-dark px-4 py-3 rounded-0" style={{width:"150px"}} onClick={() => navigate('/payment')}>
           Try Again
         </button>
       </div>

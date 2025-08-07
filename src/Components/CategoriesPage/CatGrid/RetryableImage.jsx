@@ -2,11 +2,10 @@ import React, {useState } from "react";
 
 export function RetryableImage({ src, alt, className }) {
   const [currentSrc, setCurrentSrc] = useState(src?.trim() || "/fallback.png");
-  const [hasRetried, setHasRetried] = useState(false);
+  // const [hasRetried, setHasRetried] = useState(false);
 
   const handleError = () => {
-    if (!hasRetried && src) {
-      setHasRetried(true);
+    if (src) {
       setCurrentSrc(src.trim()); 
     } else {
       setCurrentSrc("/fallback.png");
@@ -18,6 +17,7 @@ export function RetryableImage({ src, alt, className }) {
       src={currentSrc}
       alt={alt}
       className={className}
+      loading="lazy"
       onError={handleError}
     />
   );
