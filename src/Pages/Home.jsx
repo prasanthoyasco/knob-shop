@@ -58,7 +58,7 @@ import cat2 from '../Assets/New folder/New folder/02.png'
 import cat3 from '../Assets/New folder/New folder/3.png'
 import cat7 from '../Assets/New folder/New folder/7.png'
 import cat8 from '../Assets/CategoriesImge/Knob Shop/doorClosser.png'
-import cat10 from '../Assets/CategoriesImge/Knob Shop/hexa.jpg'
+import cat10 from '../Assets/CategoriesImge/Knob Shop/Hexa bolt.png'
 import cat9 from '../Assets/CategoriesImge/Knob Shop/black rim.png'
 export const Home = () => {
   const [categories, setCategories] = useState([]);
