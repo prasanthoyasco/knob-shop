@@ -57,7 +57,7 @@ const CartItemsList = ({ cartItems, handleIncrement, handleDecrement, handleDele
           </div>
 
           <div className="shopping-cart-table-product-total">
-            <h3>₹ {(item.variant?.[0]?.sizes[0].sellingPrice * item.quantity).toLocaleString("en-IN")}</h3>
+          <h3>₹ {(item.price * item.quantity).toLocaleString("en-IN")}</h3>
           </div>
         </div>
       ))}

@@ -414,6 +414,7 @@ export default function ProductDetailsHead() {
                   style={{ padding: "0 3rem" }}
                   // disabled={!selectedSize}
                   onClick={() => {
+                    console.log("PRODUCT ADDED TO CART:", cartItem);
                     addToCart(cartItem);
                     toggleDrawer(true);
                   }}
