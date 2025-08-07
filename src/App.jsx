@@ -75,6 +75,7 @@ function App() {
        <Route path='/payment' element={<PaymentPage/>}></Route>
        <Route path='/Tracking' element={<OrderTracking/>}></Route>
        <Route path='/order-confirmed' element={<OrderConfirmed/>}></Route>
+       <Route path="/payment-failed" element={<OrderConfirmed />} />
        <Route path="/brouchers" element={<Broucher/>} />
        <Route path="/auth/register" element={<AuthAccount/>} />
        <Route path="/auth/password" element={<AuthPassword/>} />

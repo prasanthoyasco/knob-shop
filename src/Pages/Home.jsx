@@ -65,21 +65,21 @@ export const Home = () => {
   const categoryImageMap = {
     "Door Closer":cat8,
     "Rim Lock":cat9,
-    "Locks": cat1,
+    "locks": cat1,
     "Telescopic": cat2,
-    "Auto Hinges": cat3,
+    "Auto HInges": cat3,
     "Aldrop": cat7,
-    "Hexa bolt":cat10,
+    "Hexa Bolt":cat10,
   };
   
   const TARGET_CATEGORY_NAMES = [
     "Door Closer",
     "Rim Lock",
-    "Locks",
+    "locks",
     "Telescopic",
-    "Auto Hinges",
+    "Auto HInges",
     "Aldrop",
-    "Hexa bolt"
+    "Hexa Bolt"
   ];
   useEffect(() => {
     const getSelectedCategories = async () => {

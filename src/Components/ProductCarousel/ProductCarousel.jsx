@@ -7,6 +7,8 @@ import './ProductCarosal.css'
 import "swiper/css/navigation";
 import { useNavigate } from "react-router-dom";
 const ProductCarouselSwiper = ({ products = [] }) => {
+  console.log(products);
+  
   const prevRef = useRef(null);
   const nextRef = useRef(null);
   const navigate = useNavigate()
