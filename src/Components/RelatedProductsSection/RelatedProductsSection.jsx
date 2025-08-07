@@ -10,6 +10,7 @@ const RelatedProductsSection = () => {
     const fetchAllProduct = async () => {
       try {
         const res = await getAllProducts();
+        setAllProduct(res)
       } catch (err) {
         console.error("Failed to fetch product", err);
       }
@@ -56,7 +57,6 @@ const RelatedProductsSection = () => {
           }}
         >
           {allProduct?.map((product, i) => {
-            
             const hasKeyFeatures = Array.isArray(product?.key_features) && product.key_features.length > 0;
             const formattedProduct = {
               id: product?._id,

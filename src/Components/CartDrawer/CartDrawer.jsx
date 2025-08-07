@@ -5,7 +5,7 @@ import "./CartDrawer.css";
 import { NotebookPen, TruckIcon, X } from "lucide-react";
 import { CountrySelect } from "./CountrySelect";
 import { useNavigate } from "react-router-dom";
-
+import { fetchProductsByCategory } from "../../API/productApi";
 const CartDrawer = ({
   show,
   onClose,
@@ -26,19 +26,31 @@ const CartDrawer = ({
       sum + item.variant?.[0]?.sizes[0].sellingPrice || item.price * item.quantity,
     0
   );
-  useEffect(() => {
-    // Fetch recommended items on mount or when drawer opens
-    const fetchRecommended = async () => {
-      try {
-        const data = await getAllProducts(); // Or fetchProductsByCategory()
-        setRecommendedItems(data || []);
-      } catch (error) {
-        console.error("Failed to fetch recommended items", error);
-      }
-    };
 
-    if (show) fetchRecommended(); // fetch only if cart drawer is open
-  }, [show]);
+useEffect(() => {
+  const fetchRecommended = async () => {
+    try {
+      if (cartItems.length > 0 && cartItems[0].category?._id) {
+        const categoryId = cartItems[0].category._id;
+        const response = await fetchProductsByCategory(categoryId);
+  
+        const products = Array.isArray(response.data) ? response.data : [];
+        const cartItemIds = cartItems.map(item => item._id);
+  
+        const filtered = products.filter(p => !cartItemIds.includes(p._id));
+        setRecommendedItems(filtered);
+      } else {
+        setRecommendedItems([]);
+      }
+    } catch (error) {
+      console.error("Failed to fetch recommended items", error);
+    }
+  };
+  
+
+  if (show) fetchRecommended();
+}, [show, cartItems]);
+
 
   return (
     <>
@@ -110,13 +122,12 @@ const CartDrawer = ({
                       >
                         ₹
                         {item.variant?.[0]?.sizes?.[0]?.sellingPrice
-                          ? `${item.variant[0].sizes[0].sellingPrice.toLocaleString(
-                              "en-IN"
-                            )}` +
-                            (item.price
-                              ? ` | ₹${item.price.toLocaleString("en-IN")}`
-                              : "")
-                          : `${item.price?.toLocaleString("en-IN") || "0"}`}
+    ? item.variant[0].sizes[0].sellingPrice.toLocaleString("en-IN") +
+      (item.price &&
+      item.price !== item.variant[0].sizes[0].sellingPrice
+        ? ` | ₹${item.price.toLocaleString("en-IN")}`
+        : "")
+    : `${item.price?.toLocaleString("en-IN") || "0"}`}
                       </span>
 
                       <button
