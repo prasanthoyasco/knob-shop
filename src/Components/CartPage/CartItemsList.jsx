@@ -35,7 +35,12 @@ const CartItemsList = ({ cartItems, handleIncrement, handleDecrement, handleDele
               <div className="shopping-cart-table-product-image-content">
                {item.brand && <p>Brand : {item.brand}</p>}
                 <h3>{item.title || item.name}</h3>
-                <p>Color : {item.variant?.[0]?.title || item.colorsText}</p>
+                {(item.variant?.[0]?.title !== "0" && item.variant?.[0]?.title !== 0 && item.variant?.[0]?.title) ? (
+  <p>Color : {item.variant[0].title}</p>
+) : item.colorsText !== "0" && item.colorsText !== 0 && item.colorsText ? (
+  <p>Color : {item.colorsText}</p>
+) : null}
+
               </div>
             </div>
             <button className="continue-shopping-btn" onClick={()=>{Navigate('/')}}>CONTINUE SHOPPING</button>
