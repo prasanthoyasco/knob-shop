@@ -8,7 +8,7 @@ import "swiper/css/pagination";
 
 import singleCarosal1 from "../../Assets/blogcoverphoto.jpg";
 import singleCarosal2 from "../../Assets/Untitled/w2.jpg";
-import singleCarosal3 from "../../Assets/Untitled/w3.jpg";
+import singleCarosal3 from "../../Assets/CategoriesImge/Knob Shop/Sec-5-2.png";
 import "./SingleCarosal.css";
 import { useNavigate } from "react-router-dom";
 
