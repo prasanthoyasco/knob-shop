@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import "./PaymentPage.css";
 import Footer from "../Footer/Footer";
 import NavbarTop from "../Navbar/NavbarTop/NavbarTop";
@@ -23,6 +23,7 @@ function PaymentPage() {
   console.log(Userid);
   const [deliveryOption, setDeliveryOption] = useState("ship");
   const [pickupAddress, setPickupAddress] = useState("");
+  console.log("Pickup Address:", pickupAddress);
   const [showStoreInfo, setShowStoreInfo] = useState(false);
   const [contactInfo, setContactInfo] = useState("");
   const [contactCompleted, setContactCompleted] = useState(false);
@@ -39,12 +40,15 @@ function PaymentPage() {
   const [deliveryCompleted, setDeliveryCompleted] = useState(false);
   const location = useLocation();
   const cartItems = location.state?.cartItems || [];
+  console.log("Cart Items:", cartItems);
   const subtotal = cartItems.reduce(
     (sum, item) =>
-      sum + item.price ||
-      item.variant[0]?.sizes[0].sellingPrice * item.quantity,
+      sum +
+      (item.price || item.variant?.[0]?.sizes?.[0]?.sellingPrice || 0) *
+        item.quantity,
     0
   );
+
   useEffect(() => {
     const allFilled =
       firstName.trim() &&
@@ -55,10 +59,14 @@ function PaymentPage() {
     setDeliveryCompleted(!!allFilled);
   }, [firstName, lastName, deliveryAddress, city, zipCode]);
   const navigate = useNavigate();
+
   const handlePayment = async () => {
     try {
       const totalValue = cartItems.reduce(
-        (sum, item) => sum + item.price * item.quantity,
+        (sum, item) =>
+          sum +
+          (item.price || item.variant?.[0]?.sizes?.[0]?.sellingPrice || 0) *
+            item.quantity,
         0
       );
 
@@ -76,7 +84,7 @@ function PaymentPage() {
       };
 
       const items = cartItems.map((item) => ({
-        productId: item._id || item.productId,
+        productId: item._id || item?.productId || item.id,
         productName: item.title || item.productName,
         quantity: item.quantity,
         price: item.price,
@@ -120,13 +128,13 @@ function PaymentPage() {
           deliveryOption === "ship" ? shippingAddress : pickupAddress,
         dtdcReferenceNumber:
           deliveryOption === "ship" ? referenceNumber : "PICKUP",
-        paymentMethod:"online",
+        paymentMethod: "online",
         paymentStatus: "pending",
         status: "pending",
         deliveryMode: deliveryOption,
       };
 
-      const orderResponse = await createOrderWithShipping(orderData);
+      const { order } = await createOrderWithShipping(orderData);
 
       const invoicePayload = {
         shippingAddress:
@@ -136,26 +144,29 @@ function PaymentPage() {
         dtdcReferenceNumber:
           deliveryOption === "ship" ? referenceNumber : "PICKUP",
         userId,
-        paymentMethod: selectedPayment || "online",
+        paymentMethod: "online",
         invoiceDate: new Date().toLocaleDateString(),
-        orderId: orderResponse.orderId,
+        orderId: order.orderId,
       };
 
       localStorage.setItem("latestInvoiceData", JSON.stringify(invoicePayload));
 
       // Step 3: Initiate CCAvenue Payment
       const ccavenuePayload = {
-        orderId: orderResponse.orderId,
+        orderId: order?.orderId, // Must not be undefined
         amount: totalValue,
         currency: "INR",
-        redirect_url: "https://knobsshop.store/order-confirmed",
-        cancel_url: "https://knobsshop.store/payment-failed",
-        billing_name: `${firstName} ${lastName}`,
+        billing_name:
+          firstName?.trim() || lastName?.trim()
+            ? `${firstName?.trim() || ""} ${lastName?.trim() || ""}`.trim()
+            : JSON.parse(storedUser || "{}")?.name || "Guest",
+
         billing_address:
           deliveryOption === "ship" ? deliveryAddress : "In-store Pickup",
-        billing_city: deliveryOption === "ship" ? city : "Pickup",
-        billing_state: state,
-        billing_zip: deliveryOption === "ship" ? zipCode : "000000",
+        billing_city: deliveryOption === "ship" ? city : "Coimbatore",
+        billing_state: deliveryOption === "ship" ? state : "Tamil Nadu",
+        billing_zip: deliveryOption === "ship" ? zipCode : "641002",
+        billing_country: "India",
         billing_tel: contactInfo,
         billing_email: contactInfo.includes("@")
           ? contactInfo
@@ -175,8 +186,8 @@ function PaymentPage() {
   const isValidToPay = () => {
     if (!contactInfo) return false;
     if (deliveryOption === "ship") {
-      return (
-        firstName && lastName && deliveryAddress && city && zipCode && state
+      return [firstName, lastName, deliveryAddress, city, zipCode, state].every(
+        (field) => field.trim()
       );
     } else {
       return !!pickupAddress;
@@ -543,7 +554,7 @@ function PaymentPage() {
                     item.images?.[0] ||
                     item.variant?.[0]?.images?.[0]?.url ||
                     item.image ||
-                    "fallback.png"
+                    "/fallback.png"
                   }
                   alt={item.title}
                   loading="lazy"
@@ -606,21 +617,31 @@ function PaymentPage() {
           </div>
         </div>
         {paymentStarted && (
-          <CCAvenueIframe
-            encRequest={encRequest}
-            accessCode={accessCode}
-            onPaymentSuccess={() => {
-              navigate("/order-confirmed", {
-                state: {
-                  orderId: location.state?.orderId,
-                  reference: location.state?.reference,
-                },
-              });
-            }}
-            onPaymentFailure={() => {
-              navigate("/payment-failed");
-            }}
-          />
+          <div className="ccavenue-modal-overlay">
+            <div className="ccavenue-modal-content">
+              <button
+                className="ccavenue-modal-close"
+                onClick={() => setPaymentStarted(false)}
+              >
+                ×
+              </button>
+              <CCAvenueIframe
+                encRequest={encRequest}
+                accessCode={accessCode}
+                onPaymentSuccess={() => {
+                  navigate("/order-confirmed", {
+                    state: {
+                      orderId: location.state?.orderId,
+                      reference: location.state?.reference,
+                    },
+                  });
+                }}
+                onPaymentFailure={() => {
+                  navigate("/payment-failed");
+                }}
+              />
+            </div>
+          </div>
         )}
       </div>
       <Footer />

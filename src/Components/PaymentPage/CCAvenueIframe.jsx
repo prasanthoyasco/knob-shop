@@ -8,6 +8,7 @@ export default function CCAvenueIframe({ encRequest, accessCode }) {
       formRef.current.submit();
     }
   }, [encRequest, accessCode]);
+console.log("CCAvenue Iframe loaded with encRequest:", encRequest, "and accessCode:", accessCode);
 
   return (
     <>
