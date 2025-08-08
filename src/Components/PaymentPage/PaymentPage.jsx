@@ -32,6 +32,7 @@ function PaymentPage() {
   const [deliveryAddress, setDeliveryAddress] = useState("");
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
+  const [shipingState, setShipingState] = useState("");
   const [paymentStarted, setPaymentStarted] = useState(false);
   const [encRequest, setEncRequest] = useState("");
   const [accessCode, setAccessCode] = useState("");
@@ -80,7 +81,7 @@ function PaymentPage() {
         city: city,
         district: city,
         pincode: zipCode,
-        state: state || "Tamil Nadu",
+        state: shipingState || "Tamil Nadu",
       };
 
       const items = cartItems.map((item) => ({
@@ -400,28 +401,36 @@ function PaymentPage() {
                     type="text"
                     placeholder="First Name"
                     className="first-name-input"
+                    value={firstName}
+                    onChange={(e) => setFirstName(e.target.value)}
                   />
                   <input
                     type="text"
                     placeholder="Last Name"
                     className="first-name-input"
+                    value={lastName}
+                    onChange={(e) => setLastName(e.target.value)}
                   />
                 </div>
                 <input
                   type="text"
                   className="contact-con-input"
                   placeholder="Address"
+                  value={deliveryAddress}
+                  onChange={(e) => setDeliveryAddress(e.target.value)}
                 />
                 <div className="first-last-name-input-div">
                   <input
                     type="text"
                     placeholder="City"
                     className="first-name-input"
+                    value={city}
+                    onChange={(e) => setCity(e.target.value)}
                   />
                   <select
                     className="first-name-input"
-                    value={state}
-                    onChange={(e) => setState(e.target.value)}
+                    value={shipingState}
+                    onChange={(e) => setShipingState(e.target.value)}
                   >
                     <option value="">Select State</option>
                     <option value="Tamil Nadu">Tamil Nadu</option>
@@ -433,6 +442,9 @@ function PaymentPage() {
                     type="text"
                     placeholder="Zip Code"
                     className="first-name-input"
+                    value={zipCode}
+                    onChange={(e) => setZipCode(e.target.value)}
+                    onBlur={() => setDeliveryCompleted(true)}
                   />
                 </div>
               </div>
@@ -566,17 +578,17 @@ function PaymentPage() {
                     </p>
                   )}
                   <h3>
-                    {(() => {
-                      const words = item.title.split(" ").slice(0, 5);
-                      const line = words.join(" ");
-                      return `${line}${
-                        item.title.split(" ").length > 5 ? "..." : ""
-                      }`;
-                    })()}
+                  {(() => {
+  const safeTitle = item?.title || ""; // Fallback to empty string
+  const words = safeTitle.split(" ").slice(0, 5);
+  const line = words.join(" ");
+  return `${line}${safeTitle.split(" ").length > 5 ? "..." : ""}`;
+})()}
+
                   </h3>
                   {item.color && (
                     <p>
-                      Color: <strong>{item.color}</strong>
+                      Color: <strong>{item.colorsText || item.color}</strong>
                     </p>
                   )}
                   <p>Quantity: {item.quantity}</p>
