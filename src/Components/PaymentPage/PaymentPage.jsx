@@ -576,7 +576,7 @@ function PaymentPage() {
                   </h3>
                   {item.color && (
                     <p>
-                      Color: <strong>{item.color}</strong>
+                      Color: <strong>{item.colorsText || item.color}</strong>
                     </p>
                   )}
                   <p>Quantity: {item.quantity}</p>
