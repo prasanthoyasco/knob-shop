@@ -566,13 +566,13 @@ function PaymentPage() {
                     </p>
                   )}
                   <h3>
-                    {(() => {
-                      const words = item.title.split(" ").slice(0, 5);
-                      const line = words.join(" ");
-                      return `${line}${
-                        item.title.split(" ").length > 5 ? "..." : ""
-                      }`;
-                    })()}
+                  {(() => {
+  const safeTitle = item?.title || ""; // Fallback to empty string
+  const words = safeTitle.split(" ").slice(0, 5);
+  const line = words.join(" ");
+  return `${line}${safeTitle.split(" ").length > 5 ? "..." : ""}`;
+})()}
+
                   </h3>
                   {item.color && (
                     <p>
