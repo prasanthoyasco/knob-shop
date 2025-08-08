@@ -103,7 +103,7 @@ function Invoice() {
 
   let subtotal = 0;
   let totalGST = 0;
-  const hsnSummary = {};
+  const gstSummary = {};
 
   items.forEach(item => {
     const price = item.rate * item.hours;
@@ -114,12 +114,12 @@ function Invoice() {
     totalGST += gstAmt;
 
     // HSN Summary
-    if (!hsnSummary[item.hsc]) {
-      hsnSummary[item.hsc] = { taxable: 0, cgst: 0, sgst: 0 };
+    if (!gstSummary[item.gst]) {
+      gstSummary[item.gst] = { taxable: 0, cgst: 0, sgst: 0 };
     }
-    hsnSummary[item.hsc].taxable += taxable;
-    hsnSummary[item.hsc].cgst += gstAmt / 2;
-    hsnSummary[item.hsc].sgst += gstAmt / 2;
+    gstSummary[item.gst].taxable += taxable;
+    gstSummary[item.gst].cgst += gstAmt / 2;
+    gstSummary[item.gst].sgst += gstAmt / 2;
   });
 
   const grandTotal = subtotal + totalGST;
@@ -220,7 +220,6 @@ function Invoice() {
                 <tr>
                   <th>SI NO.</th>
                   <th>PRODUCT</th>
-                  <th>HSN/SAC</th>
                   <th>RATE</th>
                   <th>QTY</th>
                   <th>DISC%</th>
@@ -240,7 +239,6 @@ function Invoice() {
       <tr key={i}>
         <td>{item.id}</td>
         <td>{item.title}<br /><small>{item.description}</small></td>
-        <td>{item.hsc}</td>
         <td>₹{item.rate}</td>
         <td>{item.hours} {item.unit}</td>
         <td>{item.disc}%</td>
@@ -290,43 +288,38 @@ function Invoice() {
             </div>
           </div>
           <div className="invoice-summary mt-4">
-  <h5>HSN/SAC Summary</h5>
+  <h5>GST Summary</h5>
   <table className="table table-bordered">
     <thead className="table-secondary">
       <tr>
-        <th>HSN/SAC</th>
+        <th>GST %</th>
         <th>Taxable Value</th>
-        <th>CGST %</th>
         <th>CGST Amount</th>
-        <th>SGST %</th>
         <th>SGST Amount</th>
         <th>Total Tax</th>
       </tr>
     </thead>
     <tbody>
-      {Object.entries(hsnSummary).map(([hsn, data], i) => {
-        const cgstRate = 18;
-        const sgstRate = 18;
+      {Object.entries(gstSummary).map(([gstRate, data], i) => {
         const totalTax = data.cgst + data.sgst;
         return (
           <tr key={i}>
-            <td>{hsn}</td>
+            <td>{gstRate}%</td>
             <td>₹{data.taxable.toFixed(2)}</td>
-            <td>{cgstRate}%</td>
             <td>₹{data.cgst.toFixed(2)}</td>
-            <td>{sgstRate}%</td>
             <td>₹{data.sgst.toFixed(2)}</td>
             <td>₹{totalTax.toFixed(2)}</td>
           </tr>
         );
       })}
       <tr>
-        <td colSpan="6" className="text-end"><strong>Total</strong></td>
+        <td colSpan="4" className="text-end"><strong>Total</strong></td>
         <td><strong>₹{totalGST.toFixed(2)}</strong></td>
       </tr>
     </tbody>
   </table>
 </div>
+
 
 
 <div className="mt-4">

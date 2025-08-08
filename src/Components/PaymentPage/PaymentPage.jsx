@@ -37,6 +37,50 @@ function PaymentPage() {
   const [encRequest, setEncRequest] = useState("");
   const [accessCode, setAccessCode] = useState("");
 
+  const [billingFirstName, setBillingFirstName] = useState("");
+  const [billingLastName, setBillingLastName] = useState("");
+  const [billingAddress, setBillingAddress] = useState("");
+  const [billingCity, setBillingCity] = useState("");
+  const [billingState, setBillingState] = useState("");
+  const [billingZip, setBillingZip] = useState("");
+
+  const [shippingFirstName, setShippingFirstName] = useState("");
+  const [shippingLastName, setShippingLastName] = useState("");
+  const [shippingAddress, setShippingAddress] = useState("");
+  const [shippingCity, setShippingCity] = useState("");
+  const [shippingState, setShippingState] = useState("");
+  const [shippingZip, setShippingZip] = useState("");
+
+  const [sameAsBilling, setSameAsBilling] = useState(false);
+
+  useEffect(() => {
+    if (sameAsBilling) {
+      setShippingFirstName(billingFirstName);
+      setShippingLastName(billingLastName);
+      setShippingAddress(billingAddress);
+      setShippingCity(billingCity);
+      setShippingState(billingState);
+      setShippingZip(billingZip);
+    } else {
+      // Clear shipping fields if unchecked
+      setShippingFirstName("");
+      setShippingLastName("");
+      setShippingAddress("");
+      setShippingCity("");
+      setShippingState("");
+      setShippingZip("");
+    }
+  }, [
+    sameAsBilling,
+    billingFirstName,
+    billingLastName,
+    billingAddress,
+    billingCity,
+    billingState,
+    billingZip,
+  ]);
+  
+
   const [zipCode, setZipCode] = useState("");
   const [deliveryCompleted, setDeliveryCompleted] = useState(false);
   const location = useLocation();
@@ -185,14 +229,21 @@ function PaymentPage() {
   };
 
   const isValidToPay = () => {
-    if (!contactInfo) return false;
-    if (deliveryOption === "ship") {
-      return [firstName, lastName, deliveryAddress, city, zipCode, state].every(
-        (field) => field.trim()
-      );
-    } else {
-      return !!pickupAddress;
-    }
+    return (
+      contactInfo &&
+      billingFirstName &&
+      billingLastName &&
+      billingAddress &&
+      billingCity &&
+      billingState &&
+      billingZip &&
+      shippingFirstName &&
+      shippingLastName &&
+      shippingAddress &&
+      shippingCity &&
+      shippingState &&
+      shippingZip
+    );
   };
 
   return (
@@ -286,36 +337,36 @@ function PaymentPage() {
                   type="text"
                   placeholder="First Name"
                   className="first-name-input"
-                  value={firstName}
-                  onChange={(e) => setFirstName(e.target.value)}
+                  value={billingFirstName}
+                  onChange={(e) => setBillingFirstName(e.target.value)}
                 />
                 <input
                   type="text"
                   placeholder="Last Name"
                   className="first-name-input"
-                  value={lastName}
-                  onChange={(e) => setLastName(e.target.value)}
+                  value={billingLastName}
+                  onChange={(e) => setBillingLastName(e.target.value)}
                 />
               </div>
               <input
                 type="text"
                 className="contact-con-input"
                 placeholder="Address"
-                value={deliveryAddress}
-                onChange={(e) => setDeliveryAddress(e.target.value)}
+                value={billingAddress}
+                onChange={(e) => setBillingAddress(e.target.value)}
               />
               <div className="first-last-name-input-div">
                 <input
                   type="text"
                   placeholder="City"
                   className="first-name-input"
-                  value={city}
-                  onChange={(e) => setCity(e.target.value)}
+                  value={billingCity}
+                  onChange={(e) => setBillingCity(e.target.value)}
                 />
                 <select
                   className="first-name-input"
-                  value={state}
-                  onChange={(e) => setState(e.target.value)}
+                  value={billingState}
+                  onChange={(e) => setBillingState(e.target.value)}
                 >
                   <option value="">Select State</option>
                   <option value="Tamil Nadu">Tamil Nadu</option>
@@ -327,8 +378,8 @@ function PaymentPage() {
                   type="text"
                   placeholder="Zip Code"
                   className="first-name-input"
-                  value={zipCode}
-                  onChange={(e) => setZipCode(e.target.value)}
+                  value={billingZip}
+                  onChange={(e) => setBillingZip(e.target.value)}
                   onBlur={() => setDeliveryCompleted(true)}
                 />
               </div>
@@ -387,7 +438,8 @@ function PaymentPage() {
                 Enter your shipping address to view available shipping methods
               </div>
               <div className="contact-con-checkbox-text">
-                <input type="checkbox" />
+                <input type="checkbox"checked={sameAsBilling}
+              onChange={(e) => setSameAsBilling(e.target.checked)} />
                 <p>Use Shipping address as billing address</p>
               </div>
               <div className="shop-conatiner">
@@ -401,36 +453,41 @@ function PaymentPage() {
                     type="text"
                     placeholder="First Name"
                     className="first-name-input"
-                    value={firstName}
-                    onChange={(e) => setFirstName(e.target.value)}
+                    value={shippingFirstName}
+                    onChange={(e) => setShippingFirstName(e.target.value)}
+                    disabled={sameAsBilling}
                   />
                   <input
                     type="text"
                     placeholder="Last Name"
                     className="first-name-input"
-                    value={lastName}
-                    onChange={(e) => setLastName(e.target.value)}
+                    value={shippingLastName}
+                    onChange={(e) => setShippingLastName(e.target.value)}
+                    disabled={sameAsBilling}
                   />
                 </div>
                 <input
                   type="text"
                   className="contact-con-input"
                   placeholder="Address"
-                  value={deliveryAddress}
-                  onChange={(e) => setDeliveryAddress(e.target.value)}
+                  value={shippingAddress}
+                  onChange={(e) => setShippingAddress(e.target.value)}
+                  disabled={sameAsBilling}
                 />
                 <div className="first-last-name-input-div">
                   <input
                     type="text"
                     placeholder="City"
                     className="first-name-input"
-                    value={city}
-                    onChange={(e) => setCity(e.target.value)}
+                    value={shippingCity}
+                    onChange={(e) => setShippingCity(e.target.value)}
+                    disabled={sameAsBilling}
                   />
                   <select
                     className="first-name-input"
-                    value={shipingState}
-                    onChange={(e) => setShipingState(e.target.value)}
+                    value={shippingState}
+                    onChange={(e) => setShippingState(e.target.value)}
+                    disabled={sameAsBilling}
                   >
                     <option value="">Select State</option>
                     <option value="Tamil Nadu">Tamil Nadu</option>
@@ -442,8 +499,9 @@ function PaymentPage() {
                     type="text"
                     placeholder="Zip Code"
                     className="first-name-input"
-                    value={zipCode}
-                    onChange={(e) => setZipCode(e.target.value)}
+                    value={shippingZip}
+                    onChange={(e) => setShippingZip(e.target.value)}
+                    disabled={sameAsBilling}
                     onBlur={() => setDeliveryCompleted(true)}
                   />
                 </div>
