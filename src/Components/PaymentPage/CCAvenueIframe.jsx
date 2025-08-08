@@ -1,34 +1,30 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 
-export default function CCAvenueIframe({ encRequest, accessCode }) {
-  const formRef = useRef();
+const CCAvenueIframe = ({ encRequest, accessCode, merchantId}) => {
+  const iframeUrl = `https://secure.ccavenue.com/transaction/transaction.do?command=initiateTransaction&merchant_id=${merchantId}&encRequest=${encRequest}&access_code=${accessCode}`;
 
   useEffect(() => {
-    if (formRef.current) {
-      formRef.current.submit();
-    }
-  }, [encRequest, accessCode]);
-console.log("CCAvenue Iframe loaded with encRequest:", encRequest, "and accessCode:", accessCode);
+    const handler = (e) => {
+      console.log("Message from CCAvenue:", e.data);
+    };
+    window.addEventListener("message", handler);
+    return () => window.removeEventListener("message", handler);
+  }, []);
 
   return (
     <>
-      <form
-        ref={formRef}
-        method="POST"
-        action={`https://test.ccavenue.com/transaction/transaction.do?command=initiateTransaction`}
-        target="paymentFrame"
-        style={{ display: "none" }}
-      >
-        <input type="hidden" name="encRequest" value={encRequest} />
-        <input type="hidden" name="access_code" value={accessCode} />
-      </form>
       <iframe
-        name="paymentFrame"
+        id="paymentFrame"
+        src={iframeUrl}
         width="100%"
-        height="600px"
+        height="100%"
         frameBorder="0"
+        scrolling="No"
+        style={{ border: "none" }}
         title="CCAvenue Payment"
       />
     </>
   );
-}
+};
+
+export default CCAvenueIframe;
