@@ -1,37 +1,59 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import "./MyOrders.css"; // optional CSS for styling
+import "./MyOrders.css";
 
 function MyOrders({ userId }) {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+
+  const LIMIT = 2; // Number of orders per page
 
   useEffect(() => {
     if (!userId) return;
 
     const fetchOrders = async () => {
+      setLoading(true);
       try {
         const res = await axios.get(
-          `${import.meta.env.VITE_API_BASE_URI}/orders/user/${userId}`
+          `${import.meta.env.VITE_API_BASE_URI}/order/user/${userId}`,
+          {
+            params: {
+              page: currentPage,
+              limit: LIMIT,
+            },
+          }
         );
+
         setOrders(res.data.orders || []);
+        setTotalPages(Math.ceil((res.data.totalCount || 0) / LIMIT));
       } catch (err) {
         console.error("Error fetching orders:", err);
+        setOrders([]);
       } finally {
         setLoading(false);
       }
     };
 
     fetchOrders();
-  }, [userId]);
+  }, [userId, currentPage]);
+
+  const handlePrev = () => {
+    setCurrentPage((prev) => Math.max(prev - 1, 1));
+  };
+
+  const handleNext = () => {
+    setCurrentPage((prev) => Math.min(prev + 1, totalPages));
+  };
 
   if (loading) return <p>Loading your orders...</p>;
-
   if (orders.length === 0) return <p>No orders found.</p>;
 
   return (
     <div className="my-orders">
       <h2 className="mb-3">My Orders</h2>
+
       {orders.map((order) => (
         <div key={order._id} className="order-card mb-4 p-3 border rounded bg-white">
           <div className="d-flex justify-content-between">
@@ -63,6 +85,24 @@ function MyOrders({ userId }) {
           </div>
         </div>
       ))}
+
+      <div className="pagination-controls d-flex justify-content-center align-items-center mt-4 gap-3">
+        <button
+          className="btn btn-outline-primary"
+          onClick={handlePrev}
+          disabled={currentPage === 1}
+        >
+          Previous
+        </button>
+        <span>Page {currentPage} of {totalPages}</span>
+        <button
+          className="btn btn-outline-primary"
+          onClick={handleNext}
+          disabled={currentPage === totalPages}
+        >
+          Next
+        </button>
+      </div>
     </div>
   );
 }

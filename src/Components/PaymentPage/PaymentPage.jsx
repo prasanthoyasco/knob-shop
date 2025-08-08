@@ -204,10 +204,10 @@ function PaymentPage() {
     }
   };
 
-  // if (paymentStarted && encRequest && accessCode && merchantId) {
-  //   const paymentUrl = `https://secure.ccavenue.com/transaction/transaction.do?command=initiateTransaction&merchant_id=${merchantId}&encRequest=${encRequest}&access_code=${accessCode}`;
-  //   window.location.href = paymentUrl;
-  // }
+  if (paymentStarted && encRequest && accessCode && merchantId) {
+    const paymentUrl = `https://secure.ccavenue.com/transaction/transaction.do?command=initiateTransaction&merchant_id=${merchantId}&encRequest=${encRequest}&access_code=${accessCode}`;
+    window.location.href = paymentUrl;
+  }
 
   const isValidToPay = () => {
     if (!contactInfo) return false;
