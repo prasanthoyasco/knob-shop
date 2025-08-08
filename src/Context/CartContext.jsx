@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState,useEffect } from 'react';
-import { addProductToCart as addToCartAPI, deleteCartItem } from '../API/cartApi';
+import { addProductToCart as addToCartAPI, deleteCartItem,getCartByUserId } from '../API/cartApi';
 const CartContext = createContext();
 
 export const useCart = () => useContext(CartContext);
@@ -7,13 +7,42 @@ export const useCart = () => useContext(CartContext);
 export const CartProvider = ({ children }) => {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [cartItems, setCartItems] = useState(() => {
-    const storedCart = localStorage.getItem("cart");
-    return storedCart ? JSON.parse(storedCart) : [];
+    try {
+      const storedCart = localStorage.getItem("cart");
+      if (!storedCart || storedCart === "undefined" || storedCart === "null") {
+        return [];
+      }
+      return JSON.parse(storedCart);
+    } catch (e) {
+      console.error("Invalid cart data in localStorage:", e);
+      return [];
+    }
   });
   
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(cartItems));
   }, [cartItems]);
+  
+  useEffect(() => {
+    const storedUser = localStorage.getItem('authUser');
+    const parsedUser = storedUser ? JSON.parse(storedUser) : null;
+    const userId = parsedUser?.id;
+
+    if (userId) {
+      (async () => {
+        try {
+          const response = await getCartByUserId(userId);
+          console.log("cart by id",response)
+          setCartItems(response);
+        } catch (error) {
+          console.error('Error fetching cart:', error);
+        }
+      })();
+    } else {
+      const storedCart = localStorage.getItem("cart");
+      setCartItems(storedCart ? JSON.parse(storedCart) : []);
+    }
+  }, []);
   
   const addToCart = async (item) => {
     const storedUser = localStorage.getItem('authUser');
@@ -70,30 +99,35 @@ export const CartProvider = ({ children }) => {
   
   
 
-  const removeFromCart = async (itemToRemove) => {
+  const removeFromCart = async (item) => {
     const storedUser = localStorage.getItem('authUser');
     const parsedUser = storedUser ? JSON.parse(storedUser) : null;
-    const userId = parsedUser?.id;
-  
-    if (userId) {
-      try {
-        await deleteCartItem(itemToRemove.id || itemToRemove._id);
-      } catch (error) {
-        console.warn('API remove failed:', error.message);
-      }
-    }
+    const userId = parsedUser?.id || parsedUser?._id;
   
     setCartItems((prev) =>
       prev.filter(
-        (item) =>
+        (i) =>
           !(
-            (item.id === itemToRemove.id || item._id === itemToRemove._id) &&
-            item.color === itemToRemove.color &&
-            item.size === itemToRemove.size
+            (i.id === item.id || i._id === item._id) &&
+            i.color === item.color &&
+            i.size === item.size
           )
       )
     );
+  
+    if (userId) {
+      try {
+        await deleteCartItem({
+          userId,
+          productId: item.id || item._id
+        });
+      } catch (error) {
+        console.error("Failed to remove cart item from backend:", error);
+      }
+    }
   };
+  
+  
   
   
   

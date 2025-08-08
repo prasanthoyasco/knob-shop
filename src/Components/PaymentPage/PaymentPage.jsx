@@ -17,6 +17,12 @@ const cardImages = [
   "/payment-icon/visa.svg",
 ];
 function PaymentPage() {
+//   const [couponUsed, setCouponUsed] = useState(false);
+// const [couponStatus, setCouponStatus] = useState("");
+//   const defaultCoupon = "WELCOME25"; 
+//   const [coupon, setCoupon] = useState(defaultCoupon);
+//   const [copied, setCopied] = useState(false);
+
   const storedUser = localStorage.getItem("authUser");
   console.log("Stored User:", JSON.parse(storedUser));
   const Userid = JSON.parse(storedUser)?.id || JSON.parse(storedUser)?._id;
@@ -36,7 +42,6 @@ function PaymentPage() {
   const [paymentStarted, setPaymentStarted] = useState(false);
   const [encRequest, setEncRequest] = useState("");
   const [accessCode, setAccessCode] = useState("");
-
   const [billingFirstName, setBillingFirstName] = useState("");
   const [billingLastName, setBillingLastName] = useState("");
   const [billingAddress, setBillingAddress] = useState("");
@@ -93,6 +98,35 @@ function PaymentPage() {
         item.quantity,
     0
   );
+//   const [discount, setDiscount] = useState(0);
+// const [finalTotal, setFinalTotal] = useState(subtotal);
+// const [couponApplied, setCouponApplied] = useState(false);
+
+  // const handleApply = () => {
+  //   if (coupon.trim() === "") {
+  //     alert("Please enter a coupon code");
+  //     return;
+  //   }
+  
+  //   if (coupon === defaultCoupon) {
+  //     const discountValue = subtotal * 0.25; // 25% discount
+  //     setDiscount(discountValue);
+  //     setFinalTotal(subtotal - discountValue);
+  //     setCouponApplied(true);
+  //   } else {
+  //     alert("Invalid coupon code");
+  //     setDiscount(0);
+  //     setFinalTotal(subtotal);
+  //     setCouponApplied(false);
+  //   }
+  // };
+
+  // Inside your component, before return(...)
+// const handleCopy = () => {
+//   navigator.clipboard.writeText(coupon);
+//   setCopied(true);
+//   setTimeout(() => setCopied(false), 1500);
+// };
 
   useEffect(() => {
     const allFilled =
@@ -598,6 +632,26 @@ function PaymentPage() {
               )}
             </div>
           </div> */}
+          {/* <div className="coupon-text">
+            <p>Your Coupon Is Avalible Click button To Apply</p>
+          </div>
+              <div className="coupon-box">
+      <input
+        type="text"
+        value={coupon}
+        readOnly
+        onClick={handleCopy}
+        className="coupon-input"
+      />
+<button
+  onClick={handleApply}
+  disabled={couponApplied}
+  className={`apply-btn ${couponApplied ? "applied" : ""}`}
+>
+  {couponApplied ? "Applied" : "Apply & Continue"}
+</button>
+
+    </div> */}
           <button
             className="btn pay-now-btn rounded-0"
             disabled={!isValidToPay()}
@@ -664,7 +718,6 @@ function PaymentPage() {
               </p>
             </div>
           ))}
-
           <div className="total-calc">
             {deliveryOption !== "pickup" && (
               <div className="sub-cal">
@@ -672,6 +725,12 @@ function PaymentPage() {
                 <p>₹ {subtotal.toLocaleString("en-IN")}</p>
               </div>
             )}
+              {/* {couponApplied && (
+    <div className="sub-cal">
+      <p style={{ color: "green" }}>Coupon Applied ({coupon})</p>
+      <p style={{ color: "green" }}>- ₹ {discount.toLocaleString("en-IN")}</p>
+    </div>
+  )} */}
             {!deliveryOption === "pickup" && showStoreInfo && (
               <div className="sub-cal">
                 <p>Shipping</p>

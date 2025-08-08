@@ -11,7 +11,9 @@ export const getCartByUserId = async (userId) => {
   return res.data;
 };
 
-export const deleteCartItem = async (itemId) => {
-  const res = await axios.delete(`${BASE_URL}/delete/${itemId}`);
+export const deleteCartItem = async ({ userId, productId }) => {
+  const res = await axios.delete(`${BASE_URL}/delete/${userId}/${productId}`);
   return res.data;
 };
+
+
