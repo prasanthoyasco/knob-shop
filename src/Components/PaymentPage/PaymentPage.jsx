@@ -36,6 +36,7 @@ function PaymentPage() {
   const [paymentStarted, setPaymentStarted] = useState(false);
   const [encRequest, setEncRequest] = useState("");
   const [accessCode, setAccessCode] = useState("");
+  const [merchantId, setMerchantId] = useState("");
 
   const [zipCode, setZipCode] = useState("");
   const [deliveryCompleted, setDeliveryCompleted] = useState(false);
@@ -49,6 +50,10 @@ function PaymentPage() {
         item.quantity,
     0
   );
+    useEffect(() => {
+    if(storedUser){
+      setContactInfo(JSON.parse(storedUser)?.email || JSON.parse(storedUser)?.phone || "");
+    }}, [storedUser]);
 
   useEffect(() => {
     const allFilled =
@@ -63,6 +68,11 @@ function PaymentPage() {
 
   const handlePayment = async () => {
     try {
+      if(!storedUser){
+        alert("please login before payment");
+        navigate('/register');
+        return;
+      }
       const totalValue = cartItems.reduce(
         (sum, item) =>
           sum +
@@ -175,14 +185,22 @@ function PaymentPage() {
       };
 
       const ccResponse = await initiateTransaction(ccavenuePayload);
+      console.log("CCAvenue Response:", ccResponse);
       setEncRequest(ccResponse.encRequest);
       setAccessCode(ccResponse.accessCode);
+      setMerchantId(ccResponse.merchantId);
       setPaymentStarted(true);
     } catch (err) {
       console.error("❌ Error in payment handling:", err);
       alert("Order failed. Please try again.");
     }
   };
+
+  if (paymentStarted && encRequest && accessCode && merchantId) {
+  const paymentUrl = `https://secure.ccavenue.com/transaction/transaction.do?command=initiateTransaction&merchant_id=${merchantId}&encRequest=${encRequest}&access_code=${accessCode}`;
+  window.location.href = paymentUrl;
+}
+
 
   const isValidToPay = () => {
     if (!contactInfo) return false;
@@ -578,13 +596,14 @@ function PaymentPage() {
                     </p>
                   )}
                   <h3>
-                  {(() => {
-  const safeTitle = item?.title || ""; // Fallback to empty string
-  const words = safeTitle.split(" ").slice(0, 5);
-  const line = words.join(" ");
-  return `${line}${safeTitle.split(" ").length > 5 ? "..." : ""}`;
-})()}
-
+                    {(() => {
+                      const safeTitle = item?.title || ""; // Fallback to empty string
+                      const words = safeTitle.split(" ").slice(0, 5);
+                      const line = words.join(" ");
+                      return `${line}${
+                        safeTitle.split(" ").length > 5 ? "..." : ""
+                      }`;
+                    })()}
                   </h3>
                   {item.color && (
                     <p>
@@ -628,7 +647,7 @@ function PaymentPage() {
             </div>
           </div>
         </div>
-        {paymentStarted && (
+        {/* {paymentStarted && (
           <div className="ccavenue-modal-overlay">
             <div className="ccavenue-modal-content">
               <button
@@ -640,6 +659,7 @@ function PaymentPage() {
               <CCAvenueIframe
                 encRequest={encRequest}
                 accessCode={accessCode}
+                merchantId={merchentId}
                 onPaymentSuccess={() => {
                   navigate("/order-confirmed", {
                     state: {
@@ -654,7 +674,7 @@ function PaymentPage() {
               />
             </div>
           </div>
-        )}
+        )} */}
       </div>
       <Footer />
     </>

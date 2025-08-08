@@ -7,6 +7,7 @@ import ProductPageAddress from './ProductPageAddress/ProductPageAddress';
 import Wishlist from './Wishlist/Wishlist';
 import { useLocation } from 'react-router-dom';
 import CartPageProfile from './CartPageProfile/CartPageProfile';
+import MyOrders from './MyOrders/MyOrders';
 
 function ProfilePage() {
    const location = useLocation();
@@ -30,7 +31,7 @@ function ProfilePage() {
         {activeSection === 'address' && <ProductPageAddress/>}
         {activeSection === 'cart' && <CartPageProfile/>}
         {activeSection === 'wishlist' && <Wishlist userId={userId} />}
-        {activeSection === 'orders' && <div><h1>My Orders</h1></div>}
+        {activeSection === 'orders' && <MyOrders userId={userId} />}
         {activeSection === 'help' && <div><h1>Help Section</h1></div>}
       </div>
     </div>

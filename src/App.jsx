@@ -38,6 +38,7 @@ import WishlistDrawer from './Components/WishlistDrawer/WishlistDrawer';
 import { useWishlist } from './Context/WishlistContext';
 import Invoice from './Components/Invoice/Invoice';
 import WhatsAppFloatButton from './Components/WhatsAppFloatButton/WhatsAppFloatButton';
+import CCAvenueIframe from './Components/PaymentPage/CCAvenueIframe';
 // import NavbarTop from './Components/Navbar/NavbarTop/NavbarTop';
 
 function App() {

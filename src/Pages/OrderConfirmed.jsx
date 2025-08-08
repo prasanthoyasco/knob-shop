@@ -1,16 +1,17 @@
-import { FaMapMarkerAlt } from 'react-icons/fa';
-import Lottie from 'lottie-react';
-import successAnimation from '../Assets/order-confirmed.json';
-import failAnimation from '../Assets/payment-failed.json'; // <-- Add this animation
-import { useLocation, useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import Lottie from "lottie-react";
+import successAnimation from "../Assets/order-confirmed.json";
+import Confetti from "react-confetti";
+import failAnimation from "../Assets/payment-failed.json"; // <-- Add this animation
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 const OrderConfirmed = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const [searchParams] = useSearchParams();
+  const orderId = searchParams.get("order_id");
 
-  // 👇 Detect success or failure based on pathname
-  const isSuccess = location.pathname === '/order-confirmed';
+  const isSuccess = location.pathname === "/order-confirmed";
 
   const [loading, setLoading] = useState(true);
   const [statusText, setStatusText] = useState(
@@ -72,22 +73,48 @@ const OrderConfirmed = () => {
   // ===========================
   if (isSuccess) {
     return (
-      <div className="container d-flex flex-column justify-content-center align-items-center min-vh-100 pt-1 pb-3 bg-white">
-        <div style={{ width: '280px', height: '280px' }} className="mb-1">
-          <Lottie animationData={successAnimation} loop={false} speed={0.5} />
-        </div>
-        <h2 className="fw-bold mb-2 text-center">Your order has been confirmed</h2>
-        <p className="text-secondary text-center mb-1">
-          Thanks for your order <a href="#" className="text-primary text-decoration-underline">RB19011</a>. Arriving by <strong>19 Jun 2025</strong>.
-        </p>
-        <p className="text-muted small mb-4 text-center">
-          Order within <strong>20h 34m</strong> for same-day processing.
-        </p>
+      <>
+        <Confetti
+          width={window.innerWidth}
+          height={window.innerHeight}
+          numberOfPieces={300}
+          recycle={false}
+        />
 
-        {/* Your address and buttons block here */}
-        {/* --- Address --- */}
-        {/* --- Buttons --- */}
-      </div>
+        <div className="container d-flex flex-column justify-content-center align-items-center min-vh-100 pt-1 pb-3 bg-white">
+          <div style={{ width: "280px", height: "280px" }} className="mb-1">
+            <Lottie animationData={successAnimation} loop={false} speed={0.5} />
+          </div>
+          <h2 className="fw-bold mb-2 text-center">
+            Your order has been confirmed
+          </h2>
+          <p className="text-secondary text-center mb-1">
+            Thanks for your order, Your order Id :{" "}
+            <a href="#" className="text-primary text-decoration-underline">
+              {orderId}
+            </a>
+            . We will process your order in <strong>24hr</strong>.
+          </p>
+          {/* <p className="text-muted small mb-4 text-center">
+          Order within <strong>20h 34m</strong> for same-day processing.
+        </p> */}
+          <button
+            className="btn btn-dark px-4 py-3 mt-4 m-0"
+            onClick={() => navigate("/")}
+          >
+            Return to Home
+          </button>
+          <div className="mt-4">
+            <p className="text-muted text-center">
+              Need help? Contact us at{" "}
+              <a href="mailto:ecom@knobsshop.store" className="text-primary">
+                {" "}
+                ecom@knobsshop.store{" "}
+              </a>
+            </p>
+          </div>
+        </div>
+      </>
     );
   }
 
@@ -96,7 +123,7 @@ const OrderConfirmed = () => {
   // ===========================
   return (
     <div className="container d-flex flex-column justify-content-center align-items-center min-vh-100 pt-1 pb-3 bg-white">
-      <div style={{ width: '600px', height: "280px" }} className="mb-1">
+      <div style={{ width: "600px", height: "280px" }} className="mb-1">
         <Lottie animationData={failAnimation} loop={false} />
       </div>
       {/* <h2 className="fw-bold mb-2 text-center text-danger">Payment Failed</h2> */}
@@ -104,10 +131,17 @@ const OrderConfirmed = () => {
         Unfortunately, your payment could not be processed. Please try again.
       </p>
       <div className="d-flex gap-3">
-        <button className="btn btn-dark px-4 py-3 m-0" onClick={() => navigate('/')}>
+        <button
+          className="btn btn-dark px-4 py-3 m-0"
+          onClick={() => navigate("/")}
+        >
           Return to Home
         </button>
-        <button className="btn btn-outline-dark px-4 py-3 rounded-0" style={{width:"150px"}} onClick={() => navigate('/payment')}>
+        <button
+          className="btn btn-outline-dark px-4 py-3 rounded-0"
+          style={{ width: "150px" }}
+          onClick={() => navigate("/payment")}
+        >
           Try Again
         </button>
       </div>
