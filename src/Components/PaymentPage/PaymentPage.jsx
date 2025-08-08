@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect } from "react";
 import "./PaymentPage.css";
 import Footer from "../Footer/Footer";
 import NavbarTop from "../Navbar/NavbarTop/NavbarTop";
@@ -46,14 +46,19 @@ function PaymentPage() {
   const subtotal = cartItems.reduce(
     (sum, item) =>
       sum +
-      (item.price || item.variant?.[0]?.sizes?.[0]?.sellingPrice || 0) *
+      (item.price ||
+        item?.productId.variant?.[0]?.sizes?.[0]?.sellingPrice ||
+        0) *
         item.quantity,
     0
   );
-    useEffect(() => {
-    if(storedUser){
-      setContactInfo(JSON.parse(storedUser)?.email || JSON.parse(storedUser)?.phone || "");
-    }}, [storedUser]);
+  useEffect(() => {
+    if (storedUser) {
+      setContactInfo(
+        JSON.parse(storedUser)?.email || JSON.parse(storedUser)?.phone || ""
+      );
+    }
+  }, [storedUser]);
 
   useEffect(() => {
     const allFilled =
@@ -68,15 +73,17 @@ function PaymentPage() {
 
   const handlePayment = async () => {
     try {
-      if(!storedUser){
+      if (!storedUser) {
         alert("please login before payment");
-        navigate('/register');
+        navigate("/register");
         return;
       }
       const totalValue = cartItems.reduce(
         (sum, item) =>
           sum +
-          (item.price || item.variant?.[0]?.sizes?.[0]?.sellingPrice || 0) *
+          (item.price ||
+            item?.productId.variant?.[0]?.sizes?.[0]?.sellingPrice ||
+            0) *
             item.quantity,
         0
       );
@@ -95,10 +102,11 @@ function PaymentPage() {
       };
 
       const items = cartItems.map((item) => ({
-        productId: item._id || item?.productId || item.id,
-        productName: item.title || item.productName,
+        productId:
+          item._id  || item.id || item?.productId || item?.productId._id,
+        productName: item.title || item.productName || item?.productId?.name,
         quantity: item.quantity,
-        price: item.price,
+        price: item.price || item?.productId?.variant[0].sizes[0].sellingPrice,
         total: item.price * item.quantity,
       }));
 
@@ -196,11 +204,10 @@ function PaymentPage() {
     }
   };
 
-  if (paymentStarted && encRequest && accessCode && merchantId) {
-  const paymentUrl = `https://secure.ccavenue.com/transaction/transaction.do?command=initiateTransaction&merchant_id=${merchantId}&encRequest=${encRequest}&access_code=${accessCode}`;
-  window.location.href = paymentUrl;
-}
-
+  // if (paymentStarted && encRequest && accessCode && merchantId) {
+  //   const paymentUrl = `https://secure.ccavenue.com/transaction/transaction.do?command=initiateTransaction&merchant_id=${merchantId}&encRequest=${encRequest}&access_code=${accessCode}`;
+  //   window.location.href = paymentUrl;
+  // }
 
   const isValidToPay = () => {
     if (!contactInfo) return false;
@@ -582,7 +589,8 @@ function PaymentPage() {
                 <img
                   src={
                     item.images?.[0] ||
-                    item.variant?.[0]?.images?.[0]?.url ||
+                    item?.variant?.[0]?.images?.[0]?.url ||
+                    item?.productId.variant?.[0]?.images?.[0]?.url ||
                     item.image ||
                     "/fallback.png"
                   }
@@ -590,14 +598,15 @@ function PaymentPage() {
                   loading="lazy"
                 />
                 <div className="payment-product-image-content">
-                  {item.brand && (
+                  {item?.productId?.brand || item?.brand  && (
                     <p>
-                      Brand: <strong>{item.brand}</strong>
+                      Brand: <strong>{item?.productId?.brand || item?.brand}</strong>
                     </p>
                   )}
                   <h3>
                     {(() => {
-                      const safeTitle = item?.title || ""; // Fallback to empty string
+                      const safeTitle =
+                        item?.title || item?.productId.name || ""; // Fallback to empty string
                       const words = safeTitle.split(" ").slice(0, 5);
                       const line = words.join(" ");
                       return `${line}${
@@ -605,9 +614,14 @@ function PaymentPage() {
                       }`;
                     })()}
                   </h3>
-                  {item.color && (
+                  {item?.productId?.variant[0].title || item.variant[0].title && (
                     <p>
-                      Color: <strong>{item.colorsText || item.color}</strong>
+                      Color:{" "}
+                      <strong>
+                        {item.colorsText ||
+                          item.color ||
+                          item?.productId?.variant[0].title}
+                      </strong>
                     </p>
                   )}
                   <p>Quantity: {item.quantity}</p>
@@ -618,8 +632,9 @@ function PaymentPage() {
                   {" "}
                   ₹{" "}
                   {(
-                    item.price ||
-                    item.variant[0]?.sizes[0].sellingPrice * item.quantity
+                    item?.price ||
+                    item?.productId.variant[0]?.sizes[0].sellingPrice *
+                      item.quantity
                   ).toLocaleString("en-IN")}
                 </strong>
               </p>
@@ -647,34 +662,6 @@ function PaymentPage() {
             </div>
           </div>
         </div>
-        {/* {paymentStarted && (
-          <div className="ccavenue-modal-overlay">
-            <div className="ccavenue-modal-content">
-              <button
-                className="ccavenue-modal-close"
-                onClick={() => setPaymentStarted(false)}
-              >
-                ×
-              </button>
-              <CCAvenueIframe
-                encRequest={encRequest}
-                accessCode={accessCode}
-                merchantId={merchentId}
-                onPaymentSuccess={() => {
-                  navigate("/order-confirmed", {
-                    state: {
-                      orderId: location.state?.orderId,
-                      reference: location.state?.reference,
-                    },
-                  });
-                }}
-                onPaymentFailure={() => {
-                  navigate("/payment-failed");
-                }}
-              />
-            </div>
-          </div>
-        )} */}
       </div>
       <Footer />
     </>

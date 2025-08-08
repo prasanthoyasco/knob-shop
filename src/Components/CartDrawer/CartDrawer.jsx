@@ -21,12 +21,19 @@ const CartDrawer = ({
   const ShipPrice = 123456;
   const [shippingRate, setShippingRate] = useState(null);
   const [recommendedItems, setRecommendedItems] = useState([]);
-  const total = cartItems.reduce(
-    (sum, item) =>
-      sum + item.variant?.[0]?.sizes[0].sellingPrice || item.price * item.quantity,
-    0
-  );
+  const total = cartItems.reduce((sum, item) => {
+    const sellingPrice =
+      item.productId?.variant?.[0]?.sizes?.[0]?.sellingPrice ??
+      item.variant?.[0]?.sizes?.[0]?.sellingPrice ??
+      item.price ??
+      0;
 
+    return sum + sellingPrice * (item.quantity ?? 1);
+  }, 0);
+
+  useEffect(() => {
+    console.log("CartDrawer: cartItems updated", cartItems);
+  }, [cartItems]);
   useEffect(() => {
     const fetchRecommended = async () => {
       try {
@@ -46,12 +53,9 @@ const CartDrawer = ({
         console.error("Failed to fetch recommended items", error);
       }
     };
-  
+
     if (show) fetchRecommended();
   }, [show, cartItems]);
-  
-  
-
 
   return (
     <>
@@ -90,12 +94,16 @@ const CartDrawer = ({
           ) : (
             <>
               {cartItems.map((item) => (
-                <div key={item.id} className="d-flex my-3">
+                <div
+                  key={item._id || item.id || item.productId?._id}
+                  className="d-flex my-3"
+                >
                   <img
                     src={
                       item.image ||
                       item.images?.[0] ||
                       item.variant?.[0]?.images?.[0]?.url ||
+                      item.productId?.images?.[0] ||
                       "/fallback.png"
                     }
                     alt={item.title || item.name}
@@ -107,13 +115,15 @@ const CartDrawer = ({
                     }}
                   />
                   <div className="flex-grow-1">
-                    <h6 className="mb-1">{item.title || item.name}</h6>
+                    <h6 className="mb-1">
+                      {item.title || item.name || item.productId?.name}
+                    </h6>
                     <p className="text-muted mb-1">
                       {item.colorsText
                         ? item.colorsText
                         : item.variant?.[0]?.title
                         ? item.variant[0].title
-                        : ""}
+                        : item.productId?.variant?.[0]?.title}
                     </p>
 
                     <div className="d-flex justify-content-between align-items-center">
@@ -122,18 +132,29 @@ const CartDrawer = ({
                         style={{ color: "#d6791f" }}
                       >
                         ₹
-                        {item.variant?.[0]?.sizes?.[0]?.sellingPrice
-    ? item.variant[0].sizes[0].sellingPrice.toLocaleString("en-IN") +
-      (item.price &&
-      item.price !== item.variant[0].sizes[0].sellingPrice
-        ? ` | ₹${item.price.toLocaleString("en-IN")}`
-        : "")
-    : `${item.price?.toLocaleString("en-IN") || "0"}`} X {item.quantity}
+                        {(() => {
+                          const sellingPrice =
+                            item.productId?.variant?.[0]?.sizes?.[0]
+                              ?.sellingPrice ??
+                            item.variant?.[0]?.sizes?.[0]?.sellingPrice;
+
+                          const basePrice = sellingPrice ?? item.price ?? 0;
+
+                          return (
+                            basePrice.toLocaleString("en-IN") +
+                            (item.price && item.price !== basePrice
+                              ? ` | ₹${item.price.toLocaleString("en-IN")}`
+                              : "")
+                          );
+                        })()}{" "}
+                        X {item.quantity}
                       </span>
 
                       <button
                         className="btn btn-link btn-sm text-danger p-0"
-                        onClick={() => onRemove(item)}
+                        onClick={() => {
+                          onRemove(item);
+                        }}
                       >
                         Remove
                       </button>

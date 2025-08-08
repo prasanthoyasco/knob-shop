@@ -1,20 +1,40 @@
 import React, { createContext, useContext, useState,useEffect } from 'react';
-import { addProductToCart as addToCartAPI, deleteCartItem } from '../API/cartApi';
+import { addProductToCart as addToCartAPI, deleteCartItem,getCartByUserId } from '../API/cartApi';
 const CartContext = createContext();
 
 export const useCart = () => useContext(CartContext);
 
 export const CartProvider = ({ children }) => {
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const [cartItems, setCartItems] = useState(() => {
-    const storedCart = localStorage.getItem("cart");
-    return storedCart ? JSON.parse(storedCart) : [];
-  });
+  const [cartItems, setCartItems] = useState([])
+  
+
+  
+  useEffect(() => {
+    const storedUser = localStorage.getItem('authUser');
+    const parsedUser = storedUser ? JSON.parse(storedUser) : null;
+    const userId = parsedUser?.id;
+
+    if (userId) {
+      (async () => {
+        try {
+          const response = await getCartByUserId(userId);
+          console.log("cart by id",response)
+          setCartItems(response);
+        } catch (error) {
+          console.error('Error fetching cart:', error);
+        }
+      })();
+    } else {
+      const storedCart = localStorage.getItem("cart");
+      setCartItems(storedCart ? JSON.parse(storedCart) : []);
+    }
+  }, []);
   
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(cartItems));
   }, [cartItems]);
-  
+
   const addToCart = async (item) => {
     const storedUser = localStorage.getItem('authUser');
     const parsedUser = storedUser ? JSON.parse(storedUser) : null;
@@ -70,30 +90,50 @@ export const CartProvider = ({ children }) => {
   
   
 
-  const removeFromCart = async (itemToRemove) => {
-    const storedUser = localStorage.getItem('authUser');
+  const removeFromCart = async (item) => {
+    console.log("Item to remove:", item);
+  
+    const storedUser = localStorage.getItem("authUser");
     const parsedUser = storedUser ? JSON.parse(storedUser) : null;
-    const userId = parsedUser?.id;
+    const userId = parsedUser?.id || parsedUser?._id;
+  
+    setCartItems((prev) => {
+      console.log("Current cart items:", prev);
+  
+      // Determine the item ID to remove — use productId._id if available, else fallback to _id or id
+      const itemIdToRemove = item.productId?._id || item._id || item.id;
+      console.log("Removing item ID:", itemIdToRemove);
+  
+      const newCart = prev.filter(
+        (i) => {
+          // Get current cart item's ID to compare similarly
+          const currentItemId = i.productId?._id || i._id || i.id;
+          return currentItemId !== itemIdToRemove;
+        }
+      );
+  
+      console.log("New cart after removal:", newCart);
+      return [...newCart]; // clone to force React re-render
+    });
   
     if (userId) {
       try {
-        await deleteCartItem(itemToRemove.id || itemToRemove._id);
+        await deleteCartItem({
+          userId,
+          productId: item.productId?._id || item._id || item.id,
+        });
+        console.log("Removed from backend:", item.productId?._id || item._id || item.id);
       } catch (error) {
-        console.warn('API remove failed:', error.message);
+        console.error("Failed to remove cart item from backend:", error);
       }
     }
-  
-    setCartItems((prev) =>
-      prev.filter(
-        (item) =>
-          !(
-            (item.id === itemToRemove.id || item._id === itemToRemove._id) &&
-            item.color === itemToRemove.color &&
-            item.size === itemToRemove.size
-          )
-      )
-    );
   };
+  
+  
+  
+  
+  
+  
   
   
   
