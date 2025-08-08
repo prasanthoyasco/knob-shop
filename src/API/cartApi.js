@@ -10,10 +10,10 @@ export const getCartByUserId = async (userId) => {
   const res = await axios.get(`${BASE_URL}/get/${userId}`);
   return res.data;
 };
-
 export const deleteCartItem = async ({ userId, productId }) => {
-  const res = await axios.delete(`${BASE_URL}/delete/${userId}/${productId}`);
+  const res = await axios.delete(`${BASE_URL}/delete`, {
+    data: { userId, productId },
+  });
   return res.data;
 };
-
 

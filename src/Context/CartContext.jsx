@@ -6,22 +6,9 @@ export const useCart = () => useContext(CartContext);
 
 export const CartProvider = ({ children }) => {
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const [cartItems, setCartItems] = useState(() => {
-    try {
-      const storedCart = localStorage.getItem("cart");
-      if (!storedCart || storedCart === "undefined" || storedCart === "null") {
-        return [];
-      }
-      return JSON.parse(storedCart);
-    } catch (e) {
-      console.error("Invalid cart data in localStorage:", e);
-      return [];
-    }
-  });
+  const [cartItems, setCartItems] = useState([])
   
-  useEffect(() => {
-    localStorage.setItem("cart", JSON.stringify(cartItems));
-  }, [cartItems]);
+
   
   useEffect(() => {
     const storedUser = localStorage.getItem('authUser');
@@ -44,6 +31,10 @@ export const CartProvider = ({ children }) => {
     }
   }, []);
   
+  useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(cartItems));
+  }, [cartItems]);
+
   const addToCart = async (item) => {
     const storedUser = localStorage.getItem('authUser');
     const parsedUser = storedUser ? JSON.parse(storedUser) : null;
@@ -100,32 +91,47 @@ export const CartProvider = ({ children }) => {
   
 
   const removeFromCart = async (item) => {
-    const storedUser = localStorage.getItem('authUser');
+    console.log("Item to remove:", item);
+  
+    const storedUser = localStorage.getItem("authUser");
     const parsedUser = storedUser ? JSON.parse(storedUser) : null;
     const userId = parsedUser?.id || parsedUser?._id;
   
-    setCartItems((prev) =>
-      prev.filter(
-        (i) =>
-          !(
-            (i.id === item.id || i._id === item._id) &&
-            i.color === item.color &&
-            i.size === item.size
-          )
-      )
-    );
+    setCartItems((prev) => {
+      console.log("Current cart items:", prev);
+  
+      // Determine the item ID to remove — use productId._id if available, else fallback to _id or id
+      const itemIdToRemove = item.productId?._id || item._id || item.id;
+      console.log("Removing item ID:", itemIdToRemove);
+  
+      const newCart = prev.filter(
+        (i) => {
+          // Get current cart item's ID to compare similarly
+          const currentItemId = i.productId?._id || i._id || i.id;
+          return currentItemId !== itemIdToRemove;
+        }
+      );
+  
+      console.log("New cart after removal:", newCart);
+      return [...newCart]; // clone to force React re-render
+    });
   
     if (userId) {
       try {
         await deleteCartItem({
           userId,
-          productId: item.id || item._id
+          productId: item.productId?._id || item._id || item.id,
         });
+        console.log("Removed from backend:", item.productId?._id || item._id || item.id);
       } catch (error) {
         console.error("Failed to remove cart item from backend:", error);
       }
     }
   };
+  
+  
+  
+  
   
   
   

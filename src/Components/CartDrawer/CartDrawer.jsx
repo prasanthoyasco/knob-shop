@@ -31,9 +31,9 @@ const CartDrawer = ({
     return sum + sellingPrice * (item.quantity ?? 1);
   }, 0);
   
-useEffect(()=>{
-  console.log("cart item from api reached cart drawer",cartItems)
-},[])
+  useEffect(() => {
+    console.log("CartDrawer: cartItems updated", cartItems);
+  }, [cartItems]);
   useEffect(() => {
     const fetchRecommended = async () => {
       try {
@@ -97,7 +97,7 @@ useEffect(()=>{
           ) : (
             <>
               {cartItems.map((item) => (
-                <div key={item.id} className="d-flex my-3">
+                <div key={item._id || item.id || item.productId?._id} className="d-flex my-3">
                   <img
                     src={
                       item.image ||
@@ -131,7 +131,6 @@ useEffect(()=>{
                         style={{ color: "#d6791f" }}
                       >
                         ₹
-                        ₹
 {(() => {
   const sellingPrice =
     item.productId?.variant?.[0]?.sizes?.[0]?.sellingPrice ??
@@ -154,8 +153,7 @@ X {item.quantity}
                       <button
                         className="btn btn-link btn-sm text-danger p-0"
                         onClick={() => {
-                          console.log("Removing item:", item);
-                          onRemove(item._id);
+                          onRemove(item);
                         }}
                       >
                         Remove
