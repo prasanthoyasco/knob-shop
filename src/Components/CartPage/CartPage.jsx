@@ -138,7 +138,7 @@ function CartPage() {
   };
 
   const subtotal = cartItems.reduce((sum, item) => {
-    const sellingPrice = item.variant?.[0]?.sizes?.[0]?.sellingPrice;
+    const sellingPrice = item.productId.variant?.[0]?.sizes?.[0]?.sellingPrice || item.price;
     const price = sellingPrice != null ? sellingPrice : item.price;
     const quantity = item.quantity ?? 1; // fallback to 1 if quantity is undefined
   

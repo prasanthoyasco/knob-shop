@@ -12,6 +12,10 @@ export const getWishlist = async (userId) => {
 };
 
 export const removeFromWishlist = async ({ userId, productId }) => {
-  const res = await axios.put(`${BASE_URL}/remove`, { userId, productId });
+  console.log("Removing from wishlist:", { userId, productId });
+  if (!userId || !productId) {
+    throw new Error("User ID and Product ID are required to remove from wishlist.");
+  }
+  const res = await axios.delete(`${BASE_URL}/delete/${userId}/${productId}`);
   return res.data;
 };

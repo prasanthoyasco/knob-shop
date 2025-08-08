@@ -3,16 +3,25 @@ import React from "react";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 
-const CartItemsList = ({ cartItems, handleIncrement, handleDecrement, handleDelete,isTrackingPage = false }) => {
+const CartItemsList = ({
+  cartItems,
+  handleIncrement,
+  handleDecrement,
+  handleDelete,
+  isTrackingPage = false,
+}) => {
   const Navigate = useNavigate();
   console.log("CartItemsList rendered with items:", cartItems);
-  
-    if (!cartItems.length) {
+
+  if (!cartItems.length) {
     return (
       <div className="text-center my-5 d-flex flex-column align-items-center">
         <img src="/cart_empty.svg" alt="Empty Cart" style={{ width: "90px" }} />
         <p>Your cart is empty</p>
-        <button className="btn btn-dark mt-3" onClick={() => window.history.back()}>
+        <button
+          className="btn btn-dark mt-3"
+          onClick={() => window.history.back()}
+        >
           Continue Shopping
         </button>
       </div>
@@ -31,43 +40,75 @@ const CartItemsList = ({ cartItems, handleIncrement, handleDecrement, handleDele
         <div key={item.id} className="shopping-cart-table-product">
           <div>
             <div className="shopping-cart-table-product-image">
-              <img src={item.variant?.[0]?.images[0]?.url || item.image} alt={item.title} loading="lazy" />
+              <img
+                src={item.productId.variant?.[0]?.images[0]?.url || item.image}
+                alt={item.title}
+                loading="lazy"
+              />
               <div className="shopping-cart-table-product-image-content">
-               {item.brand && <p>Brand : {item.brand}</p>}
-                <h3>{item.title || item.name}</h3>
-                {(item.variant?.[0]?.title !== "0" && item.variant?.[0]?.title !== 0 && item.variant?.[0]?.title) ? (
-  <p>Color : {item.variant[0].title}</p>
-) : item.colorsText !== "0" && item.colorsText !== 0 && item.colorsText ? (
-  <p>Color : {item.colorsText}</p>
-) : null}
-
+                {item.brand && <p>Brand : {item.brand}</p>}
+                <h3>{item.title || item.name || item.productId.name}</h3>
+                {item.productId.variant?.[0]?.title !== "0" &&
+                item.productId.variant?.[0]?.title !== 0 &&
+                item.productId.variant?.[0]?.title ? (
+                  <p>Color : {item.productId.variant[0].title}</p>
+                ) : item.colorsText !== "0" &&
+                  item.colorsText !== 0 &&
+                  item.colorsText ? (
+                  <p>Color : {item.colorsText}</p>
+                ) : null}
               </div>
             </div>
-            <button className="continue-shopping-btn" onClick={()=>{Navigate('/')}}>CONTINUE SHOPPING</button>
+            <button
+              className="continue-shopping-btn"
+              onClick={() => {
+                Navigate("/");
+              }}
+            >
+              CONTINUE SHOPPING
+            </button>
           </div>
 
           <div className="shopping-cart-table-product-count">
             <div className="shopping-cart-table-product-count-btn">
-              <button onClick={() => handleDecrement(item.id)} disabled={item.quantity === 1 || isTrackingPage}>
+              <button
+                onClick={() => handleDecrement(item.id)}
+                disabled={item.quantity === 1 || isTrackingPage}
+              >
                 -
               </button>
               <span className="quantity-display">{item.quantity}</span>
-              <button onClick={() => handleIncrement(item.id)} disabled={isTrackingPage}>+</button>
+              <button
+                onClick={() => handleIncrement(item.id)}
+                disabled={isTrackingPage}
+              >
+                +
+              </button>
             </div>
             {!isTrackingPage && (
-                <div className="delete-icon cursor-pointer" onClick={() => handleDelete(item.id)}>
-                    <i className="bi bi-trash"></i>
-                </div>
-                )}
+              <div
+                className="delete-icon cursor-pointer"
+                onClick={() => handleDelete(item.id)}
+              >
+                <i className="bi bi-trash"></i>
+              </div>
+            )}
           </div>
 
           <div className="shopping-cart-table-product-total">
-          <h3>{item.variant?.[0]?.sizes?.[0]?.sellingPrice != null
-  ? `₹${item.variant[0].sizes[0].sellingPrice.toLocaleString("en-IN")}${item.price ? ` | ₹${item.price.toLocaleString("en-IN")}` : ""}`
-  : item.price != null
-    ? `₹${item.price.toLocaleString("en-IN")}`
-    : "Price not available"}
-</h3>
+            <h3>
+              {item.productId.variant?.[0]?.sizes?.[0]?.sellingPrice != null
+                ? `₹${item.productId.variant[0].sizes[0].sellingPrice.toLocaleString(
+                    "en-IN"
+                  )}${
+                    item.price
+                      ? ` | ₹${item.price.toLocaleString("en-IN")}`
+                      : ""
+                  }`
+                : item.price != null
+                ? `₹${item.price.toLocaleString("en-IN")}`
+                : "Price not available"}
+            </h3>
           </div>
         </div>
       ))}
@@ -81,25 +122,44 @@ const CartItemsList = ({ cartItems, handleIncrement, handleDecrement, handleDele
             <div className="cart-mobile-right">
               <h3>{item.title}</h3>
               <div className="price-row">
-                <span className="discount-price">{item.variant?.[0]?.sizes?.[0]?.sellingPrice != null
-  ? `₹${item.variant[0].sizes[0].sellingPrice.toLocaleString("en-IN")}${item.price ? ` | ₹${item.price.toLocaleString("en-IN")}` : ""}`
-  : item.price != null
-    ? `₹${item.price.toLocaleString("en-IN")}`
-    : "Price not available"}
-</span>
+                <span className="discount-price">
+                  {item.variant?.[0]?.sizes?.[0]?.sellingPrice != null
+                    ? `₹${item.variant[0].sizes[0].sellingPrice.toLocaleString(
+                        "en-IN"
+                      )}${
+                        item.price
+                          ? ` | ₹${item.price.toLocaleString("en-IN")}`
+                          : ""
+                      }`
+                    : item.price != null
+                    ? `₹${item.price.toLocaleString("en-IN")}`
+                    : "Price not available"}
+                </span>
               </div>
               <div className="quantity-remove-row">
                 <div className="quantity-box">
-                  <button onClick={() => handleDecrement(item.id)} disabled={item.quantity === 1 || isTrackingPage}>
+                  <button
+                    onClick={() => handleDecrement(item.id)}
+                    disabled={item.quantity === 1 || isTrackingPage}
+                  >
                     -
                   </button>
                   <span>{item.quantity}</span>
-                  <button onClick={() => handleIncrement(item.id)} disabled={isTrackingPage}>+</button>
+                  <button
+                    onClick={() => handleIncrement(item.id)}
+                    disabled={isTrackingPage}
+                  >
+                    +
+                  </button>
                 </div>
                 {!isTrackingPage && (
-                <div className="remove-box" onClick={() => handleDelete(item.id)}>
-                  <i className="bi bi-trash"></i>
-                </div>)}
+                  <div
+                    className="remove-box"
+                    onClick={() => handleDelete(item.id)}
+                  >
+                    <i className="bi bi-trash"></i>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -114,7 +174,7 @@ CartItemsList.propTypes = {
   handleIncrement: PropTypes.func.isRequired,
   handleDecrement: PropTypes.func.isRequired,
   handleDelete: PropTypes.func.isRequired,
-  isTrackingPage: PropTypes.bool
+  isTrackingPage: PropTypes.bool,
 };
 
 export default CartItemsList;
