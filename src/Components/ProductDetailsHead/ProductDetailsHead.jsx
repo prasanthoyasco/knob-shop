@@ -88,7 +88,7 @@ export default function ProductDetailsHead() {
     title: product?.name,
     image: product?.images?.[0] || "default.jpg",
     price: selectedSizeObj?.sellingPrice || product?.price,
-    productId: product?.productId,
+    // productId: product?.productId,
     categoryId:product?.category?._id,
     mrpPrice: selectedSizeObj?.mrp || product?.compare_price,
     brand: product?.brand,

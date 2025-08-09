@@ -75,7 +75,7 @@ function PaymentPage() {
     try {
       if (!storedUser) {
         alert("please login before payment");
-        navigate("/register");
+        navigate("/auth/register");
         return;
       }
       const totalValue = cartItems.reduce(
@@ -590,8 +590,8 @@ function PaymentPage() {
                   src={
                     item.images?.[0] ||
                     item?.variant?.[0]?.images?.[0]?.url ||
-                    item?.productId.variant?.[0]?.images?.[0]?.url ||
                     item.image ||
+                    item?.productId.variant?.[0]?.images?.[0]?.url ||
                     "/fallback.png"
                   }
                   alt={item.title}
@@ -614,13 +614,13 @@ function PaymentPage() {
                       }`;
                     })()}
                   </h3>
-                  {item?.productId?.variant[0].title || item.variant[0].title && (
+                  {item?.productId?.variant[0]?.title || item?.colorsText || item?.variant[0]?.title  && (
                     <p>
                       Color:{" "}
                       <strong>
                         {item.colorsText ||
                           item.color ||
-                          item?.productId?.variant[0].title}
+                          item?.productId?.variant[0]?.title}
                       </strong>
                     </p>
                   )}
