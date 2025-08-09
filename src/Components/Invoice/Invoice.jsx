@@ -1,8 +1,8 @@
-import React,{useEffect} from 'react';
+import React,{useEffect,useState} from 'react';
 import './Invoice.css';
 import logo from '../../Assets/logo.png';
 import html2pdf from 'html2pdf.js';
-
+import { getProductById } from "../../API/productApi"; 
 const invoiceData = {
   company: {
     name: 'KNOBSSHOP, Inc',
@@ -83,6 +83,8 @@ const invoiceData = {
 };
 
 function Invoice() {
+  const [invoiceDatas, setInvoiceData] = useState([]);
+  const [invoiceAllDetails, setInvoiceAllDetails] =useState([]);
   const handlePrint = () => {
     window.print();
   };
@@ -99,29 +101,73 @@ function Invoice() {
     html2pdf().set(opt).from(element).save();
   };
 
+  useEffect(() => {
+    const storedInvoice = localStorage.getItem("latestInvoiceData");
+    if (storedInvoice) {
+      try {
+        const parsedInvoice = JSON.parse(storedInvoice);
+        console.log("📦 Retrieved Invoice Data:", parsedInvoice);
+        setInvoiceData(parsedInvoice);
+      } catch (error) {
+        console.error("❌ Error parsing invoice data:", error);
+      }
+    } else {
+      console.warn("⚠️ No invoice data found in localStorage");
+    }
+  }, []);
+  
+  useEffect(() => {
+    if (invoiceDatas?.cartItems?.length) {
+      Promise.all(
+        invoiceDatas.cartItems.map(item => getProductById(item.id))
+      )
+        .then((products) => {
+          const mergedData = {
+            ...invoiceDatas,
+            productDetails: products
+          };
+          console.log("📝 Full Invoice with Product Details:", mergedData); // ✅ merged log
+          setInvoiceAllDetails(mergedData);
+        })
+        .catch(err => console.error("❌ Error fetching product details:", err));
+    }
+  }, [invoiceDatas]);
+  
+  useEffect(() => {
+    console.log("📄 Current invoiceDatas state:", invoiceAllDetails);
+  }, [invoiceAllDetails]);
+  
+
   const { company, from, to, invoice, items, notes, transport } = invoiceData;
 
   let subtotal = 0;
   let totalGST = 0;
   const gstSummary = {};
-
-  items.forEach(item => {
-    const price = item.rate * item.hours;
-    const discount = (price * item.disc) / 100;
-    const taxable = price - discount;
-    const gstAmt = (taxable * item.gst) / 100;
-    subtotal += taxable;
-    totalGST += gstAmt;
-
-    // HSN Summary
-    if (!gstSummary[item.gst]) {
-      gstSummary[item.gst] = { taxable: 0, cgst: 0, sgst: 0 };
-    }
-    gstSummary[item.gst].taxable += taxable;
-    gstSummary[item.gst].cgst += gstAmt / 2;
-    gstSummary[item.gst].sgst += gstAmt / 2;
-  });
-
+  
+  if (invoiceAllDetails?.cartItems?.length) {
+    invoiceAllDetails.cartItems.forEach((item) => {
+      const qty = item.quantity || 1;
+      const mrpTotal = (item.mrpPrice || item.price) * qty;
+      const sellingTotal = item.price * qty;
+  
+      const discount = mrpTotal - sellingTotal;
+      const taxable = sellingTotal;
+      const gstRate = item.gst || 18; // default 18%
+      const gstAmt = (taxable * gstRate) / 100;
+  
+      subtotal += taxable;
+      totalGST += gstAmt;
+  
+      // GST Summary
+      if (!gstSummary[gstRate]) {
+        gstSummary[gstRate] = { taxable: 0, cgst: 0, sgst: 0 };
+      }
+      gstSummary[gstRate].taxable += taxable;
+      gstSummary[gstRate].cgst += gstAmt / 2;
+      gstSummary[gstRate].sgst += gstAmt / 2;
+    });
+  }
+  
   const grandTotal = subtotal + totalGST;
   const roundedTotal = Math.round(grandTotal);
   const roundOff = (roundedTotal - grandTotal).toFixed(2);
@@ -196,55 +242,65 @@ function Invoice() {
               </address>
             </div>
             <div className="invoice-to">
-              <small>to</small>
-              <address className="m-t-5 m-b-5">
-                <strong className="text-inverse">{to.name}</strong><br />
-                {to.address.map((line, i) => <>{line}<br key={i} /></>)}
-                Phone: {to.phone}<br />
-                Fax: {to.fax}
-              </address>
-            </div>
+  <small>To</small>
+  {invoiceAllDetails?.shippingAddress && (
+    <address className="m-t-5 m-b-5">
+      <strong className="text-inverse">{invoiceAllDetails.shippingAddress.name}</strong><br />
+      {invoiceAllDetails.shippingAddress.street}<br />
+      {invoiceAllDetails.shippingAddress.city}, {invoiceAllDetails.shippingAddress.district}<br />
+      {invoiceAllDetails.shippingAddress.state} - {invoiceAllDetails.shippingAddress.pincode}<br />
+    </address>
+  )}
+</div>
+{invoiceAllDetails && (
             <div className="invoice-date">
-              <small>{invoice.period}</small>
-              <div className="date text-inverse m-t-5">{invoice.date}</div>
+              <small>Payment Method : {invoiceAllDetails.paymentMethod}</small>
+              <div className="date text-inverse m-t-5">Ordered Data : {invoiceAllDetails.invoiceDate}</div>
               <div className="invoice-detail">
-                {invoice.number}<br />
+              Ordered Id : {invoiceAllDetails.orderId}<br />
                 {invoice.description}
               </div>
             </div>
+)}
           </div>
-
           <div className="table-responsive">
             <table className="table table-invoice">
               <thead>
                 <tr>
                   <th>SI NO.</th>
                   <th>PRODUCT</th>
-                  <th>RATE</th>
-                  <th>QTY</th>
-                  <th>DISC%</th>
-                  <th>GST%</th>
-                  <th>GST Amt</th>
-                  <th>TOTAL</th>
+                  <th className='table-data'>RATE</th>
+                  <th className='table-data'>QTY</th>
+                  <th className='table-data'>DISC%</th>
+                  <th className='table-data'>GST%</th>
+                  <th className='table-data'>GST Amt</th>
+                  <th className='table-data'>TOTAL</th>
                 </tr>
               </thead>
               <tbody>
-  {items.map((item, i) => {
-    const amount = item.rate * item.hours;
-    const discount = (amount * item.disc) / 100;
-    const taxable = amount - discount;
-    const gstAmt = (taxable * item.gst) / 100;
+  {invoiceAllDetails?.cartItems?.map((item, i) => {
+  const qty = item.quantity || 1;
+  
+  // If you have MRP stored, calculate discount value:
+  const mrpTotal = (item.mrpPrice || item.price) * qty; 
+  const sellingTotal = item.price * qty;
+  
+  const discountPercent = ((mrpTotal - sellingTotal) / mrpTotal) * 100;
+  const discountPercentRounded = discountPercent.toFixed(2);
+  const taxable = sellingTotal; // after discount
+  const gstAmt = (taxable * 18) / 100;
 
     return (
       <tr key={i}>
-        <td>{item.id}</td>
-        <td>{item.title}<br /><small>{item.description}</small></td>
-        <td>₹{item.rate}</td>
-        <td>{item.hours} {item.unit}</td>
-        <td>{item.disc}%</td>
-        <td>{item.gst}%</td>
-        <td>₹{gstAmt.toFixed(2)}</td>
-        <td>₹{(taxable + gstAmt).toFixed(2)}</td>
+        <td>{i + 1}</td>
+        <td className='table-title'>{item.title || item.productName}<br /></td>
+        <td className='table-data'><i class="bi bi-currency-rupee"></i>{item.price}</td>
+        <td className='table-data'>{qty}</td>
+        <td className='table-data'>{discountPercentRounded}%</td>
+
+        <td className='table-data'>18%</td>
+        <td className='table-data'><i class="bi bi-currency-rupee"></i>{gstAmt.toFixed(2)}</td>
+        <td className='table-data'><i class="bi bi-currency-rupee"></i>{(taxable + gstAmt).toFixed(2)}</td>
       </tr>
     );
   })}
@@ -272,12 +328,12 @@ function Invoice() {
           <div className="invoice-price">
           <img src='/favIcon.png' className='invoice-logo-icon'/>
             <div className='sub-total-price-content'>
-                <div className="sub-price"><small>SUBTOTAL</small> ₹{subtotal.toFixed(2)}</div>
-                <div className="sub-price"><small>GST TOTAL</small> ₹{totalGST.toFixed(2)}</div>
-                <div className="sub-price"><small>ROUND OFF</small> ₹{roundOff}</div>
+                <div className="sub-price"><small>SUBTOTAL</small> <i class="bi bi-currency-rupee"></i>{subtotal.toFixed(2)}</div>
+                <div className="sub-price"><small>GST TOTAL</small><i class="bi bi-currency-rupee"></i>{totalGST.toFixed(2)}</div>
+                <div className="sub-price"><small>ROUND OFF</small><i class="bi bi-currency-rupee"></i>{roundOff}</div>
             </div>
             <div className="invoice-price-right">
-              <strong>TOTAL: ₹{roundedTotal}</strong>
+              <strong>TOTAL:<i class="bi bi-currency-rupee"></i>{roundedTotal}</strong>
             </div>
 
           </div>
@@ -305,16 +361,16 @@ function Invoice() {
         return (
           <tr key={i}>
             <td>{gstRate}%</td>
-            <td>₹{data.taxable.toFixed(2)}</td>
-            <td>₹{data.cgst.toFixed(2)}</td>
-            <td>₹{data.sgst.toFixed(2)}</td>
-            <td>₹{totalTax.toFixed(2)}</td>
+            <td><i class="bi bi-currency-rupee"></i>{data.taxable.toFixed(2)}</td>
+            <td><i class="bi bi-currency-rupee"></i>{data.cgst.toFixed(2)}</td>
+            <td><i class="bi bi-currency-rupee"></i>{data.sgst.toFixed(2)}</td>
+            <td><i class="bi bi-currency-rupee"></i>{totalTax.toFixed(2)}</td>
           </tr>
         );
       })}
       <tr>
         <td colSpan="4" className="text-end"><strong>Total</strong></td>
-        <td><strong>₹{totalGST.toFixed(2)}</strong></td>
+        <td><strong><i class="bi bi-currency-rupee"></i>{totalGST.toFixed(2)}</strong></td>
       </tr>
     </tbody>
   </table>
