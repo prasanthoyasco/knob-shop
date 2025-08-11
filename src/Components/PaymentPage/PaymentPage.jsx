@@ -168,8 +168,9 @@ function PaymentPage() {
         orderId: order.orderId,
       };
 
-      localStorage.setItem("latestInvoiceData", JSON.stringify(invoicePayload));
-
+      const invoiceDate = localStorage.setItem("latestInvoiceData", JSON.stringify(invoicePayload));
+      console.log("invoice Data :",invoiceDate)
+      console.log("invoice pay load :",invoicePayload)
       // Step 3: Initiate CCAvenue Payment
       const ccavenuePayload = {
         orderId: order?.orderId, // Must not be undefined

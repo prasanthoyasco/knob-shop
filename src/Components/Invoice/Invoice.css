@@ -142,7 +142,7 @@
 .invoice-logo-icon {
     height: 500px;
     position: absolute;
-    top:-500%;
+    top:-0%;
     left: 50%;
     transform: translate(-50%, -50%);
     opacity: 0.1;
@@ -192,3 +192,9 @@
     background: transparent !important;
   }
   
+  .table-title{
+    width:40%;
+  }
+  .table-data{
+    text-align: center;
+  }
