@@ -2,6 +2,8 @@ import React from 'react'
 import './Footer.css'
 import footerImage from '../../Assets/footer-logo.png';
 import FbInstaYoutubeImage from '../../Assets/fb-insta-youTube.png'
+import { Link } from "react-router-dom"; // add this
+import { useNavigate } from "react-router-dom";
 const shopContent = [
   {text : "Living room" , href : "/living-room"},
   {text : "Bed room" , href : "/bed-room"},
@@ -24,10 +26,26 @@ const policyContent = [
 const helpContent = [
   {text : "Payment" , href : "/payment"},
   {text : "Shipping" , href : "/shipping"},
-  {text : "Track My Order" , href : "/Tracking"},
-  {text : "FAQ's" , href : "/faq"},
+  {text : "FAQ's" , href : "#faq-section"},
 ]
 function Footer() {
+
+  const navigate = useNavigate();
+  const handleTrackOrder = () => {
+    const storedUser = localStorage.getItem("authUser");
+
+    if (!storedUser) {
+      alert("Please login first");
+      navigate("/", { replace: true });
+      setTimeout(() => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }, 100);
+      return;
+    }
+    
+
+    navigate("/account", { state: { section: "orders" } });
+  };
   return (
     <div className='footer py-5'>
       <div className='logo-background'></div>
@@ -76,6 +94,19 @@ function Footer() {
         {helpContent.map((content,index)=>(
           <a key={index} href={content.href}>{content.text}</a>
         ))}
+          <button
+    onClick={handleTrackOrder}
+    style={{
+      background: "none",
+      border: "none",
+      padding: 0,
+      color: "inherit",
+      cursor: "pointer",
+      textAlign: "left"
+    }}
+  >
+    Track My Order
+  </button>
         </div>
       </div>
 
