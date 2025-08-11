@@ -8,6 +8,7 @@ import Wishlist from './Wishlist/Wishlist';
 import { useLocation } from 'react-router-dom';
 import CartPageProfile from './CartPageProfile/CartPageProfile';
 import MyOrders from './MyOrders/MyOrders';
+import Footer from '../Footer/Footer';
 
 function ProfilePage() {
    const location = useLocation();
@@ -35,6 +36,7 @@ function ProfilePage() {
         {activeSection === 'help' && <div><h1>Help Section</h1></div>}
       </div>
     </div>
+    <Footer/>
     </>
   );
 }

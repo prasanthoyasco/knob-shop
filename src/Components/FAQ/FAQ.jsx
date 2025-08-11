@@ -112,7 +112,7 @@ function FAQ() {
   };
 
   return (
-    <div className="Faq-container">
+    <div className="Faq-container" id="faq-section">
       <div className="faq-image-carousel">
         {images.map((img, index) => (
           <img
