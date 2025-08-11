@@ -693,7 +693,7 @@ console.log("Available Coupons:", availableCoupons);
           </div>
 
           {/* Available Coupons */}
-          {availableCoupons.length > 0 && (
+          {availableCoupons?.length > 0 && (
             <div className="mt-3">
               <p className="mb-1 fw-bold">Available Coupons:</p>
               <div className="d-flex flex-wrap gap-2">
