@@ -108,9 +108,7 @@ const NewHero = () => {
 
 
   const isMobile = window.innerWidth < 768;
-  const slides = isMobile
-    ? baseSlides.filter((slide) => slide.type !== "video")
-    : baseSlides;
+  const slides = baseSlides;
 
   const retriggerAnimations = useCallback(() => {
     const animatedElements = document.querySelectorAll(".animate-on-slide");
@@ -204,7 +202,11 @@ const NewHero = () => {
                 muted
                 playsInline
                 className="full-banner-video"
-                style={{ width: "100%", height: "600px", objectFit: "cover" }}
+                style={{
+                  width: "100%",
+                  height: isMobile ? "auto" : "600px", // ✅ Responsive height
+                  objectFit: "cover",
+                }}
                 onPlay={(e) => {
                   const video = e.currentTarget;
                   const swiper = swiperRef.current?.swiper;

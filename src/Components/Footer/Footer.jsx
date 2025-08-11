@@ -2,6 +2,7 @@ import React from "react";
 import "./Footer.css";
 import footerImage from "../../Assets/footer-logo.png";
 import FbInstaYoutubeImage from "../../Assets/fb-insta-youTube.png";
+import insta_icon from "../../Assets/insta-icon.svg";
 import { Link } from "react-router-dom"; // add this
 import { useNavigate } from "react-router-dom";
 const shopContent = [
@@ -159,7 +160,13 @@ function Footer() {
       </div>
 
       <div className="fb-insta-youTube-icon">
-        <img src={FbInstaYoutubeImage} />
+        <a
+          href="https://www.instagram.com/knobsshop_official/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <i class="bi bi-instagram insta-gram-icon"></i>
+        </a>
         <p>
           Copyright <i className="bi bi-c-circle"></i> 2025{" "}
           <span style={{ color: "#AB7B53" }}>Knobs Shop.</span> All Rights
