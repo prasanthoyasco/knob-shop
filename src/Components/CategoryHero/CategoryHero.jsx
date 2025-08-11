@@ -24,7 +24,7 @@ const CategoryHero = ({count, backgroundImage }) => {
     }
   }, [categoryId, location.state?.category]);
 
-  const bannerImage = category?.bannerImage || category?.image || backgroundImage;
+  const bannerImage = category?.bannerImageUrl || category?.image || backgroundImage;
   const categoryTitle = category?.category_name || productState?.text || query  || "Category";
   const productCount = category?.productCount || count ||  0;
 

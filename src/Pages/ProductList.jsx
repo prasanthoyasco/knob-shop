@@ -78,8 +78,6 @@ export const ProductList = () => {
         setLoading(false);
       }
     };
-    
-
     loadProducts();
   }, [categoryId, brandName, passedState,searchQuery]);
 const [loading, setLoading] = useState(true);

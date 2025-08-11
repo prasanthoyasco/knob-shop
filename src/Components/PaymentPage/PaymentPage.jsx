@@ -103,7 +103,7 @@ function PaymentPage() {
 
       const items = cartItems.map((item) => ({
         productId:
-          item._id  || item.id || item?.productId || item?.productId._id,
+          item._id || item.id || item?.productId || item?.productId._id,
         productName: item.title || item.productName || item?.productId?.name,
         quantity: item.quantity,
         price: item.price || item?.productId?.variant[0].sizes[0].sellingPrice,
@@ -228,11 +228,7 @@ function PaymentPage() {
           <div className="contact-container">
             <div className="contact-con-head">
               <h3 className="contact-con-head-h3">CONTACT</h3>
-              {/* {contactCompleted && (
-  <p className='entered-contact-info'>Entered: {contactInfo}</p>
-)} */}
-
-              <a href="login">Log in</a>
+              {Userid && <a href="login">Log in</a>}
             </div>
             <input
               type="text"
@@ -598,11 +594,13 @@ function PaymentPage() {
                   loading="lazy"
                 />
                 <div className="payment-product-image-content">
-                  {item?.productId?.brand || item?.brand  && (
-                    <p>
-                      Brand: <strong>{item?.productId?.brand || item?.brand}</strong>
-                    </p>
-                  )}
+                  {item?.productId?.brand ||
+                    (item?.brand && (
+                      <p>
+                        Brand:{" "}
+                        <strong>{item?.productId?.brand || item?.brand}</strong>
+                      </p>
+                    ))}
                   <h3>
                     {(() => {
                       const safeTitle =
@@ -614,16 +612,18 @@ function PaymentPage() {
                       }`;
                     })()}
                   </h3>
-                  {item?.productId?.variant[0]?.title || item?.colorsText || item?.variant[0]?.title  && (
-                    <p>
-                      Color:{" "}
-                      <strong>
-                        {item.colorsText ||
-                          item.color ||
-                          item?.productId?.variant[0]?.title}
-                      </strong>
-                    </p>
-                  )}
+                  {item?.productId?.variant[0]?.title ||
+                    item?.colorsText ||
+                    (item?.variant[0]?.title && (
+                      <p>
+                        Color:{" "}
+                        <strong>
+                          {item.colorsText ||
+                            item.color ||
+                            item?.productId?.variant[0]?.title}
+                        </strong>
+                      </p>
+                    ))}
                   <p>Quantity: {item.quantity}</p>
                 </div>
               </div>
