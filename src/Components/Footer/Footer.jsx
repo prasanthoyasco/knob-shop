@@ -1,36 +1,38 @@
-import React from 'react'
-import './Footer.css'
-import footerImage from '../../Assets/footer-logo.png';
-import FbInstaYoutubeImage from '../../Assets/fb-insta-youTube.png'
+import React from "react";
+import "./Footer.css";
+import footerImage from "../../Assets/footer-logo.png";
+import FbInstaYoutubeImage from "../../Assets/fb-insta-youTube.png";
 import { Link } from "react-router-dom"; // add this
 import { useNavigate } from "react-router-dom";
 const shopContent = [
-  {text : "Living room" , href : "/living-room"},
-  {text : "Bed room" , href : "/bed-room"},
-  {text : "Dining room" , href : "/dining-room"},
-  {text : "Home office" , href : "/home-office"},
-  {text : "Kitchen" , href : "/kitchen"},
-]
+  { text: "Living room", href: "/living-room" },
+  { text: "Bed room", href: "/bed-room" },
+  { text: "Dining room", href: "/dining-room" },
+  { text: "Home office", href: "/home-office" },
+  { text: "Kitchen", href: "/kitchen" },
+];
 const aboutContent = [
-  {text : "About Us" , href : "/about-us"},
-  {text : "Blogs" , href : "/blogs"},
-  {text : "Brouchers" , href : "/brouchers"},
-]
+  { text: "About Us", href: "/about-us" },
+  { text: "Blogs", href: "/blogs" },
+  { text: "Brouchers", href: "/brouchers" },
+];
 const policyContent = [
-  {text : "Terms &  Condition" , href : "/terms-condition"},
-  {text : "Privacy policy" , href : "/privacy-policy"},
-  {text : "Order policy" , href : "/order-policy"},
-  {text : "Return policy" , href : "/return-policy"},
-  {text : "Waranty policy" , href : "/waranty-policy"},
-]
+  { text: "Terms &  Condition", href: "/terms-condition" },
+  { text: "Privacy policy", href: "/privacy-policy" },
+  { text: "Order policy", href: "/order-policy" },
+  { text: "Return policy", href: "/return-policy" },
+  { text: "Waranty policy", href: "/waranty-policy" },
+];
 const helpContent = [
-  {text : "Payment" , href : "/payment"},
-  {text : "Shipping" , href : "/shipping"},
-  {text : "FAQ's" , href : "#faq-section"},
-]
+  { text: "Payment", href: "/payment" },
+  { text: "Shipping", href: "/shipping" },
+  { text: "FAQ's", href: "#faq-section" },
+];
 function Footer() {
-
   const navigate = useNavigate();
+  const UserId = localStorage.getItem("authUser")
+    ? JSON.parse(localStorage.getItem("authUser"))._id
+    : null;
   const handleTrackOrder = () => {
     const storedUser = localStorage.getItem("authUser");
 
@@ -42,109 +44,130 @@ function Footer() {
       }, 100);
       return;
     }
-    
 
     navigate("/account", { state: { section: "orders" } });
   };
   return (
-    <div className='footer py-5'>
-      <div className='logo-background'></div>
-      <div className='footer-bottom-background'></div>
-      <div className='footer-buliding-background'></div>
-      <div className='footer-hall-background'></div>
-      <div className='footer-right-top-background'></div>
-      <div className='footer-right-down-background'></div>
-    <div className='footer-container'>
-      <div className='footer-logo-text'>
-        <img src={footerImage} className='footer-logo'/>
-        <p>Subscribe to receive inspiration,ideas and news to your inbox</p>
-      </div>
-
-    <div className="d-flex footer-menus flex-md-wrap">
-            <div className='footer-shop-container'>
-        <h2>Shop</h2>
-        <div className='shop-content'>
-          {shopContent.map((content,index)=>(
-            <a key={index} href={content.href}>{content.text}</a>
-          ))}
-          </div>
-      </div>
-
-      <div className='footer-about-container'>
-        <h2>About</h2>
-        <div className='about-content'>
-        {aboutContent.map((content,index)=>(
-          <a key={index} href={content.href}>{content.text}</a>
-        ))}
+    <div className="footer py-5">
+      <div className="logo-background"></div>
+      <div className="footer-bottom-background"></div>
+      <div className="footer-buliding-background"></div>
+      <div className="footer-hall-background"></div>
+      <div className="footer-right-top-background"></div>
+      <div className="footer-right-down-background"></div>
+      <div className="footer-container">
+        <div className="footer-logo-text">
+          <img src={footerImage} className="footer-logo" />
+          <p>Subscribe to receive inspiration,ideas and news to your inbox</p>
         </div>
-      </div>
 
-      <div className='footer-policy-container'>
-        <h2>Policy</h2>
-        <div className='policy-content'>
-        {policyContent.map((content,index)=>(
-          <a key={index} href={content.href}>{content.text}</a>
-        ))}
-        </div>
-      </div>
-
-      <div className='footer-help-container'>
-        <h2>Help</h2>
-        <div className='help-content'>
-        {helpContent.map((content,index)=>(
-          <a key={index} href={content.href}>{content.text}</a>
-        ))}
-          <button
-    onClick={handleTrackOrder}
-    style={{
-      background: "none",
-      border: "none",
-      padding: 0,
-      color: "inherit",
-      cursor: "pointer",
-      textAlign: "left"
-    }}
-  >
-    Track My Order
-  </button>
-        </div>
-      </div>
-
-      <div className='contact-info-container'>
-        <h2>Contact Info</h2>
-         <div className='icon-phone-number'>
-            <i className="bi bi-telephone-fill"></i>
-            <div className='phone-number'>
-              <p>+91 9876543210</p>
-              <p>+91 9876543211</p>
-            </div>
-          </div>
-          <div className='icon-and-mail-id'>
-          <i className="bi bi-envelope-fill"></i>
-            <div className='email-id'>
-              <p>ecom@knobsshop.store</p>
+        <div className="d-flex footer-menus flex-md-wrap">
+          <div className="footer-shop-container">
+            <h2>Shop</h2>
+            <div className="shop-content">
+              {shopContent.map((content, index) => (
+                <a key={index} href={content.href}>
+                  {content.text == "Brouchers" && !UserId ? "" : content.text}
+                </a>
+              ))}
             </div>
           </div>
 
+          <div className="footer-about-container">
+            <h2>About</h2>
+            <div className="about-content">
+              {aboutContent.map((content, index) => {
+                if (
+                  content.text.trim().toLowerCase() === "brouchers" &&
+                  !UserId
+                ) {
+                  return null;
+                }
+
+                return (
+                  <a key={index} href={content.href}>
+                    {content.text}
+                  </a>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="footer-policy-container">
+            <h2>Policy</h2>
+            <div className="policy-content">
+              {policyContent.map((content, index) => (
+                <a key={index} href={content.href}>
+                  {content.text}
+                </a>
+              ))}
+            </div>
+          </div>
+
+          <div className="footer-help-container">
+            <h2>Help</h2>
+            <div className="help-content">
+              {helpContent.map((content, index) => (
+                <a key={index} href={content.href}>
+                  {content.text}
+                </a>
+              ))}
+              <button
+                onClick={handleTrackOrder}
+                style={{
+                  background: "none",
+                  border: "none",
+                  padding: 0,
+                  color: "inherit",
+                  cursor: "pointer",
+                  textAlign: "left",
+                }}
+              >
+                Track My Order
+              </button>
+            </div>
+          </div>
+
+          <div className="contact-info-container">
+            <h2>Contact Info</h2>
+            <div className="icon-phone-number">
+              <i className="bi bi-telephone-fill"></i>
+              <div className="phone-number">
+                <p>+91 9876543210</p>
+                <p>+91 9876543211</p>
+              </div>
+            </div>
+            <div className="icon-and-mail-id">
+              <i className="bi bi-envelope-fill"></i>
+              <div className="email-id">
+                <p>ecom@knobsshop.store</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="email-section-footer">
+        <h4>Sign Up to our Newsletter</h4>
+        <p>
+          Be the first to know the least releases,news,collabortions,exclusive
+          and offers
+        </p>
+        <div className="footer-search-box-text">
+          <input type="text" placeholder="Email" />
+          <button>subscribe</button>
+        </div>
       </div>
 
-    </div>
-    </div>
-    <div className='email-section-footer'>
-      <h4>Sign Up to our Newsletter</h4>
-      <p>Be the first to know the least releases,news,collabortions,exclusive and offers</p>
-      <div className='footer-search-box-text'>
-        <input type='text' placeholder='Email'/>
-        <button>subscribe</button>
+      <div className="fb-insta-youTube-icon">
+        <img src={FbInstaYoutubeImage} />
+        <p>
+          Copyright <i className="bi bi-c-circle"></i> 2025{" "}
+          <span style={{ color: "#AB7B53" }}>Knobs Shop.</span> All Rights
+          Reserved.
+        </p>
       </div>
     </div>
-
-    <div className='fb-insta-youTube-icon'>
-      <img src={FbInstaYoutubeImage}/>
-      <p>Copyright <i className="bi bi-c-circle"></i> 2025 <span style={{color:"#AB7B53"}}>Knobs Shop.</span> All Rights Reserved.</p>
-    </div>
-    </div>
-  )
+  );
 }
 
-export default Footer
+export default Footer;

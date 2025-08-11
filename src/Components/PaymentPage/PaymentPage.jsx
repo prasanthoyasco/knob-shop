@@ -7,6 +7,7 @@ import { createDTDCConsignment } from "../../API/createOrderConsigment";
 import { createOrderWithShipping } from "../../API/orderApi";
 import { initiateTransaction } from "../../API/paymentApi";
 import StoreLocator from "./StoreLocator";
+import { getAvailableCoupons, validateCoupon } from "../../API/CouponApi";
 
 const cardImages = [
   "/payment-icon/discover.svg",
@@ -32,6 +33,9 @@ function PaymentPage() {
   const [mobileInfo, setMobileInfo] = useState("");
   const [contactCompleted, setContactCompleted] = useState(false);
   const [redirecting, setRedirecting] = useState(false);
+  const [couponCode, setCouponCode] = useState("");
+  const [discount, setDiscount] = useState(0);
+  const [couponApplied, setCouponApplied] = useState(false);
 
   const [shippingFirstName, setShippingFirstName] = useState("");
   const [shippingLastName, setShippingLastName] = useState("");
@@ -54,6 +58,7 @@ function PaymentPage() {
   const [encRequest, setEncRequest] = useState("");
   const [accessCode, setAccessCode] = useState("");
   const [merchantId, setMerchantId] = useState("");
+  const [availableCoupons, setAvailableCoupons] = useState([]);
   const [paying, setPaying] = useState(false);
 
   const location = useLocation();
@@ -71,9 +76,15 @@ function PaymentPage() {
   );
 
   useEffect(() => {
+    getAvailableCoupons()
+      .then(setAvailableCoupons)
+      .catch(console.error);
+  }, []);
+console.log("Available Coupons:", availableCoupons);
+  useEffect(() => {
     if (storedUser) {
       setContactInfo(storedUser.email || "");
-      setMobileInfo( storedUser.phone || storedUser.mobile || "");
+      setMobileInfo(storedUser.phone || storedUser.mobile || "");
     }
   }, [storedUser]);
 
@@ -94,6 +105,30 @@ function PaymentPage() {
     shippingCity,
     shippingZip,
   ]);
+
+  const applyCoupon = async () => {
+    if (!Userid) {
+      alert("Please login to use a coupon");
+      return;
+    }
+
+    try {
+      const data = await validateCoupon(Userid, couponCode);
+
+      let discountValue = 0;
+      if (data.type === "percent") {
+        discountValue = (subtotal * data.discount) / 100;
+      } else {
+        discountValue = data.discount;
+      }
+
+      setDiscount(discountValue);
+      setCouponApplied(true);
+      alert("Coupon applied successfully!");
+    } catch (err) {
+      alert(err.message || "Coupon error");
+    }
+  };
 
   const handleSameAsShippingChange = (e) => {
     const checked = e.target.checked;
@@ -636,6 +671,52 @@ function PaymentPage() {
               )}
             </div>
           </div> */}
+          <h3 className="contact-con-head-h3 mt-4">COUPON CODE</h3>
+
+          <div className="d-flex justify-content-between align-items-stretch gap-3 mt-2 coupon-section">
+            <input
+              type="text"
+              placeholder="Enter coupon code"
+              className="first-name-input w-100"
+              value={couponCode}
+              onChange={(e) => setCouponCode(e.target.value)}
+              disabled={couponApplied}
+            />
+            <button
+              className="btn btn-dark rounded-0 h-100"
+              style={{ padding: "15px 40px", marginTop: "0" }}
+              onClick={applyCoupon}
+              disabled={couponApplied}
+            >
+              {couponApplied ? "Applied" : "Apply"}
+            </button>
+          </div>
+
+          {/* Available Coupons */}
+          {availableCoupons.length > 0 && (
+            <div className="mt-3">
+              <p className="mb-1 fw-bold">Available Coupons:</p>
+              <div className="d-flex flex-wrap gap-2">
+                {availableCoupons?.map((coupon) => (
+                  <span
+                    key={coupon.code}
+                    className="badge bg-light text-dark border border-secondary p-2 coupon-badge"
+                    style={{ cursor: "pointer" }}
+                    onClick={() => {
+                      setCouponCode(coupon.code);
+                      if (!couponApplied) applyCoupon();
+                    }}
+                  >
+                    {coupon.code} —{" "}
+                    {coupon.type === "percent"
+                      ? `${coupon.value}% Off`
+                      : `₹${coupon.value} Off`}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+
           <button
             className="btn pay-now-btn rounded-0"
             disabled={!isValidToPay()}
@@ -722,22 +803,22 @@ function PaymentPage() {
           ))}
 
           <div className="total-calc">
-            {deliveryOption !== "pickup" && (
+            <div className="sub-cal">
+              <p>Subtotal</p>
+              <p>₹ {subtotal.toLocaleString("en-IN")}</p>
+            </div>
+            {discount > 0 && (
               <div className="sub-cal">
-                <p>Subtotal</p>
-                <p>₹ {subtotal.toLocaleString("en-IN")}</p>
-              </div>
-            )}
-            {!deliveryOption === "pickup" && showStoreInfo && (
-              <div className="sub-cal">
-                <p>Shipping</p>
-                <p>₹ 0</p>
+                <p>Coupon Discount</p>
+                <p>- ₹ {discount.toLocaleString("en-IN")}</p>
               </div>
             )}
             <div className="sub-cal">
               <h5>Total</h5>
               <h5>
-                <strong>₹ {subtotal.toLocaleString("en-IN")}</strong>
+                <strong>
+                  ₹ {(subtotal - discount).toLocaleString("en-IN")}
+                </strong>
               </h5>
             </div>
           </div>
