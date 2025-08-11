@@ -7,8 +7,8 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 
 import singleCarosal1 from "../../Assets/blogcoverphoto.jpg";
-import singleCarosal2 from "../../Assets/Untitled/w2.jpg";
-import singleCarosal3 from "../../Assets/single-carosal3.jpg";
+import singleCarosal2 from "../../Assets/New folder/New folder/section5-i.png";
+import singleCarosal3 from "../../Assets/New folder/New folder/section5-ii.png";
 import "./SingleCarosal.css";
 import { useNavigate } from "react-router-dom";
 

@@ -2,55 +2,121 @@ import React, { useState } from 'react';
 import './ReviewSection.css';
 import { User, User2Icon } from 'lucide-react';
 import { PiUserFill } from 'react-icons/pi';
-
+import { getReviewsByProduct, createOrUpdateReview } from '../../API/reviewApi';
+import {  useEffect } from "react";
+import { useParams } from 'react-router-dom';
+import { useSearchParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 function ReviewSection() {
+  const location = useLocation();
+  const productId = location.pathname.split("/").pop();
   const [showTextArea, setShowTextArea] = useState(false);
   const [userRating, setUserRating] = useState(0);
   const [sortBy, setSortBy] = useState('Recent');
   const [reviewCount, setReviewCount] = useState(5);
-
+  const [userId, setUserId] = useState(null);
+  const [reviewText, setReviewText] = useState("");
+  const [reviews, setReviews] = useState([]);
   const handleSortChange = (e) => setSortBy(e.target.value);
   const handleCountChange = (e) => setReviewCount(Number(e.target.value));
   const handleStarClick = (rating) => setUserRating(rating);
 
-  const reviews = [
-    {
-      id: 1,
-      name: 'Jessie Collins',
-      image: 'https://randomuser.me/api/portraits/women/44.jpg',
-      rating: 5,
-      comment: 'Fast delivery and setup was surprisingly easy. The instructions were clear, and I had it working in under 20 minutes. The features are impressive for the price. Fingerprint, PIN, and app unlock all work flawlessly.',
-      date: '10/6/2025',
-    },
-    {
-      id: 2,
-      name: 'Ravi Kumar',
-      image: 'https://randomuser.me/api/portraits/men/45.jpg',
-      rating: 3,
-      comment: 'Great product! The lock responds quickly and the fingerprint sensor works every time without fail. Love the convenience of this smart lock. I no longer worry about forgetting keys when I leave home.',
-      date: '9/6/2025',
-    },
-    {
-      id: 3,
-      name: 'Anjali Sharma',
-      image: 'https://randomuser.me/api/portraits/women/65.jpg',
-      rating: 4,
-      comment: 'Very happy with the build quality and the design. It looks sleek and modern on my front door. Battery life is solid so far. After 2 months of daily use, it’s still going strong without needing a recharge.',
-      date: '8/6/2025',
-    },
-    {
-      id: 4,
-      name: 'John Doe',
-      image: 'https://randomuser.me/api/portraits/men/46.jpg',
-      rating: 5,
-      comment: 'I had a few issues initially connecting it to the app, but customer support helped and now it works perfectly. Installation was straightforward, even for someone with no experience. The lock feels secure and premium.',
-      date: '5/6/2024',
-    },
-  ];
+  console.log("Params productId:", productId);
 
-  const visibleReviews = reviews.slice(0, reviewCount);
-  const averageRating =
-    visibleReviews.reduce((sum, r) => sum + r.rating, 0) / visibleReviews.length || 0;
+  useEffect(() => {
+    const storedUser = localStorage.getItem("authUser");
+    if (storedUser) {
+      try {
+        const parsedUser = JSON.parse(storedUser);
+        if (parsedUser && parsedUser.id) {
+          setUserId(parsedUser.id);
+          console.log("User ID:", parsedUser.id);
+        } else {
+          console.warn("User ID not found in stored data");
+        }
+      } catch (err) {
+        console.error("Invalid user data in localStorage", err);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    if (productId) {
+      getReviewsByProduct(productId)
+        .then((data) => {
+          setReviews(data);
+        })
+        .catch((err) => {
+          console.error("Error fetching reviews:", err);
+        });
+    }
+  }, [productId]);
+
+  const handleSubmitReview = async () => {
+    if (!userId) {
+      alert("You must be logged in to write a review.");
+      return;
+    }
+    if (userRating === 0 || reviewText.trim() === "") {
+      alert("Please provide a rating and comment.");
+      return;
+    }
+  
+    try {
+      await createOrUpdateReview(productId, {
+        userId,          // ✅ matches your backend format
+        rating: userRating,
+        comment: reviewText
+      });
+  
+      // Refresh reviews after submission
+      const updatedReviews = await getReviewsByProduct(productId);
+      setReviews(updatedReviews);
+  
+      // Reset form
+      setUserRating(0);
+      setReviewText("");
+      setShowTextArea(false);
+    } catch (error) {
+      console.error("Error creating/updating review:", error);
+      alert("Something went wrong while submitting your review.");
+    }
+  };
+  
+  const filteredReviews = reviews
+  .filter((review) => {
+    if (!review.createdAt) return false; // skip if date is missing
+
+    const reviewDate = new Date(review.createdAt);
+    const now = new Date();
+    const diffInMs = now - reviewDate;
+
+    const oneDay = 24 * 60 * 60 * 1000;
+    const oneWeek = 7 * oneDay;
+    const oneMonth = 30 * oneDay;
+    const oneYear = 365 * oneDay;
+
+    switch (sortBy) {
+      case "1 day ago":
+        return diffInMs <= oneDay;
+      case "1 week ago":
+        return diffInMs <= oneWeek;
+      case "1 month ago":
+        return diffInMs <= oneMonth;
+      case "1 year ago":
+        return diffInMs <= oneYear;
+      default: // "Recent" or any other value
+        return true;
+    }
+  })
+  .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)); // latest first
+
+const visibleReviews = filteredReviews.slice(0, reviewCount);
+const averageRating =
+  visibleReviews.reduce((sum, r) => sum + r.rating, 0) / visibleReviews.length || 0;
+  // const visibleReviews = reviews.slice(0, reviewCount);
+  // const averageRating =
+  //   visibleReviews.reduce((sum, r) => sum + r.rating, 0) / visibleReviews.length || 0;
 
   const groupedReviews = {};
   [5, 4, 3, 2, 1].forEach((star) => {
@@ -59,6 +125,8 @@ function ReviewSection() {
     );
   });
 
+
+  
   return (
     <div className="review-section-container">
       <div className="review-select-box-container">
@@ -125,7 +193,12 @@ function ReviewSection() {
                   ></i>
                 ))}
               </div>
-              <textarea placeholder="Text Your Comment" className="comment-box"></textarea>
+              <textarea placeholder="Text Your Comment" className="comment-box" value={reviewText}
+                onChange={(e) => setReviewText(e.target.value)}>
+                </textarea>
+                <button onClick={handleSubmitReview} className="submit-review-btn">
+                Submit Review
+              </button>
             </div>
           )}
         </div>
@@ -138,12 +211,12 @@ function ReviewSection() {
                   <div className="review-box" key={review.id}>
                     <div className="profile-section">
                       <div className="profile-image-and-name-div">
-                        <img src={review.image} alt="profile" className="profile-img" />
+                        {/* <img src={review.image} alt="profile" className="profile-img" /> */}
                         <div className="profile-info">
-                          <div className="profile-name">{review.name}</div>
+                          <div className="profile-name">{review.user?.name || "Anonymous"}</div>
                         </div>
                       </div>
-                      <div className="review-date">{review.date}</div>
+                      <div className="review-date">{new Date(review.createdAt).toLocaleDateString()}</div>
                     </div>
                     <div className="stars">
                       {[1, 2, 3, 4, 5].map((s) => (

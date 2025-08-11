@@ -60,26 +60,50 @@ import cat7 from '../Assets/New folder/New folder/7.png'
 import cat8 from '../Assets/CategoriesImge/Knob Shop/sec-2.png'
 import cat10 from '../Assets/CategoriesImge/Knob Shop/Hexa bolt.png'
 import cat9 from '../Assets/CategoriesImge/Knob Shop/black-rim.png'
+import aldrops from '../Assets/New folder/New folder/aldrops.png'
+import Crystal from '../Assets/New folder/New folder/Crystal Collection.png'
+import DoorCloser from '../Assets/New folder/New folder/Door Closer.png'
+import DoorStopper from '../Assets/New folder/New folder/Door Stopper.png'
+import hinges from '../Assets/New folder/New folder/hinges.png'
+import lockcollections from '../Assets/New folder/New folder/lock collections.png'
+import Rimlock from '../Assets/New folder/New folder/Rimlock.png'
+import sofalegs from '../Assets/New folder/New folder/sofa legs.png'
+import Telescopic from '../Assets/New folder/New folder/Telescopic.png'
+import Brackets from '../Assets/New folder/New folder/Brackets.png'
+import hooks from '../Assets/New folder/New folder/hooks.png'
+import Tower from '../Assets/New folder/New folder/Tower Bolt.png'
 export const Home = () => {
   const [categories, setCategories] = useState([]);
   const categoryImageMap = {
-    "Door Closer":cat8,
-    "Rim Lock":cat9,
-    "locks": cat1,
-    "Telescopic": cat2,
+    "Door Closer":DoorCloser,
+    "Rim Lock":Rimlock,
+    "Door Stopper": DoorStopper,
+    "Telescopic": Telescopic,
     "Auto HInges": cat3,
-    "Aldrop": cat7,
-    "Hexa Bolt":cat10,
+    "Aldrop": aldrops,
+    "Hinges":hinges,
+    "Sofa Leg":cat10,
+    "Hooks":hooks,
+    "Brackets":Brackets,
+    "Crystal collections":Crystal,
+    "Lock collections":lockcollections,
+    "Tower Bolt":Tower,
   };
   
   const TARGET_CATEGORY_NAMES = [
     "Door Closer",
-    "Rim Lock",
-    "Locks",
+    "Door Stopper",
+    "Tower Bolt",
     "Telescopic",
     "Auto HInges",
     "Aldrop",
-    "Hexa Bolt"
+    "Hinges",
+    "Rim Lock",
+    "Sofa Leg",
+    "Hooks",
+    "Brackets",
+    "Crystal collections",
+    "Lock collections"
   ];
   useEffect(() => {
     const getSelectedCategories = async () => {

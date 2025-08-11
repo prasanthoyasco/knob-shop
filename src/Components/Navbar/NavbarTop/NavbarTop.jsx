@@ -15,11 +15,11 @@ function NavbarTop() {
             <div className='navbar-top-container'>
                 <div className='navbar-top-phone-number'>
                     <img src={call_icon} alt="Call"/>
-                    <p>9876543210</p>
+                    <p>70924 66600</p>
                 </div>
 
                 <div className='navbar-top-offer'>
-                    <p>Sign up and <strong style={{color:'#E18436'}}>GET 25% OFF</strong> for your first order</p>
+                    <p>Welcome Bonus! Use<strong style={{color:'#E18436'}}> KNOBSSHOP25 </strong> on your first login & grab <strong style={{color:'#E18436'}}> ₹100 off instantly </strong></p>
                 </div>
                  <div className="navbar-mob-middle-search-box-icon my-1">
           <input type="search" placeholder="Search" />
@@ -32,8 +32,14 @@ function NavbarTop() {
                         <p>ecom@knobsshop.store</p>
                     </div>
                     <div className='navbar-top-facebook-insta-icon'>
-                        <img src={facebook_icon} alt="Facebook" />
-                        <img src={insta_icon} alt="Instagram" />
+                        {/* <img src={facebook_icon} alt="Facebook" /> */}
+                        <a 
+        href="https://www.instagram.com/knobsshop_official/" 
+        target="_blank" 
+        rel="noopener noreferrer"
+    >
+        <img src={insta_icon} alt="Instagram" />
+    </a>
                     </div>
                 </div>
             </div>

@@ -67,11 +67,6 @@ const WishlistDrawer = ({
                         ₹{item.variant?.[0]?.sizes?.[0].mrp.toLocaleString()}
                       </span>
                       <div>
-                        {addedItemIds.includes(item.id || item._id) ? (
-                          <button className="btn btn-sm btn-dark me-2" disabled>
-                            Added
-                          </button>
-                        ) : (
                           <button
                             className="btn btn-sm btn-dark me-2"
                             onClick={() => {
@@ -96,7 +91,6 @@ const WishlistDrawer = ({
                           >
                             Add to Cart
                           </button>
-                        )}
 
                         <button
                           className="btn btn-sm btn-link text-danger p-0"

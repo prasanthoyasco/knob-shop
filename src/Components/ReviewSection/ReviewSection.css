@@ -1,3 +1,11 @@
+.submit-review-btn{
+  background-color: black;
+  color: white;
+  border: none;
+  border-radius: 2px;
+  width: 100%;
+  padding: 10px 0;
+}
 .review-select-box-container{
     display: flex;
     flex-direction: row;
