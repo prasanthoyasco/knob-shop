@@ -2,9 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./PaymentPage.css";
 import Footer from "../Footer/Footer";
 import NavbarTop from "../Navbar/NavbarTop/NavbarTop";
-import CCAvenueIframe from "./CCAvenueIframe";
-import { useNavigate } from "react-router-dom";
-import { useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { createDTDCConsignment } from "../../API/createOrderConsigment";
 import { createOrderWithShipping } from "../../API/orderApi";
 import { initiateTransaction } from "../../API/paymentApi";
@@ -16,33 +14,52 @@ const cardImages = [
   "/payment-icon/paypal.svg",
   "/payment-icon/visa.svg",
 ];
+
 function PaymentPage() {
-  const storedUser = localStorage.getItem("authUser");
-  console.log("Stored User:", JSON.parse(storedUser));
-  const Userid = JSON.parse(storedUser)?.id || JSON.parse(storedUser)?._id;
-  console.log(Userid);
+  const storedUser = (() => {
+    try {
+      return JSON.parse(localStorage.getItem("authUser")) || {};
+    } catch {
+      return {};
+    }
+  })();
+
+  const Userid = storedUser.id || storedUser._id;
   const [deliveryOption, setDeliveryOption] = useState("ship");
   const [pickupAddress, setPickupAddress] = useState("");
-  console.log("Pickup Address:", pickupAddress);
   const [showStoreInfo, setShowStoreInfo] = useState(false);
   const [contactInfo, setContactInfo] = useState("");
+  const [mobileInfo, setMobileInfo] = useState("");
   const [contactCompleted, setContactCompleted] = useState(false);
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [deliveryAddress, setDeliveryAddress] = useState("");
-  const [city, setCity] = useState("");
-  const [state, setState] = useState("");
-  const [shipingState, setShipingState] = useState("");
+  const [redirecting, setRedirecting] = useState(false);
+
+  const [shippingFirstName, setShippingFirstName] = useState("");
+  const [shippingLastName, setShippingLastName] = useState("");
+  const [shippingAddress, setShippingAddress] = useState("");
+  const [shippingCity, setShippingCity] = useState("");
+  const [shippingZip, setShippingZip] = useState("");
+  const [shippingState, setShippingState] = useState("");
+
+  const [billingFirstName, setBillingFirstName] = useState("");
+  const [billingLastName, setBillingLastName] = useState("");
+  const [billingAddress, setBillingAddress] = useState("");
+  const [billingCity, setBillingCity] = useState("");
+  const [billingState, setBillingState] = useState("");
+  const [billingZip, setBillingZip] = useState("");
+
+  const [sameAsShipping, setSameAsShipping] = useState(false);
+  const [deliveryCompleted, setDeliveryCompleted] = useState(false);
+
   const [paymentStarted, setPaymentStarted] = useState(false);
   const [encRequest, setEncRequest] = useState("");
   const [accessCode, setAccessCode] = useState("");
   const [merchantId, setMerchantId] = useState("");
+  const [paying, setPaying] = useState(false);
 
-  const [zipCode, setZipCode] = useState("");
-  const [deliveryCompleted, setDeliveryCompleted] = useState(false);
   const location = useLocation();
   const cartItems = location.state?.cartItems || [];
-  console.log("Cart Items:", cartItems);
+  const navigate = useNavigate();
+
   const subtotal = cartItems.reduce(
     (sum, item) =>
       sum +
@@ -52,53 +69,84 @@ function PaymentPage() {
         item.quantity,
     0
   );
+
   useEffect(() => {
     if (storedUser) {
-      setContactInfo(
-        JSON.parse(storedUser)?.email || JSON.parse(storedUser)?.phone || ""
-      );
+      setContactInfo(storedUser.email || "");
+      setMobileInfo( storedUser.phone || storedUser.mobile || "");
     }
   }, [storedUser]);
 
   useEffect(() => {
-    const allFilled =
-      firstName.trim() &&
-      lastName.trim() &&
-      deliveryAddress.trim() &&
-      city.trim() &&
-      zipCode.trim();
-    setDeliveryCompleted(!!allFilled);
-  }, [firstName, lastName, deliveryAddress, city, zipCode]);
-  const navigate = useNavigate();
+    setDeliveryCompleted(
+      Boolean(
+        shippingFirstName.trim() &&
+          shippingLastName.trim() &&
+          shippingAddress.trim() &&
+          shippingCity.trim() &&
+          shippingZip.trim()
+      )
+    );
+  }, [
+    shippingFirstName,
+    shippingLastName,
+    shippingAddress,
+    shippingCity,
+    shippingZip,
+  ]);
+
+  const handleSameAsShippingChange = (e) => {
+    const checked = e.target.checked;
+    setSameAsShipping(checked);
+
+    if (checked) {
+      setBillingFirstName(shippingFirstName);
+      setBillingLastName(shippingLastName);
+      setBillingAddress(shippingAddress);
+      setBillingCity(shippingCity);
+      setBillingState(shippingState);
+      setBillingZip(shippingZip);
+    } else {
+      setBillingFirstName("");
+      setBillingLastName("");
+      setBillingAddress("");
+      setBillingCity("");
+      setBillingState("");
+      setBillingZip("");
+    }
+  };
 
   const handlePayment = async () => {
+    setPaying(true);
     try {
-      if (!storedUser) {
-        alert("please login before payment");
+      if (!Userid) {
+        alert("Please login before payment");
         navigate("/auth/register");
         return;
       }
-      const totalValue = cartItems.reduce(
-        (sum, item) =>
-          sum +
-          (item.price ||
-            item?.productId.variant?.[0]?.sizes?.[0]?.sellingPrice ||
-            0) *
-            item.quantity,
-        0
-      );
 
-      const userId = Userid;
+      const totalValue = subtotal;
 
-      const shippingAddress = {
-        name: `${firstName} ${lastName}`,
+      const shippingData = {
+        name: `${shippingFirstName} + ' ' + ${shippingLastName}`,
         phone: contactInfo,
-        alternate_phone: contactInfo,
-        street: deliveryAddress,
-        city: city,
-        district: city,
-        pincode: zipCode,
-        state: shipingState || "Tamil Nadu",
+        alternate_phone: mobileInfo || contactInfo,
+        street: shippingAddress,
+        city: shippingCity,
+        district: shippingCity,
+        pincode: shippingZip,
+        state: shippingState || "Tamil Nadu",
+      };
+
+      const billingData = {
+        name: `${billingFirstName} ${billingLastName}`,
+        street: billingAddress,
+        city: billingCity,
+        state: billingState || "Tamil Nadu",
+        zip: billingZip,
+        country: "India",
+        phone: contactInfo,
+        email: contactInfo.includes("@") ? contactInfo : "test@example.com",
       };
 
       const items = cartItems.map((item) => ({
@@ -107,21 +155,20 @@ function PaymentPage() {
         productName: item.title || item.productName || item?.productId?.name,
         quantity: item.quantity,
         price: item.price || item?.productId?.variant[0].sizes[0].sellingPrice,
-        total: item.price * item.quantity,
+        total: (item.price || 0) * item.quantity,
       }));
 
       let referenceNumber = "";
       let orderId = `ORDER-${Date.now()}`;
 
       if (deliveryOption === "ship") {
-        // Step 1: Create DTDC Consignment
         const dtdcPayload = {
           _id: orderId,
           invoiceNo: `INV-${Date.now()}`,
           invoiceDate: new Date().toISOString().split("T")[0],
           totalAmount: totalValue,
           ewayBill: "12345678",
-          shippingAddress,
+          shippingAddress: shippingData,
           cartItems,
           dimensions: {
             length: 70,
@@ -132,131 +179,147 @@ function PaymentPage() {
               .toFixed(1),
           },
         };
-
         const dtdcResponse = await createDTDCConsignment(dtdcPayload);
         referenceNumber =
           dtdcResponse?.data?.[0]?.customer_reference_number || "N/A";
       }
 
-      // Step 2: Create order in your DB
       const orderData = {
-        userId,
+        userId: Userid,
         items,
         totalAmount: totalValue,
         shippingAddress:
-          deliveryOption === "ship" ? shippingAddress : pickupAddress,
+          deliveryOption === "ship" ? shippingData : pickupAddress,
         dtdcReferenceNumber:
           deliveryOption === "ship" ? referenceNumber : "PICKUP",
+        deliveryMode: deliveryOption,
         paymentMethod: "online",
         paymentStatus: "pending",
         status: "pending",
-        deliveryMode: deliveryOption,
       };
 
       const { order } = await createOrderWithShipping(orderData);
 
-      const invoicePayload = {
-        shippingAddress:
-          deliveryOption === "ship" ? shippingAddress : pickupAddress,
-        cartItems,
-        totalAmount: totalValue,
-        dtdcReferenceNumber:
-          deliveryOption === "ship" ? referenceNumber : "PICKUP",
-        userId,
-        paymentMethod: "online",
-        invoiceDate: new Date().toLocaleDateString(),
-        orderId: order.orderId,
-      };
+      localStorage.setItem(
+        "latestInvoiceData",
+        JSON.stringify({
+          shippingAddress:
+            deliveryOption === "ship" ? shippingData : pickupAddress,
+          cartItems,
+          totalAmount: totalValue,
+          dtdcReferenceNumber:
+            deliveryOption === "ship" ? referenceNumber : "PICKUP",
+          userId: Userid,
+          paymentMethod: "online",
+          invoiceDate: new Date().toLocaleDateString(),
+          orderId: order.orderId,
+        })
+      );
 
-      const invoiceDate = localStorage.setItem("latestInvoiceData", JSON.stringify(invoicePayload));
-      console.log("invoice Data :",invoiceDate)
-      console.log("invoice pay load :",invoicePayload)
-      // Step 3: Initiate CCAvenue Payment
-      const ccavenuePayload = {
-        orderId: order?.orderId, // Must not be undefined
+      const ccResponse = await initiateTransaction({
+        orderId: order?.orderId,
         amount: totalValue,
         currency: "INR",
-        billing_name:
-          firstName?.trim() || lastName?.trim()
-            ? `${firstName?.trim() || ""} ${lastName?.trim() || ""}`.trim()
-            : JSON.parse(storedUser || "{}")?.name || "Guest",
-
+        billing_name: storedUser?.name || billingData.name || "Guest",
         billing_address:
-          deliveryOption === "ship" ? deliveryAddress : "In-store Pickup",
-        billing_city: deliveryOption === "ship" ? city : "Coimbatore",
-        billing_state: deliveryOption === "ship" ? state : "Tamil Nadu",
-        billing_zip: deliveryOption === "ship" ? zipCode : "641002",
-        billing_country: "India",
-        billing_tel: contactInfo,
-        billing_email: contactInfo.includes("@")
-          ? contactInfo
-          : "test@example.com",
-      };
+          deliveryOption === "ship" ? billingData.street : "In-store Pickup",
+        billing_city:
+          deliveryOption === "ship" ? billingData.city : "Coimbatore",
+        billing_state:
+          deliveryOption === "ship" ? billingData.state : "Tamil Nadu",
+        billing_zip: deliveryOption === "ship" ? billingData.zip : "641002",
+        billing_country: billingData.country || "India",
+        billing_tel: billingData.phone || contactInfo,
+        billing_email:
+          billingData.email || contactInfo.includes("@")
+            ? contactInfo
+            : "test@example.com",
+      });
 
-      const ccResponse = await initiateTransaction(ccavenuePayload);
-      console.log("CCAvenue Response:", ccResponse);
       setEncRequest(ccResponse.encRequest);
       setAccessCode(ccResponse.accessCode);
       setMerchantId(ccResponse.merchantId);
       setPaymentStarted(true);
     } catch (err) {
-      console.error("❌ Error in payment handling:", err);
+      console.error("❌ Payment error:", err);
       alert("Order failed. Please try again.");
+    } finally {
+      setPaying(false);
     }
   };
 
-  if (paymentStarted && encRequest && accessCode && merchantId) {
-    const paymentUrl = `https://secure.ccavenue.com/transaction/transaction.do?command=initiateTransaction&merchant_id=${merchantId}&encRequest=${encRequest}&access_code=${accessCode}`;
-    window.location.href = paymentUrl;
-  }
+  useEffect(() => {
+    if (paymentStarted && encRequest && accessCode && merchantId) {
+      setRedirecting(true); // show loader first
+
+      setTimeout(() => {
+        window.location.href = `https://secure.ccavenue.com/transaction/transaction.do?command=initiateTransaction&merchant_id=${merchantId}&encRequest=${encRequest}&access_code=${accessCode}`;
+      }, 1500); // small delay so loader is visible
+    }
+  }, [paymentStarted, encRequest, accessCode, merchantId]);
 
   const isValidToPay = () => {
     if (!contactInfo) return false;
     if (deliveryOption === "ship") {
-      return [firstName, lastName, deliveryAddress, city, zipCode, state].every(
-        (field) => field.trim()
-      );
-    } else {
-      return !!pickupAddress;
+      return [
+        shippingFirstName,
+        shippingLastName,
+        shippingAddress,
+        shippingCity,
+        shippingZip,
+        shippingState,
+      ].every((field) => field.trim());
     }
-  };
 
+    return !!pickupAddress;
+  };
   return (
     <>
       <NavbarTop />
       <div className="payment-page-container">
+        {redirecting && (
+          <div className="redirect-loader">
+            <p>Redirecting to secure payment gateway...</p>
+            <div className="spinner"></div>
+          </div>
+        )}
         <div className="payment-page-left-side">
           <div className="contact-container">
             <div className="contact-con-head">
               <h3 className="contact-con-head-h3">CONTACT</h3>
-              {Userid && <a href="login">Log in</a>}
+              {!Userid && <a href="login">Log in</a>}
             </div>
             <input
               type="text"
-              placeholder="Email or Mobile Phone Number"
-              className="contact-con-input"
+              placeholder="Email Address"
+              className="contact-con-input mb-3"
               value={contactInfo}
               onChange={(e) => setContactInfo(e.target.value)}
               onBlur={() => setContactCompleted(true)}
             />
-            <div className="contact-con-checkbox-text">
-              <input type="checkbox" />
-              <p>Email me with news and offers</p>
-            </div>
+            <input
+              type="text"
+              placeholder="Mobile Phone Number"
+              className="contact-con-input"
+              value={mobileInfo}
+              onChange={(e) => setMobileInfo(e.target.value)}
+              onBlur={() => setContactCompleted(true)}
+            />
           </div>
           <div className="deliver-section-container">
             <h3 className="contact-con-head-h3">DELIVERY</h3>
             {deliveryCompleted && (
               <div className="entered-delivery-info">
                 <p>
-                  {firstName} {lastName}
+                  {shippingFirstName} {shippingLastName}
                 </p>
-                <p>{deliveryAddress}</p>
+                <p>{shippingAddress}</p>
                 <p>
-                  {city} - {zipCode}
+                  {shippingCity} - {shippingZip}
                 </p>
               </div>
             )}
+
             <div
               className="payment-page-delivery-sec"
               style={{ cursor: "pointer" }}
@@ -308,36 +371,36 @@ function PaymentPage() {
                   type="text"
                   placeholder="First Name"
                   className="first-name-input"
-                  value={firstName}
-                  onChange={(e) => setFirstName(e.target.value)}
+                  value={shippingFirstName}
+                  onChange={(e) => setShippingFirstName(e.target.value)}
                 />
                 <input
                   type="text"
                   placeholder="Last Name"
                   className="first-name-input"
-                  value={lastName}
-                  onChange={(e) => setLastName(e.target.value)}
+                  value={shippingLastName}
+                  onChange={(e) => setShippingLastName(e.target.value)}
                 />
               </div>
               <input
                 type="text"
                 className="contact-con-input"
                 placeholder="Address"
-                value={deliveryAddress}
-                onChange={(e) => setDeliveryAddress(e.target.value)}
+                value={shippingAddress}
+                onChange={(e) => setShippingAddress(e.target.value)}
               />
               <div className="first-last-name-input-div">
                 <input
                   type="text"
                   placeholder="City"
                   className="first-name-input"
-                  value={city}
-                  onChange={(e) => setCity(e.target.value)}
+                  value={shippingCity}
+                  onChange={(e) => setShippingCity(e.target.value)}
                 />
                 <select
                   className="first-name-input"
-                  value={state}
-                  onChange={(e) => setState(e.target.value)}
+                  value={shippingState}
+                  onChange={(e) => setShippingState(e.target.value)}
                 >
                   <option value="">Select State</option>
                   <option value="Tamil Nadu">Tamil Nadu</option>
@@ -349,8 +412,8 @@ function PaymentPage() {
                   type="text"
                   placeholder="Zip Code"
                   className="first-name-input"
-                  value={zipCode}
-                  onChange={(e) => setZipCode(e.target.value)}
+                  value={shippingZip}
+                  onChange={(e) => setShippingZip(e.target.value)}
                   onBlur={() => setDeliveryCompleted(true)}
                 />
               </div>
@@ -409,9 +472,14 @@ function PaymentPage() {
                 Enter your shipping address to view available shipping methods
               </div>
               <div className="contact-con-checkbox-text">
-                <input type="checkbox" />
+                <input
+                  type="checkbox"
+                  checked={sameAsShipping}
+                  onChange={handleSameAsShippingChange}
+                />
                 <p>Use Shipping address as billing address</p>
               </div>
+
               <div className="shop-conatiner">
                 <select className="select-box">
                   <option>India</option>
@@ -423,36 +491,41 @@ function PaymentPage() {
                     type="text"
                     placeholder="First Name"
                     className="first-name-input"
-                    value={firstName}
-                    onChange={(e) => setFirstName(e.target.value)}
+                    value={billingFirstName}
+                    onChange={(e) => setBillingFirstName(e.target.value)}
+                    disabled={sameAsShipping}
                   />
                   <input
                     type="text"
                     placeholder="Last Name"
                     className="first-name-input"
-                    value={lastName}
-                    onChange={(e) => setLastName(e.target.value)}
+                    value={billingLastName}
+                    onChange={(e) => setBillingLastName(e.target.value)}
+                    disabled={sameAsShipping}
                   />
                 </div>
                 <input
                   type="text"
                   className="contact-con-input"
                   placeholder="Address"
-                  value={deliveryAddress}
-                  onChange={(e) => setDeliveryAddress(e.target.value)}
+                  value={billingAddress}
+                  onChange={(e) => setBillingAddress(e.target.value)}
+                  disabled={sameAsShipping}
                 />
                 <div className="first-last-name-input-div">
                   <input
                     type="text"
                     placeholder="City"
                     className="first-name-input"
-                    value={city}
-                    onChange={(e) => setCity(e.target.value)}
+                    value={billingCity}
+                    onChange={(e) => setBillingCity(e.target.value)}
+                    disabled={sameAsShipping}
                   />
                   <select
                     className="first-name-input"
-                    value={shipingState}
-                    onChange={(e) => setShipingState(e.target.value)}
+                    value={billingState}
+                    onChange={(e) => setBillingState(e.target.value)}
+                    disabled={sameAsShipping}
                   >
                     <option value="">Select State</option>
                     <option value="Tamil Nadu">Tamil Nadu</option>
@@ -464,8 +537,9 @@ function PaymentPage() {
                     type="text"
                     placeholder="Zip Code"
                     className="first-name-input"
-                    value={zipCode}
-                    onChange={(e) => setZipCode(e.target.value)}
+                    value={billingZip}
+                    onChange={(e) => setBillingZip(e.target.value)}
+                    disabled={sameAsShipping}
                     onBlur={() => setDeliveryCompleted(true)}
                   />
                 </div>
@@ -567,9 +641,14 @@ function PaymentPage() {
             disabled={!isValidToPay()}
             onClick={handlePayment}
           >
-            PAY NOW
+            {paying ? "Opening payment gateway" : "PAY NOW"}
           </button>
           <hr />
+          <div className="card-image-payment">
+            {cardImages.map((image) => (
+              <img src={image} />
+            ))}
+          </div>
         </div>
         <div className="payment-page-right-side">
           {deliveryOption === "pickup" ? (

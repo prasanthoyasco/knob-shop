@@ -88,7 +88,7 @@ export default function ProductDetailsHead() {
     title: product?.name,
     image: product?.images?.[0] || "default.jpg",
     price: selectedSizeObj?.sellingPrice || product?.price,
-    // productId: product?.productId,
+    sku: product?.productId,
     categoryId:product?.category?._id,
     mrpPrice: selectedSizeObj?.mrp || product?.compare_price,
     brand: product?.brand,
@@ -235,7 +235,7 @@ export default function ProductDetailsHead() {
               <div className="d-flex justify-content-between align-items-center mb-3 mb-md-2">
                 <p className="text-muted fw-medium mb-0 d-flex gap-2">
                   <strong>Brand :</strong> {cartItem.brand}{" "}
-                  <strong> SKU :</strong> {cartItem.productId}
+                  <strong> SKU :</strong> {cartItem.sku}
                 </p>
                 <div className="d-flex gap-3">
                   <div className="d-flex gap-3 align-items-center">
