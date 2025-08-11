@@ -41,7 +41,7 @@ const CartItemsList = ({
           <div>
             <div className="shopping-cart-table-product-image">
               <img
-                src={item.productId.variant?.[0]?.images[0]?.url || item.image}
+                src={item.productId.variant?.[0]?.images[0]?.url || item.image || item.images[0]}
                 alt={item.title}
                 loading="lazy"
               />
@@ -107,7 +107,10 @@ const CartItemsList = ({
                   }`
                 : item.price != null
                 ? `₹${item.price.toLocaleString("en-IN")}`
-                : "Price not available"}
+                : `₹${item.variant[0].sizes[0].sellingPrice.toLocaleString(
+                  "en-IN"
+                )}`
+                }
             </h3>
           </div>
         </div>
