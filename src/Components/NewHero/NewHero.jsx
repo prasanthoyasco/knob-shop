@@ -130,6 +130,11 @@ const NewHero = () => {
 
       if (isVideoSlide) {
         swiper.autoplay?.stop();
+        const videoEl = document.querySelector(".full-banner-video");
+        if (videoEl) {
+          videoEl.currentTime = 0;
+          videoEl.play().catch(() => {});
+        }
       } else {
         swiper.autoplay?.start();
       }
