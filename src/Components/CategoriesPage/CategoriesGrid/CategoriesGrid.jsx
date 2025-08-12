@@ -53,7 +53,6 @@ function CategoriesGrid() {
           <img src={data.image} className='categories-data-grid-image' />
           <div className='categories-data-grid-text'>
             <h5>{data.text}</h5>
-            <p>{data.items}</p>
           </div>
         </div>
       ))}

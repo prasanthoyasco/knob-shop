@@ -41,9 +41,10 @@ const RelatedProductsSection = () => {
             height: "50px",
             width: "50px",
             left: 10,
+            backgroundColor:"black",
           }}
         >
-          <ChevronLeft size={20} />
+          <ChevronLeft size={30} color="white"/>
         </button>
 
         {/* Scrollable Row */}
@@ -89,9 +90,10 @@ const RelatedProductsSection = () => {
             height: "50px",
             width: "50px",
             right: 10,
+            backgroundColor:"black",
           }}
         >
-          <ChevronRight size={30} />
+          <ChevronRight size={30} color="white"/>
         </button>
       </div>
     </div>

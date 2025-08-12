@@ -8,7 +8,7 @@ function BookConsultForm() {
 
   const [formData, setFormData] = useState({
     location: '',
-    pincode: '',
+    category: '',
     name: '',
     mobile: '',
     whatsapp: false,
@@ -31,7 +31,7 @@ function BookConsultForm() {
       console.log(response);
       setFormData({
         location: '',
-        pincode: '',
+        category: '',
         name: '',
         mobile: '',
         whatsapp: false,
@@ -58,6 +58,9 @@ function BookConsultForm() {
     "Chandigarh", "Dadra and Nagar Haveli and Daman and Diu", "Delhi", "Jammu and Kashmir",
     "Ladakh", "Lakshadweep", "Puducherry"
   ];
+  const categoryList = [
+    "Living Room", "Dinning Room", "Sofa", "Lightning", "Coffee Tables", "Storage Cabinets",
+  ];
   
   return (
     <div className='book-form-container'>
@@ -67,26 +70,13 @@ function BookConsultForm() {
 
       <div className='book-form-con'>
         <div className='book-form-left'>
-          <div className='input-and-text'>
-            <p>Your Location</p>
-            <select name="location" value={formData.location} onChange={handleChange}>
-  <option value="" disabled>Select your state</option>
-  {indianStates.map((state) => (
-    <option key={state} value={state}>{state}</option>
-  ))}
-</select>
 
-          </div>
-
-          <div className='input-and-text'>
-            <p>Pincode</p>
-            <input type='text' name="pincode" value={formData.pincode} onChange={handleChange} placeholder='Enter Pincode' />
-          </div>
-
-          <div className='input-and-text'>
+          
+        <div className='input-and-text'>
             <p>Name</p>
             <input type='text' name="name" value={formData.name} onChange={handleChange} placeholder='Enter Full Name' />
           </div>
+
 
           <div className='input-and-text'>
             <p>Mobile</p>
@@ -101,6 +91,29 @@ function BookConsultForm() {
           <div className='input-and-text'>
             <p>Email Id</p>
             <input type='text' name="email" value={formData.email} onChange={handleChange} placeholder='Enter Email' />
+          </div>
+
+
+          <div className='input-and-text'>
+            <p>Category</p>
+            <select name="category" value={formData.category} onChange={handleChange}>
+  <option value="" disabled>Select your category</option>
+  {categoryList.map((state) => (
+    <option key={state} value={state}>{state}</option>
+  ))}
+</select>
+
+          </div>
+
+          <div className='input-and-text'>
+            <p>Your Location</p>
+            <select name="location" value={formData.location} onChange={handleChange}>
+  <option value="" disabled>Select your state</option>
+  {indianStates.map((state) => (
+    <option key={state} value={state}>{state}</option>
+  ))}
+</select>
+
           </div>
 
           <div className='input-and-text'>
