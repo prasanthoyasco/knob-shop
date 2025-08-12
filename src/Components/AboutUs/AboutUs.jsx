@@ -95,7 +95,7 @@ const AboutUs = () => {
   }, [hasAnimated]);
 
   return (
-    <section ref={counterRef} className="about-us-section my-5">
+    <section ref={counterRef} className="about-us-section my-5" id="about-section">
       <div className="container-flued mx-5">
         <div className="row align-items-center">
           {/* Left Image Side */}

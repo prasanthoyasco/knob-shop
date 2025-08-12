@@ -13,7 +13,7 @@ const shopContent = [
   { text: "Kitchen", href: "/kitchen" },
 ];
 const aboutContent = [
-  { text: "About Us", href: "/about-us" },
+  { text: "About Us", href: "#about-section" },
   { text: "Blogs", href: "/blogs" },
   { text: "Brouchers", href: "/brouchers" },
 ];
