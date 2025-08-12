@@ -15,14 +15,14 @@ function CartPageProfile() {
       <h2>My Cart</h2>
       <div className="wishlist-grid mt-5">
         {cartItems?.map((product) => {
-          console.log("Cart product:", product); // ✅ Debugging each item
+          console.log("Cart product:", product);
           const navigateId = product.productId?._id || product._id || product.id
           return (
             <div
               key={product._id}
               className="wishlist-item"
               style={{ cursor: 'pointer' }}
-              onClick={() => navigate(`/product/${navigateId}`)} // ✅ Fixed camelCase
+              onClick={() => navigate(`/product/${navigateId}`)} 
             >
               <img
                 src={
@@ -32,7 +32,12 @@ function CartPageProfile() {
                 }
                 alt={product.name || 'Product'}
               />
-              <h6>{product.name?.split(' ').slice(0, 3).join(' ') || product.title || product.productId.name}</h6>
+<h6>
+  {product?.name?.split(' ').slice(0, 3).join(' ')
+    || product?.title?.split(' ').slice(0, 3).join(' ')
+    || product?.productId?.name?.split(' ').slice(0, 3).join(' ')}
+</h6>
+
               {(product.brand || product.productId?.brand) && (product.brand || product.productId?.brand) !== "0" && (
   <p>
     Brand: <strong>{product.brand || product.productId?.brand}</strong>

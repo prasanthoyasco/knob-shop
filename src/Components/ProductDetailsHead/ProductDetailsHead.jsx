@@ -551,7 +551,7 @@ export default function ProductDetailsHead() {
                 <p className="text-gray mt-4 ms-3 fw-medium small">
                   For other Querys call this{" "}
                   <a href="tel:+919876543210" className="text-black fw-bold">
-                    +91 98765 43210
+                    +91 70924 66600
                   </a>
                 </p>
               </div>

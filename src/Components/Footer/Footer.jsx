@@ -134,8 +134,7 @@ function Footer() {
             <div className="icon-phone-number">
               <i className="bi bi-telephone-fill"></i>
               <div className="phone-number">
-                <p>+91 9876543210</p>
-                <p>+91 9876543211</p>
+                <p>+91 70924 66600</p>
               </div>
             </div>
             <div className="icon-and-mail-id">
