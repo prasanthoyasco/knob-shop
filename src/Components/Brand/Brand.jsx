@@ -1,25 +1,40 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import Slider from "react-slick";
-import './Brand.css'
+import "./Brand.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useNavigate } from "react-router-dom";
-import brand2 from '../../Assets/BrandLogos/dorset-logo.webp'
-import brand3 from '../../Assets/BrandLogos/Dorma.png'
-import brand4 from '../../Assets/BrandLogos/l2.png'
-import brand5 from '../../Assets/BrandLogos/Ebco.webp'
-import brand6 from '../../Assets/BrandLogos/gaze.png'
-import brand7 from '../../Assets/BrandLogos/Godrej.png'
-import brand8 from '../../Assets/BrandLogos/Golden.png'
-import brand9 from '../../Assets/BrandLogos/haefele_logo.png'
-import brand10 from '../../Assets/BrandLogos/labacha.png'
-import brand11 from '../../Assets/BrandLogos/logo.svg.svg'
-import brand12 from '../../Assets/BrandLogos/magnum-logo.png'
-import brand13 from '../../Assets/BrandLogos/PlusPointWhite-CT5yed7t.png'
-import brand14 from '../../Assets/BrandLogos/Sris-ma-fils-trademark-and-logo.png'
-import brand15 from '../../Assets/brand3.png'
+import brand2 from "../../Assets/BrandLogos/dorset-logo.webp";
+import brand3 from "../../Assets/BrandLogos/Dorma.png";
+import brand4 from "../../Assets/BrandLogos/l2.png";
+import brand5 from "../../Assets/BrandLogos/Ebco.webp";
+import brand6 from "../../Assets/BrandLogos/gaze.png";
+import brand7 from "../../Assets/BrandLogos/Godrej.png";
+import brand8 from "../../Assets/BrandLogos/Golden.png";
+import brand9 from "../../Assets/BrandLogos/haefele_logo.png";
+import brand10 from "../../Assets/BrandLogos/labacha.png";
+import brand11 from "../../Assets/BrandLogos/logo.svg.svg";
+import brand12 from "../../Assets/BrandLogos/magnum-logo.png";
+import brand13 from "../../Assets/BrandLogos/PlusPointWhite-CT5yed7t.png";
+import brand14 from "../../Assets/BrandLogos/Sris-ma-fils-trademark-and-logo.png";
+import brand15 from "../../Assets/brand3.png";
 import { getAllProducts } from "../../API/productApi";
-const images = [ brand2, brand3, brand4, brand5, brand6,brand7,brand8,brand9,brand10,brand11,brand12,brand13,brand14,brand15];
+const images = [
+  brand2,
+  brand3,
+  brand4,
+  brand5,
+  brand6,
+  brand7,
+  brand8,
+  brand9,
+  brand10,
+  brand11,
+  brand12,
+  brand13,
+  brand14,
+  brand15,
+];
 
 const brandData = [
   { name: "Dorset", image: brand2, className: "dorset-size" },
@@ -33,7 +48,11 @@ const brandData = [
   { name: "Labacha", image: brand10, className: "labacha-size" },
   { name: "Blum", image: brand11 },
   { name: "Magnum", image: brand12 },
-  { name: "PlusPoint", image: brand13, className: "PlusPointWhite-color PlusPoint-size" },
+  {
+    name: "PlusPoint",
+    image: brand13,
+    className: "PlusPointWhite-color PlusPoint-size",
+  },
   { name: "Sris-ma-fils", image: brand14 },
   { name: "Yale", image: brand15 },
 ];
@@ -66,16 +85,16 @@ function Brand() {
       console.error("Failed to fetch all products", error);
     }
   };
-  
+
   const slidesToShow = 6; // default slidesToShow, same as in settings
 
   const settings = {
     dots: false,
     infinite: true,
-    speed: 6000,           // Long duration for smooth slide scroll
+    speed: 6000, // Long duration for smooth slide scroll
     autoplay: true,
-    autoplaySpeed: 0,      // No delay between slides
-    cssEase: 'linear',     // Linear easing for continuous motion
+    autoplaySpeed: 0, // No delay between slides
+    cssEase: "linear", // Linear easing for continuous motion
     slidesToShow,
     slidesToScroll: 1,
     arrows: false,
@@ -85,56 +104,56 @@ function Brand() {
         breakpoint: 768,
         settings: {
           slidesToShow: 2,
-        }
+        },
       },
       {
         breakpoint: 480,
         settings: {
           slidesToShow: 2,
-        }
-      }
-    ]
+        },
+      },
+    ],
   };
-  
 
   // Helper to determine if a slide should be greyed out
   // We'll grey out the first and last visible slides:
   // So slides at currentSlide and currentSlide + slidesToShow - 1
 
   return (
-    <div className='brands-container'>
+    <div className="brands-container">
       <h5>TRUSTED BY TOP BRANDS</h5>
-      <div className='brand-carousel'>
+      <div className="brand-carousel">
         <Slider {...settings}>
-        {brandData.map((brand, index) => {
-          const { name, image } = brand;
-          const total = brandData.length;
-          const startIndex = currentSlide % total;
-          const endIndex = (startIndex + slidesToShow - 1) % total;
-        
-          let classNames = `brand-slide index-${index}`;
+          {brandData.map((brand, index) => {
+            const { name, image } = brand;
+            const total = brandData.length;
+            const startIndex = currentSlide % total;
+            const endIndex = (startIndex + slidesToShow - 1) % total;
 
-          if (index === startIndex || index === endIndex) {
-            classNames += ' greyed';
-          }
-          if (brand.className) {
-            classNames += ` ${brand.className}`;
-          }
-  
+            let classNames = `brand-slide index-${index}`;
 
+            if (index === startIndex || index === endIndex) {
+              classNames += " greyed";
+            }
+            if (brand.className) {
+              classNames += ` ${brand.className}`;
+            }
 
-  return (
-    <div key={index} className={classNames} onClick={() => handleBrandClick(brand)}>
-      <img src={image} alt={`brand-${index}`} />
-    </div>
-  );
-})}
-
+            return (
+              <div
+                key={index}
+                className={classNames}
+                onClick={() => handleBrandClick(brand)}
+              >
+                <img src={image} alt={`brand-${index}`} />
+              </div>
+            );
+          })}
         </Slider>
       </div>
       <button onClick={handleViewAll}>SEE ALL BRANDS</button>
     </div>
-  )
+  );
 }
 
 export default Brand;
