@@ -18,37 +18,44 @@ function CartPageProfile() {
           console.log("Cart product:", product); // ✅ Debugging each item
           return (
             <div
-              key={product.id}
+              key={product._id}
               className="wishlist-item"
               style={{ cursor: 'pointer' }}
-              onClick={() => navigate(`/product/${product.id}`)} // ✅ Fixed camelCase
+              onClick={() => navigate(`/product/${product.productId?._id}`)} // ✅ Fixed camelCase
             >
               <img
                 src={
                   product?.variant?.[0]?.images?.[0]?.url ||
-                  product.images?.[0] ||product.image ||
+                  product.images?.[0] ||product.image || product.productId.images?.[0]||
                   'https://via.placeholder.com/150' // fallback image
                 }
                 alt={product.name || 'Product'}
               />
-              <h6>{product.name?.split(' ').slice(0, 3).join(' ') || product.title}</h6>
-              {product.brand && product.brand !== "0" && (
+              <h6>{product.name?.split(' ').slice(0, 3).join(' ') || product.title || product.productId.name}</h6>
+              {(product.brand || product.productId?.brand) && (product.brand || product.productId?.brand) !== "0" && (
   <p>
-    Brand: <strong>{product.brand}</strong>
+    Brand: <strong>{product.brand || product.productId?.brand}</strong>
   </p>
 )}
+{(() => {
+  const colorTitle =
+    product.variant?.[0]?.title ||
+    product.colorsText ||
+    product.productId?.variant?.[0]?.title ||
+    product.productId?.color ||
+    product.color;
 
+  return colorTitle && colorTitle !== "0" && (
+    <p>
+      Color: <strong>{colorTitle}</strong>
+    </p>
+  );
+})()}
 
-{(product.variant?.[0]?.title || product.colorsText) &&
- (product.variant?.[0]?.title || product.colorsText) !== "0" && (
-  <p>
-    Color: <strong>{product.variant?.[0]?.title || product.colorsText}</strong>
-  </p>
-)}
 
 
               <p>
-                Price: <strong>₹{product.variant?.[0]?.sizes?.[0]?.sellingPrice || product.price}</strong>
+                Price: <strong>₹{product.variant?.[0]?.sizes?.[0]?.sellingPrice || product.price || product.productId.variant?.[0]?.sizes?.[0]?.sellingPrice}</strong>
               </p>
             </div>
           );
