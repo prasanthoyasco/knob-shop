@@ -23,13 +23,17 @@ const CartDrawer = ({
   const [recommendedItems, setRecommendedItems] = useState([]);
   const total = cartItems.reduce((sum, item) => {
     const sellingPrice =
-      item.productId?.variant?.[0]?.sizes?.[0]?.sellingPrice ??
-      item.variant?.[0]?.sizes?.[0]?.sellingPrice ??
-      item.price ??
+      item.productId?.variant?.[0]?.sizes?.[0]?.sellingPrice || // safe check
+      item.variant?.[0]?.sizes?.[0]?.sellingPrice ||
+      item.price ||
       0;
-
-    return sum + sellingPrice * (item.quantity ?? 1);
+  
+    return sum + sellingPrice * (item.quantity || 1);
   }, 0);
+  
+  
+  
+  
 
   useEffect(() => {
     console.log("CartDrawer: cartItems updated", cartItems);
@@ -135,10 +139,10 @@ const CartDrawer = ({
                         {(() => {
                           const sellingPrice =
                             item.productId?.variant?.[0]?.sizes?.[0]
-                              ?.sellingPrice ??
+                              ?.sellingPrice ||
                             item.variant?.[0]?.sizes?.[0]?.sellingPrice;
 
-                          const basePrice = sellingPrice ?? item.price ?? 0;
+                          const basePrice = sellingPrice || item.price || 0;
 
                           return (
                             basePrice.toLocaleString("en-IN") +

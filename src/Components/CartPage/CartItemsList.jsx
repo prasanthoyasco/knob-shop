@@ -37,26 +37,32 @@ const CartItemsList = ({
       </div>
 
       {cartItems.map((item) => (
-        <div key={item.id} className="shopping-cart-table-product">
+        <div key={item._id} className="shopping-cart-table-product">
           <div>
             <div className="shopping-cart-table-product-image">
               <img
-                src={item.productId.variant?.[0]?.images[0]?.url || item.image || item.images[0]}
+                src={
+                  item.productId?.variant?.[0]?.images?.[0]?.url
+                  || item.image
+                  || item.images?.[0]
+                  || item.variant?.[0]?.images?.[0]?.url
+                }
+                
                 alt={item.title}
                 loading="lazy"
               />
               <div className="shopping-cart-table-product-image-content">
                 {item.brand && <p>Brand : {item.brand}</p>}
                 <h3>{item.title || item.name || item.productId.name}</h3>
-                {item.productId.variant?.[0]?.title !== "0" &&
-                item.productId.variant?.[0]?.title !== 0 &&
-                item.productId.variant?.[0]?.title ? (
-                  <p>Color : {item.productId.variant[0].title}</p>
-                ) : item.colorsText !== "0" &&
-                  item.colorsText !== 0 &&
-                  item.colorsText ? (
-                  <p>Color : {item.colorsText}</p>
-                ) : null}
+{(item.productId?.variant?.[0]?.title || item.colorsText || item.variant?.[0]?.title) &&
+ (item.productId?.variant?.[0]?.title || item.colorsText || item.variant?.[0]?.title) !== "0" && (
+  <p>
+    Color: <strong>
+      {item.productId?.variant?.[0]?.title || item.colorsText || item.variant?.[0]?.title}
+    </strong>
+  </p>
+)}
+
               </div>
             </div>
             <button
@@ -96,22 +102,18 @@ const CartItemsList = ({
           </div>
 
           <div className="shopping-cart-table-product-total">
-            <h3>
-              {item.productId.variant?.[0]?.sizes?.[0]?.sellingPrice != null
-                ? `₹${item.productId.variant[0].sizes[0].sellingPrice.toLocaleString(
-                    "en-IN"
-                  )}${
-                    item.price
-                      ? ` | ₹${item.price.toLocaleString("en-IN")}`
-                      : ""
-                  }`
-                : item.price != null
-                ? `₹${item.price.toLocaleString("en-IN")}`
-                : `₹${item.variant[0].sizes[0].sellingPrice.toLocaleString(
-                  "en-IN"
-                )}`
-                }
-            </h3>
+          <h3>
+  {item.productId?.variant?.[0]?.sizes?.[0]?.sellingPrice != null
+    ? `₹${item.productId.variant?.[0]?.sizes?.[0]?.sellingPrice.toLocaleString("en-IN")}${
+        item.price ? ` | ₹${item.price.toLocaleString("en-IN")}` : ""
+      }`
+    : item.price != null
+    ? `₹${item.price.toLocaleString("en-IN")}`
+    : item.variant?.[0]?.sizes?.[0]?.sellingPrice != null
+    ? `₹${item.variant[0].sizes[0].sellingPrice.toLocaleString("en-IN")}`
+    : "Price not available"}
+</h3>
+
           </div>
         </div>
       ))}

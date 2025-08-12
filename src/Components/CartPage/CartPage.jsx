@@ -138,12 +138,15 @@ function CartPage() {
   };
 
   const subtotal = cartItems.reduce((sum, item) => {
-    const sellingPrice = item.productId.variant?.[0]?.sizes?.[0]?.sellingPrice || item.price;
-    const price = sellingPrice != null ? sellingPrice : item.price;
-    const quantity = item.quantity ?? 1; // fallback to 1 if quantity is undefined
+    const sellingPrice =
+      item.productId?.variant?.[0]?.sizes?.[0]?.sellingPrice || // product from DB
+      item.variant?.[0]?.sizes?.[0]?.sellingPrice ||            // variant directly on item
+      item.price ||                                             // fallback to item price
+      0;
   
-    return sum + Number(price || 0) * Number(quantity);
+    return sum + sellingPrice * (item.quantity || 1);
   }, 0);
+  
   
   useEffect(() => {
     console.log("CartPage - cartItems:", cartItems);
