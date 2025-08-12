@@ -8,12 +8,31 @@ function AuthPassword() {
   const [showPassword, setShowPassword] = useState(false);
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-
+  const passwordRegex = /^(?=.*[A-Z])(?=.*[!@#$%^&*(),.?":{}|<>])[A-Za-z\d!@#$%^&*(),.?":{}|<>]{8,12}$/;
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
+
+  const handleChange = (e) => {
+    const val = e.target.value;
+    setPassword(val);
+
+    if (!passwordRegex.test(val)) {
+      setError(
+        "Password must be 8-12 characters, include at least one uppercase letter and one special character."
+      );
+    } else {
+      setError("");
+    }
+  };
 
   const handleLogin = () => {
     if (!password.trim()) {
       setError('Password is required.');
+      return;
+    }
+    if (!passwordRegex.test(password)) {
+      setError(
+        "Password must be 8-12 characters, include at least one uppercase letter and one special character."
+      );
       return;
     }
 
@@ -47,7 +66,7 @@ function AuthPassword() {
             type={showPassword ? 'text' : 'password'}
             placeholder='Password*'
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={handleChange}
           />
           <i
             className={`bi ${showPassword ? 'bi-eye-slash' : 'bi-eye'}`}

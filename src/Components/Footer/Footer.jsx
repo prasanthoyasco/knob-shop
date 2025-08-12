@@ -146,7 +146,7 @@ function Footer() {
           </div>
         </div>
       </div>
-      <div className="email-section-footer">
+      {/* <div className="email-section-footer">
         <h4>Sign Up to our Newsletter</h4>
         <p>
           Be the first to know the least releases,news,collabortions,exclusive
@@ -156,7 +156,7 @@ function Footer() {
           <input type="text" placeholder="Email" />
           <button>subscribe</button>
         </div>
-      </div>
+      </div> */}
 
       <div className="fb-insta-youTube-icon">
         <a

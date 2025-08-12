@@ -6,9 +6,9 @@ import { getProductById } from "../../API/productApi";
 import { useParams } from "react-router-dom";
 import { useWishlist } from "../../Context/WishlistContext";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
-
+import { useNavigate } from "react-router-dom";
 export default function ProductDetailsHead() {
-
+  const navigate = useNavigate()
   const { id } = useParams(); // get product id from URL
   const [product, setProduct] = useState(null);
   const [selectedSize, setSelectedSize] = useState(null);
@@ -55,7 +55,7 @@ export default function ProductDetailsHead() {
       setLoading(true);
       try {
         const res = await getProductById(id);
-        console.log("product variant title: ", res?.variant?.[0]?.title); // Debug log, can be removed
+        console.log("product variant title: ", res); // Debug log, can be removed
         setProduct(res); // adjust if your API shape differs
         if (res?.variant?.length > 0) {
           const firstColor = res.variant[0].value;
@@ -214,9 +214,9 @@ export default function ProductDetailsHead() {
       <div className="container-fluid pt-4 px-3 px-md-5">
         {/* Breadcrumb */}
         <nav className="breadcrumb mb-4 small">
-          <span className="breadcrumb-item">Home</span>
-          <span className="breadcrumb-item">Shop by Categories</span>
-          <span className="breadcrumb-item">Digital Lockers</span>{" "}
+          <span className="breadcrumb-item" onClick={()=>navigate('/')}>Home</span>
+          <span className="breadcrumb-item"onClick={()=>navigate(`/category/${product.category._id}` || `/category/${product.category.id}`)}>Shop by Categories</span>
+          <span className="breadcrumb-item"onClick={()=>navigate(`/products/search/${product.brand}` || `/products/search/${product.productId.brand}`)}>Shop by Brand</span>{" "}
           {/* Consider making this dynamic based on product.category */}
           <span className="breadcrumb-item active">{cartItem.title}</span>
         </nav>
