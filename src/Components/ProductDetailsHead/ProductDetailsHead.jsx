@@ -14,7 +14,10 @@ export default function ProductDetailsHead() {
   const [selectedSize, setSelectedSize] = useState(null);
   const [pincodeInfo, setPincodeInfo] = useState(null);
   const { addToWishlist, removeFromWishlist, wishlistItems } = useWishlist();
-  const isWished = wishlistItems.some((w) => w.id === product?.id || product?._id );
+  const isWished = wishlistItems.some(
+    (w) => w.id === product?._id || w._id === product?._id
+  );
+  
   const [selectedColor, setSelectedColor] = useState("black");
   const [quantity, setQuantity] = useState(1);
   const [pincode, setPincode] = useState("");
@@ -38,7 +41,7 @@ export default function ProductDetailsHead() {
     }
 
     if (isWished) {
-      removeFromWishlist(product.id);
+      removeFromWishlist(product);
       console.log("WISHLIST REMOVED:", product.id);
     } else {
       addToWishlist(product);

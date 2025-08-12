@@ -40,7 +40,7 @@ const CategoryHero = ({count, backgroundImage }) => {
           <span onClick={()=>navigate('/')}>Home</span> / <span onClick={()=>navigate('/categories')}>Shop by Categories</span> / {categoryTitle}
         </p>
         <h1 className="fw-semibold h1">{categoryTitle}</h1>
-        <p className="small mt-1">(items : {productCount})</p>
+        {/* <p className="small mt-1">(items : {productCount})</p> */}
       </div>
     </div>
   );

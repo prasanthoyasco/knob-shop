@@ -76,7 +76,6 @@ const ProductCarouselSwiper = ({ products = [] }) => {
                 style={{ maxHeight: "250px", objectFit: "contain" }}
               />
               <h6 className="mb-1">{item.text}</h6>
-              <small className="text-muted">Items ({item.count})</small>
             </div>
           </SwiperSlide>
         ))}

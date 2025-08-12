@@ -5,19 +5,22 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useNavigate } from "react-router-dom";
 import brand2 from '../../Assets/BrandLogos/dorset-logo.webp'
-import brand3 from '../../Assets/BrandLogos/Dorma.png'
-import brand4 from '../../Assets/BrandLogos/l2.png'
-import brand5 from '../../Assets/BrandLogos/Ebco.webp'
+import brand3 from '../../Assets/Logo/New folder/Dorma-removebg-preview.png'
+import brand4 from '../../Assets/Logo/New folder/Decor Point.png'
+import brand5 from '../../Assets/Logo/New folder/Ebco.png'
 import brand6 from '../../Assets/BrandLogos/gaze.png'
-import brand7 from '../../Assets/BrandLogos/Godrej.png'
-import brand8 from '../../Assets/BrandLogos/Golden.png'
+import brand7 from '../../Assets/Logo/New folder/Godrej-removebg-preview.png'
+import brand8 from '../../Assets/Logo/New folder/Golden-removebg-preview.png'
 import brand9 from '../../Assets/BrandLogos/haefele_logo.png'
-import brand10 from '../../Assets/BrandLogos/labacha.png'
+import brand10 from '../../Assets/Logo/New folder/labacha-removebg-preview.png'
 import brand11 from '../../Assets/BrandLogos/logo.svg.svg'
 import brand12 from '../../Assets/BrandLogos/magnum-logo.png'
-import brand13 from '../../Assets/BrandLogos/PlusPointWhite-CT5yed7t.png'
+import brand13 from '../../Assets/Logo/New folder/Plus Point.png'
 import brand14 from '../../Assets/BrandLogos/Sris-ma-fils-trademark-and-logo.png'
 import brand15 from '../../Assets/brand3.png'
+import colortex from '../../Assets/Logo/New folder/Color tek.png'
+import hetachi from '../../Assets/Logo/New folder/Hettich-logo-sw.svg'
+import ideal from '../../Assets/Logo/New folder/Ideal.png'
 import { getAllProducts } from "../../API/productApi";
 const images = [ brand2, brand3, brand4, brand5, brand6,brand7,brand8,brand9,brand10,brand11,brand12,brand13,brand14,brand15];
 
@@ -34,8 +37,11 @@ const brandData = [
   { name: "Blum", image: brand11 },
   { name: "Magnum", image: brand12 },
   { name: "PlusPoint", image: brand13, className: "PlusPointWhite-color PlusPoint-size" },
-  { name: "Sris-ma-fils", image: brand14 },
-  { name: "Yale", image: brand15 },
+  { name: "Sris-ma-fils", image: brand14,className:"Sris-ma-fils-trademark-and-logo-size" },
+  { name: "Yale", image: brand15,className:"brand3" },
+  { name: "Color tek", image: colortex },
+  { name: "Hettich", image: hetachi },
+  { name: "Ideal", image: ideal },
 ];
 function Brand() {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -67,7 +73,7 @@ function Brand() {
     }
   };
   
-  const slidesToShow = 6; // default slidesToShow, same as in settings
+  const slidesToShow =6; // default slidesToShow, same as in settings
 
   const settings = {
     dots: false,

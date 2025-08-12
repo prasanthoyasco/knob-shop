@@ -1,14 +1,58 @@
 import React, { useEffect, useRef, useState } from "react";
 import { FaArrowTrendUp } from "react-icons/fa6";
 import "./AboutUs.css";
+import Lottie from "lottie-react";
+import angryAnim from "../../Assets/CategoriesImge/Knob Shop/lottie.json";
+import neutralAnim from "../../Assets/CategoriesImge/Knob Shop/neutral.json";
+import happyAnim from "../../Assets/CategoriesImge/Knob Shop/happy.json";
+import loveAnim from "../../Assets/CategoriesImge/Knob Shop/heart.json";
+import grinAnim from "../../Assets/CategoriesImge/Knob Shop/grin.json";
 // import { useNavigate } from "react-router-dom";
 
+const reactions = [
+  {
+    name: "angry",
+    gif: "https://fonts.gstatic.com/s/e/notoemoji/latest/1f621/512.gif",
+    anim: angryAnim,
+  },
+  {
+    name: "neutral",
+    gif: "https://fonts.gstatic.com/s/e/notoemoji/latest/1f610/512.gif",
+    anim: neutralAnim,
+  },
+  {
+    name: "happy",
+    gif: "https://fonts.gstatic.com/s/e/notoemoji/latest/1f603/512.gif",
+    anim: happyAnim,
+  },
+  {
+    name: "love",
+    gif: "https://fonts.gstatic.com/s/e/notoemoji/latest/1f60d/512.gif",
+    anim: loveAnim,
+  },
+  {
+    name: "grin",
+    gif: "https://fonts.gstatic.com/s/e/notoemoji/latest/1f601/512.gif",
+    anim: grinAnim,
+  },
+];
 const AboutUs = () => {
   // const navigate = useNavigate();
+  const [play, setPlay] = useState(false);
+  const lottieRef = useRef(null);
+  const [active, setActive] = useState(null);
   const [counter, setCounter] = useState(0);
   const [hasAnimated, setHasAnimated] = useState(false);
   const counterRef = useRef();
 
+
+  const handleHover = (index) => { // <-- added function
+    setActive(index);
+    setTimeout(() => {
+      setActive(null);
+    }, 1000); // animation lasts 1s
+  };
+  
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -79,9 +123,32 @@ const AboutUs = () => {
               >
                 <span className="fw-bold">Best ratings.</span>
                 <p className="small mb-1">
-                  Lorem ipsum, dolor sit amet adipisicing elit.
+                Top choice for unbeatable quality and service.
                 </p>
-                <div className="emojis">😡 😐 😃 😍 😁</div>
+                <div className="emojis" style={{ display: "flex", gap: "8px" }}>
+      {reactions.map((reaction, index) => (
+        <div
+          key={reaction.name}
+          onMouseEnter={() => handleHover(index)}
+          style={{ width: 30, height: 30, cursor: "pointer" }}
+        >
+          {active === index ? (
+            <Lottie
+              animationData={reaction.anim}
+              loop={false}
+              autoplay
+              style={{ width: "100%", height: "100%" }}
+            />
+          ) : (
+            <img
+              src={reaction.gif}
+              alt={reaction.name}
+              style={{ width: "100%", height: "100%" }}
+            />
+          )}
+        </div>
+      ))}
+    </div>
               </div>
 
               <div
@@ -99,7 +166,7 @@ const AboutUs = () => {
                   <FaArrowTrendUp size={24} color="#50D28A" />
                 </div>
                 <p className="small my-2" color="#97918B">
-                  Sales in July 2021 with 5 star ratings
+                  Sales in July 2025 with 5 star ratings
                 </p>
                 <hr
                   style={{
