@@ -9,6 +9,12 @@ import { useSearchParams } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 function ReviewSection() {
   const location = useLocation();
+  const [reviewImage, setReviewImage] = useState(null);
+
+const handleImageChange = (e) => {
+  setReviewImage(e.target.files[0]);
+};
+
   const productId = location.pathname.split("/").pop();
   const [showTextArea, setShowTextArea] = useState(false);
   const [userRating, setUserRating] = useState(0);
@@ -63,25 +69,29 @@ function ReviewSection() {
     }
   
     try {
-      await createOrUpdateReview(productId, {
-        userId,          // ✅ matches your backend format
-        rating: userRating,
-        comment: reviewText
-      });
+      const formData = new FormData();
+      formData.append("userId", userId);
+      formData.append("rating", userRating);
+      formData.append("comment", reviewText);
+      if (reviewImage) {
+        formData.append("image", reviewImage);
+      }
   
-      // Refresh reviews after submission
+      await createOrUpdateReview(productId, formData);
+  
       const updatedReviews = await getReviewsByProduct(productId);
       setReviews(updatedReviews);
   
-      // Reset form
       setUserRating(0);
       setReviewText("");
+      setReviewImage(null);
       setShowTextArea(false);
     } catch (error) {
       console.error("Error creating/updating review:", error);
       alert("Something went wrong while submitting your review.");
     }
   };
+  
   
   const filteredReviews = reviews
   .filter((review) => {
@@ -193,6 +203,7 @@ const averageRating =
                   ></i>
                 ))}
               </div>
+              <input type="file" accept="image/*" onChange={handleImageChange} />
               <textarea placeholder="Text Your Comment" className="comment-box" value={reviewText}
                 onChange={(e) => setReviewText(e.target.value)}>
                 </textarea>
@@ -211,7 +222,7 @@ const averageRating =
                   <div className="review-box" key={review.id}>
                     <div className="profile-section">
                       <div className="profile-image-and-name-div">
-                        {/* <img src={review.image} alt="profile" className="profile-img" /> */}
+                        <img src={review.image || "https://cdn-icons-png.flaticon.com/512/847/847969.png"} alt="profile" className="profile-img" />
                         <div className="profile-info">
                           <div className="profile-name">{review.user?.name || "Anonymous"}</div>
                         </div>
