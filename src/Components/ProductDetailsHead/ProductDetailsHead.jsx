@@ -7,9 +7,12 @@ import { useParams } from "react-router-dom";
 import { useWishlist } from "../../Context/WishlistContext";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { getReviewsByProduct } from "../../API/reviewApi";
 export default function ProductDetailsHead() {
   const navigate = useNavigate()
   const { id } = useParams(); // get product id from URL
+  const [reviews, setReviews] = useState([]);
+  const [avgRating, setAvgRating] = useState(0);
   const [product, setProduct] = useState(null);
   const [selectedSize, setSelectedSize] = useState(null);
   const [pincodeInfo, setPincodeInfo] = useState(null);
@@ -65,6 +68,18 @@ export default function ProductDetailsHead() {
           const firstVariantWithSizes = res.variant[0];
           if (firstVariantWithSizes?.sizes?.length > 0) {
             setSelectedSize(firstVariantWithSizes.sizes[0].label);
+          }
+        }
+        if (res?._id) {
+          const revData = await getReviewsByProduct(res._id);
+          console.log("rev data :",revData)
+          setReviews(revData || []);
+
+          if (revData?.length) {
+            const avg =
+              revData.reduce((sum, r) => sum + (r.rating || 0), 0) /
+              revData.length;
+            setAvgRating(avg.toFixed(1));
           }
         }
       } catch (err) {
@@ -216,7 +231,7 @@ export default function ProductDetailsHead() {
         <nav className="breadcrumb mb-4 small">
           <span className="breadcrumb-item" onClick={()=>navigate('/')}>Home</span>
           <span className="breadcrumb-item"onClick={()=>navigate(`/category/${product.category._id}` || `/category/${product.category.id}`)}>Shop by Categories</span>
-          <span className="breadcrumb-item"onClick={()=>navigate(`/products/search/${product.brand}` || `/products/search/${product.productId.brand}`)}>Shop by Brand</span>{" "}
+          <span className="breadcrumb-item" >  {product?.category?.category_name || ""}</span>
           {/* Consider making this dynamic based on product.category */}
           <span className="breadcrumb-item active">{cartItem.title}</span>
         </nav>
@@ -270,14 +285,22 @@ export default function ProductDetailsHead() {
               </div>
 
               <h3 className="fw-bold mb-2">{cartItem.title}</h3>
-
+              {reviews.length > 0 && (
               <div className="d-flex align-items-center mb-2 flex-wrap gap-1">
-                <span className="text-warning me-2 fs-5">★ ★ ★ ★ ☆</span>
-                <span className="text-muted fw-medium">4.5</span>
+              <span className="text-warning me-2 fs-5">
+      {Array.from({ length: 5 }, (_, i) => (
+        <span key={i}>
+          {i < Math.round(avgRating) ? "★" : "☆"}
+        </span>
+      ))}
+    </span>
+    <span className="text-muted fw-medium">
+      {avgRating}
+    </span>
                 <span className="mx-2 text-muted">|</span>
                 <span className="text-muted btn-link">Write a review</span>
               </div>
-
+              )}
               <div className="mb-3 d-flex gap-2">
                 <img src="/up-arrow.svg" alt="" style={{ height: "18px" }} />
                 <span className="text-muted small">
