@@ -3,9 +3,10 @@ import "./ProductCard.css";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../../Context/CartContext";
 import { useWishlist } from "../../Context/WishlistContext";
-import { useState } from "react";
-
+import { useState,useEffect } from "react";
+import {getReviewsByProduct} from '../../API/reviewApi'
 const ProductCard = ({ product }) => {
+  const [avgRating, setAvgRating] = useState(0);
   const navigate = useNavigate();
 
   const { addToCart, toggleDrawer } = useCart();
@@ -36,6 +37,26 @@ const ProductCard = ({ product }) => {
       addToWishlist(product);
     }
   };
+  useEffect(() => {
+    const fetchReviews = async () => {
+      try {
+        if (!id) return; // avoid call if productId missing
+        const reviews = await getReviewsByProduct(id);
+        console.log("reviews data :",reviews)
+        if (reviews?.length > 0) {
+          const sum = reviews.reduce((acc, r) => acc + (r.rating || 0), 0);
+          const avg = sum / reviews.length;
+          setAvgRating(avg.toFixed(1)); // keep 1 decimal place
+        } else {
+          setAvgRating(0);
+        }
+      } catch (err) {
+        console.error("Error fetching reviews:", err);
+      }
+    };
+    fetchReviews();
+  }, [id]);
+  
 
   // Use default icons if not present
   const icons =
@@ -86,12 +107,12 @@ const ProductCard = ({ product }) => {
           className={`wishlist-icon ${isWished ? "active" : ""}`}
         />
       </div>
-
+      {avgRating > 0 && (
       <div className="position-absolute bottom-50 end-0 m-2 d-flex align-items-center rounded px-2 py-1 rating-overlay">
         <FaStar className="text-warning me-1" size={18} />
-        <span className="normal">{rating}</span>
+        <span className="normal">{avgRating}</span>
       </div>
-
+      )}
       <div
         className="image-wrapper position-relative"
         onClick={() => navigate(`/product/${id}`)}
