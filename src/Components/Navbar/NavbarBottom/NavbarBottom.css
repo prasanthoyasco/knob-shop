@@ -301,6 +301,9 @@
 
 /* Ensure desktop elements are hidden on mobile */
 @media (max-width: 768px) {
+  .category-dropdown-menu {
+    column-count: 2;
+  }
   .desktop-only {
     display: none !important;
   }

@@ -34,6 +34,7 @@ function Footer() {
   const UserId = localStorage.getItem("authUser")
     ? JSON.parse(localStorage.getItem("authUser"))._id
     : null;
+    console.log("Footer User ID",UserId);
   const handleTrackOrder = () => {
     const storedUser = localStorage.getItem("authUser");
 

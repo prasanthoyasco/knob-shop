@@ -50,11 +50,12 @@
     height: 90px;
     padding: 20px 20px;
     margin-bottom: 20px;
+    cursor: pointer;
     object-fit: contain;
     transition: transform 0.4s ease, box-shadow 0.4s ease;
-    background-color: #f8f8f8;
+    background-color: #f0f0f0;
     border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    box-shadow: 2px 3px 12px rgba(145, 145, 145, 0.24);
   }
   .brands-container img:hover {
     transform: scale(1.05);

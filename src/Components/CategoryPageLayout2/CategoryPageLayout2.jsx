@@ -5,8 +5,8 @@ import SortDropdown from "./SortDropdown";
 import CategoryFilters from "./CategoryFilters";
 
 const CategoryPageLayout2 = ({ products = [] }) => {
-  console.log("product",products);
-  
+  console.log("product", products);
+
   const [filteredProducts, setFilteredProducts] = useState(products);
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(false);
@@ -26,11 +26,9 @@ const CategoryPageLayout2 = ({ products = [] }) => {
   const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
 
   const safeCurrentPage = Math.min(currentPage, totalPages || 1);
-const paginatedProducts = (Array.isArray(filteredProducts) ? filteredProducts : []).slice(
-  (safeCurrentPage - 1) * itemsPerPage,
-  safeCurrentPage * itemsPerPage
-);
-
+  const paginatedProducts = (
+    Array.isArray(filteredProducts) ? filteredProducts : []
+  ).slice((safeCurrentPage - 1) * itemsPerPage, safeCurrentPage * itemsPerPage);
 
   const toggleSection = (section) => {
     setOpenSections((prev) => ({
@@ -42,26 +40,25 @@ const paginatedProducts = (Array.isArray(filteredProducts) ? filteredProducts : 
   const applyFilters = () => {
     const getSellingPrice = (product) =>
       product?.variant?.[0]?.sizes?.[0]?.sellingPrice || 0;
-  
+
     let result = [...products];
-    const { brand, availability, colors, features, accessType, priceRange } = filters;
-  
+    const { brand, availability, colors, features, accessType, priceRange } =
+      filters;
+
     if (brand.length > 0) {
       result = result.filter((p) => brand.includes(p.brand));
     }
-  
+
     if (availability.length > 0) {
       result = result.filter((p) =>
         availability.includes(p.stock > 0 ? "In Stock" : "Out of Stock")
       );
     }
-  
+
     if (colors.length > 0) {
-      result = result.filter((p) =>
-        p.colors?.some((c) => colors.includes(c))
-      );
+      result = result.filter((p) => p.colors?.some((c) => colors.includes(c)));
     }
-  
+
     if (features.length > 0) {
       result = result.filter((p) =>
         p.features?.some((f) =>
@@ -71,55 +68,61 @@ const paginatedProducts = (Array.isArray(filteredProducts) ? filteredProducts : 
         )
       );
     }
-  
+
     if (accessType.length > 0) {
       result = result.filter((p) => {
-        const iconNames = p.icons?.map((icon) => icon.name?.toLowerCase()) || [];
+        const iconNames =
+          p.icons?.map((icon) => icon.name?.toLowerCase()) || [];
         return accessType.some((type) =>
           iconNames.some((icon) => icon.includes(type.toLowerCase()))
         );
       });
     }
-  
+
     // 🔍 Filter by sellingPrice
     const [minPrice, maxPrice] = priceRange;
     result = result.filter((p) => {
       const sellingPrice = getSellingPrice(p);
       return sellingPrice >= minPrice && sellingPrice <= maxPrice;
     });
-  
-// Normalize sortOrder for safety
-const normalizedSortOrder = sortOrder?.trim().toLowerCase().replace(/–/g, "-");
 
-switch (normalizedSortOrder) {
-  case "price, low to high":
-    result.sort((a, b) => getSellingPrice(a) - getSellingPrice(b));
-    break;
-  case "price, high to low":
-    result.sort((a, b) => getSellingPrice(b) - getSellingPrice(a));
-    break;
-  case "alphabetically, a-z":
-    result.sort((a, b) => (a.name || "").localeCompare(b.name || ""));
-    break;
-  case "alphabetically, z-a":
-    result.sort((a, b) => (b.name || "").localeCompare(a.name || ""));
-    break;
-  case "date, old to new":
-    result.sort((a, b) => new Date(a.createdAt || 0) - new Date(b.createdAt || 0));
-    break;
-  case "date, new to old":
-    result.sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
-    break;
-  default:
-    // Add any other sort logic like "Best selling" here if needed
-    break;
-}
-    
-  
+    // Normalize sortOrder for safety
+    const normalizedSortOrder = sortOrder
+      ?.trim()
+      .toLowerCase()
+      .replace(/–/g, "-");
+
+    switch (normalizedSortOrder) {
+      case "price, low to high":
+        result.sort((a, b) => getSellingPrice(a) - getSellingPrice(b));
+        break;
+      case "price, high to low":
+        result.sort((a, b) => getSellingPrice(b) - getSellingPrice(a));
+        break;
+      case "alphabetically, a-z":
+        result.sort((a, b) => (a.name || "").localeCompare(b.name || ""));
+        break;
+      case "alphabetically, z-a":
+        result.sort((a, b) => (b.name || "").localeCompare(a.name || ""));
+        break;
+      case "date, old to new":
+        result.sort(
+          (a, b) => new Date(a.createdAt || 0) - new Date(b.createdAt || 0)
+        );
+        break;
+      case "date, new to old":
+        result.sort(
+          (a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0)
+        );
+        break;
+      default:
+        // Add any other sort logic like "Best selling" here if needed
+        break;
+    }
+
     setCurrentPage(1);
     setFilteredProducts(result);
   };
-  
 
   // 🛠️ Main filter effect
   useEffect(() => {
@@ -167,7 +170,6 @@ switch (normalizedSortOrder) {
   };
 
   console.log(paginatedProducts);
-  
 
   return (
     <div className="container-fluid my-4">
@@ -182,7 +184,9 @@ switch (normalizedSortOrder) {
               <i className="bi bi-filter me-2"></i>Filters
             </span>
             <i
-              className={`bi ${showMobileFilters ? "bi-chevron-up" : "bi-chevron-down"}`}
+              className={`bi ${
+                showMobileFilters ? "bi-chevron-up" : "bi-chevron-down"
+              }`}
             ></i>
           </button>
         </div>
@@ -237,11 +241,13 @@ switch (normalizedSortOrder) {
               <div className="text-center py-5">Loading...</div>
             ) : products.length > 0 ? (
               paginatedProducts.map((product) => (
-                <div className="col-12 col-sm-6 col-md-4 col-lg-4 products" key={product._id}>
+                <div
+                  className="col-12 col-sm-6 col-md-4 col-lg-4 products"
+                  key={product._id}
+                >
                   <ProductCard product={product} />
                 </div>
               ))
-              
             ) : (
               <div className="text-center py-5">No products found.</div>
             )}
@@ -257,10 +263,14 @@ switch (normalizedSortOrder) {
                     return (
                       <li
                         key={page}
-                        className={`page-item ${currentPage === page ? "active" : ""}`}
+                        className={`page-item ${
+                          currentPage === page ? "active" : ""
+                        }`}
                       >
                         <button
-                          className={`page-link ${currentPage === page ? "active-link" : "no-border"}`}
+                          className={`page-link ${
+                            currentPage === page ? "active-link" : "no-border"
+                          }`}
                           onClick={() => handlePageChange(page)}
                         >
                           {page}
