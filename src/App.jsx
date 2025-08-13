@@ -80,7 +80,7 @@ function App() {
        <Route path="/brouchers" element={<Broucher/>} />
        <Route path="/auth/register" element={<AuthAccount/>} />
        <Route path="/auth/password" element={<AuthPassword/>} />
-       <Route path="/auth/forgot-pass" element={<AuthForgotPass/>} />
+       <Route path="/auth/forgot-password" element={<AuthForgotPass/>} />
        <Route path="/auth/confirm" element={<AuthConfirm/>} />
        <Route path="/account" element={<ProfilePage/>} />
        <Route path="/invoice" element={<Invoice/>} />
