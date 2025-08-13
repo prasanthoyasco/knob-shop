@@ -10,10 +10,14 @@ import {
   Signup,
   sendOtpToEmail,
   verifyEmailOtp,
+  phoneAuth
 } from "../../../API/authApi";
 import { Eye, EyeOff } from "lucide-react";
 
 function AuthAccount() {
+  const passwordRegex = /^(?=.*[A-Z])(?=.*[!@#$%^&*(),.?":{}|<>])[A-Za-z\d!@#$%^&*(),.?":{}|<>]{8,12}$/;
+const [passwordError, setPasswordError] = useState("");
+
   const [countries, setCountries] = useState([]);
   const [selectedCode, setSelectedCode] = useState("+91");
   const [phone, setPhone] = useState("");
@@ -57,6 +61,19 @@ function AuthAccount() {
       setLoading(false);
     }
   };
+  const handlePasswordChange = (e) => {
+    const val = e.target.value;
+    setPassword(val);
+  
+    if (!passwordRegex.test(val)) {
+      setPasswordError(
+        "Password must be 8–12 characters, include at least one uppercase letter and one special character."
+      );
+    } else {
+      setPasswordError("");
+    }
+  };
+  
 
   const handleVerifyEmailOtp = async () => {
     if (!email || !otp) return alert("Please enter OTP.");
@@ -74,27 +91,47 @@ function AuthAccount() {
   };
 
   const loginWithEmail = async () => {
-    if (!email || !password) {
-      return alert("Please enter both email and password.");
+    if (!passwordRegex.test(password)) {
+      setPasswordError(
+        "Password must be 8–12 characters, include at least one uppercase letter and one special character."
+      );
+      return;
     }
-    setLoading(true);
-    try {
-      const data = await Login({ email, password });
-      localStorage.setItem("authUser", JSON.stringify(data.user));
-      localStorage.setItem("authToken", data.token);
-      console.log(localStorage.getItem("authToken"));
-      if (window.history.length > 1) {
-        window.history.back();
-      } else {
-        window.location.href = "/";
+    if (email) {
+      if (!password) return alert("Please enter your password.");
+      setLoading(true);
+      try {
+        const data = await Login({ email, password });
+        localStorage.setItem("authUser", JSON.stringify(data.user));
+        localStorage.setItem("authToken", data.token);
+        window.history.length > 1
+          ? window.history.back()
+          : (window.location.href = "/");
+      } catch (err) {
+        console.error(err);
+        alert("Invalid email or password.");
+      } finally {
+        setLoading(false);
       }
-    } catch (err) {
-      console.error("Login failed", err);
-      alert("Invalid email or password.");
-    } finally {
-      setLoading(false);
+    } else if (phone) {
+      if (!password) return alert("Please enter your password.");
+      setLoading(true);
+      try {
+        const phoneNumber = `${selectedCode}${phone.trim()}`;
+        const data = await phoneAuth({ phone: phoneNumber, password });
+        localStorage.setItem("authUser", JSON.stringify(data.user));
+        localStorage.setItem("authToken", data.token);
+        window.history.length > 1
+          ? window.history.back()
+          : (window.location.href = "/");
+      } catch (err) {
+        console.error(err);
+        alert(err.error || "Login failed");
+      } finally {
+        setLoading(false);
+      }
     }
-  };
+  };;
 
   const handleContinue = async () => {
     if (email && !phone) {
@@ -114,7 +151,22 @@ function AuthAccount() {
         setLoading(false);
       }
     } else if (phone && !email) {
-      sendOtp();
+      // skip OTP, directly go to password input for existing user
+      setLoading(true);
+      try {
+        const phoneNumber = `${selectedCode}${phone.trim()}`;
+        const data = await checkUser({ phone: phoneNumber });
+        if (data.exists) {
+          setStep("password"); // login flow
+        } else {
+          setStep("set-password"); // register flow
+        }
+      } catch (err) {
+        console.error(err);
+        alert("Something went wrong.");
+      } finally {
+        setLoading(false);
+      }
     } else {
       alert("Please enter either a phone number or an email.");
     }
@@ -193,29 +245,31 @@ function AuthAccount() {
   };
 
   const handleSignup = async () => {
+    if (!passwordRegex.test(password)) {
+      setPasswordError(
+        "Password must be 8–12 characters, include at least one uppercase letter and one special character."
+      );
+      return;
+    }
+    if (!password) return alert("Please set a password.");
     setLoading(true);
     try {
-      if (!password) {
-        return alert("Please set a password.");
+      if (email) {
+        const data = await Signup({ email, password });
+        localStorage.setItem("authUser", JSON.stringify(data.user));
+        localStorage.setItem("authToken", data.token);
+      } else if (phone) {
+        const phoneNumber = `${selectedCode}${phone.trim()}`;
+        const data = await phoneAuth({ phone: phoneNumber, password });
+        localStorage.setItem("authUser", JSON.stringify(data.user));
+        localStorage.setItem("authToken", data.token);
       }
-
-      const body = email
-        ? { email, password }
-        : { phone: `${selectedCode}${phone.trim()}`, password };
-
-      const data = await Signup(body);
-      console.log(data);
-
-      localStorage.setItem("authUser", JSON.stringify(data.user));
-      localStorage.setItem("authToken", data.token);
-      if (window.history.length > 1) {
-        window.history.back();
-      } else {
-        window.location.href = "/";
-      }
+      window.history.length > 1
+        ? window.history.back()
+        : (window.location.href = "/");
     } catch (err) {
-      alert("Signup failed");
       console.error(err);
+      alert(err.error || "Signup failed");
     } finally {
       setLoading(false);
     }
@@ -334,6 +388,34 @@ function AuthAccount() {
                 {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
               </div>
             </div>
+            {passwordError && (
+              <p className="passwordError-text">{passwordError}</p>
+            )}
+             {/* Forgot Password Link */}
+    <p className="forgot-password-text"
+      onClick={async () => {
+        if (email) {
+          if (!email.trim()) return alert("Enter your email first!");
+          try {
+            await sendOtpToEmail(email);
+            alert("OTP sent to your email!");
+            localStorage.setItem("forgotEmail", email); // save for next page
+            window.location.href = "/auth/forgot-password";
+          } catch (err) {
+            console.error(err);
+            alert(err.error || "Failed to send OTP");
+          }
+        } else if (phone) {
+          if (!phone.trim()) return alert("Enter your phone first!");
+          localStorage.setItem("forgotPhone", `${selectedCode}${phone.trim()}`);
+          window.location.href = "/auth/forgot-password";
+        } else {
+          alert("Enter your email or phone first.");
+        }
+      }}
+    >
+      Forgot Password?
+    </p>
           </div>
         )}
 
@@ -343,7 +425,7 @@ function AuthAccount() {
               type={showPassword ? "text" : "password"}
               placeholder="Set a password"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={handlePasswordChange}
             />
             <div
               onClick={() => setShowPassword((prev) => !prev)}
@@ -357,6 +439,9 @@ function AuthAccount() {
             >
               {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
             </div>
+            {passwordError && (
+              <p style={{ color: "red", fontSize: "14px" }}>{passwordError}</p>
+            )}
           </div>
         )}
 

@@ -56,3 +56,30 @@ export const verifyEmailOtp = async (email,otp) => {
    throw err.response?.data || { error: "Update failed" };
   }
 };
+
+export const phoneAuth = async (payload) => {
+  try {
+    const res = await axios.post(`${BASE_URL}/phone-auth`, payload);
+    return res.data;
+  } catch (err) {
+    throw err.response?.data || { error: "Phone auth failed" };
+  }
+};
+
+export const resetPasswordByEmail = async (email, newPassword) => {
+  try {
+    const res = await axios.post(`${BASE_URL}/forgot-password/reset`, { email, newPassword });
+    return res.data;
+  } catch (err) {
+    throw err.response?.data || { error: "Password reset failed" };
+  }
+};
+
+export const resetPasswordByPhone = async (phone, newPassword) => {
+  try {
+    const res = await axios.post(`${BASE_URL}/forgot-password/phone-reset`, { phone, newPassword });
+    return res.data;
+  } catch (err) {
+    throw err.response?.data || { error: "Password reset failed" };
+  }
+};

@@ -9,6 +9,18 @@
     max-width: 500px;
 
 }
+.passwordError-text{
+  color: red !important;
+  font-size: 14px;
+  margin-top: 10px;
+  text-align: left;
+}
+.forgot-password-text{
+  text-align: left;
+  text-decoration: underline;
+  font-size: 16px;
+  margin-top: 10px !important;
+}
 .register-page-heading h1{
     font-size: 30px;
     color: #252525;
