@@ -58,6 +58,7 @@ const cardImages = [
 ];
 
 function PaymentPage() {
+  const gstRegex = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/;
   const storedUser = (() => {
     try {
       return JSON.parse(localStorage.getItem("authUser")) || {};
@@ -102,9 +103,17 @@ function PaymentPage() {
   const [availableCoupons, setAvailableCoupons] = useState([]);
   const [paying, setPaying] = useState(false);
 
+  const [showFields, setShowFields] = useState(false);
+  const [gstNumber,setGstNumber] = useState("")
+  const [companyName,setCompanyName] = useState("")
+
   const location = useLocation();
   const cartItems = location.state?.cartItems || [];
   const navigate = useNavigate();
+
+  const handleCheckboxChange = (e) => {
+    setShowFields(e.target.checked);
+  };
 
   const subtotal = cartItems.reduce(
     (sum, item) =>
@@ -259,6 +268,17 @@ console.log("Available Coupons:", availableCoupons);
         referenceNumber =
           dtdcResponse?.data?.[0]?.customer_reference_number || "N/A";
       }
+      if (showFields) {
+        if (!gstNumber.trim() || !companyName.trim()) {
+          alert("Please enter both GST Number and Company Name");
+          return;
+        }
+        if (!gstRegex.test(gstNumber.trim())) {
+          alert("Invalid GST Number format. Please enter a valid GSTIN.");
+          return;
+        }
+      }
+      
 
       const orderData = {
         userId: Userid,
@@ -272,6 +292,8 @@ console.log("Available Coupons:", availableCoupons);
         paymentMethod: "online",
         paymentStatus: "pending",
         status: "pending",
+        gstNumber: gstNumber,
+        companyName: companyName,
       };
 
       const { order } = await createOrderWithShipping(orderData);
@@ -381,6 +403,31 @@ console.log("Available Coupons:", availableCoupons);
               onChange={(e) => setMobileInfo(e.target.value)}
               onBlur={() => setContactCompleted(true)}
             />
+              <div className="contact-con-checkbox-text">
+                <input type="checkbox" onChange={handleCheckboxChange}/>
+                <p>Save your GST Number & Company Name</p>
+              </div>
+              {showFields && (
+        <div>
+          <input
+            type="text"
+            placeholder="Enter GST Number"
+            name="gstNumber"
+            className="contact-con-input"
+            style={{margin: "20px 0" }}
+            value={gstNumber}
+            onChange={(e) => setGstNumber(e.target.value)}
+          />
+          <input
+            type="text"
+            placeholder="Enter Company Name"
+            name="companyName"
+            className="contact-con-input"
+            value={companyName}
+            onChange={(e) => setCompanyName(e.target.value)}
+          />
+        </div>
+      )}
           </div>
           <div className="deliver-section-container">
             <h3 className="contact-con-head-h3">DELIVERY</h3>
@@ -816,18 +863,17 @@ console.log("Available Coupons:", availableCoupons);
                       }`;
                     })()}
                   </h3>
-                  {item?.productId?.variant[0]?.title ||
-                    item?.colorsText ||
-                    (item?.variant[0]?.title && (
-                      <p>
-                        Color:{" "}
-                        <strong>
-                          {item.colorsText ||
-                            item.color ||
-                            item?.productId?.variant[0]?.title}
-                        </strong>
-                      </p>
-                    ))}
+                  {item?.productId?.variant?.[0]?.title ||
+  item?.colorsText ||
+  (item?.variant?.[0]?.title && (
+    <p>
+      Color:{" "}
+      <strong>
+        {item.colorsText || item.color || item?.productId?.variant?.[0]?.title}
+      </strong>
+    </p>
+  ))}
+
                   <p>Quantity: {item.quantity}</p>
                 </div>
               </div>
