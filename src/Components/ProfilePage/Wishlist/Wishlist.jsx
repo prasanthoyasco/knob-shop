@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import { getWishlist } from "../../../API/wishlistApi";
 import "./Wishlist.css";
 import { useNavigate } from "react-router-dom";
-
+import { useCart } from "../../../Context/CartContext";
 function Wishlist({ userId }) {
     const navigate = useNavigate();
   const [wishlist, setWishlist] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  const { addToCart } = useCart();
   useEffect(() => {
     async function fetchWishlist() {
       try {
@@ -28,12 +28,25 @@ function Wishlist({ userId }) {
 
   if (wishlist.length === 0) return <p>Your wishlist is empty.</p>;
 
+  const handleAddToCart = (product) => {
+    const cartItem = {
+      id: product._id || product.id,
+      name: product.name,
+      price: product.variant?.[0]?.sizes?.[0]?.sellingPrice || 0,
+      color: product.variant?.[0]?.title || "",
+      size: product.variant?.[0]?.sizes?.[0]?.size || "",
+      quantity: 1,
+      image: product?.variant?.[0]?.images?.[0]?.url || product.images?.[0]
+    };
+    addToCart(cartItem);
+  };
+
   return (
     <div className="wishlist-container">
       <h2>My Wishlist</h2>
       <div className="wishlist-grid mt-5">
         {wishlist?.map((product) => (
-          <div key={product._id} className="wishlist-item" style={{cursor: 'pointer'}} onclick={() => navigate(`/product/${product._id}`)}>
+          <div key={product._id} className="wishlist-item" style={{cursor: 'pointer'}} onClick={() => navigate(`/product/${product._id}` || `/product/${product.id}` || `/product/${product.productId._id}`)}>
             <img
               src={
                 product?.variant?.[0]?.images?.[0]?.url || product.images?.[0]
@@ -51,7 +64,18 @@ function Wishlist({ userId }) {
   Price: <strong>₹{product.variant?.[0]?.sizes?.[0]?.sellingPrice}</strong>
 </p>
 
+<div className="profilepage-wishlist-add-to-cart-btn">
+<button
+              onClick={(e) => {
+                e.stopPropagation(); // prevent navigating to product page
+                handleAddToCart(product);
+              }}
+            >
+              Add to Cart
+            </button>
+</div>
           </div>
+          
         ))}
       </div>
     </div>

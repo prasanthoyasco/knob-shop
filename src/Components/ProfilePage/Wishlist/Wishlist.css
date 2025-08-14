@@ -19,3 +19,38 @@
   height: 150px;
   object-fit: cover;
 }
+.profilepage-wishlist-add-to-cart-btn button{
+  background-color: black;
+  color: white;
+  padding: 5px 20px;
+  border: none;
+  border-radius: 2px;
+
+}
+.profilepage-wishlist-add-to-cart-btn{
+  display: flex;
+  justify-content: center;
+  position: relative;
+  bottom: 0;
+  margin-top: 10px;
+}
+.profilepage-cart-checkout-btn button{
+  background-color: black;
+  color: white;
+  padding: 5px 20px;
+  border: none;
+  border-radius: 2px;
+}
+.profilepage-cart-checkout-btn{
+  display: flex;
+  justify-content: end;
+  position: relative;
+  bottom: -30px;
+  gap: 20px;
+}
+.profilepage-cart-checkout-btn button:hover,
+.profilepage-wishlist-add-to-cart-btn button:hover{
+  background-color: transparent;
+  color: black;
+  border: 1px solid black;
+}
