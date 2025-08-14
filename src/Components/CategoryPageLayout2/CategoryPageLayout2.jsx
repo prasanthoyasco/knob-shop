@@ -4,7 +4,8 @@ import "./CategoryPageLayout2.css";
 import SortDropdown from "./SortDropdown";
 import CategoryFilters from "./CategoryFilters";
 
-const CategoryPageLayout2 = ({ products = [] }) => {
+const CategoryPageLayout2 = ({ products = [], categoryData }) => {
+  // ⬅ added categoryData
   console.log("product", products);
 
   const [filteredProducts, setFilteredProducts] = useState(products);
@@ -18,6 +19,7 @@ const CategoryPageLayout2 = ({ products = [] }) => {
     colors: [],
     features: [],
     accessType: [],
+    // dynamic filter keys will be added when applied
   });
   const [sortOrder, setSortOrder] = useState("");
   const [showMobileFilters, setShowMobileFilters] = useState(false);
@@ -42,8 +44,15 @@ const CategoryPageLayout2 = ({ products = [] }) => {
       product?.variant?.[0]?.sizes?.[0]?.sellingPrice || 0;
 
     let result = [...products];
-    const { brand, availability, colors, features, accessType, priceRange } =
-      filters;
+    const {
+      brand,
+      availability,
+      colors,
+      features,
+      accessType,
+      priceRange,
+      ...dynamicFilters
+    } = filters;
 
     if (brand.length > 0) {
       result = result.filter((p) => brand.includes(p.brand));
@@ -56,7 +65,12 @@ const CategoryPageLayout2 = ({ products = [] }) => {
     }
 
     if (colors.length > 0) {
-      result = result.filter((p) => p.colors?.some((c) => colors.includes(c)));
+      const selectedColors = colors.map((c) => c.trim().toLowerCase());
+      result = result.filter((p) =>
+        (p.variant || []).some((v) =>
+          selectedColors.includes(v.title?.trim().toLowerCase())
+        )
+      );
     }
 
     if (features.length > 0) {
@@ -86,7 +100,18 @@ const CategoryPageLayout2 = ({ products = [] }) => {
       return sellingPrice >= minPrice && sellingPrice <= maxPrice;
     });
 
-    // Normalize sortOrder for safety
+    // 🔍 Apply dynamic API filters
+    Object.entries(dynamicFilters).forEach(([key, values]) => {
+      if (Array.isArray(values) && values.length > 0) {
+        result = result.filter((p) =>
+          p[key]?.some
+            ? p[key].some((val) => values.includes(val))
+            : values.includes(p[key])
+        );
+      }
+    });
+
+    // Sort
     const normalizedSortOrder = sortOrder
       ?.trim()
       .toLowerCase()
@@ -116,7 +141,6 @@ const CategoryPageLayout2 = ({ products = [] }) => {
         );
         break;
       default:
-        // Add any other sort logic like "Best selling" here if needed
         break;
     }
 
@@ -133,7 +157,6 @@ const CategoryPageLayout2 = ({ products = [] }) => {
     }, 100);
   }, [filters, sortOrder, products]);
 
-  // ✅ Clamp page if it goes out of range due to filters
   useEffect(() => {
     if (currentPage > totalPages) {
       setCurrentPage(totalPages || 1);
@@ -144,20 +167,27 @@ const CategoryPageLayout2 = ({ products = [] }) => {
     setFilters((prev) => ({
       ...prev,
       [filterName]: checked
-        ? [...prev[filterName], value]
-        : prev[filterName].filter((item) => item !== value),
+        ? [...(prev[filterName] || []), value]
+        : (prev[filterName] || []).filter((item) => item !== value),
     }));
   };
 
   const handleResetFilters = () => {
-    setFilters({
+    const resetFilters = {
       brand: [],
       availability: [],
-      priceRange: [0, 100000],
-      colors: [],
       features: [],
       accessType: [],
+      priceRange: [0, 100000],
+      colors: [],
+    };
+
+    // Reset dynamic API filters
+    categoryData?.filters?.forEach((f) => {
+      resetFilters[f.name] = f.type === "range" ? [0, 100000] : [];
     });
+
+    setFilters(resetFilters);
     setSortOrder("");
     setOpenSections({});
     setCurrentPage(1);
@@ -168,8 +198,6 @@ const CategoryPageLayout2 = ({ products = [] }) => {
       setCurrentPage(pageNum);
     }
   };
-
-  console.log(paginatedProducts);
 
   return (
     <div className="container-fluid my-4">
@@ -202,6 +230,7 @@ const CategoryPageLayout2 = ({ products = [] }) => {
               toggleSection={toggleSection}
               handleCheckboxChange={handleCheckboxChange}
               handleResetFilters={handleResetFilters}
+              categoryFilters={categoryData?.filters || []} // ⬅ pass API filters
             />
           </div>
         )}
@@ -216,6 +245,7 @@ const CategoryPageLayout2 = ({ products = [] }) => {
             toggleSection={toggleSection}
             handleCheckboxChange={handleCheckboxChange}
             handleResetFilters={handleResetFilters}
+            categoryFilters={categoryData?.filters || []} // ⬅ pass API filters
           />
         </div>
 
@@ -226,7 +256,7 @@ const CategoryPageLayout2 = ({ products = [] }) => {
             style={{ border: "1px solid #DADADA", borderRadius: "4px" }}
           >
             <span className="item-count fw-medium" style={{ color: "#252525" }}>
-              ({products.length} Of {products.length} Items)
+              ({filteredProducts.length} Of {products.length} Items)
             </span>
 
             <div className="d-flex align-items-center gap-2 sort-control">
