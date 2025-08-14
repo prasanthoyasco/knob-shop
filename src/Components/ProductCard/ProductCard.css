@@ -329,6 +329,7 @@ color: #FFFFFF;
   }
    .product-card{
         max-height: 100vh !important;
+        width:100%;
   }
   .icons {
     min-height: 22px;
@@ -351,6 +352,7 @@ color: #FFFFFF;
   }
   .product-card{
         max-height: 100vh !important;
+        width: 100%;
   }
   .icons {
     min-height: 22px;
