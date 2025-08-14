@@ -39,7 +39,7 @@ const CategoryFilters = ({
       )
     )
   );
-
+console.log("Category filters",categoryFilters);
   return (
     <>
       {/* Filter Header */}
@@ -238,6 +238,7 @@ const CategoryFilters = ({
                       range
                       min={0}
                       max={100000}
+                      className="custom-slider my-4"
                       step={1000}
                       value={filters[f.name] || [0, 100000]}
                       onChange={(value) =>
@@ -258,7 +259,7 @@ const CategoryFilters = ({
                           }
                           checked={filters[f.name]?.includes(opt)}
                         />
-                        <label className="form-check-label ms-2">{opt}</label>
+                        <label className="form-check-label ms-2 text-capitalize">{opt}</label>
                       </div>
                     ))}
 

@@ -3,13 +3,14 @@ import ProductCard from "../ProductCard/ProductCard";
 import "./CategoryPageLayout2.css";
 import SortDropdown from "./SortDropdown";
 import CategoryFilters from "./CategoryFilters";
+import { getCategoryById } from "../../API/categoriesApi";
 
 const CategoryPageLayout2 = ({ products = [], categoryData }) => {
   // ⬅ added categoryData
-  console.log("product", products);
-
+  console.log("category", categoryData);
   const [filteredProducts, setFilteredProducts] = useState(products);
   const [currentPage, setCurrentPage] = useState(1);
+  const [categoryFilters, setCategoryFilters] = useState([]);
   const [loading, setLoading] = useState(false);
   const [openSections, setOpenSections] = useState({});
   const [filters, setFilters] = useState({
@@ -23,6 +24,41 @@ const CategoryPageLayout2 = ({ products = [], categoryData }) => {
   });
   const [sortOrder, setSortOrder] = useState("");
   const [showMobileFilters, setShowMobileFilters] = useState(false);
+
+  useEffect(() => {
+    if (!categoryData) return; // no ID yet
+
+    const fetchCategoryFilters = async () => {
+      try {
+        setLoading(true);
+        const res = await getCategoryById(categoryData); // categoryData is ID here
+        const filtersFromApi = res?.filters || [];
+
+        // store filters for CategoryFilters component
+        setCategoryFilters(filtersFromApi);
+
+        // initialize filters state
+        setFilters((prev) => {
+          const newFilters = { ...prev };
+          filtersFromApi.forEach((f) => {
+            if (f.type === "range") {
+              newFilters[f.name] = [0, 100000];
+            } else {
+              newFilters[f.name] = [];
+            }
+          });
+          return newFilters;
+        });
+      } catch (err) {
+        console.error("Failed to fetch category filters", err);
+        setCategoryFilters([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCategoryFilters();
+  }, [categoryData]);
 
   const itemsPerPage = 12;
   const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
@@ -178,12 +214,12 @@ const CategoryPageLayout2 = ({ products = [], categoryData }) => {
       availability: [],
       features: [],
       accessType: [],
-      priceRange: [0, 100000],
+      priceRange: [0, 10000],
       colors: [],
     };
 
     // Reset dynamic API filters
-    categoryData?.filters?.forEach((f) => {
+    categoryFilters?.forEach((f) => {
       resetFilters[f.name] = f.type === "range" ? [0, 100000] : [];
     });
 
@@ -230,7 +266,7 @@ const CategoryPageLayout2 = ({ products = [], categoryData }) => {
               toggleSection={toggleSection}
               handleCheckboxChange={handleCheckboxChange}
               handleResetFilters={handleResetFilters}
-              categoryFilters={categoryData?.filters || []} // ⬅ pass API filters
+              categoryFilters={categoryFilters || []}
             />
           </div>
         )}
@@ -245,7 +281,7 @@ const CategoryPageLayout2 = ({ products = [], categoryData }) => {
             toggleSection={toggleSection}
             handleCheckboxChange={handleCheckboxChange}
             handleResetFilters={handleResetFilters}
-            categoryFilters={categoryData?.filters || []} // ⬅ pass API filters
+            categoryFilters={categoryFilters || []} // ⬅ pass API filters
           />
         </div>
 

@@ -110,7 +110,7 @@ const [loading, setLoading] = useState(true);
         backgroundImage={lockerBg}
       />
       {/* <CategoryPageLayout products={products}/> */}
-      <CategoryPageLayout2 products={products}/>
+      <CategoryPageLayout2 products={products} categoryData={categoryId}/>
       <Footer />
       </>
   )

@@ -34,7 +34,7 @@ function Footer() {
   const UserId = localStorage.getItem("authUser")
     ? JSON.parse(localStorage.getItem("authUser"))._id
     : null;
-    console.log("Footer User ID",UserId);
+  console.log("Footer User ID", UserId);
   const handleTrackOrder = () => {
     const storedUser = localStorage.getItem("authUser");
 
@@ -61,6 +61,16 @@ function Footer() {
         <div className="footer-logo-text">
           <img src={footerImage} className="footer-logo" />
           <p>Subscribe to receive inspiration,ideas and news to your inbox</p>
+
+          <div className="my-5">
+            <a
+              href="https://www.instagram.com/knobsshop_official/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <i class="bi bi-instagram insta-gram-icon"></i>
+            </a>
+          </div>
         </div>
 
         <div className="d-flex footer-menus flex-md-wrap">
@@ -158,21 +168,11 @@ function Footer() {
           <button>subscribe</button>
         </div>
       </div> */}
-
-      <div className="fb-insta-youTube-icon">
-        <a
-          href="https://www.instagram.com/knobsshop_official/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <i class="bi bi-instagram insta-gram-icon"></i>
-        </a>
-        <p>
-          Copyright <i className="bi bi-c-circle"></i> 2025{" "}
-          <span style={{ color: "#AB7B53" }}>Knobs Shop.</span> All Rights
-          Reserved.
-        </p>
-      </div>
+      <p className="text-center">
+        Copyright <i className="bi bi-c-circle"></i> 2025{" "}
+        <a href="https://knobsshop.com/" target="_blank" style={{ color: "#AB7B53" }}>Knobs Shop.</a> All Rights
+        Reserved.
+      </p>
     </div>
   );
 }

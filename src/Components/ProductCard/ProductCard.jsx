@@ -6,7 +6,6 @@ import { useWishlist } from "../../Context/WishlistContext";
 import { useState,useEffect } from "react";
 import {getReviewsByProduct} from '../../API/reviewApi'
 const ProductCard = ({ product }) => {
-  console.log("ProductCard product:", product);
   const [avgRating, setAvgRating] = useState(0);
   const navigate = useNavigate();
 

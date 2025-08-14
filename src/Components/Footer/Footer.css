@@ -78,8 +78,8 @@
     background-size: cover;
     background-position: center;
     position: absolute;
-    top: -12%;
-    right: 79%;
+    top: 0;
+    right: 77%;
     width: 19%;
     height: 32%;
     z-index: 0;
@@ -254,7 +254,7 @@
 .insta-gram-icon{
     background-color:#AB7B53;
     font-size: 20px;
-    padding: 4px 6px;
+    padding: 4px 7px;
     border-radius: 50%;
     color: white;
 }
