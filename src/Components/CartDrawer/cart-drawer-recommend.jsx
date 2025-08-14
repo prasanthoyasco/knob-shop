@@ -2,9 +2,6 @@ import React, { useRef } from "react";
 
 const RecommendedSlider = ({ recommendedItems = [], onAddToCart }) => {
   const scrollRef = useRef(null);
-  console.log("cart recomed data",recommendedItems);
-  
-
   const scroll = (offset) => {
     scrollRef.current.scrollBy({ left: offset, behavior: "smooth" });
   };

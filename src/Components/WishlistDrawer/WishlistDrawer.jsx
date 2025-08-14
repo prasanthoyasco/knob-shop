@@ -10,7 +10,6 @@ const WishlistDrawer = ({
   onRemove,
   onMoveToCart,
 }) => {
-  console.log("WishlistDrawer rendered with items:", wishlistItems);
   const navigate = useNavigate();
   const { addToCart } = useCart();
   // const [addedItemIds, setAddedItemIds] = useState([]);

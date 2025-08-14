@@ -32,7 +32,7 @@ const helpContent = [
 function Footer() {
   const navigate = useNavigate();
   const UserId = localStorage.getItem("authUser")
-    ? JSON.parse(localStorage.getItem("authUser"))._id
+    ? JSON.parse(localStorage.getItem("authUser")).id
     : null;
     console.log("Footer User ID",UserId);
   const handleTrackOrder = () => {
