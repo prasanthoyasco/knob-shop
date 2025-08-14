@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import './NavbarTop.css';
 import NavbarMiddle from '../NavbarMiddle/NavbarMiddle';
 import facebook_icon from '../../../Assets/facebook-icon.svg';
@@ -9,9 +9,30 @@ import NavbarBottom from '../NavbarBottom/NavbarBottom';
 
 function NavbarTop() {
     const [menuOpen, setMenuOpen] = useState(false);
+    const [currentOffer, setCurrentOffer] = useState(0);
+    const offers = [
+        <>Welcome Bonus! Use <strong style={{ color: '#E18436' }}>KNOBSSHOP25</strong> on your first login & grab <strong style={{ color: '#E18436' }}>₹100 off instantly</strong></>,
+<>Welcome Bonus! Use <strong style={{ color: '#E18436' }}>KNOBSSHOP25</strong> on your first login & grab <strong style={{ color: '#E18436' }}>₹100 off instantly</strong></>,
+<>Welcome Bonus! Use <strong style={{ color: '#E18436' }}>KNOBSSHOP25</strong> on your first login & grab <strong style={{ color: '#E18436' }}>₹100 off instantly</strong></>,
+      ];
 
+      useEffect(() => {
+        const interval = setInterval(() => {
+          setCurrentOffer((prev) => (prev + 1) % offers.length);
+        }, 3000); // change every 3s
+        return () => clearInterval(interval);
+      }, []);
     return (
         <>
+      <div className="mobile-navbar-top-offer">
+        <div className="text-slider">
+          <p key={currentOffer} className="fade-in">
+            {offers[currentOffer]}
+          </p>
+        </div>
+      </div>
+
+
             <div className='navbar-top-container'>
                 <div className='navbar-top-phone-number'>
                     <img src={call_icon} alt="Call"/>

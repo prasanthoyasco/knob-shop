@@ -25,6 +25,9 @@
 .navbar-mob-middle-search-box-icon{
     display: none;
 }
+.mobile-navbar-top-offer{
+    display: none;
+}
 /* Animation keyframes */
 @keyframes fadeInTop {
     from {
@@ -66,4 +69,29 @@
     .navbar-top-mail-id{
         display: none;
     }
+    .mobile-navbar-top-offer{
+        display: block;
+        text-align: center;
+        margin: 10px !important;
+        border-bottom: 1px solid rgb(183, 182, 182);
+        overflow: hidden;
+    }
+    .mobile-navbar-top-offer p{
+        margin-bottom: 10px !important;
+    }
+    
+  
+  .fade-in {
+    animation: fadeInOut 3s ease-in-out;
+    font-size: 14px;
+    margin: 10px !important;
+  }
+  
+  @keyframes fadeInOut {
+    0% { opacity: 0; transform: translateX(100px); }
+    10% { opacity: 1; transform: translateX(0); }
+    90% { opacity: 1; transform: translateX(0); }
+    100% { opacity: 0; transform: translateX(-100px); }
+  }
+    
 }

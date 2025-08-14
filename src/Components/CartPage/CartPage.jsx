@@ -228,7 +228,7 @@ function CartPage() {
           >
             <h3>Subtotal ₹ {subtotal.toLocaleString("en-IN")}</h3>
             <p>Taxes and Shipping Calculated at Checkout</p>
-            <div className="mobile-checkout-sticky">
+            {/* <div className="mobile-checkout-sticky">
               <button
                 className="Desktop-checkout-button"
                 onClick={() => {
@@ -241,7 +241,7 @@ function CartPage() {
               >
                 CHECK OUT
               </button>
-            </div>
+            </div> */}
             <button
               className="Desktop-checkout-button"
               onClick={() => {

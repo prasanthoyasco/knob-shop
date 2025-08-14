@@ -348,6 +348,9 @@
       gap: 10px; /* slightly smaller gap for mobile */
       width: auto; /* let them shrink-wrap */
     }
+    .icon-and-mail-id{
+        margin: 0 !important;
+    }
   
     /* Footer logo and text */
     .footer-logo-text,
@@ -369,7 +372,8 @@
         padding: 10px;
         display: flex;
         flex-direction: column;
-        align-items: flex-start;
+        align-items:center;
+        margin-top: 10%;
     }
     .email-section-footer{
         display: none;
@@ -381,6 +385,17 @@
         flex-wrap: wrap;
         align-items: baseline;
         justify-content: space-evenly !important;
+    }
+    .footer-about-container{
+        width: 34% !important;
+        margin-left: 10% !important;
+    }
+    .icon-phone-number i,
+    .icon-and-mail-id i{
+        display: none;
+    }
+    .fb-insta-youTube-icon a{
+        margin-top: -15px !important;
     }
   }
   

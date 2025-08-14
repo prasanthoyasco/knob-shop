@@ -60,7 +60,7 @@ function Footer() {
       <div className="footer-container">
         <div className="footer-logo-text">
           <img src={footerImage} className="footer-logo" />
-          <p>Subscribe to receive inspiration,ideas and news to your inbox</p>
+          <p>Premium knobs for every style and space.</p>
         </div>
 
         <div className="d-flex footer-menus flex-md-wrap">

@@ -12,6 +12,29 @@
   flex-direction: column;
   transition: right 0.3s ease-in-out;
 }
+.quantity-box-cart-drawer{ 
+  width: 50%;
+  display: flex
+;
+  align-items: center;
+  justify-content: space-around;
+  height: 35px;
+  border: 1px solid #b7b5b5 !important;
+  border-radius: 50px;
+  text-align: center;
+}
+.quantity-box-cart-drawer button{
+  display: flex
+;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border: none;
+    background-color: white;
+    font-size: 24px;
+    color: gray;
+}
 
 .cart-drawer.open {
   right: 0;

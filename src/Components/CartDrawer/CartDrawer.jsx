@@ -6,6 +6,7 @@ import { NotebookPen, TruckIcon, X } from "lucide-react";
 import { CountrySelect } from "./CountrySelect";
 import { useNavigate } from "react-router-dom";
 import { fetchProductsByCategory } from "../../API/productApi";
+import { useCart } from "../../Context/CartContext";
 const CartDrawer = ({
   show,
   onClose,
@@ -14,6 +15,7 @@ const CartDrawer = ({
   onAddToCart,
 }) => {
   const navigate = useNavigate();
+  const { updateCartItemQuantity } = useCart();
   const [activeTab, setActiveTab] = useState(null);
   const [note, setNote] = useState("");
   const [country, setCountry] = useState("India");
@@ -60,6 +62,16 @@ const CartDrawer = ({
 
     if (show) fetchRecommended();
   }, [show, cartItems]);
+
+  // Inside your component, before return()
+  const handleIncrement = (id) => {
+    updateCartItemQuantity(id, 1);
+  };
+  
+  const handleDecrement = (id) => {
+    updateCartItemQuantity(id, -1);
+  };
+
 
   return (
     <>
@@ -163,6 +175,22 @@ const CartDrawer = ({
                         Remove
                       </button>
                     </div>
+                    <div className="quantity-box-cart-drawer">
+  <button
+    onClick={() => handleDecrement(item._id || item.id || item.productId?._id)}
+    disabled={item.quantity === 1}
+  >
+    -
+  </button>
+  <span>{item.quantity}</span>
+  <button
+    onClick={() => handleIncrement(item._id || item.id || item.productId?._id)}
+  >
+    +
+  </button>
+</div>
+
+
                   </div>
                 </div>
               ))}

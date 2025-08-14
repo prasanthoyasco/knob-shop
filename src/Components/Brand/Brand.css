@@ -170,6 +170,9 @@
       filter: none !important;
       opacity: 1 !important;
     }
+    .brand-carousel{
+      padding: 0 !important;
+    }
   }
   /* .labacha-size img {
     width: 110px !important;

@@ -131,6 +131,34 @@ export const CartProvider = ({ children }) => {
   
   
   
+  const updateCartItemQuantity = async (id, change) => {
+    setCartItems((prev) =>
+      prev.map((item) => {
+        const itemId = item._id || item.id || item.productId?._id;
+        if (itemId === id) {
+          return { ...item, quantity: Math.max(1, (item.quantity || 1) + change) };
+        }
+        return item;
+      })
+    );
+  
+    // Optional: sync updated quantity with backend
+    const storedUser = localStorage.getItem("authUser");
+    const parsedUser = storedUser ? JSON.parse(storedUser) : null;
+    const userId = parsedUser?.id;
+  
+    if (userId) {
+      try {
+        await addToCartAPI({
+          userId,
+          productId: id,
+          quantity: change, // sending the delta to backend
+        });
+      } catch (error) {
+        console.error("Failed to update cart item quantity:", error);
+      }
+    }
+  };
   
   
   
@@ -180,6 +208,7 @@ export const CartProvider = ({ children }) => {
         cartItems,
         addToCart,
         removeFromCart,
+        updateCartItemQuantity,
         drawerOpen,
         clearCart,
         toggleDrawer,
