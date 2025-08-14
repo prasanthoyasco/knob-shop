@@ -163,8 +163,8 @@ const ProductCard = ({ product }) => {
         {icons?.length > 0 && <hr />}
 
         {/* Title & Price */}
-        <div className="mt-5 d-flex flex-column flex-grow-1">
-          <h5 className="card-title single-line">{title || name}</h5>
+        <div className="mt-5 d-flex flex-column flex-grow-1 mobile-card-align">
+          <h5 className="card-title single-line">{title}</h5>
 
           <p className="mb-2">
             <del className="text-muted">
@@ -184,7 +184,7 @@ const ProductCard = ({ product }) => {
           </p>
 
           {/* Color Select */}
-          <div className="product-colors d-flex align-items-center gap-2 my-2">
+          <div className="product-colors d-flex align-items-center gap-2 my-2 products-color-show">
             {product.variant?.map((color, index) => (
               <input
                 key={index}
@@ -212,7 +212,7 @@ const ProductCard = ({ product }) => {
           </div>
 
           {/* Size Select */}
-          <div className="d-flex flex-wrap gap-2 mb-3 align-items-center">
+          <div className="d-flex flex-wrap gap-2 mb-3 align-items-center default-color-button-text">
             {selectedVariant.sizes?.filter((size) => size.label?.length)
               .length > 0 ? (
               <>

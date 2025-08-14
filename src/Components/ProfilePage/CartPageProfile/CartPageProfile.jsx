@@ -67,6 +67,18 @@ function CartPageProfile() {
           );
         })}
       </div>
+      <div className="profilepage-cart-checkout-btn">
+          <button 
+                onClick={() => {
+                  navigate("/view-cart", { state: { cartItems } });
+                }}>
+          VIEW CART</button>
+          <button 
+              onClick={() => {
+              navigate("/payment", { state: { cartItems } });
+              }}>
+          CHECKOUT</button>
+      </div>
     </div>
   );
 }

@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 function BookConsultForm() {
     const navigate = useNavigate()
     const [submissionMessage, setSubmissionMessage] = useState('');
-
+    const [errorMessage, setErrorMessage] = useState('');
   const [formData, setFormData] = useState({
     location: '',
     category: '',
@@ -26,6 +26,18 @@ function BookConsultForm() {
   };
 
   const handleSubmit = async () => {
+    if (
+      !formData.name.trim() ||
+      !formData.mobile.trim() ||
+      !formData.email.trim() ||
+      !formData.category ||
+      !formData.location ||
+      !formData.budget.trim() ||
+      !formData.interest.trim()
+    ) {
+      setErrorMessage('Please fill all required fields before submitting.');
+      return;
+    }
     try {
       const response = await createConsultation(formData);
       console.log(response);
@@ -74,13 +86,13 @@ function BookConsultForm() {
           
         <div className='input-and-text'>
             <p>Name</p>
-            <input type='text' name="name" value={formData.name} onChange={handleChange} placeholder='Enter Full Name' />
+            <input type='text' name="name" value={formData.name} onChange={handleChange} placeholder='Enter Full Name' required/>
           </div>
 
 
           <div className='input-and-text'>
             <p>Mobile</p>
-            <input type='text' name="mobile" value={formData.mobile} onChange={handleChange} placeholder='Enter Mobile Number' />
+            <input type='text' name="mobile" value={formData.mobile} onChange={handleChange} placeholder='Enter Mobile Number' required/>
           </div>
 
           <div className='book-form-right-checkbox'>
@@ -90,13 +102,13 @@ function BookConsultForm() {
 
           <div className='input-and-text'>
             <p>Email Id</p>
-            <input type='text' name="email" value={formData.email} onChange={handleChange} placeholder='Enter Email' />
+            <input type='text' name="email" value={formData.email} onChange={handleChange} placeholder='Enter Email' required/>
           </div>
 
 
           <div className='input-and-text'>
             <p>Category</p>
-            <select name="category" value={formData.category} onChange={handleChange}>
+            <select name="category" value={formData.category} onChange={handleChange} required>
   <option value="" disabled>Select your category</option>
   {categoryList.map((state) => (
     <option key={state} value={state}>{state}</option>
@@ -107,7 +119,7 @@ function BookConsultForm() {
 
           <div className='input-and-text'>
             <p>Your Location</p>
-            <select name="location" value={formData.location} onChange={handleChange}>
+            <select name="location" value={formData.location} onChange={handleChange} required>
   <option value="" disabled>Select your state</option>
   {indianStates.map((state) => (
     <option key={state} value={state}>{state}</option>
@@ -118,7 +130,7 @@ function BookConsultForm() {
 
           <div className='input-and-text'>
             <p>Tentative Budget</p>
-            <input type='text' name="budget" value={formData.budget} onChange={handleChange} placeholder='Enter Budget' />
+            <input type='text' name="budget" value={formData.budget} onChange={handleChange} placeholder='Enter Budget' required/>
           </div>
         </div>
 
@@ -133,12 +145,19 @@ function BookConsultForm() {
   placeholder="Tell us what you are shopping for"
   value={formData.interest}
   onChange={handleChange}
+  required
 />
-{submissionMessage && (
-  <div className="submission-message">
-    <p>{submissionMessage}</p>
-  </div>
-)}
+{errorMessage && (
+            <div className='error-message' style={{color: 'red', marginTop: '5px'}}>
+              {errorMessage}
+            </div>
+          )}
+
+          {submissionMessage && (
+            <div className='submission-message'>
+              <p>{submissionMessage}</p>
+            </div>
+          )}
 
 
           <div className='book-consultation-button-div'>

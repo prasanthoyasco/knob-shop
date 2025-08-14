@@ -125,20 +125,18 @@ const CartItemsList = ({
               <img src={item.image} alt={item.title} loading="lazy" />
             </div>
             <div className="cart-mobile-right">
-              <h3>{item.title}</h3>
+              <h3>{item.title || item.name || item.productId.name}</h3>
               <div className="price-row">
                 <span className="discount-price">
-                  {item.variant?.[0]?.sizes?.[0]?.sellingPrice != null
-                    ? `₹${item.variant[0].sizes[0].sellingPrice.toLocaleString(
-                        "en-IN"
-                      )}${
-                        item.price
-                          ? ` | ₹${item.price.toLocaleString("en-IN")}`
-                          : ""
-                      }`
-                    : item.price != null
-                    ? `₹${item.price.toLocaleString("en-IN")}`
-                    : "Price not available"}
+                {item.productId?.variant?.[0]?.sizes?.[0]?.sellingPrice != null
+    ? `₹${item.productId.variant?.[0]?.sizes?.[0]?.sellingPrice.toLocaleString("en-IN")}${
+        item.price ? ` | ₹${item.price.toLocaleString("en-IN")}` : ""
+      }`
+    : item.price != null
+    ? `₹${item.price.toLocaleString("en-IN")}`
+    : item.variant?.[0]?.sizes?.[0]?.sellingPrice != null
+    ? `₹${item.variant[0].sizes[0].sellingPrice.toLocaleString("en-IN")}`
+    : "Price not available"}
                 </span>
               </div>
               <div className="quantity-remove-row">

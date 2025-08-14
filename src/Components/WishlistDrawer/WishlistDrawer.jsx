@@ -10,7 +10,6 @@ const WishlistDrawer = ({
   onRemove,
   onMoveToCart,
 }) => {
-  console.log("WishlistDrawer rendered with items:", wishlistItems);
   const navigate = useNavigate();
   const { addToCart } = useCart();
   // const [addedItemIds, setAddedItemIds] = useState([]);
@@ -106,20 +105,6 @@ const WishlistDrawer = ({
             ))
           )}
         </div>
-
-        {wishlistItems.length > 0 && (
-          <div className="cart-drawer-footer p-3">
-            <button
-              className="btn btn-dark w-100 mb-2 py-3"
-              onClick={() => {
-                onClose();
-                navigate("/account", { state: { section: "wishlist" } });
-              }}
-            >
-              View Full Wishlist
-            </button>
-          </div>
-        )}
       </div>
     </>
   );

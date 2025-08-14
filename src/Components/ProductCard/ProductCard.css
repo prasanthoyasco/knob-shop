@@ -329,6 +329,7 @@ color: #FFFFFF;
   }
    .product-card{
         max-height: 100vh !important;
+        width:100%;
   }
   .icons {
     min-height: 22px;
@@ -336,6 +337,12 @@ color: #FFFFFF;
   }
   .icon img {
       height: 22px;
+  }
+  .mobile-card-align{
+    margin-top: 1rem !important;
+  }
+  .default-color-button-text{
+    margin-bottom: 0.5rem !important;
   }
 }
 
@@ -345,6 +352,7 @@ color: #FFFFFF;
   }
   .product-card{
         max-height: 100vh !important;
+        width: 100%;
   }
   .icons {
     min-height: 22px;
@@ -353,6 +361,12 @@ color: #FFFFFF;
   .icon img {
       height: 22px;
   }
+  .products-color-show{
+    margin-top: 0 !important;
+  }
+  .mobile-card-align{
+    margin-top: 1rem !important;
+  }
 }
 
 /* Medium devices: ≥576px */
@@ -360,12 +374,24 @@ color: #FFFFFF;
   .card-buttons button {
     padding: 0.7rem 1.8rem;
   }
+  .products-color-show{
+    margin-top: 0 !important;
+  }
+  .mobile-card-align{
+    margin-top: 1rem !important;
+  }
+  .default-color-button-text{
+    margin-bottom: 0.5rem !important;
+  }
 }
 
 /* Tablets: ≥768px */
 @media (min-width: 768px) {
   .card-buttons button {
     padding: 0.7rem 2rem;
+  }
+  .default-color-button-text{
+    margin-bottom: 0.5rem !important;
   }
 }
 

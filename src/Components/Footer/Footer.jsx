@@ -32,7 +32,7 @@ const helpContent = [
 function Footer() {
   const navigate = useNavigate();
   const UserId = localStorage.getItem("authUser")
-    ? JSON.parse(localStorage.getItem("authUser"))._id
+    ? JSON.parse(localStorage.getItem("authUser")).id
     : null;
   console.log("Footer User ID", UserId);
   const handleTrackOrder = () => {
@@ -60,7 +60,7 @@ function Footer() {
       <div className="footer-container">
         <div className="footer-logo-text">
           <img src={footerImage} className="footer-logo" />
-          <p>Subscribe to receive inspiration,ideas and news to your inbox</p>
+          <p>Premium knobs for every style and space.</p>
 
           <div className="my-5">
             <a
