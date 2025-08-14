@@ -21,6 +21,7 @@ export const ProductList = () => {
   const searchQuery = new URLSearchParams(location.search).get("query");
   const [products, setProducts] = useState([]);
   const [count, setCount] = useState([]);
+  console.log("items", products);
   const mapProduct = (item) => ({
     id: item._id,
     title: item.name,
@@ -69,8 +70,9 @@ export const ProductList = () => {
     
         // Normalize: support both array and { data: [...] }
         const productArray = Array.isArray(res) ? res : res.data;
+        console.log("productArray", productArray);
         const mapped = productArray.map(mapProduct);
-        setProducts(mapped);
+        setProducts(productArray);
       } catch (err) {
         console.error("Error fetching products", err);
         setProducts([]);

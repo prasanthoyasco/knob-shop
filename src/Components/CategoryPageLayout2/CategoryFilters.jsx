@@ -10,27 +10,35 @@ const CategoryFilters = ({
   toggleSection,
   handleCheckboxChange,
   handleResetFilters,
+  categoryFilters = [], // 👈 from API
 }) => {
   const uniqueValues = (field) => {
     const values = products.map((p) => p[field]).filter(Boolean);
     return [...new Set(values)];
   };
-
+  // Remove duplicates by color name
   const colorSwatches = [
-    "#fbe9e7",
-    "#000000",
-    "#7ec6e3",
-    "#5c3b1e",
-    "#ff6f00",
-    "#f8bbd0",
-    "#1565c0",
-    "#aa00ff",
-    "#43a047",
-    "#d32f2f",
-    "#ffa726",
-    "#5c6bc0",
-    "#a1887f",
+    ...new Map(
+      products
+        .flatMap((p) =>
+          (p.variant || []).map((v) => ({
+            name: v.title?.trim().toLowerCase(), // store lowercase for matching
+            hex: v.value || v.colorHex, // fallback if no hex value
+          }))
+        )
+        .filter((c) => c.name) // remove empty/null names
+        .map((c) => [c.name, c]) // key by name to remove duplicates
+    ).values(),
   ];
+
+  const maxPrice = Math.max(
+    0,
+    ...products.flatMap((p) =>
+      (p.variant || []).flatMap((v) =>
+        (v.sizes || []).map((s) => s.sellingPrice || 0)
+      )
+    )
+  );
 
   return (
     <>
@@ -41,7 +49,7 @@ const CategoryFilters = ({
           className="btn filter-btn p-0 btn-link text-decoration-none"
           onClick={handleResetFilters}
         >
-         <i className="bi bi-arrow-counterclockwise"></i> Remove all
+          <i className="bi bi-arrow-counterclockwise"></i> Remove all
         </button>
       </div>
 
@@ -52,11 +60,12 @@ const CategoryFilters = ({
             ? value.map((v) => (
                 <span
                   key={`${key}-${v}`}
-                  className="badge bg-light rounded-pill px-3 py-2 d-inline-flex align-items-center"
+                  className="badge bg-light rounded-pill px-3 py-2 d-inline-flex align-items-center text-capitalize"
                 >
                   {v}
                   <button
                     type="button"
+                    title="remove filter"
                     className="btn p-0 bg-transparent btn-small text-dark ms-2 border-0"
                     aria-label="Remove"
                     onClick={() => handleCheckboxChange(key, v, false)}
@@ -72,14 +81,8 @@ const CategoryFilters = ({
 
       {/* Accordion Filters */}
       <div className="custom-accordion">
-        {[
-          "Brand",
-          "Price",
-          "Availability",
-          "Colors",
-          "Features",
-          "Access Type",
-        ].map((filter, index) => (
+        {/* Static filters */}
+        {["Brand", "Price", "Colors"].map((filter, index) => (
           <div className="accordion-section mb-3" key={index}>
             <div
               className={`accordion-header d-flex justify-content-between align-items-center fw-semibold py-2 border-bottom ${
@@ -116,48 +119,19 @@ const CategoryFilters = ({
                     </div>
                   ))}
 
-                {filter === "Availability" &&
-                  ["In Stock", "Out of Stock"].map((status) => (
-                    <div className="form-check mb-2" key={status}>
-                      <input
-                        className="form-check-input custom-checkbox"
-                        type="checkbox"
-                        value={status}
-                        onChange={(e) =>
-                          handleCheckboxChange(
-                            "availability",
-                            status,
-                            e.target.checked
-                          )
-                        }
-                        id={`availability-${status}`}
-                        checked={filters.availability?.includes(status)}
-                      />
-                      <label
-                        className="form-check-label ms-2 my-1"
-                        htmlFor={`availability-${status}`}
-                      >
-                        {status}
-                      </label>
-                    </div>
-                  ))}
-
                 {filter === "Price" && (
                   <div className="my-4">
-                    {/* Dual-Thumb Slider */}
                     <Slider
                       range
                       min={0}
-                      max={100000}
-                      step={1000}
+                      max={maxPrice}
+                      step={100}
                       value={filters.priceRange}
                       className="custom-slider my-4"
                       onChange={(value) =>
                         setFilters((prev) => ({ ...prev, priceRange: value }))
                       }
                     />
-
-                    {/* Price Inputs */}
                     <div className="d-flex justify-content-between align-items-center mt-3 gap-2">
                       <div className="input-group">
                         <span className="input-group-text">
@@ -178,9 +152,7 @@ const CategoryFilters = ({
                           }
                         />
                       </div>
-
                       <span className="fw-bold">–</span>
-
                       <div className="input-group">
                         <span className="input-group-text">
                           <i className="bi bi-currency-rupee"></i>
@@ -208,21 +180,22 @@ const CategoryFilters = ({
                   <div className="d-flex flex-wrap gap-2">
                     {colorSwatches.map((color) => (
                       <div
-                        key={color}
+                        key={color.name}
+                        title={color.name} // tooltip
                         onClick={() =>
                           handleCheckboxChange(
                             "colors",
-                            color,
-                            !filters.colors?.includes(color)
+                            color.name, // store name in filters
+                            !filters.colors?.includes(color.name)
                           )
                         }
                         style={{
                           width: "24px",
                           height: "24px",
-                          backgroundColor: color,
+                          backgroundColor: color.hex,
                           borderRadius: "50%",
-                          border: filters.colors?.includes(color)
-                            ? "2px solid #000"
+                          border: filters.colors?.includes(color.name)
+                            ? "2.5px solid rgb(216 127 41)"
                             : "1px solid #ccc",
                           cursor: "pointer",
                         }}
@@ -230,69 +203,85 @@ const CategoryFilters = ({
                     ))}
                   </div>
                 )}
-
-                {filter === "Features" &&
-                  [
-                    "IP camera",
-                    "Video door phone",
-                    "Wardrobe locks",
-                    "Accessory",
-                  ].map((feature) => (
-                    <div className="form-check mb-2" key={feature}>
-                      <input
-                        className="form-check-input custom-checkbox"
-                        type="checkbox"
-                        value={feature}
-                        onChange={(e) =>
-                          handleCheckboxChange(
-                            "features",
-                            feature,
-                            e.target.checked
-                          )
-                        }
-                        id={`feature-${feature}`}
-                        checked={filters.features?.includes(feature)}
-                      />
-                      <label
-                        className="form-check-label ms-2 my-1"
-                        htmlFor={`feature-${feature}`}
-                      >
-                        {feature}
-                      </label>
-                    </div>
-                  ))}
-
-                {filter === "Access Type" &&
-                  ["Fingerprint", "Store Manual key", "Pin code"].map(
-                    (access) => (
-                      <div className="form-check mb-2" key={access}>
-                        <input
-                          className="form-check-input custom-checkbox"
-                          type="checkbox"
-                          value={access}
-                          onChange={(e) =>
-                            handleCheckboxChange(
-                              "accessType",
-                              access,
-                              e.target.checked
-                            )
-                          }
-                          id={`access-${access}`}
-                          checked={filters.accessType?.includes(access)}
-                        />
-                        <label
-                          className="form-check-label ms-2 my-1"
-                          htmlFor={`access-${access}`}
-                        >
-                          {access}
-                        </label>
-                      </div>
-                    )
-                  )}
               </div>
             )}
           </div>
         ))}
+
+        {/* Dynamic filters from API */}
+        {categoryFilters
+          // remove duplicates of static filters
+          .filter(
+            (f) =>
+              !["Brand", "Price", "Colors"].some(
+                (staticName) =>
+                  staticName.toLowerCase() === f.name.toLowerCase()
+              )
+          )
+          .map((f) => (
+            <div className="accordion-section mb-3" key={f._id}>
+              <div
+                className={`accordion-header d-flex justify-content-between align-items-center fw-semibold py-2 border-bottom ${
+                  openSections[f.name] ? "open" : ""
+                }`}
+                onClick={() => toggleSection(f.name)}
+                style={{ cursor: "pointer" }}
+              >
+                {f.name}
+                <span>{openSections[f.name] ? "−" : "+"}</span>
+              </div>
+
+              {openSections[f.name] && (
+                <div className="accordion-body pt-2">
+                  {f.type === "range" && (
+                    <Slider
+                      range
+                      min={0}
+                      max={100000}
+                      step={1000}
+                      value={filters[f.name] || [0, 100000]}
+                      onChange={(value) =>
+                        setFilters((prev) => ({ ...prev, [f.name]: value }))
+                      }
+                    />
+                  )}
+
+                  {f.type === "checkbox" &&
+                    f.options.map((opt) => (
+                      <div className="form-check mb-2" key={opt}>
+                        <input
+                          className="form-check-input custom-checkbox"
+                          type="checkbox"
+                          value={opt}
+                          onChange={(e) =>
+                            handleCheckboxChange(f.name, opt, e.target.checked)
+                          }
+                          checked={filters[f.name]?.includes(opt)}
+                        />
+                        <label className="form-check-label ms-2">{opt}</label>
+                      </div>
+                    ))}
+
+                  {f.type === "radio" &&
+                    f.options.map((opt) => (
+                      <div className="form-check mb-2" key={opt}>
+                        <input
+                          className="form-check-input"
+                          type="radio"
+                          name={f.name}
+                          value={opt}
+                          onChange={() =>
+                            setFilters((prev) => ({ ...prev, [f.name]: [opt] }))
+                          }
+                          checked={filters[f.name]?.includes(opt)}
+                        />
+                        <label className="form-check-label ms-2">{opt}</label>
+                      </div>
+                    ))}
+                </div>
+              )}
+            </div>
+          ))}
       </div>
     </>
   );

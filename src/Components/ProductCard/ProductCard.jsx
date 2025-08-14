@@ -6,6 +6,7 @@ import { useWishlist } from "../../Context/WishlistContext";
 import { useState,useEffect } from "react";
 import {getReviewsByProduct} from '../../API/reviewApi'
 const ProductCard = ({ product }) => {
+  console.log("ProductCard product:", product);
   const [avgRating, setAvgRating] = useState(0);
   const navigate = useNavigate();
 
@@ -18,7 +19,8 @@ const ProductCard = ({ product }) => {
 
   const [selectedSizeLabel, setSelectedSizeLabel] = useState(initialSizeLabel);
 
-  const { id, title, rating } = product;
+  const { id, rating } = product;
+  const title = product.title || product.name || "Untitled Product";
   const handleWishlistClick = () => {
     const authToken = localStorage.getItem("authToken");
     const authUser = localStorage.getItem("authUser");
@@ -163,7 +165,7 @@ const ProductCard = ({ product }) => {
 
         {/* Title & Price */}
         <div className="mt-5 d-flex flex-column flex-grow-1">
-          <h5 className="card-title single-line">{title}</h5>
+          <h5 className="card-title single-line">{title || name}</h5>
 
           <p className="mb-2">
             <del className="text-muted">
