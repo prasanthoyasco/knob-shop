@@ -1,9 +1,9 @@
-import React from "react";
+// import React from "react";
 import "./Footer.css";
 import footerImage from "../../Assets/footer-logo.png";
-import FbInstaYoutubeImage from "../../Assets/fb-insta-youTube.png";
-import insta_icon from "../../Assets/insta-icon.svg";
-import { Link } from "react-router-dom"; // add this
+// import FbInstaYoutubeImage from "../../Assets/fb-insta-youTube.png";
+// import insta_icon from "../../Assets/insta-icon.svg";
+// import { Link } from "react-router-dom"; // add this
 import { useNavigate } from "react-router-dom";
 const shopContent = [
   { text: "Living room", href: "/living-room" },

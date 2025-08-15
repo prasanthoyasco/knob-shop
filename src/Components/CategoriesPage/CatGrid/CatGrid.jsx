@@ -15,6 +15,7 @@ function CatGrid() {
   const passedTitle = location.state?.title || null;
   
   useEffect(() => {
+      const filterCategories = (list) => list.filter(item => !item.subpageType);
     if (passedAllData) {
       const formatted = passedAllData.map((item, index) => ({
         _id: `${passedTitle}-${index}`,
@@ -23,8 +24,9 @@ function CatGrid() {
         categoryImageUrl: item.bgImage,
         categoryList: item.category?.length ? item.category : null,
       }));
-      setAllProducts(formatted);      // save all data
-      setCategories(formatted);       // show full data initially
+       const filtered = filterCategories(formatted);
+      setAllProducts(filtered);      // save all data
+      setCategories(filtered);       // show full data initially
       setLoading(false);
     } else if (passedCategoryData) {
       const formatted = passedCategoryData.map((item, index) => ({
@@ -33,13 +35,13 @@ function CatGrid() {
         description: item.description,
         categoryImageUrl: item.image,
       }));
-      setCategories(formatted);
+      setCategories(filterCategories(formatted));
       setLoading(false);
     } else {
       const getCategories = async () => {
         try {
           const data = await fetchCategories();
-          setCategories(data);
+          setCategories(filterCategories(data));
         } catch (error) {
           console.error("Failed to fetch categories:", error);
         } finally {

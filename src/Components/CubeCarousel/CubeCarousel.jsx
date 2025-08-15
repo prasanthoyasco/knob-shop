@@ -17,6 +17,7 @@ import collectionCarosal2right from "../../Assets/Front Page Doc and Images/Fron
 
 import collectionCarosal3left from "../../Assets/Front Page Doc and Images/Front Page Doc and Images/sec- 3/image (1)/image (4).png";
 import collectionCarosal3right from "../../Assets/Front Page Doc and Images/Front Page Doc and Images/sec- 3/image (1)/image (5).png";
+import { useNavigate } from "react-router-dom";
 
 const carouselData = [
   {
@@ -46,6 +47,7 @@ const carouselData = [
 ];
 
 const CubeCarousel = () => {
+  const navigate = useNavigate()
   const prevRef = useRef(null);
   const nextRef = useRef(null);
    const [isMobile, setIsMobile] = useState(false);
@@ -56,6 +58,11 @@ const CubeCarousel = () => {
     window.addEventListener('resize', checkMobile); // Update on resize
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
+
+  const handilClick = (title)=>{
+    const linkprof = title.trim().toLowerCase().replace(/\s+/g, '-');
+    navigate(`/subpage/${linkprof}`)
+  }
 
   return (
     <div className="cube-carousel-wrapper">
@@ -108,7 +115,7 @@ const CubeCarousel = () => {
                 <h5 className="cube-subtitle">{item.subtitle}</h5>
                 <h2 className="cube-title">{item.title}</h2>
                 <p className="cube-description">{item.description}</p>
-                <button className="cube-button">Explore Now</button>
+                <button className="cube-button" onClick={()=>{handilClick(item.subtitle)}}>Explore Now</button>
               </div>
               <img src={item.rightImage} alt="" className="cube-image right" />
             </div>

@@ -99,7 +99,7 @@ const TrendingProducts = () => {
       // console.log("data from trending products:", data);
       setProducts(data);
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
   };
 
@@ -110,9 +110,39 @@ const TrendingProducts = () => {
   const getFilteredProducts = () => {
     const actualProducts = products.length === 0 ? productsDefault : products;
 
+    // Group products by categoryId
+    const categoryMap = {};
+    actualProducts.forEach((product) => {
+      const categoryId = product.categoryId || product.category || "Others";
+      if (!categoryMap[categoryId]) {
+        categoryMap[categoryId] = [];
+      }
+      categoryMap[categoryId].push(product);
+    });
+
+    // Shuffle each category's product list
+    Object.keys(categoryMap).forEach((categoryId) => {
+      categoryMap[categoryId] = categoryMap[categoryId].sort(
+        () => Math.random() - 0.5
+      );
+    });
+
+    // Round-robin merge: pick one from each category until all are empty
+    const mergedList = [];
+    let productsRemaining = true;
+    while (productsRemaining) {
+      productsRemaining = false;
+      for (const categoryId of Object.keys(categoryMap)) {
+        if (categoryMap[categoryId].length > 0) {
+          mergedList.push(categoryMap[categoryId].shift());
+          productsRemaining = true;
+        }
+      }
+    }
+
     switch (activeTab) {
       case "Latest Products":
-        return [...actualProducts]
+        return [...mergedList]
           .sort(
             (a, b) =>
               new Date(b.createdAt || Date.now()) -
@@ -121,15 +151,17 @@ const TrendingProducts = () => {
           .slice(0, 10);
 
       case "Best Sellers":
-        return actualProducts.filter((product) => product.price > 10000);
+        return mergedList.filter(
+          (product) => product.variant[0].sizes[0].sellingPrice > 10000
+        );
 
       case "Featured Products":
-        return actualProducts.filter(
+        return mergedList.filter(
           (product) => product.discount || product.discount?.isActive
         );
 
       default:
-        return actualProducts;
+        return mergedList;
     }
   };
 
@@ -257,7 +289,7 @@ const TrendingProducts = () => {
                   variant: variant, // fallback image
                   hoverImage: images?.[1] || images?.[0] || chair2, // fallback
                   features: features || [],
-                  icons:key_features
+                  icons: key_features,
                 };
 
                 return (

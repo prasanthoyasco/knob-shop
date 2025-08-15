@@ -39,7 +39,7 @@ const CategoryFilters = ({
       )
     )
   );
-console.log("Category filters",categoryFilters);
+  console.log("Category filters", categoryFilters);
   return (
     <>
       {/* Filter Header */}
@@ -82,131 +82,147 @@ console.log("Category filters",categoryFilters);
       {/* Accordion Filters */}
       <div className="custom-accordion">
         {/* Static filters */}
-        {["Brand", "Price", "Colors"].map((filter, index) => (
-          <div className="accordion-section mb-3" key={index}>
-            <div
-              className={`accordion-header d-flex justify-content-between align-items-center fw-semibold py-2 border-bottom ${
-                openSections[filter] ? "open" : ""
-              }`}
-              onClick={() => toggleSection(filter)}
-              style={{ cursor: "pointer" }}
-            >
-              {filter}
-              <span>{openSections[filter] ? "−" : "+"}</span>
-            </div>
-
-            {openSections[filter] && (
-              <div className="accordion-body pt-2">
-                {filter === "Brand" &&
-                  uniqueValues("brand").map((brand) => (
-                    <div className="form-check mb-2" key={brand}>
-                      <input
-                        className="form-check-input custom-checkbox"
-                        type="checkbox"
-                        value={brand}
-                        onChange={(e) =>
-                          handleCheckboxChange("brand", brand, e.target.checked)
-                        }
-                        id={`brand-${brand}`}
-                        checked={filters.brand?.includes(brand)}
-                      />
-                      <label
-                        className="form-check-label ms-2 my-1"
-                        htmlFor={`brand-${brand}`}
-                      >
-                        {brand}
-                      </label>
-                    </div>
-                  ))}
-
-                {filter === "Price" && (
-                  <div className="my-4">
-                    <Slider
-                      range
-                      min={0}
-                      max={maxPrice}
-                      step={100}
-                      value={filters.priceRange}
-                      className="custom-slider my-4"
-                      onChange={(value) =>
-                        setFilters((prev) => ({ ...prev, priceRange: value }))
-                      }
-                    />
-                    <div className="d-flex justify-content-between align-items-center mt-3 gap-2">
-                      <div className="input-group">
-                        <span className="input-group-text">
-                          <i className="bi bi-currency-rupee"></i>
-                        </span>
-                        <input
-                          type="text"
-                          className="form-control"
-                          value={filters.priceRange[0]}
-                          onChange={(e) =>
-                            setFilters((prev) => ({
-                              ...prev,
-                              priceRange: [
-                                Number(e.target.value),
-                                prev.priceRange[1],
-                              ],
-                            }))
-                          }
-                        />
-                      </div>
-                      <span className="fw-bold">–</span>
-                      <div className="input-group">
-                        <span className="input-group-text">
-                          <i className="bi bi-currency-rupee"></i>
-                        </span>
-                        <input
-                          type="text"
-                          className="form-control"
-                          value={filters.priceRange[1]}
-                          onChange={(e) =>
-                            setFilters((prev) => ({
-                              ...prev,
-                              priceRange: [
-                                prev.priceRange[0],
-                                Number(e.target.value),
-                              ],
-                            }))
-                          }
-                        />
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                {filter === "Colors" && (
-                  <div className="d-flex flex-wrap gap-2">
-                    {colorSwatches.map((color) => (
-                      <div
-                        key={color.name}
-                        title={color.name} // tooltip
-                        onClick={() =>
-                          handleCheckboxChange(
-                            "colors",
-                            color.name, // store name in filters
-                            !filters.colors?.includes(color.name)
-                          )
-                        }
-                        style={{
-                          width: "24px",
-                          height: "24px",
-                          backgroundColor: color.hex,
-                          borderRadius: "50%",
-                          border: filters.colors?.includes(color.name)
-                            ? "2.5px solid rgb(216 127 41)"
-                            : "1px solid #ccc",
-                          cursor: "pointer",
-                        }}
-                      />
-                    ))}
-                  </div>
-                )}
+        {["Brand", "Price", "Colors"]
+          .filter((filter) => {
+            if (filter === "Brand") {
+              const validBrands = uniqueValues("brand")
+                .map((b) => (typeof b === "string" ? b.trim() : b))
+                .filter((b) => b && b !== "0" && b !== 0);
+              return validBrands.length > 0; // Only render if brands exist
+            }
+            return true; // Always show Price & Colors
+          })
+          .map((filter, index) => (
+            <div className="accordion-section mb-3" key={index}>
+              <div
+                className={`accordion-header d-flex justify-content-between align-items-center fw-semibold py-2 border-bottom ${
+                  openSections[filter] ? "open" : ""
+                }`}
+                onClick={() => toggleSection(filter)}
+                style={{ cursor: "pointer" }}
+              >
+                {filter}
+                <span>{openSections[filter] ? "−" : "+"}</span>
               </div>
-            )}
-          </div>
-        ))}
+
+              {openSections[filter] && (
+                <div className="accordion-body pt-2">
+                  {filter === "Brand" &&
+                    uniqueValues("brand")
+                      .filter((brand) => brand !== "0" && brand !== 0 && brand)
+                      .map((brand) => (
+                        <div className="form-check mb-2" key={brand}>
+                          <input
+                            className="form-check-input custom-checkbox"
+                            type="checkbox"
+                            value={brand}
+                            onChange={(e) =>
+                              handleCheckboxChange(
+                                "brand",
+                                brand,
+                                e.target.checked
+                              )
+                            }
+                            id={`brand-${brand}`}
+                            checked={filters.brand?.includes(brand)}
+                          />
+                          <label
+                            className="form-check-label ms-2 my-1"
+                            htmlFor={`brand-${brand}`}
+                          >
+                            {brand}
+                          </label>
+                        </div>
+                      ))}
+
+                  {filter === "Price" && (
+                    <div className="my-4">
+                      <Slider
+                        range
+                        min={0}
+                        max={maxPrice}
+                        step={100}
+                        value={filters.priceRange}
+                        className="custom-slider my-4"
+                        onChange={(value) =>
+                          setFilters((prev) => ({ ...prev, priceRange: value }))
+                        }
+                      />
+                      <div className="d-flex justify-content-between align-items-center mt-3 gap-2">
+                        <div className="input-group">
+                          <span className="input-group-text">
+                            <i className="bi bi-currency-rupee"></i>
+                          </span>
+                          <input
+                            type="text"
+                            className="form-control"
+                            value={filters.priceRange[0]}
+                            onChange={(e) =>
+                              setFilters((prev) => ({
+                                ...prev,
+                                priceRange: [
+                                  Number(e.target.value),
+                                  prev.priceRange[1],
+                                ],
+                              }))
+                            }
+                          />
+                        </div>
+                        <span className="fw-bold">–</span>
+                        <div className="input-group">
+                          <span className="input-group-text">
+                            <i className="bi bi-currency-rupee"></i>
+                          </span>
+                          <input
+                            type="text"
+                            className="form-control"
+                            value={filters.priceRange[1]}
+                            onChange={(e) =>
+                              setFilters((prev) => ({
+                                ...prev,
+                                priceRange: [
+                                  prev.priceRange[0],
+                                  Number(e.target.value),
+                                ],
+                              }))
+                            }
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {filter === "Colors" && (
+                    <div className="d-flex flex-wrap gap-2">
+                      {colorSwatches.map((color) => (
+                        <div
+                          key={color.name}
+                          title={color.name} // tooltip
+                          onClick={() =>
+                            handleCheckboxChange(
+                              "colors",
+                              color.name, // store name in filters
+                              !filters.colors?.includes(color.name)
+                            )
+                          }
+                          style={{
+                            width: "24px",
+                            height: "24px",
+                            backgroundColor: color.hex,
+                            borderRadius: "50%",
+                            border: filters.colors?.includes(color.name)
+                              ? "2.5px solid rgb(216 127 41)"
+                              : "1px solid #ccc",
+                            cursor: "pointer",
+                          }}
+                        />
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          ))}
 
         {/* Dynamic filters from API */}
         {categoryFilters
@@ -259,7 +275,9 @@ console.log("Category filters",categoryFilters);
                           }
                           checked={filters[f.name]?.includes(opt)}
                         />
-                        <label className="form-check-label ms-2 text-capitalize">{opt}</label>
+                        <label className="form-check-label ms-2 text-capitalize">
+                          {opt}
+                        </label>
                       </div>
                     ))}
 
