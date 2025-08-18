@@ -110,7 +110,9 @@ const NewHero = () => {
   const isMobile = window.innerWidth < 768;
   const slides = baseSlides;
   const storedRef = JSON.parse(localStorage.getItem("dtdcReferenceNumber"));
+  const storeRef = JSON.parse(localStorage.getItem("referenceNumber"));
 console.log("Stored DTDC Reference Number:", storedRef);
+console.log("Stored  Reference Number:", storeRef);
 
   const retriggerAnimations = useCallback(() => {
     const animatedElements = document.querySelectorAll(".animate-on-slide");
