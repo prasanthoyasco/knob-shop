@@ -62,7 +62,7 @@ function Footer() {
           <img src={footerImage} className="footer-logo" />
           <p>Premium knobs for every style and space.</p>
 
-          <div className="my-5">
+          <div className="my-3">
             <a
               href="https://www.instagram.com/knobsshop_official/"
               target="_blank"
@@ -145,7 +145,9 @@ function Footer() {
             <div className="icon-phone-number">
               <i className="bi bi-telephone-fill"></i>
               <div className="phone-number">
-                <p>+91 70924 66600</p>
+              <a href="tel:+917092466600" className="phone-link">
+            70924 66600
+          </a>
               </div>
             </div>
             <div className="icon-and-mail-id">

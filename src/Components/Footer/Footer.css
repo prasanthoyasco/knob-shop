@@ -254,7 +254,7 @@
 .insta-gram-icon{
     background-color:#AB7B53;
     font-size: 20px;
-    padding: 4px 7px;
+    padding: 8px 10px;
     border-radius: 50%;
     color: white;
 }
@@ -396,6 +396,9 @@
     }
     .fb-insta-youTube-icon a{
         margin-top: -15px !important;
+    }
+    .insta-gram-icon{
+        padding: 6px 10px;
     }
   }
   

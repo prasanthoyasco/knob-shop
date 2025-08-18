@@ -72,7 +72,7 @@ export const ProductList = () => {
         const productArray = Array.isArray(res) ? res : res.data;
         console.log("productArray", productArray);
         const mapped = productArray.map(mapProduct);
-        setProducts(productArray);
+        setProducts(mapped);
       } catch (err) {
         console.error("Error fetching products", err);
         setProducts([]);

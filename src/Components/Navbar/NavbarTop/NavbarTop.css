@@ -4,11 +4,10 @@
     background-color: #ECECEC;
     height: 40px;
     padding: 10px;
-    flex-wrap: wrap; /* Allows wrapping on small screens */
+    flex-wrap: wrap; 
     animation: fadeInTop 0.6s ease-in-out;
 }
 
-/* Phone and Mail */
 .navbar-top-phone-number,
 .navbar-top-mail-id,
 .navbar-top-facebook-insta-icon-div,
@@ -18,7 +17,6 @@
     animation: fadeInTop 0.6s ease-in-out;
 }
 
-/* Facebook and Insta icons wrapper gap remains 30px */
 .navbar-top-facebook-insta-icon-div {
     gap: 50px;
 }
@@ -28,7 +26,7 @@
 .mobile-navbar-top-offer{
     display: none;
 }
-/* Animation keyframes */
+
 @keyframes fadeInTop {
     from {
         opacity: 0;
@@ -60,6 +58,11 @@
         padding: 5px;
         background-color: #fff !important;
     }
+    .search-results-dropdown{
+        top: 25% !important;
+        left: 3% !important;
+        width: 93% !important;
+    }
     .navbar-top-offer{
         font-size: smaller;
     }
@@ -69,23 +72,41 @@
     .navbar-top-mail-id{
         display: none;
     }
-    .mobile-navbar-top-offer{
+    .mobile-navbar-top-offer {
         display: block;
-        text-align: center;
-        margin: 10px !important;
+        width: 100%;
+        background: #fff;
         border-bottom: 1px solid rgb(183, 182, 182);
         overflow: hidden;
-    }
-    .mobile-navbar-top-offer p{
-        margin-bottom: 10px !important;
-    }
-    
-  
-  .fade-in {
-    animation: fadeInOut 3s ease-in-out;
-    font-size: 14px;
-    margin: 10px !important;
-  }
+        white-space: nowrap;
+        position: relative;
+      }
+      
+      .news-ticker {
+        display: flex;
+        align-items: center;
+        overflow: hidden;
+        width: 100%;
+      }
+      
+      .ticker-content {
+        display: inline-block;
+        padding-left: 100%; /* start off-screen */
+        margin: 10px 0;
+        animation: ticker 30s linear infinite; /* adjust 15s speed */
+      }
+      
+      .ticker-item {
+        display: inline-block;
+        margin-right: 50px; /* space between messages */
+        font-size: 14px;
+      }
+      
+      @keyframes ticker {
+        0% { transform: translateX(0%); }
+        100% { transform: translateX(-100%); }
+      }
+      
   
   @keyframes fadeInOut {
     0% { opacity: 0; transform: translateX(100px); }
@@ -95,3 +116,12 @@
   }
     
 }
+.phone-link, .sms-link {
+    text-decoration: none;
+    color: inherit; /* same as normal text */
+    cursor: pointer;
+  }
+  .phone-link:hover {
+    color: #E18436; /* highlight on hover */
+  }
+  

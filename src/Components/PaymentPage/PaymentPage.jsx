@@ -324,7 +324,7 @@ function PaymentPage() {
   useEffect(() => {
     if (storedUser) {
       setContactInfo(storedUser.email || "");
-      setMobileInfo(storedUser.phone || storedUser.mobile || "");
+      // setMobileInfo(storedUser.phone || storedUser.mobile || "");
     }
   }, [storedUser]);
 
@@ -404,8 +404,8 @@ function PaymentPage() {
 
       const shippingData = {
         name: `${shippingFirstName} + ' ' + ${shippingLastName}`,
-        phone: contactInfo,
-        alternate_phone: mobileInfo || contactInfo,
+        phone: mobileInfo,
+        alternate_phone: mobileInfo,
         street: shippingAddress,
         city: shippingCity,
         district: shippingCity,
@@ -455,9 +455,12 @@ function PaymentPage() {
           },
         };
         const dtdcResponse = await createDTDCConsignment(dtdcPayload);
+        console.log("dtdc refference number :",dtdcResponse)
+        localStorage.setItem("dtdcReferenceNumber", JSON.stringify(dtdcResponse));
         referenceNumber =
-          dtdcResponse?.data?.[0]?.customer_reference_number || "N/A";
+          dtdcResponse?.data?.[0]?.reference_number || "N/A";
       }
+      localStorage.setItem("referenceNumber", JSON.stringify(referenceNumber));
       if (showFields) {
         if (!gstNumber.trim() || !companyName.trim()) {
           alert("Please enter both GST Number and Company Name");
