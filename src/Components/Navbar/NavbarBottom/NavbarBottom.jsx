@@ -40,6 +40,7 @@ function NavbarBottom() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [openCategory, setOpenCategory] = useState(null); // State to manage which category's sub-items are open
   const [category, setCategory] = useState([]);
+  const [mobileCategoriesOpen, setMobileCategoriesOpen] = useState(false);
 
   useEffect(() => {
     const fetchAllCategories = async () => {
@@ -63,11 +64,10 @@ function NavbarBottom() {
     <div className="navbar-bottom-container">
       {/* Shop By Categories - desktop only */}
       <div className="navbar-borrom-categories-container">
-        <div className="navbar-bottom-text-icon">
-          <img src={sbc_icon} alt="hamburger-menu" className="desktop-only" />
+        <div className="navbar-bottom-text-icon desktop-only">
+          <img src={sbc_icon} alt="hamburger-menu"/>
           <i className="bi bi-grid-3x3-gap-fill mobile-only"></i>
           <p>Shop By Categories</p>
-          <i className="bi bi-chevron-down mobile-only"></i>
           <div className="vertical-line desktop-only"></div>
 
           <div className="category-dropdown-menu">
@@ -93,7 +93,49 @@ function NavbarBottom() {
             )}
           </div>
         </div>
+                {/* ✅ Mobile version with toggle */}
+                <div
+          className={`navbar-bottom-text-icons mobile-only ${
+            mobileCategoriesOpen ? "active" : ""
+          }`}
+          onClick={() => setMobileCategoriesOpen(!mobileCategoriesOpen)}
+        >
+          <i className="bi bi-grid-3x3-gap-fill"></i>
+          <p>Shop By Categories</p>
+          <i
+            className={`bi bi-chevron-down ${
+              mobileCategoriesOpen ? "rotate" : ""
+            }`}
+          ></i>
+        </div>
+
+        {mobileCategoriesOpen && (
+          <div className="category-dropdown-menu mobile-only">
+            {category.length === 0 ? (
+              <p className="dropdown-item">Loading...</p>
+            ) : (
+              category.map((cat) => (
+                <a
+                  key={cat._id}
+                  href={
+                    cat._id === "all"
+                      ? "/categories"
+                      : `/category/${cat._id
+                          ?.toLowerCase()
+                          ?.replace(/\s+/g, "-")}`
+                  }
+                  className="dropdown-item"
+                  style={{ textTransform: "capitalize" }}
+                >
+                  {cat.category_name || cat.name}
+                </a>
+              ))
+            )}
+          </div>
+        )}
       </div>
+
+      
 
       {/* Main navbar links - desktop only */}
       <div className="a-tag-container desktop-only">

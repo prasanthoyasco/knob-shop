@@ -129,6 +129,7 @@ const AboutUs = () => {
       {reactions.map((reaction, index) => (
         <div
           key={reaction.name}
+          className="emojis-div"
           onMouseEnter={() => handleHover(index)}
           style={{ width: 30, height: 30, cursor: "pointer" }}
         >

@@ -282,8 +282,8 @@
     font-size: 24px;
   }
   .my-5 {
-    margin-top: 5rem !important;
-    margin-bottom: 2rem !important;
+    margin-top:0 !important;
+    margin-bottom:0 !important;
   }
 
   .floating-rating span {
@@ -300,5 +300,8 @@
   .avatar {
     width: 25px;
     height: 25px;
+  }
+  .emojis-div{
+    height: 25px !important;
   }
 }
