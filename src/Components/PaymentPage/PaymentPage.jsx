@@ -455,6 +455,8 @@ function PaymentPage() {
           },
         };
         const dtdcResponse = await createDTDCConsignment(dtdcPayload);
+        console.log("dtdc refference number :",dtdcResponse)
+        localStorage.setItem("dtdcReferenceNumber", JSON.stringify(dtdcResponse));
         referenceNumber =
           dtdcResponse?.data?.[0]?.customer_reference_number || "N/A";
       }

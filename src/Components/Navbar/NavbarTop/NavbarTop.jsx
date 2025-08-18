@@ -68,13 +68,18 @@ function NavbarTop() {
   };
     return (
         <>
-      <div className="mobile-navbar-top-offer">
-        <div className="text-slider">
-          <p key={currentOffer} className="fade-in">
-            {offers[currentOffer]}
-          </p>
-        </div>
-      </div>
+<div className="mobile-navbar-top-offer">
+  <div className="news-ticker">
+    <div className="ticker-content">
+      {offers.map((offer, index) => (
+        <span key={index} className="ticker-item">
+          {offer}
+        </span>
+      ))}
+    </div>
+  </div>
+</div>
+
 
 
             <div className='navbar-top-container'>
