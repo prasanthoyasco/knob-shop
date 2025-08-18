@@ -80,9 +80,9 @@ function NavbarTop() {
             <div className='navbar-top-container'>
                 <div className='navbar-top-phone-number'>
                     <img src={call_icon} alt="Call"/>
-                    <a href="tel:+918248227429" className="phone-link">
-    8248227429
-  </a>
+                    <a href="tel:+917092466600" className="phone-link">
+            70924 66600
+          </a>
                 </div>
 
                 <div className='navbar-top-offer'>
