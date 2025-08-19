@@ -1,0 +1,33 @@
+.my-order-new-con{
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    margin-top: 5%;
+}
+.my-order-new-con img{
+    height: 120px;
+    width: 120px;
+    object-fit: cover;
+}
+.my-order-new-content-button{
+    background-color: black;
+    border: none;
+    border-radius: 2px;
+    color: white;
+    padding: 10px 60px;
+    margin-left: 5%;
+}
+.my-order-new-content-div p{
+    color: gray !important;
+    margin: 0;
+    font-size: 13px;
+}
+.my-order-new-content-div h5{
+    margin: 0;
+}
+.my-order-new-content-div{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 40%;
+}

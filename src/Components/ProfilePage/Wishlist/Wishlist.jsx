@@ -47,32 +47,34 @@ function Wishlist({ userId }) {
       <div className="wishlist-grid mt-5">
         {wishlist?.map((product) => (
           <div key={product._id} className="wishlist-item" style={{cursor: 'pointer'}} onClick={() => navigate(`/product/${product._id}` || `/product/${product.id}` || `/product/${product.productId._id}`)}>
+            <i class="bi bi-heart-fill"></i>
             <img
               src={
                 product?.variant?.[0]?.images?.[0]?.url || product.images?.[0]
               }
               alt={product.name}
             />
+            <div className="wishlist-item-details-div">
             <h6>{product.name.split(' ').slice(0, 3).join(' ')}</h6>
-            <p>Brand: <strong>{product.brand}</strong></p>
+            {/* <p>Brand: <strong>{product.brand}</strong></p> */}
 
             {/* Variant Title */}
-            <p>Color: <strong> {product.variant?.[0]?.title}</strong></p>
+            {/* <p>Color: <strong> {product.variant?.[0]?.title}</strong></p> */}
 
             {/* Size & Selling Price */}
             <p>
   Price: <strong>₹{product.variant?.[0]?.sizes?.[0]?.sellingPrice}</strong>
 </p>
-
 <div className="profilepage-wishlist-add-to-cart-btn">
-<button
+<p
               onClick={(e) => {
                 e.stopPropagation(); // prevent navigating to product page
                 handleAddToCart(product);
               }}
             >
-              Add to Cart
-            </button>
+              + Add to Cart
+            </p>
+</div>
 </div>
           </div>
           

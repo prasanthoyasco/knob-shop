@@ -63,7 +63,7 @@ const getBackgroundColor = (name) => {
 
   return (
     <div className="profile-page-sidebar-con">
-      <div className="profile-page-sidebar-image">
+      {/* <div className="profile-page-sidebar-image">
   <label htmlFor="profile-upload" style={{ cursor: "pointer" }}>
     {profiledata?.profileUrl ? (
       <img
@@ -101,52 +101,61 @@ const getBackgroundColor = (name) => {
 
   <h4>{profiledata?.name}</h4>
   <p>{profiledata?.email || profiledata?.phone}</p>
-</div>
+</div> */}
 
-
-      <div>
-        <div className="profile-page-sidebar-info">
+        <div className="profile-page-sidebar-individual-sec">
           <div
             className={isActive("personal")}
             onClick={() => setActiveSection("personal")}
           >
-            <i className="bi bi-info-circle"></i>
-            <h5>Personal Information</h5>
+            <i class="bi bi-person"></i>
+            <h5>Account Overview</h5>
           </div>
+          </div>
+          <div className="profile-page-sidebar-individual-sec">
+          <div
+            className={isActive("orders")}
+            onClick={() => setActiveSection("orders")}
+          >
+            <i class="bi bi-journal-text"></i>
+            <h5>My Orders</h5>
+          </div>
+          </div>
+          <div className="profile-page-sidebar-individual-sec">
           <div
             className={isActive("address")}
             onClick={() => setActiveSection("address")}
           >
-            <i className="bi bi-geo-alt"></i>
-            <h5>Addresses</h5>
+            <i class="bi bi-geo-alt"></i>
+            <h5>Saved Addresses</h5>
           </div>
-        </div>
-
-        <div className="profile-page-sidebar-info">
-          <div
-            className={isActive("cart")}
-            onClick={() => setActiveSection("cart")}
-          >
-            <i className="bi bi-cart"></i>
-            <h5>My cart</h5>
           </div>
+          <div className="profile-page-sidebar-individual-sec">
           <div
             className={isActive("wishlist")}
             onClick={() => setActiveSection("wishlist")}
           >
             <i className="bi bi-heart"></i>
-            <h5>My wishlist</h5>
+            <h5>My Wishlist</h5>
           </div>
+          </div>
+          <div className="profile-page-sidebar-individual-sec">
           <div
+            className={isActive("w")}
+            onClick={() => setActiveSection("w")}
+          >
+            {/* <i className="bi bi-heart"></i> */}
+            <h5></h5>
+          </div>
+          </div>
+          {/* <div
             className={isActive("orders")}
             onClick={() => setActiveSection("orders")}
           >
             <i className="bi bi-box-seam"></i>
             <h5>My orders</h5>
-          </div>
-        </div>
-
-        <div className="profile-page-sidebar-info">
+          </div> */}
+          <div className="profile-page-sidebar-individual-sec">
           <div
             className={isActive("help")}
             onClick={() => setActiveSection("help")}
@@ -154,19 +163,24 @@ const getBackgroundColor = (name) => {
             <i className="bi bi-patch-question"></i>
             <h5>Need Help</h5>
           </div>
-        </div>
-
-        <div
-          className="profile-page-sidebar-info"
+          </div>
+          <div className="profile-page-sidebar-individual-sec">
+          <div
+            className={isActive("wi")}
+            onClick={() => setActiveSection("wi")}
+          >
+            {/* <i className="bi bi-heart"></i> */}
+            <h5></h5>
+          </div>
+          </div>
+          <div className="profile-page-sidebar-individual-sec"
           onClick={handleSignOut}
-          style={{ cursor: "pointer" }}
-        >
+          style={{ cursor: "pointer" }}>
           <div className="profile-page-sidebar-icon-text">
             <i className="bi bi-box-arrow-in-left"></i>
-            <h5>Sign Out</h5>
+            <h5>Log Out</h5>
           </div>
-        </div>
-      </div>
+          </div>
     </div>
   );
 }
