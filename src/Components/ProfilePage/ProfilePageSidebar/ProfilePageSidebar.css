@@ -1,5 +1,6 @@
 .profile-page-sidebar-con {
   width: 20%;
+  background-color: rgb(242, 241, 241);
 }
 
 .profile-page-sidebar-image {
@@ -63,7 +64,7 @@
   flex-direction: row;
   cursor: pointer;
   gap: 10px;
-  padding: 10px;
+  padding: 20px;
   align-items: center;
 }
 
@@ -74,13 +75,9 @@
 }
 
 .profile-page-sidebar-icon-text.active {
-  background-color: #e18436;
-  color: white;
+  background-color: white;
+  color: black;
   border-radius: 8px;
-}
-
-.profile-page-sidebar-icon-text.active h5 {
-  color: white !important;
 }
 
 .profile-page-sidebar-icon-text h5 {
@@ -91,6 +88,8 @@
 .profile-page-sidebar-info {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
   gap: 10px;
   margin-top: 10px;
   background-color: #ECECEC;
@@ -98,4 +97,9 @@
   padding: 20px;
   border-radius: 20px;
   height: fit-content;
+}
+.profile-page-sidebar-individual-sec{
+  border-bottom: 1px solid gainsboro;
+  height: 60px;
+  text-align: center;
 }

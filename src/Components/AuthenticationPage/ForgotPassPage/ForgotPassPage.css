@@ -1,0 +1,29 @@
+.back-to-login-btn {
+    margin-top: 1.5rem; /* mt-6 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.875rem; /* text-sm */
+    color: #6b7280; /* text-gray-500 */
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: color 0.2s ease-in-out;
+  }
+  
+  .back-to-login-btn:hover {
+    color: #3b82f6; /* hover:text-blue-500 */
+  }
+  
+  .back-to-login-btn .icon-arrow{
+    width: 1rem; /* w-4 */
+    height: 1.3rem; /* h-4 */
+    margin-right: 0.50rem; /* mr-1 */
+    font-size: 1rem;
+  }
+  
+  .form-para{
+    text-align: center;
+    margin-bottom: 20px !important;
+    color: gray !important;
+  }

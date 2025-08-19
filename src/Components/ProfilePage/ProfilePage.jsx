@@ -9,7 +9,7 @@ import { useLocation } from 'react-router-dom';
 import CartPageProfile from './CartPageProfile/CartPageProfile';
 import MyOrders from './MyOrders/MyOrders';
 import Footer from '../Footer/Footer';
-
+import Image from '../../Assets/Untitled/WhatsApp Image 2025-08-19 at 09.22.25_e569d92c.jpg'
 function ProfilePage() {
    const location = useLocation();
   const [activeSection, setActiveSection] = useState('personal');
@@ -25,6 +25,14 @@ function ProfilePage() {
   return (
     <>
     <NavbarTop/>
+    <div className='categories-page-container'>
+      <img src={Image} className='background-image'/>
+      <div className='categories-image-overlay'></div>
+      <div className='categories-image-overlay-text'>
+        <p><span style={{cursor:"pointer"}} onClick={()=>navigate('/')}>HOME / </span>MY ACCOUNT</p>
+        <h1>My Account</h1>
+      </div>
+    </div>
     <div className='profile-page-wrapper'>
       <ProfilePageSidebar setActiveSection={setActiveSection} activeSection={activeSection} />
       <div className='profile-page-right-section'>

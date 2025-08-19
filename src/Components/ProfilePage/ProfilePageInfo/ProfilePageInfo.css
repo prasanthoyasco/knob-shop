@@ -74,3 +74,70 @@
   .profile-page-info-head{
     text-align: center;
   }
+  .user-info-con{
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    background-color: rgb(242, 242, 242);
+    padding: 20px;
+    position: relative;
+  }
+  .user-info-con img{
+    height: 150px;
+    width: 150px;
+    object-fit: cover;
+  }
+  .user-info-name-phone-email-con{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  .user-phone-icon-div{
+    display: flex;
+    gap: 10px;
+  }
+  .user-phone-email-info{
+    display: flex;
+    gap: 50px;
+    background-color: white;
+    border-bottom: 2px solid orangered;
+    width: 600px;
+    padding: 10px 20px;
+  }
+  .user-address-con{
+    display: flex;
+    gap: 30px;
+  }
+  .user-address-container-div{
+    border: 1px solid black;
+    width: 100%;
+    padding: 40px 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .user-address-container-head{
+    display: flex;
+    border-bottom: 1px solid gainsboro;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .profile-page-view-all-text{
+    text-decoration: none;
+  }
+  .profile-page-view-all-text-p{
+    text-decoration: underline;
+  }
+  .saved-address-heading{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .user-info-con i.bi-pencil-square {
+    position: absolute;
+    top: 10px;   /* adjust as needed */
+    right: 10px; /* adjust as needed */
+    font-size: 20px; /* optional: size of the icon */
+    cursor: pointer; /* makes it look clickable */
+    color: #333; /* optional: change color */
+  }

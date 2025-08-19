@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./MyOrders.css";
-
+import image from '../../../Assets/New folder/New folder/4.png'
 function MyOrders({ userId }) {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -53,8 +53,19 @@ function MyOrders({ userId }) {
   return (
     <div className="my-orders">
       <h2 className="mb-3">My Orders</h2>
+      <div className="my-order-new-con">
+        <img src={image}/>
+        <div className="my-order-new-content-div">
+          <p>Brand : Yale</p>
+          <h5>YDME50NxT Smart Door Lock</h5>
+          <p>Color : Black</p>
+        </div>
+        <button className="my-order-new-content-button">
+          TRACK ORDER
+        </button>
+      </div>
 
-      {orders.map((order) => (
+      {/* {orders.map((order) => (
         <div key={order._id} className="order-card mb-4 p-3 border rounded bg-white">
           <div className="d-flex justify-content-between">
             <h5>Order ID: <strong>{order.orderId}</strong></h5>
@@ -84,7 +95,7 @@ function MyOrders({ userId }) {
             <strong>Total: ₹{order.totalAmount}</strong>
           </div>
         </div>
-      ))}
+      ))} */}
 
       <div className="pagination-controls d-flex justify-content-center align-items-center mt-4 gap-3">
         <button

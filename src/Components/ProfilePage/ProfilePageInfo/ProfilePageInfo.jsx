@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./ProfilePageInfo.css";
 import { getUserById, updateUser } from "../../../API/authApi";
-
+import profileImage from "../../../Assets/Untitled/user-icon-trendy-flat-style-600nw-1697898655-removebg-preview.png";
 function ProfilePageInfo() {
    const [user, setUser] = useState(null);
    const [isediting,SetIsediting] = useState(false);
@@ -83,11 +83,57 @@ const id = parsedUser.id || parsedUser._id;
 
   return (
     <div className="profile-page-info-con">
-      <div className="profile-page-info-head">
-        <h1>Personal Information</h1>
+
+      <div className="user-info-con">
+        <img src={profileImage}/>
+        <i class="bi bi-pencil-square"></i>
+        <div className="user-info-name-phone-email-con">
+          <h2>Amanda Tate</h2>
+          <div className="user-phone-email-info">
+              <div className="user-phone-icon-div">
+                <i class="bi bi-telephone"></i>
+                <p>70924 66600</p>
+              </div>
+              <div className="user-phone-icon-div">
+                <i class="bi bi-envelope"></i>
+                <p>ecom@knobsshop.store</p>
+              </div>
+          </div>
+        </div>
+      </div>
+      <div className="saved-address-heading">
+      <h2>Saved Addresses</h2>
+      <a href="/" className="profile-page-view-all-text">
+        <p className="profile-page-view-all-text-p">VIEW ALL</p>
+      </a>
+      </div>
+    <div className="user-address-con">
+
+      <div className="user-address-container-div">
+        <div className="user-address-container-head">
+          <h6>Delivery Address</h6>
+          <i class="bi bi-pencil-square"></i>
+        </div>
+        <div className="user-address-container-value">
+          <h5>Amanda Tate</h5>
+          <p>2400 Route 9, Fishkill NY 12524</p>
+        </div>
       </div>
 
-      <div className="profile-page-info-input">
+      <div className="user-address-container-div">
+        <div className="user-address-container-head">
+          <h6>Billing Address</h6>
+          <i class="bi bi-pencil-square"></i>
+        </div>
+        <div className="user-address-container-value">
+          <h5>Amanda Tate</h5>
+          <p>2400 Route 9, Fishkill NY 12524</p>
+        </div>
+      </div>
+    </div>
+
+
+      {/* <div className="profile-page-info-input">
         <input
           type="text"
           placeholder="First Name"
@@ -163,7 +209,7 @@ const id = parsedUser.id || parsedUser._id;
             </button>
           </div>
         )}
-      </div>
+      </div> */}
     </div>
   );
 }

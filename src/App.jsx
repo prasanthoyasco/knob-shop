@@ -39,6 +39,10 @@ import { useWishlist } from './Context/WishlistContext';
 import Invoice from './Components/Invoice/Invoice';
 import WhatsAppFloatButton from './Components/WhatsAppFloatButton/WhatsAppFloatButton';
 import CCAvenueIframe from './Components/PaymentPage/CCAvenueIframe';
+import LoginPage from './Components/AuthenticationPage/LoginPage/LoginPage';
+import SignUpPage from './Components/AuthenticationPage/SignUpPage/SignUpPage';
+import ForgotPassPage from './Components/AuthenticationPage/ForgotPassPage/ForgotPassPage';
+import ResetPassPage from './Components/AuthenticationPage/ResetPassPage/ResetPassPage';
 // import NavbarTop from './Components/Navbar/NavbarTop/NavbarTop';
 
 function App() {
@@ -78,10 +82,11 @@ function App() {
        <Route path='/order-confirmed' element={<OrderConfirmed/>}></Route>
        <Route path="/payment-failed" element={<OrderConfirmed />} />
        <Route path="/brouchers" element={<Broucher/>} />
-       <Route path="/auth/register" element={<AuthAccount/>} />
+       <Route path="/auth/register" element={<SignUpPage/>} />
+       <Route path="/auth/login" element={<LoginPage/>} />
        <Route path="/auth/password" element={<AuthPassword/>} />
-       <Route path="/auth/forgot-password" element={<AuthForgotPass/>} />
-       <Route path="/auth/confirm" element={<AuthConfirm/>} />
+       <Route path="/auth/forgot-password" element={<ForgotPassPage/>} />
+       <Route path="/auth/reset" element={<ResetPassPage/>} />
        <Route path="/account" element={<ProfilePage/>} />
        <Route path="/invoice" element={<Invoice/>} />
        <Route path="*" element={<Notfound />} />

@@ -1,5 +1,5 @@
 import React,{useState} from 'react'
-
+import './ProductPageAddress.css'
 function ProductPageAddress() {
     const [editMode, setEditMode] = useState(false);
     const [formData, setFormData] = useState({
@@ -24,11 +24,38 @@ function ProductPageAddress() {
     };
   return (
     <div className='profile-page-info-con'>
-      <div className='profile-page-info-head'>
-        <h1>Address</h1>
+      <div className="saved-address-heading">
+      <h2>Saved Addresses</h2>
+      <button className='new-address-add-btn'>
+        + ADD NEW ADDRESS
+      </button>
+      </div>
+    <div className="user-address-con">
+
+      <div className="user-address-container-div">
+        <div className="user-address-container-head">
+          <h6>Delivery Address</h6>
+          <i class="bi bi-pencil-square"></i>
+        </div>
+        <div className="user-address-container-value">
+          <h5>Amanda Tate</h5>
+          <p>2400 Route 9, Fishkill NY 12524</p>
+        </div>
       </div>
 
-      <div className='profile-page-info-input'>
+      <div className="user-address-container-div">
+        <div className="user-address-container-head">
+          <h6>Billing Address</h6>
+          <i class="bi bi-pencil-square"></i>
+        </div>
+        <div className="user-address-container-value">
+          <h5>Amanda Tate</h5>
+          <p>2400 Route 9, Fishkill NY 12524</p>
+        </div>
+      </div>
+    </div>
+    <p>You have no other address entries in your address book.</p>
+      {/* <div className='profile-page-info-input'>
         <input
           type='text'
           placeholder='Door No'
@@ -98,7 +125,7 @@ function ProductPageAddress() {
             <button onClick={handleCancel} className='profile-info-btn-cancel'>Cancel</button>
           </div>
         )}
-      </div>
+      </div> */}
     </div>
   )
 }
