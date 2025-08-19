@@ -198,8 +198,8 @@ const [formData, setFormData] = useState({
                 <input type="checkbox" />
                 Remember Me
               </label>
-              <button type="button" className="forgot-password">
-                Forget Password?
+              <button type="button" className="forgot-password" onClick={()=>navigate("/auth/login")}>
+                Log in
               </button>
             </div>
             {/* Error / Success */}

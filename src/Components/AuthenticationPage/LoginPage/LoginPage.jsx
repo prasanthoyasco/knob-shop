@@ -119,7 +119,9 @@ function LoginPage() {
                 <input type="checkbox" />
                 Remember Me
               </label>
-              <button type="button" className="forgot-password">
+              <button type="button" className="forgot-password"  onClick={() =>
+    navigate("/auth/forgot-password", { state: { email: formData.email } })
+  }>
                 Forget Password?
               </button>
             </div>
