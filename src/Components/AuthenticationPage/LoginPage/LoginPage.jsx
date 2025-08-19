@@ -1,8 +1,48 @@
 import React,{useState} from 'react'
 import image from '../../../Assets/Untitled/auth-side.jpg'
 import './LoginPage.css'
+import { Login,getUserById  } from "../../../API/authApi";
+import { useNavigate } from "react-router-dom";
 function LoginPage() {
     const [showPassword, setShowPassword] = useState(false);
+    const [formData, setFormData] = useState({ email: "", password: "" });
+    const [loading, setLoading] = useState(false);
+    const [errorMsg, setErrorMsg] = useState("");
+    const [successMsg, setSuccessMsg] = useState("");
+    const navigate = useNavigate();
+
+      // Handle input changes
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  // Handle login
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setErrorMsg("");
+    setSuccessMsg("");
+
+    try {
+      const res = await Login(formData); // ✅ call login API
+
+      setSuccessMsg("Login successful! Redirecting...");
+      localStorage.setItem("token", res.token);
+      localStorage.setItem("user", JSON.stringify(res.user));
+
+      // ✅ Fetch full user by ID after login
+      const fullUser = await getUserById(res.user.id);
+      console.log("User data from DB:", fullUser);
+
+      setTimeout(() => {
+        navigate("/"); // redirect after login
+      }, 1500);
+    } catch (err) {
+      setErrorMsg(err.error || "Login failed. Try again!");
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <div className="login-container">
       {/* Left Side (Image + Overlay) */}
@@ -28,9 +68,11 @@ function LoginPage() {
       {/* Right Side (Form) */}
       <div className="login-right">
         <div className="login-form-container">
-          <form className="login-form">
+          <form className="login-form" onSubmit={handleSubmit}>
             <div>
               <h1 className="form-heading">Login</h1>
+              {errorMsg && <p className="error-text">{errorMsg}</p>}
+              {successMsg && <p className="success-text">{successMsg}</p>}
               <label className="form-label" htmlFor="email">
                 Email
               </label>
@@ -40,6 +82,8 @@ function LoginPage() {
                 className="form-input"
                 type="email"
                 name="email"
+                value={formData.email}
+                onChange={handleChange}
               />
             </div>
 
@@ -54,6 +98,8 @@ function LoginPage() {
                   className="form-input"
                   type={showPassword ? "text" : "password"}
                   name="password"
+                  value={formData.password}
+                  onChange={handleChange}
                 />
                 <span
                   className="toggle-password"
@@ -78,8 +124,8 @@ function LoginPage() {
               </button>
             </div>
 
-            <button type="submit" className="login-btn">
-              Log In
+            <button type="submit" className="login-btn" disabled={loading}>
+            {loading ? "Logging in..." : "Log In"}
             </button>
           </form>
         </div>
