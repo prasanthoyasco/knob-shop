@@ -2,8 +2,12 @@ import React, { useEffect, useState } from "react";
 import "./ProfilePageInfo.css";
 import { getUserById, updateUser } from "../../../API/authApi";
 import profileImage from "../../../Assets/Untitled/user-icon-trendy-flat-style-600nw-1697898655-removebg-preview.png";
+import { getAddressByUserId } from "../../../API/addressApi";
+import { useNavigate } from "react-router-dom";
 function ProfilePageInfo() {
+  const navigate = useNavigate();
    const [user, setUser] = useState(null);
+   const [addresses, setAddresses] = useState([]);
    const [isediting,SetIsediting] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [selectedGender, setSelectedGender] = useState("");
@@ -24,6 +28,7 @@ const id = parsedUser.id || parsedUser._id;
   const loadUser = async () => {
     try {
       const data = await getUserById(id);
+      console.log("user :",data)
       setUser(data.user);
 
       setFormData({
@@ -35,6 +40,10 @@ const id = parsedUser.id || parsedUser._id;
       });
 
       setSelectedGender(data.user.gender || "");
+              // Fetch addresses
+              const addressData = await getAddressByUserId(id);
+              console.log("address :",addressData)
+              setAddresses(addressData.addresses?.slice(0, 2) || []);
     } catch (err) {
       console.error("Failed to fetch user:", err);
     }
@@ -88,48 +97,42 @@ const id = parsedUser.id || parsedUser._id;
         <img src={profileImage}/>
         <i class="bi bi-pencil-square"></i>
         <div className="user-info-name-phone-email-con">
-          <h2>Amanda Tate</h2>
+          <h2>{user?.name}</h2>
           <div className="user-phone-email-info">
               <div className="user-phone-icon-div">
                 <i class="bi bi-telephone"></i>
-                <p>70924 66600</p>
+                <p>{user?.phone || "9876543210"}</p>
               </div>
               <div className="user-phone-icon-div">
                 <i class="bi bi-envelope"></i>
-                <p>ecom@knobsshop.store</p>
+                <p>{user?.email}</p>
               </div>
           </div>
         </div>
       </div>
       <div className="saved-address-heading">
       <h2>Saved Addresses</h2>
-      <a href="/" className="profile-page-view-all-text">
-        <p className="profile-page-view-all-text-p">VIEW ALL</p>
-      </a>
+      <p
+          className="profile-page-view-all-text-p"
+          style={{ cursor: "pointer" }}
+          onClick={() => navigate("/account", { state: { section: "address" } })}
+        >
+          VIEW ALL
+        </p>
       </div>
     <div className="user-address-con">
-
+    {addresses.map((addr, index) => (
       <div className="user-address-container-div">
         <div className="user-address-container-head">
-          <h6>Delivery Address</h6>
+          <h6>{index === 0 ? "Delivery Address" : "Billing Address"}</h6>
           <i class="bi bi-pencil-square"></i>
         </div>
         <div className="user-address-container-value">
-          <h5>Amanda Tate</h5>
-          <p>2400 Route 9, Fishkill NY 12524</p>
+          <h5>{user?.name || "Name"}</h5>
+          <p>{addr.street}, {addr.city}, {addr.district} {addr.pincode}, {addr.state}</p>
         </div>
       </div>
-
-      <div className="user-address-container-div">
-        <div className="user-address-container-head">
-          <h6>Billing Address</h6>
-          <i class="bi bi-pencil-square"></i>
-        </div>
-        <div className="user-address-container-value">
-          <h5>Amanda Tate</h5>
-          <p>2400 Route 9, Fishkill NY 12524</p>
-        </div>
-      </div>
+        ))}
     </div>
 
 

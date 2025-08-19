@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = `${import.meta.env.VITE_API_BASE_URI}/user/auth`;
+const BASE_URL = `${import.meta.env.VITE_API_BASE_URI}/address/user`;
 
 export const getAddressByUserId = async (userId) => {
   try {

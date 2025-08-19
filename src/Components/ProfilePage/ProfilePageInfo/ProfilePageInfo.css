@@ -105,7 +105,8 @@
     padding: 10px 20px;
   }
   .user-address-con{
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
     gap: 30px;
   }
   .user-address-container-div{

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./MyOrders.css";
 import image from '../../../Assets/New folder/New folder/4.png'
+import { getProductById } from "../../../API/productApi";
 function MyOrders({ userId }) {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -25,8 +26,26 @@ function MyOrders({ userId }) {
             },
           }
         );
-
-        setOrders(res.data.orders || []);
+        let fetchedOrders = res.data.orders || [];
+                // Attach product details to each order item
+                const ordersWithProducts = await Promise.all(
+                  fetchedOrders.map(async (order) => {
+                    const itemsWithDetails = await Promise.all(
+                      order.items.map(async (item) => {
+                        try {
+                          const product = await getProductById(item.productId);
+                          return { ...item, product };
+                        } catch (err) {
+                          console.error("Error fetching product details:", err);
+                          return item; // fallback
+                        }
+                      })
+                    );
+                    return { ...order, items: itemsWithDetails };
+                  })
+                );
+          console.log("orders from my order :",ordersWithProducts)
+        setOrders(ordersWithProducts);
         setTotalPages(Math.ceil((res.data.totalCount || 0) / LIMIT));
       } catch (err) {
         console.error("Error fetching orders:", err);
@@ -53,18 +72,21 @@ function MyOrders({ userId }) {
   return (
     <div className="my-orders">
       <h2 className="mb-3">My Orders</h2>
-      <div className="my-order-new-con">
-        <img src={image}/>
+      {orders.map((order) =>
+      order.items.map((item) => (
+      <div key={item._id} className="my-order-new-con">
+        <img src={item.product?.images?.[0] || image}/>
         <div className="my-order-new-content-div">
-          <p>Brand : Yale</p>
-          <h5>YDME50NxT Smart Door Lock</h5>
-          <p>Color : Black</p>
+        {item.product?.brand?.length > 0 && <p>Brand : {item.product.brand}</p>}
+          <h5>{item.product?.name.split(' ').slice(0, 10).join(' ') || item.productName.split(' ').slice(0, 10).join(' ')}</h5>
+          {item.product?.color?.length > 0 && <p>Color : {item.product.color}</p>}
         </div>
         <button className="my-order-new-content-button">
           TRACK ORDER
         </button>
       </div>
-
+      ))
+      )}
       {/* {orders.map((order) => (
         <div key={order._id} className="order-card mb-4 p-3 border rounded bg-white">
           <div className="d-flex justify-content-between">

@@ -1,6 +1,8 @@
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
 import './ProductPageAddress.css'
+import { getAddressByUserId } from "../../../API/addressApi";
 function ProductPageAddress() {
+  const [addresses, setAddresses] = useState([]);
     const [editMode, setEditMode] = useState(false);
     const [formData, setFormData] = useState({
       doorNo: '',
@@ -10,6 +12,24 @@ function ProductPageAddress() {
       state: '',
       pincode: '',
     });
+    useEffect(() => {
+      const storedUser = localStorage.getItem("authUser");
+      if (!storedUser) return;
+  
+      const parsedUser = JSON.parse(storedUser);
+      const userId = parsedUser.id || parsedUser._id;
+  
+      const loadAddresses = async () => {
+        try {
+          const addressData = await getAddressByUserId(userId);
+          setAddresses(addressData.addresses || []);
+        } catch (err) {
+          console.error("Failed to fetch addresses:", err);
+        }
+      };
+  
+      loadAddresses();
+    }, []);
   
     const handleInputChange = (e) => {
       const { name, value } = e.target;
@@ -31,30 +51,24 @@ function ProductPageAddress() {
       </button>
       </div>
     <div className="user-address-con">
-
+    {addresses.length > 0 ? (
+          addresses.map((addr) => (
       <div className="user-address-container-div">
         <div className="user-address-container-head">
-          <h6>Delivery Address</h6>
+          <h6>{addr.type || "Address"}</h6>
           <i class="bi bi-pencil-square"></i>
         </div>
         <div className="user-address-container-value">
-          <h5>Amanda Tate</h5>
-          <p>2400 Route 9, Fishkill NY 12524</p>
+          <h5>{addr.name || "Name"}</h5>
+          <p>{addr.doorNo || ""}, {addr.street}, {addr.city}, {addr.district}{" "} {addr.pincode}, {addr.state}</p>
         </div>
       </div>
-
-      <div className="user-address-container-div">
-        <div className="user-address-container-head">
-          <h6>Billing Address</h6>
-          <i class="bi bi-pencil-square"></i>
-        </div>
-        <div className="user-address-container-value">
-          <h5>Amanda Tate</h5>
-          <p>2400 Route 9, Fishkill NY 12524</p>
-        </div>
-      </div>
+          ))
+          ) : (
+            <p>You have no other address entries in your address book.</p>
+          )}
     </div>
-    <p>You have no other address entries in your address book.</p>
+
       {/* <div className='profile-page-info-input'>
         <input
           type='text'
