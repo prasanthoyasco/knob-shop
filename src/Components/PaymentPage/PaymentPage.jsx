@@ -439,6 +439,7 @@ function PaymentPage() {
       if (deliveryOption === "ship") {
         const dtdcPayload = {
           _id: orderId,
+          SKU: items.productId,
           invoiceNo: `INV-${Date.now()}`,
           invoiceDate: new Date().toISOString().split("T")[0],
           totalAmount: totalValue,
@@ -446,19 +447,21 @@ function PaymentPage() {
           shippingAddress: shippingData,
           cartItems,
           dimensions: {
-            length: 70,
-            width: 70,
-            height: 65,
+            length: 0,
+            width: 0,
+            height: 0,
             weight: cartItems
               .reduce((sum, item) => sum + (item.weight || 1), 0)
               .toFixed(1),
           },
         };
         const dtdcResponse = await createDTDCConsignment(dtdcPayload);
-        console.log("dtdc refference number :",dtdcResponse)
-        localStorage.setItem("dtdcReferenceNumber", JSON.stringify(dtdcResponse));
-        referenceNumber =
-          dtdcResponse?.data?.[0]?.reference_number || "N/A";
+        console.log("dtdc refference number :", dtdcResponse);
+        localStorage.setItem(
+          "dtdcReferenceNumber",
+          JSON.stringify(dtdcResponse)
+        );
+        referenceNumber = dtdcResponse?.data?.[0]?.reference_number || "N/A";
       }
       localStorage.setItem("referenceNumber", JSON.stringify(referenceNumber));
       if (showFields) {
@@ -597,7 +600,13 @@ function PaymentPage() {
             />
             <div className="contact-con-checkbox-text">
               <input type="checkbox" onChange={handleCheckboxChange} />
-              <p>Add my GST details and company name for Billing and auto-fill on future purchases. <span className="text-muted" style={{fontSize:'12px'}}>(optional)</span></p>
+              <p>
+                Add my GST details and company name for Billing and auto-fill on
+                future purchases.{" "}
+                <span className="text-muted" style={{ fontSize: "12px" }}>
+                  (optional)
+                </span>
+              </p>
             </div>
             {showFields && (
               <div>

@@ -61,8 +61,8 @@ export const createDTDCConsignment = async (orderData) => {
             },
           ],
           origin_details: {
-            name: "TEST ENTERPRISES",
-            phone: "9876543210",
+            name: "knobsshop",
+            phone: "917092466600",
             alternate_phone: "9123456789",
             address_line_1: "dummy sender",
             address_line_2: "",

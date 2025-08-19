@@ -3,8 +3,8 @@ import "./ProductCard.css";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../../Context/CartContext";
 import { useWishlist } from "../../Context/WishlistContext";
-import { useState,useEffect } from "react";
-import {getReviewsByProduct} from '../../API/reviewApi'
+import { useState, useEffect } from "react";
+import { getReviewsByProduct } from "../../API/reviewApi";
 const ProductCard = ({ product }) => {
   const [avgRating, setAvgRating] = useState(0);
   const navigate = useNavigate();
@@ -18,7 +18,7 @@ const ProductCard = ({ product }) => {
 
   const [selectedSizeLabel, setSelectedSizeLabel] = useState(initialSizeLabel);
 
-  const { id, rating } = product;
+  const { id } = product;
   const title = product.title || product.name || "Untitled Product";
   const handleWishlistClick = () => {
     const authToken = localStorage.getItem("authToken");
@@ -38,12 +38,13 @@ const ProductCard = ({ product }) => {
       addToWishlist(product);
     }
   };
+
   useEffect(() => {
     const fetchReviews = async () => {
       try {
         if (!id) return; // avoid call if productId missing
         const reviews = await getReviewsByProduct(id);
-        console.log("reviews data :",reviews)
+        console.log("reviews data :", reviews);
         if (reviews?.length > 0) {
           const sum = reviews.reduce((acc, r) => acc + (r.rating || 0), 0);
           const avg = sum / reviews.length;
@@ -58,7 +59,6 @@ const ProductCard = ({ product }) => {
     fetchReviews();
   }, [id]);
   
-
   // Use default icons if not present
   const icons =
     Array.isArray(product.key_features) && product.key_features.length > 0
@@ -81,14 +81,14 @@ const ProductCard = ({ product }) => {
         )
       : 0;
 
-  function getCloudinaryTransformedUrl(url, width = 500, height = 500) {
-    if (!url?.includes("/upload/")) return url;
+  // function getCloudinaryTransformedUrl(url, width = 500, height = 500) {
+  //   if (!url?.includes("/upload/")) return url;
 
-    return url.replace(
-      /\/upload\/(v\d+\/)?/,
-      `/upload/w_${width},h_${height},c_pad,f_webp,q_auto:best,e_upscale,dpr_auto/$1`
-    );
-  }
+  //   return url.replace(
+  //     /\/upload\/(v\d+\/)?/,
+  //     `/upload/w_${width},h_${height},c_pad,f_webp,q_auto:best,e_upscale,dpr_auto/$1`
+  //   );
+  // }
 
   return (
     <div className="card product-card h-100 position-relative cursor-pointer">
@@ -109,32 +109,32 @@ const ProductCard = ({ product }) => {
         />
       </div>
       {avgRating > 0 && (
-      <div className="position-absolute bottom-50 end-0 m-2 d-flex align-items-center rounded px-2 py-1 rating-overlay">
-        <FaStar className="text-warning me-1" size={18} />
-        <span className="normal">{avgRating}</span>
-      </div>
+        <div className="position-absolute bottom-50 end-0 m-2 d-flex align-items-center rounded px-2 py-1 rating-overlay">
+          <FaStar className="text-warning me-1" size={18} />
+          <span className="normal">{avgRating}</span>
+        </div>
       )}
       <div
         className="image-wrapper position-relative"
         onClick={() => navigate(`/product/${id}`)}
       >
         <img
-          src={getCloudinaryTransformedUrl(selectedVariant.images?.[0]?.url)}
+          src={selectedVariant.images?.[0]?.url}
           alt={title?.substring(0, 30)}
           className="card-img-top default-img"
         />
         <img
-          src={getCloudinaryTransformedUrl(
+          src={
             selectedVariant.images?.[1]?.url || selectedVariant.images?.[0]?.url
-          )}
+          }
+          //   selectedVariant.images?.[1]?.url || selectedVariant.images?.[0]?.url
           alt={selectedVariant.images?.[1]?.url}
           className="card-img-top hover-img position-absolute top-0 start-0"
           onError={(e) => {
             const img = e.target;
-            const originalUrl = getCloudinaryTransformedUrl(
+            const originalUrl =
               selectedVariant.images?.[1]?.url ||
-                selectedVariant.images?.[0]?.url
-            );
+              selectedVariant.images?.[0]?.url;
 
             if (!img.dataset.retried) {
               img.dataset.retried = "true";
@@ -239,7 +239,7 @@ const ProductCard = ({ product }) => {
             ) : (
               <button
                 className="px-3 py-1 rounded-pill border text-sm border-gray-300 hover:bg-gray-100"
-                onClick={() => setSelectedSizeLabel( "Default")}
+                onClick={() => setSelectedSizeLabel("Default")}
               >
                 Default size
               </button>
