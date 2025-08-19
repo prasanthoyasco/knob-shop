@@ -27,9 +27,9 @@ function LoginPage() {
       const res = await Login(formData); // ✅ call login API
 
       setSuccessMsg("Login successful! Redirecting...");
-      localStorage.setItem("token", res.token);
-      localStorage.setItem("user", JSON.stringify(res.user));
-
+      const token = localStorage.setItem("token", res.token);
+      const userData = localStorage.setItem("authUser", JSON.stringify(res.user));
+      console.log("User data from DB:", userData);
       // ✅ Fetch full user by ID after login
       const fullUser = await getUserById(res.user.id);
       console.log("User data from DB:", fullUser);
