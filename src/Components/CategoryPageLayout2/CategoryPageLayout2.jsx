@@ -8,6 +8,7 @@ import { getCategoryById } from "../../API/categoriesApi";
 const CategoryPageLayout2 = ({ products = [], categoryData }) => {
   // ⬅ added categoryData
   console.log("category", categoryData);
+  console.log("product from category", products);
   const [filteredProducts, setFilteredProducts] = useState(products);
   const [currentPage, setCurrentPage] = useState(1);
   const [categoryFilters, setCategoryFilters] = useState([]);
@@ -136,15 +137,75 @@ const CategoryPageLayout2 = ({ products = [], categoryData }) => {
       return sellingPrice >= minPrice && sellingPrice <= maxPrice;
     });
 
-    // 🔍 Apply dynamic API filters
-    Object.entries(dynamicFilters).forEach(([key, values]) => {
-      if (Array.isArray(values) && values.length > 0) {
-        result = result.filter((p) =>
-          p[key]?.some
-            ? p[key].some((val) => values.includes(val))
-            : values.includes(p[key])
-        );
+    console.log("Applying dynamic filters...");
+    const dynamicFilterConfigs = categoryFilters.filter((f) =>
+      Object.keys(dynamicFilters).includes(f.name)
+    );
+
+    // Check which dynamic filters are being applied
+    console.log(
+      "Dynamic filters being applied:",
+      dynamicFilterConfigs.map((f) => f.name)
+    );
+
+    dynamicFilterConfigs.forEach((config) => {
+      const filterName = config.name.toLowerCase();
+      const filterType = config.type;
+      const filterValues = dynamicFilters[config.name];
+
+      console.log(`- Filtering by: ${config.name}`);
+      console.log(`- Selected values:`, filterValues);
+
+      if (!filterValues || filterValues.length === 0) {
+        console.log(`- No values selected for ${config.name}, skipping.`);
+        return;
       }
+
+      result = result.filter((p) => {
+        console.log(p);
+        
+        if (!p) {
+        return false;
+    }
+        const techSpecEntry = p.tech_spec?.find(
+          (ts) => ts.title.toLowerCase() === filterName
+        );
+
+        // Log the comparison to see if a match is found
+        console.log(`-- Checking product '${p.title}'`);
+        console.log(
+          `-- Does '${p.name}' have a tech_spec with title matching '${config.name}'?`,
+          !!techSpecEntry
+        );
+
+        if (!techSpecEntry) {
+          return false;
+        }
+
+        const techSpecValue = techSpecEntry.value.toLowerCase();
+        console.log(`-- Product tech_spec value is: '${techSpecValue}'`);
+
+        if (filterType === "range") {
+          const numericValue = parseFloat(
+            techSpecValue.replace(/[^0-9.]/g, "")
+          );
+          const [min, max] = filterValues;
+          // Log the range comparison
+          console.log(
+            `-- Comparing numeric value (${numericValue}) with range [${min}, ${max}]`
+          );
+          return numericValue >= min && numericValue <= max;
+        } else {
+          const lowerCaseFilterValues = filterValues.map((v) =>
+            v.toLowerCase()
+          );
+          // Log the list comparison
+          console.log(
+            `-- Checking if selected values [${lowerCaseFilterValues}] include product value '${techSpecValue}'`
+          );
+          return lowerCaseFilterValues.includes(techSpecValue);
+        }
+      });
     });
 
     // Sort

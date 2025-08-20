@@ -25,13 +25,13 @@ export default function ProductFeatures({ features = [] }) {
                   >
                     <img
                       src={item.image}
-                      alt={item.title}
+                      alt={item.heading}
                       className="w-100 h-100 mb-3"
                       style={{ objectFit: "fill" }}
                     />
                   </div>
                   <div style={{ minWidth: 250, maxWidth: 300 }} className="text-start">
-                    <h6 className="fw-bold">{item.title}</h6>
+                    <h6 className="fw-bold">{item.heading}</h6>
                     <p className="text-muted small">{item.description}</p>
                   </div>
                 </div>

@@ -162,8 +162,9 @@ const ProductImageSlider = ({ images: propImages = [], fetchById = true }) => {
           style={{
             border: "1px solid #ccc",
             borderRadius: "4px",
+            height:'600px',
             maxHeight: "700px",
-            objectFit: "cover",
+            objectFit: "contain",
             width: "100%",
           }}
         />

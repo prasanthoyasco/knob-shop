@@ -9,7 +9,7 @@ import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { getReviewsByProduct } from "../../API/reviewApi";
 export default function ProductDetailsHead() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const { id } = useParams(); // get product id from URL
   const [reviews, setReviews] = useState([]);
   const [avgRating, setAvgRating] = useState(0);
@@ -20,7 +20,7 @@ export default function ProductDetailsHead() {
   const isWished = wishlistItems.some(
     (w) => w.id === product?._id || w._id === product?._id
   );
-  
+
   const [selectedColor, setSelectedColor] = useState("black");
   const [quantity, setQuantity] = useState(1);
   const [pincode, setPincode] = useState("");
@@ -31,10 +31,9 @@ export default function ProductDetailsHead() {
 
   const handleWishlistClick = () => {
     const authUser = localStorage.getItem("authUser");
-    console.log("authUser :",authUser)
+    console.log("authUser :", authUser);
     const authToken = localStorage.getItem("authToken");
     console.log("Auth User:", authUser + " Auth Token:", authToken);
-    
 
     if (!authToken && !authUser) {
       // Optionally show a toast or redirect to login
@@ -49,7 +48,6 @@ export default function ProductDetailsHead() {
     } else {
       addToWishlist(product);
       console.log("WISHLIST ADDED:", product);
-
     }
   };
 
@@ -72,7 +70,7 @@ export default function ProductDetailsHead() {
         }
         if (res?._id) {
           const revData = await getReviewsByProduct(res._id);
-          console.log("rev data :",revData)
+          console.log("rev data :", revData);
           setReviews(revData || []);
 
           if (revData?.length) {
@@ -107,7 +105,7 @@ export default function ProductDetailsHead() {
     image: product?.images?.[0] || "default.jpg",
     price: selectedSizeObj?.sellingPrice || product?.price,
     sku: product?.productId,
-    categoryId:product?.category?._id,
+    categoryId: product?.category?._id,
     mrpPrice: selectedSizeObj?.mrp || product?.compare_price,
     brand: product?.brand,
     quantity,
@@ -229,9 +227,24 @@ export default function ProductDetailsHead() {
       <div className="container-fluid pt-4 px-3 px-md-5">
         {/* Breadcrumb */}
         <nav className="breadcrumb mb-4 small">
-          <span className="breadcrumb-item" onClick={()=>navigate('/')}>Home</span>
-          <span className="breadcrumb-item"onClick={()=>navigate(`/category/${product.category._id}` || `/category/${product.category.id}`)}>Shop by Categories</span>
-          <span className="breadcrumb-item" >  {product?.category?.category_name || ""}</span>
+          <span className="breadcrumb-item" onClick={() => navigate("/")}>
+            Home
+          </span>
+          <span
+            className="breadcrumb-item"
+            onClick={() =>
+              navigate(
+                `/category/${product.category._id}` ||
+                  `/category/${product.category.id}`
+              )
+            }
+          >
+            Shop by Categories
+          </span>
+          <span className="breadcrumb-item">
+            {" "}
+            {product?.category?.category_name || ""}
+          </span>
           {/* Consider making this dynamic based on product.category */}
           <span className="breadcrumb-item active">{cartItem.title}</span>
         </nav>
@@ -264,21 +277,21 @@ export default function ProductDetailsHead() {
                       onClick={handleShare}
                     />
                     <div className="wish-icon-wrapper">
-                    {isWished ? (
-                      <FaHeart
-                        size={16}
-                        style={{cursor:'pointer'}}
-                        className="text-danger wish-icon"
-                        onClick={handleWishlistClick}
-                      />
-                    ) : (
-                      <FaRegHeart
-                        size={16}
-                        style={{cursor:'pointer'}}
-                        className="text-muted wish-icon"
-                        onClick={handleWishlistClick}
-                      />
-                    )}
+                      {isWished ? (
+                        <FaHeart
+                          size={16}
+                          style={{ cursor: "pointer" }}
+                          className="text-danger wish-icon"
+                          onClick={handleWishlistClick}
+                        />
+                      ) : (
+                        <FaRegHeart
+                          size={16}
+                          style={{ cursor: "pointer" }}
+                          className="text-muted wish-icon"
+                          onClick={handleWishlistClick}
+                        />
+                      )}
                     </div>
                   </div>
                 </div>
@@ -286,20 +299,18 @@ export default function ProductDetailsHead() {
 
               <h3 className="fw-bold mb-2">{cartItem.title}</h3>
               {reviews.length > 0 && (
-              <div className="d-flex align-items-center mb-2 flex-wrap gap-1">
-              <span className="text-warning me-2 fs-5">
-      {Array.from({ length: 5 }, (_, i) => (
-        <span key={i}>
-          {i < Math.round(avgRating) ? "★" : "☆"}
-        </span>
-      ))}
-    </span>
-    <span className="text-muted fw-medium">
-      {avgRating}
-    </span>
-                <span className="mx-2 text-muted">|</span>
-                <span className="text-muted btn-link">Write a review</span>
-              </div>
+                <div className="d-flex align-items-center mb-2 flex-wrap gap-1">
+                  <span className="text-warning me-2 fs-5">
+                    {Array.from({ length: 5 }, (_, i) => (
+                      <span key={i}>
+                        {i < Math.round(avgRating) ? "★" : "☆"}
+                      </span>
+                    ))}
+                  </span>
+                  <span className="text-muted fw-medium">{avgRating}</span>
+                  <span className="mx-2 text-muted">|</span>
+                  <span className="text-muted btn-link">Write a review</span>
+                </div>
               )}
               <div className="mb-3 d-flex gap-2">
                 <img src="/up-arrow.svg" alt="" style={{ height: "18px" }} />
@@ -311,9 +322,7 @@ export default function ProductDetailsHead() {
               {/* Pricing */}
               <div className="mb-3">
                 <h4 className="fw-bold d-flex align-items-center flex-wrap gap-2">
-                  <span style={{ color: "#D6791F" }}>
-                    ₹ {cartItem.price}
-                  </span>
+                  <span style={{ color: "#D6791F" }}>₹ {cartItem.price}</span>
                   {discountPercent > 0 && (
                     <span
                       className="fw-semibold text-info ms-3"

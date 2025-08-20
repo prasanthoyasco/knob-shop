@@ -1,8 +1,10 @@
 import axios from "axios";
 
 // Remove non-ASCII characters and trim
+// remove non-ASCII chars
 const sanitizeASCII = (str) =>
-  str ? str.replace(/[^\x00-\x7F]/g, "").trim() : "";
+  str ? str.replace(/[^\u0020-\u007E]/g, "").trim() : "";
+
 
 const fallback = (value, fallbackValue) =>
   typeof value === "string" && value.trim() ? value.trim() : fallbackValue;
