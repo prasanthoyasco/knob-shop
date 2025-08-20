@@ -4,6 +4,52 @@ import { getUserById, updateUser } from "../../../API/authApi";
 import profileImage from "../../../Assets/Untitled/user-icon-trendy-flat-style-600nw-1697898655-removebg-preview.png";
 import { getAddressByUserId,updateAddressById } from "../../../API/addressApi";
 import { useNavigate } from "react-router-dom";
+import { S3Client } from "@aws-sdk/client-s3";
+import { Upload } from "@aws-sdk/lib-storage";
+
+// ------------------- DigitalOcean Spaces Config -------------------
+const s3 = new S3Client({
+  endpoint: "https://blr1.digitaloceanspaces.com",
+  region: "us-east-1",
+  credentials: {
+    accessKeyId: import.meta.env.VITE_DO_SPACES_KEY,
+    secretAccessKey: import.meta.env.VITE_DO_SPACES_SECRET,
+  },
+});
+
+async function uploadToSpaces(file) {
+  if (!file) return null;
+
+  const bucketName = "knobsshopcdn";
+  const fileKey = `uploads/${Date.now()}-${file.name}`;
+
+  try {
+    const parallelUploads3 = new Upload({
+      client: s3,
+      params: {
+        Bucket: bucketName,
+        Key: fileKey,
+        Body: file,
+        ACL: "public-read",
+        ContentType: file.type,
+      },
+    });
+
+    parallelUploads3.on("httpUploadProgress", (progress) => {
+      console.log("Upload progress:", progress);
+    });
+
+    await parallelUploads3.done();
+
+    const publicUrl = `https://${bucketName}.blr1.digitaloceanspaces.com/${fileKey}`;
+    return publicUrl;
+  } catch (err) {
+    console.error("Error uploading to Spaces:", err);
+    throw err;
+  }
+}
+
+
 function ProfilePageInfo() {
   const navigate = useNavigate();
    const [user, setUser] = useState(null);
@@ -18,6 +64,9 @@ function ProfilePageInfo() {
   const [addressForm, setAddressForm] = useState({});
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const [selectedFile, setSelectedFile] = useState(null);
+const [previewUrl, setPreviewUrl] = useState(user?.profileImage || profileImage);
+
  useEffect(() => {
   const storedUser = localStorage.getItem("authUser");
   if (!storedUser) return;
@@ -59,7 +108,16 @@ const handleInputChange = (e) => {
 
 const handleSave = async () => {
   try {
-    const updated = await updateUser(user._id, formData);
+    let updatedData = { ...formData };
+
+    // ✅ If user selected a new file, upload it
+    if (selectedFile) {
+      const imageUrl = await uploadToSpaces(selectedFile);
+      updatedData.profileUrl = imageUrl; // must match backend field
+
+    }
+    const updated = await updateUser(user._id, updatedData);
+    console.log("Updated user data:", updated); 
     setUser(updated.user);
     setEditMode(false);
     setErrorMessage("");
@@ -135,6 +193,19 @@ const handleAddressCancel = () => {
 useEffect(() => {
   console.log("address :", addresses);
 }, [addresses]);
+const handleProfileImageChange = (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  setSelectedFile(file);
+
+  // Show preview immediately
+  const reader = new FileReader();
+  reader.onloadend = () => {
+    setPreviewUrl(reader.result);
+  };
+  reader.readAsDataURL(file);
+};
 
 
 if (!user) return <p>Loading...</p>;
@@ -142,7 +213,7 @@ if (!user) return <p>Loading...</p>;
     <div className="profile-page-info-con">
       {/* ✅ Show messages */}
       <div className="user-info-con">
-        <img src={profileImage}/>
+      <img src={user?.profileUrl || profileImage} alt="Profile" />
         {!editMode && <i className="bi bi-pencil-square" onClick={handleEditClick}></i>}
         <div className="user-info-name-phone-email-con">
         {editMode ? (
@@ -168,6 +239,7 @@ if (!user) return <p>Loading...</p>;
                 onChange={handleInputChange}
                 className="edit-mode-input-field"
               />
+              <input type="file" accept="image/*" onChange={handleProfileImageChange} />
                     {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
       {successMessage && <p style={{ color: "green" }}>{successMessage}</p>}
           <div className="profile-info-btns-div">

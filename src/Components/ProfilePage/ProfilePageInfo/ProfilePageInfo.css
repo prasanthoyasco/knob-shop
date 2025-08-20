@@ -83,9 +83,10 @@
     position: relative;
   }
   .user-info-con img{
-    height: 150px;
-    width: 150px;
+    height: 120px;
+    width: 120px;
     object-fit: cover;
+    border-radius: 50%;
   }
   .user-info-name-phone-email-con{
     display: flex;
