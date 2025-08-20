@@ -71,8 +71,6 @@ function LoginPage() {
           <form className="login-form" onSubmit={handleSubmit}>
             <div>
               <h1 className="form-heading">Login</h1>
-              {errorMsg && <p className="error-text">{errorMsg}</p>}
-              {successMsg && <p className="success-text">{successMsg}</p>}
               <label className="form-label" htmlFor="email">
                 Email
               </label>
@@ -125,7 +123,9 @@ function LoginPage() {
                 Forget Password?
               </button>
             </div>
-
+            {errorMsg && <p className="error-text">{errorMsg}</p>}
+              {successMsg && <p className="success-text">{successMsg}</p>}
+              
             <button type="submit" className="login-btn" disabled={loading}>
             {loading ? "Logging in..." : "Log In"}
             </button>
