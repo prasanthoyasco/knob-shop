@@ -141,8 +141,6 @@ if (!user) return <p>Loading...</p>;
   return (
     <div className="profile-page-info-con">
       {/* ✅ Show messages */}
-      {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
-      {successMessage && <p style={{ color: "green" }}>{successMessage}</p>}
       <div className="user-info-con">
         <img src={profileImage}/>
         {!editMode && <i className="bi bi-pencil-square" onClick={handleEditClick}></i>}
@@ -170,6 +168,12 @@ if (!user) return <p>Loading...</p>;
                 onChange={handleInputChange}
                 className="edit-mode-input-field"
               />
+                    {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
+      {successMessage && <p style={{ color: "green" }}>{successMessage}</p>}
+          <div className="profile-info-btns-div">
+          <button onClick={handleSave} className="profile-info-btns-save">Save</button>
+          <button onClick={handleCancel} className="profile-info-btns-cancel">Cancel</button>
+        </div>
             </>
           ) : (
             <>
@@ -188,12 +192,6 @@ if (!user) return <p>Loading...</p>;
   )}
         </div>
       </div>
-      {editMode && (
-        <div className="profile-info-btns-div">
-          <button onClick={handleSave} className="profile-info-btns-save">Save</button>
-          <button onClick={handleCancel} className="profile-info-btns-cancel">Cancel</button>
-        </div>
-      )}
       <div className="saved-address-heading">
       <h2>Saved Addresses</h2>
       <p

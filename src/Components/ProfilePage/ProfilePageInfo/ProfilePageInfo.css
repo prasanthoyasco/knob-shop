@@ -234,5 +234,8 @@
     .user-info-name-phone-email-con{
       align-items: center;
     }
+    .edit-mode-input-field{
+      width: 100%;
+    }
   }
   
