@@ -480,7 +480,7 @@ function PaymentPage() {
         items,
         totalAmount: totalValue,
         shippingAddress:
-          deliveryOption === "ship" ? shippingData : pickupAddress,
+          deliveryOption === "ship" ? shippingData : null,
         dtdcReferenceNumber:
           deliveryOption === "ship" ? referenceNumber : "PICKUP",
         deliveryMode: deliveryOption,
@@ -497,7 +497,7 @@ function PaymentPage() {
         "latestInvoiceData",
         JSON.stringify({
           shippingAddress:
-            deliveryOption === "ship" ? shippingData : pickupAddress,
+            deliveryOption === "ship" ? shippingData : null,
           cartItems,
           totalAmount: totalValue,
           dtdcReferenceNumber:

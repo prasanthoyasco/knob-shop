@@ -17,7 +17,14 @@ function ProductPageAddress() {
       const loadAddresses = async () => {
         try {
           const addressData = await getAddressByUserId(userId);
-          setAddresses(addressData.addresses || []);
+          const allAddresses = addressData.addresses || [];
+    
+          // Sort by createdAt (latest first) and take only 2
+          const latestTwo = [...allAddresses]
+            .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+            .slice(0, 2);
+    
+          setAddresses(latestTwo);
         } catch (err) {
           console.error("Failed to fetch addresses:", err);
         }
