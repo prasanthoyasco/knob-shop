@@ -19,3 +19,12 @@ export const updateAddressById = async (addressId, updates) => {
     throw err.response?.data || { error: "Failed to update address" };
   }
 };
+
+export const createAddress = async (addressData) => {
+  try {
+    const res = await axios.post(`${BASE_URL}/create`, addressData);
+    return res.data;
+  } catch (err) {
+    throw err.response?.data || { error: "Failed to create address" };
+  }
+};
