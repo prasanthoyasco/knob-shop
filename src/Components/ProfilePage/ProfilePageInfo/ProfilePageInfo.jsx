@@ -213,7 +213,33 @@ if (!user) return <p>Loading...</p>;
     <div className="profile-page-info-con">
       {/* ✅ Show messages */}
       <div className="user-info-con">
-      <img src={user?.profileUrl || profileImage} alt="Profile" />
+      <div className="profile-image-wrapper">
+  <img
+    src={user?.profileUrl || profileImage || previewUrl}
+    alt="Profile"
+    className="profile-image"
+  />
+  {editMode && (
+    <div
+      className="edit-overlay"
+      onClick={(e) => {
+        e.stopPropagation();
+        document.getElementById("profileFileInput").click();
+      }}
+    >
+      <i className="bi bi-pencil-square"></i>
+    </div>
+  )}
+  <input
+    type="file"
+    accept="image/*"
+    id="profileFileInput"
+    style={{ display: "none" }}
+    onChange={handleProfileImageChange}
+  />
+</div>
+
+
         {!editMode && <i className="bi bi-pencil-square" onClick={handleEditClick}></i>}
         <div className="user-info-name-phone-email-con">
         {editMode ? (
@@ -239,7 +265,6 @@ if (!user) return <p>Loading...</p>;
                 onChange={handleInputChange}
                 className="edit-mode-input-field"
               />
-              <input type="file" accept="image/*" onChange={handleProfileImageChange} />
                     {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
       {successMessage && <p style={{ color: "green" }}>{successMessage}</p>}
           <div className="profile-info-btns-div">
