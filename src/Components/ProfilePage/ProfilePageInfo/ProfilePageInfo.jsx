@@ -2,21 +2,22 @@ import React, { useEffect, useState } from "react";
 import "./ProfilePageInfo.css";
 import { getUserById, updateUser } from "../../../API/authApi";
 import profileImage from "../../../Assets/Untitled/user-icon-trendy-flat-style-600nw-1697898655-removebg-preview.png";
-import { getAddressByUserId } from "../../../API/addressApi";
+import { getAddressByUserId,updateAddressById } from "../../../API/addressApi";
 import { useNavigate } from "react-router-dom";
 function ProfilePageInfo() {
   const navigate = useNavigate();
    const [user, setUser] = useState(null);
    const [addresses, setAddresses] = useState([]);
    const [editMode, setEditMode] = useState(false);
+   const [addressEditId, setAddressEditId] = useState(null); 
    const [formData, setFormData] = useState({
     name: "",
     phone: "",
     email: "",
   });
+  const [addressForm, setAddressForm] = useState({});
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
-
  useEffect(() => {
   const storedUser = localStorage.getItem("authUser");
   if (!storedUser) return;
@@ -35,7 +36,6 @@ const id = parsedUser.id || parsedUser._id;
       });
               // Fetch addresses
               const addressData = await getAddressByUserId(id);
-              console.log("address :",addressData)
               setAddresses(addressData.addresses?.slice(0, 2) || []);
     } catch (err) {
       console.error("Failed to fetch user:", err);
@@ -98,6 +98,44 @@ const handleCancel = () => {
   setErrorMessage("");
   setSuccessMessage("");
 };
+
+const handleAddressEdit = (addr) => {
+  setAddressEditId(addr._id);
+  setAddressForm({ ...addr }); // pre-fill form
+};
+
+const handleAddressChange = (e) => {
+  const { name, value } = e.target;
+  setAddressForm((prev) => ({ ...prev, [name]: value }));
+};
+
+const handleAddressSave = async () => {
+  try {
+    const updated = await updateAddressById(addressEditId, addressForm);
+    console.log("Updated Address Response:", updated);
+
+    setAddresses((prev) =>
+      prev.map((a) =>
+        a._id === addressEditId ? (updated.address || updated) : a
+      )
+    );
+
+    setAddressEditId(null);
+    setSuccessMessage("Address updated successfully!");
+  } catch (err) {
+    console.error("Address update failed:", err);
+    setErrorMessage("Failed to update address. Try again.");
+  }
+};
+
+
+const handleAddressCancel = () => {
+  setAddressEditId(null);
+};
+useEffect(() => {
+  console.log("address :", addresses);
+}, [addresses]);
+
 
 if (!user) return <p>Loading...</p>;
   return (
@@ -166,20 +204,92 @@ if (!user) return <p>Loading...</p>;
           VIEW ALL
         </p>
       </div>
-    <div className="user-address-con">
-    {addresses.map((addr, index) => (
-      <div className="user-address-container-div">
+      <div className="user-address-con">
+      {Array.isArray(addresses) && addresses.length > 0 ? (
+  addresses.map((addr, index) =>
+    addr ? (
+      <div className="user-address-container-div" key={addr._id || index}>
         <div className="user-address-container-head">
           <h6>{index === 0 ? "Delivery Address" : "Billing Address"}</h6>
-          <i class="bi bi-pencil-square"></i>
+          <i
+            className="bi bi-pencil-square"
+            onClick={() => handleAddressEdit(addr)}
+          ></i>
         </div>
-        <div className="user-address-container-value">
-          <h5>{user?.name || "Name"}</h5>
-          <p>{addr.street}, {addr.city}, {addr.district} {addr.pincode}, {addr.state}</p>
-        </div>
-      </div>
-        ))}
+
+        {addressEditId === addr._id ? (
+  <div className="user-address-container-edit">
+    <input
+      type="text"
+      name="street"
+      value={addressForm.street || ""}
+      onChange={handleAddressChange}
+      placeholder="Street"
+    />
+    <input
+      type="text"
+      name="city"
+      value={addressForm.city || ""}
+      onChange={handleAddressChange}
+      placeholder="City"
+    />
+    <input
+      type="text"
+      name="district"
+      value={addressForm.district || ""}
+      onChange={handleAddressChange}
+      placeholder="District"
+    />
+    <input
+      type="text"
+      name="pincode"
+      value={addressForm.pincode || ""}
+      onChange={handleAddressChange}
+      placeholder="Pincode"
+    />
+    <input
+      type="text"
+      name="state"
+      value={addressForm.state || ""}
+      onChange={handleAddressChange}
+      placeholder="State"
+    />
+    <input
+      type="text"
+      name="phone"
+      value={addressForm.phone || ""}
+      onChange={handleAddressChange}
+      placeholder="Phone"
+    />
+
+    <div className="address-edit-btns">
+      <button onClick={handleAddressSave} className="address-save-btn">
+        Save
+      </button>
+      <button onClick={handleAddressCancel} className="address-cancel-btn">
+        Cancel
+      </button>
     </div>
+  </div>
+) : (
+  <div className="user-address-container-value">
+    <h5>{user?.name || "Name"}</h5>
+    <p>
+      {addr.street}, {addr.city}, {addr.district} - {addr.pincode},{" "}
+      {addr.state}
+    </p>
+  </div>
+)}
+
+      </div>
+    ) : null
+  )
+) : (
+  <p>No addresses found.</p>
+)}
+
+</div>
+
 
 
       {/* <div className="profile-page-info-input">
