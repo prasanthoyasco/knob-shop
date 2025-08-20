@@ -66,14 +66,14 @@ function Wishlist({ userId }) {
   Price: <strong>₹{product.variant?.[0]?.sizes?.[0]?.sellingPrice}</strong>
 </p>
 <div className="profilepage-wishlist-add-to-cart-btn">
-<p
+<button
               onClick={(e) => {
                 e.stopPropagation(); // prevent navigating to product page
                 handleAddToCart(product);
               }}
             >
               + Add to Cart
-            </p>
+            </button>
 </div>
 </div>
           </div>

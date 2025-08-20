@@ -8,16 +8,14 @@ function ProfilePageInfo() {
   const navigate = useNavigate();
    const [user, setUser] = useState(null);
    const [addresses, setAddresses] = useState([]);
-   const [isediting,SetIsediting] = useState(false);
-  const [editMode, setEditMode] = useState(false);
-  const [selectedGender, setSelectedGender] = useState("");
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
+   const [editMode, setEditMode] = useState(false);
+   const [formData, setFormData] = useState({
+    name: "",
+    phone: "",
     email: "",
-    mobile: "",
-    dob: "",
   });
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
  useEffect(() => {
   const storedUser = localStorage.getItem("authUser");
@@ -30,73 +28,113 @@ const id = parsedUser.id || parsedUser._id;
       const data = await getUserById(id);
       console.log("user :",data)
       setUser(data.user);
-
       setFormData({
-        firstName: data.user.name?.split(" ")[0] || "",
-        lastName: data.user.name?.split(" ")[1] || "",
+        name: data.user.name || "",
+        phone: data.user.phone || "",
         email: data.user.email || "",
-        mobile: data.user.phone || "",
-        dob: data.user.dateofbirth || "",
       });
-
-      setSelectedGender(data.user.gender || "");
               // Fetch addresses
               const addressData = await getAddressByUserId(id);
               console.log("address :",addressData)
               setAddresses(addressData.addresses?.slice(0, 2) || []);
     } catch (err) {
       console.error("Failed to fetch user:", err);
+      setErrorMessage("Failed to load profile. Please try again.");
     }
   };
 
   loadUser();
 }, []); // ✅ Add empty dependency array to run only on mount
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
+const handleEditClick = () => {
+  setEditMode(true);
+  setErrorMessage("");
+  setSuccessMessage("");
+};
 
-  const handleGenderClick = (gender) => {
-    if (editMode) {
-      setSelectedGender(gender);
-    }
-  };
+const handleInputChange = (e) => {
+  const { name, value } = e.target;
+  setFormData((prev) => ({ ...prev, [name]: value }));
+};
 
-  const handleEdit = () => setEditMode(true);
-  const handleCancel = () => setEditMode(false);
-  const handleSave = async () => {
-    SetIsediting(true)
+const handleSave = async () => {
   try {
-    const storedUser = JSON.parse(localStorage.getItem("authUser"));
-    const id = storedUser.id || storedUser._id;  
-    const fullName = `${formData.firstName} ${formData.lastName}`.trim();
-
-    const updated = await updateUser(id, {
-      name: fullName,
-      email: formData.email,
-      phone: formData.mobile,
-      gender: selectedGender,
-      dateofbirth: formData.dob,
-    });
-
+    const updated = await updateUser(user._id, formData);
     setUser(updated.user);
     setEditMode(false);
-    localStorage.setItem("authUser", JSON.stringify(updated.user));
+    setErrorMessage("");
+    setSuccessMessage("Profile updated successfully!");
   } catch (err) {
-    console.error("Failed to update user:", err);
-  }finally{
-    SetIsediting(true)
-  }
-}
+    console.error("Update failed:", err);
 
+    let message = "Something went wrong. Please try again.";
+
+    // ✅ Case 1: Backend gave a direct error message
+    if (err?.error && err.error !== "Server error") {
+      message = err.error;
+    }
+
+    // ✅ Case 2: Duplicate key error from Mongo
+    else if (err?.err?.code === 11000) {
+      const field = Object.keys(err.err.keyPattern || {})[0];
+      const value = err.err.keyValue?.[field];
+      message = `The ${field} "${value}" is already in use. Please use a different one.`;
+    }
+
+    // ✅ Case 3: Generic server error
+    else if (err?.error === "Server error") {
+      message = "Server error. Please try again later.";
+    }
+
+    setSuccessMessage("");
+    setErrorMessage(message);
+  }
+};
+
+
+const handleCancel = () => {
+  setFormData({ name: user.name, phone: user.phone, email: user.email });
+  setEditMode(false);
+  setErrorMessage("");
+  setSuccessMessage("");
+};
+
+if (!user) return <p>Loading...</p>;
   return (
     <div className="profile-page-info-con">
-
+      {/* ✅ Show messages */}
+      {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
+      {successMessage && <p style={{ color: "green" }}>{successMessage}</p>}
       <div className="user-info-con">
         <img src={profileImage}/>
-        <i class="bi bi-pencil-square"></i>
+        {!editMode && <i className="bi bi-pencil-square" onClick={handleEditClick}></i>}
         <div className="user-info-name-phone-email-con">
+        {editMode ? (
+            <>
+              <input
+                type="text"
+                name="name"
+                value={formData.name}
+                onChange={handleInputChange}
+                className="edit-mode-input-field"
+              />
+              <input
+                type="text"
+                name="phone"
+                value={formData.phone}
+                onChange={handleInputChange}
+                className="edit-mode-input-field"
+              />
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleInputChange}
+                className="edit-mode-input-field"
+              />
+            </>
+          ) : (
+            <>
           <h2>{user?.name}</h2>
           <div className="user-phone-email-info">
               <div className="user-phone-icon-div">
@@ -108,8 +146,16 @@ const id = parsedUser.id || parsedUser._id;
                 <p>{user?.email}</p>
               </div>
           </div>
+          </>
+  )}
         </div>
       </div>
+      {editMode && (
+        <div className="profile-info-btns-div">
+          <button onClick={handleSave} className="profile-info-btns-save">Save</button>
+          <button onClick={handleCancel} className="profile-info-btns-cancel">Cancel</button>
+        </div>
+      )}
       <div className="saved-address-heading">
       <h2>Saved Addresses</h2>
       <p

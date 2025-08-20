@@ -91,6 +91,7 @@
     display: flex;
     flex-direction: column;
     gap: 15px;
+    width: 100%;
   }
   .user-phone-icon-div{
     display: flex;
@@ -142,3 +143,96 @@
     cursor: pointer; /* makes it look clickable */
     color: #333; /* optional: change color */
   }
+  .edit-mode-input-field{
+    width: 60%;
+    height: 40px;
+    border: 1px solid gainsboro;
+    border-radius: 10px;
+    padding-left: 20px;
+  }
+  .profile-info-btns-save{
+    background-color: #000000;
+    color: white;
+    border: none;
+    padding: 5px 20px;
+  }
+  .profile-info-btns-cancel{
+    background-color: white;
+    color: black;
+    padding: 5px 20px;
+  }
+  .profile-info-btns-cancel:hover{
+    background-color: black;
+    color: white;
+  }
+  .profile-info-btns-save:hover{
+    background-color: white;
+    color: black;
+    border: 1px solid black;
+  }
+  @media (max-width: 768px) {
+
+    /* Stack input fields vertically */
+    .profile-page-info-input {
+      flex-direction: column;
+      gap: 15px;
+    }
+  
+    /* Gender icons stack vertically and take more width */
+    .profile-info-gender-div {
+      flex-direction: column;
+      gap: 10px;
+    }
+  
+    .profile-info-gender-icon {
+      width: 100%;
+      padding: 15px 0;
+    }
+  
+    /* Buttons stack vertically */
+    .profile-info-btns-div {
+      flex-direction: column;
+      gap: 15px;
+    }
+  
+    /* User info container stacks */
+    .user-info-con {
+      flex-direction: column;
+      gap: 15px;
+      padding: 15px;
+    }
+  
+    .user-info-con img {
+      height: 120px;
+      width: 120px;
+    }
+  
+    .user-phone-email-info {
+      flex-direction: column;
+      gap: 10px;
+      width: 100%;
+    }
+  
+    /* Addresses stack vertically */
+    .user-address-con {
+      grid-template-columns: 1fr;
+      gap: 15px;
+    }
+  
+    .user-address-container-div {
+      padding: 20px;
+    }
+  
+    /* Optional: shrink font sizes for headings on mobile */
+    .profile-page-info-head{
+      font-size: 16px;
+    }
+    .saved-address-heading {
+      font-size: 16px;
+      flex-direction: column;
+    }
+    .user-info-name-phone-email-con{
+      align-items: center;
+    }
+  }
+  

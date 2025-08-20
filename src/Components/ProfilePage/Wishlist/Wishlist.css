@@ -28,8 +28,11 @@
   width: 120px;
   object-fit: cover;
 }
-.profilepage-wishlist-add-to-cart-btn p{
-  text-decoration: underline;
+.profilepage-wishlist-add-to-cart-btn button{
+  background-color: black;
+  color: white;
+  padding: 5px 10px;
+  border: none;
 }
 .profilepage-cart-checkout-btn button{
   background-color: black;
@@ -54,5 +57,57 @@
 .wishlist-item-details-div{
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 10px;
+}
+
+@media (max-width: 768px) {
+
+  /* Stack wishlist items vertically */
+  .wishlist-grid {
+    grid-template-columns: 1fr;
+    row-gap: 20px;
+    column-gap: 0;
+  }
+
+  /* Wishlist item flex direction vertical on mobile */
+  .wishlist-item {
+    align-items: flex-start;
+    padding: 20px 15px;
+    gap: 15px;
+  }
+
+  /* Reduce image size */
+  .wishlist-item img {
+    height: 100px;
+    width: 100px;
+  }
+
+  /* Heart icon smaller and repositioned */
+  .wishlist-item i.bi-heart-fill {
+    top: 5px;
+    right: 5px;
+    font-size: 18px;
+  }
+
+  /* Buttons full width and stacked */
+  .profilepage-cart-checkout-btn {
+    flex-direction: column;
+    gap: 10px;
+    bottom: 0;
+    justify-content: flex-start;
+  }
+
+  .profilepage-cart-checkout-btn button,
+  .profilepage-wishlist-add-to-cart-btn button {
+    width: 100%;
+    text-align: center;
+    padding: 8px 0;
+    background-color: black;
+    color: white;
+  }
+
+  /* Details spacing smaller */
+  .wishlist-item-details-div {
+    gap: 10px;
+  }
 }
