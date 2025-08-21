@@ -83,3 +83,24 @@ export const resetPasswordByPhone = async (phone, newPassword) => {
     throw err.response?.data || { error: "Password reset failed" };
   }
 };
+
+
+// Phone Signup (new user)
+export const phoneSignup = async (payload) => {
+  try {
+    const res = await axios.post(`${BASE_URL}/phone-signup`, payload);
+    return res.data;
+  } catch (err) {
+    throw err.response?.data || { error: "Phone signup failed" };
+  }
+};
+
+// Phone Login (existing user)
+export const phoneLogin = async (payload) => {
+  try {
+    const res = await axios.post(`${BASE_URL}/phone-login`, payload);
+    return res.data;
+  } catch (err) {
+    throw err.response?.data || { error: "Phone login failed" };
+  }
+};
