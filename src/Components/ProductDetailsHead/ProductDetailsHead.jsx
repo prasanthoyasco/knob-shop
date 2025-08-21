@@ -89,6 +89,9 @@ export default function ProductDetailsHead() {
 
     fetchProduct();
   }, [id]);
+  useEffect(() => {
+    setQuantity(1);
+  }, [id]);
 
   // Derive selectedVariant from product and selectedColor state
   const selectedVariant = product?.variant?.find(

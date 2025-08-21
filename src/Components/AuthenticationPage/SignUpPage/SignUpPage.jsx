@@ -2,7 +2,7 @@ import React,{useState} from 'react'
 import image from '../../../Assets/Untitled/auth-side.jpg'
 import './SignUpPage.css'
 import { useNavigate } from 'react-router-dom';
-import { Signup, sendOtpToEmail, verifyEmailOtp,checkUser  } from "../../../API/authApi";
+import { Signup, sendOtpToEmail, verifyEmailOtp,checkUser,phoneSignup} from "../../../API/authApi";
 function SignUpPage() {
     const navigate = useNavigate()
 const [showPassword, setShowPassword] = useState(false);
@@ -10,6 +10,7 @@ const [step, setStep] = useState(1);
 const [formData, setFormData] = useState({
     name: "",
     email: "",
+    phone: "", 
     password: "",
     confirmPassword: "",
     otp: "",
@@ -20,34 +21,88 @@ const [formData, setFormData] = useState({
 
     // Handle input change
     const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
-      };
+      const { name, value } = e.target;
+    
+      // If email has value → disable phone
+      // If phone has value → disable email
+      setFormData((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    };
+    
   // Step 1: Check if user exists, then send OTP
-  const handleSendOtp = async (e) => {
-    e.preventDefault();
-    setError("");
-    setSuccess("");
+// Step 1: Check if user exists, then send OTP
+const handleSignup = async (e) => {
+  e.preventDefault();
+  setError("");
+  setSuccess("");
 
-    try {
-      setLoading(true);
+  if (!formData.email && !formData.phone) {
+    setError("Please enter email or phone");
+    return;
+  }
+  if (!formData.password || !formData.confirmPassword) {
+    setError("Please enter password and confirm password");
+    return;
+  }
+  if (formData.password !== formData.confirmPassword) {
+    setError("Passwords do not match!");
+    return;
+  }
 
-      // 1️⃣ Check if user already exists
+  try {
+    setLoading(true);
+
+    if (formData.email) {
+      // --- Email signup flow ---
       const userCheck = await checkUser({ email: formData.email });
       if (userCheck.exists) {
-        setError("User already exists with this email!");
+        setError("User already exists with this email! Please log in.");
         return;
       }
 
-      // 2️⃣ If not exist → send OTP
-      const res = await sendOtpToEmail(formData.email);
-      setSuccess(res.message || "OTP sent successfully!");
+      const resOtp = await sendOtpToEmail(formData.email);
+      setSuccess(resOtp.message || "OTP sent successfully!");
       setStep(2);
-    } catch (err) {
-      setError(err.error || "Failed to send OTP");
-    } finally {
-      setLoading(false);
+
+    } else if (formData.phone) {
+      // --- Phone signup flow ---
+      const normalizedPhone = formData.phone.replace(/\D/g, "");
+      const userCheck = await checkUser({ phone: normalizedPhone });
+      if (userCheck.exists) {
+        setError("User already exists with this phone number! Please log in.");
+        return;
+      }
+
+      try {
+        const res = await phoneSignup({
+          name: formData.name,
+          phone: normalizedPhone,
+          password: formData.password,
+        });
+
+        setSuccess(res.message || "Account created successfully!");
+        localStorage.setItem("token", res.token);
+        localStorage.setItem("authUser", JSON.stringify(res.user));
+        const authUser = JSON.parse(localStorage.getItem("authUser"));
+        console.log("authUser : ", authUser);
+        navigate("/")
+      } catch (err) {
+        console.error(err);
+        setError(err?.error || "Phone signup failed");
+      }
     }
-  };
+  } catch (err) {
+    console.error(err);
+    setError("Something went wrong. Please try again.");
+  } finally {
+    setLoading(false);
+  }
+};
+
+  
+  
 
   // Step 2: Verify OTP + Signup
   const handleVerifyAndSignup = async (e) => {
@@ -76,9 +131,11 @@ const [formData, setFormData] = useState({
       console.log("Signup success:", res);
 
       localStorage.setItem("token", res.token);
-      localStorage.setItem("user", JSON.stringify(res.user));
+      localStorage.setItem("authUser", JSON.stringify(res.user));
+const authUser = JSON.parse(localStorage.getItem("authUser"));
+console.log("authUser : ", authUser);
 
-      navigate("/"); // if you want redirect
+      navigate("/knob-shop")
     } catch (err) {
       setError(err.error || "Signup failed");
     } finally {
@@ -111,7 +168,7 @@ const [formData, setFormData] = useState({
       <div className="login-right">
         <div className="login-form-container">
         {step === 1 && (
-          <form className="login-form"  onSubmit={handleSendOtp}>
+          <form className="login-form"  onSubmit={handleSignup}>
             <div>
               <h1 className="form-heading">Sign Up</h1>
               <label className="form-label" htmlFor="name">
@@ -137,7 +194,25 @@ const [formData, setFormData] = useState({
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
+                disabled={formData.phone.length > 0} 
               />
+              <div className='singup-or-text'>
+              <p>----------Or----------</p>
+              </div>
+              <label className="form-label" htmlFor="phone">
+                Phone Number
+              </label>
+              <input
+  placeholder="Your mobile number"
+  required
+  className="form-input"
+  type="text"
+  name="phone"
+  value={formData.phone}
+  onChange={handleChange}
+  disabled={formData.email.length > 0}
+/>
+
             </div>
 
             <div>

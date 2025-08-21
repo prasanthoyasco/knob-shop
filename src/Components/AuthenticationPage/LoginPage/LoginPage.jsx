@@ -1,20 +1,32 @@
 import React,{useState} from 'react'
 import image from '../../../Assets/Untitled/auth-side.jpg'
 import './LoginPage.css'
-import { Login,getUserById  } from "../../../API/authApi";
+import { Login,getUserById,phoneLogin  } from "../../../API/authApi";
 import { useNavigate } from "react-router-dom";
 function LoginPage() {
     const [showPassword, setShowPassword] = useState(false);
-    const [formData, setFormData] = useState({ email: "", password: "" });
+    const [formData, setFormData] = useState({
+      email: "",
+      phone: "",
+      password: "",
+    });
+    
     const [loading, setLoading] = useState(false);
     const [errorMsg, setErrorMsg] = useState("");
     const [successMsg, setSuccessMsg] = useState("");
     const navigate = useNavigate();
 
       // Handle input changes
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+      const handleChange = (e) => {
+        const { name, value } = e.target;
+      
+        // If email has value → disable phone
+        // If phone has value → disable email
+        setFormData((prev) => ({
+          ...prev,
+          [name]: value,
+        }));
+      };
 
   // Handle login
   const handleSubmit = async (e) => {
@@ -22,20 +34,33 @@ function LoginPage() {
     setLoading(true);
     setErrorMsg("");
     setSuccessMsg("");
-
+  
     try {
-      const res = await Login(formData); // ✅ call login API
-
+      let res;
+  
+      if (formData.email) {
+        // Email login
+        res = await Login({ email: formData.email, password: formData.password });
+      } else if (formData.phone) {
+        // Phone login
+        res = await phoneLogin({ phone: formData.phone, password: formData.password });
+      } else {
+        setErrorMsg("Please enter email or phone number.");
+        setLoading(false);
+        return;
+      }
+  
+      // Save token and user
+      localStorage.setItem("token", res.token);
+      localStorage.setItem("authUser", JSON.stringify(res.user));
       setSuccessMsg("Login successful! Redirecting...");
-      const token = localStorage.setItem("token", res.token);
-      const userData = localStorage.setItem("authUser", JSON.stringify(res.user));
-      console.log("User data from DB:", userData);
-      // ✅ Fetch full user by ID after login
+  
+      // Fetch full user by ID
       const fullUser = await getUserById(res.user.id);
-      console.log("User data from DB:", fullUser);
-
+      console.log("Full user data:", fullUser);
+  
       setTimeout(() => {
-        navigate("/"); // redirect after login
+        navigate("/"); // Redirect
       }, 1500);
     } catch (err) {
       setErrorMsg(err.error || "Login failed. Try again!");
@@ -43,6 +68,7 @@ function LoginPage() {
       setLoading(false);
     }
   };
+  
   return (
     <div className="login-container">
       {/* Left Side (Image + Overlay) */}
@@ -76,12 +102,29 @@ function LoginPage() {
               </label>
               <input
                 placeholder="Your email address"
-                required
+                required={formData.phone.length === 0}
                 className="form-input"
                 type="email"
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
+                disabled={formData.phone.length > 0} 
+              />
+              <div className='singup-or-text'>
+                <p>--------- OR ----------</p>
+              </div>
+              <label className="form-label" htmlFor="phone">
+                Phone Number
+              </label>
+              <input
+                placeholder="Your phone number"
+                required={formData.phone.length === 0}
+                className="form-input"
+                type="text"
+                name="phone"
+                value={formData.phone}
+                onChange={handleChange}
+                disabled={formData.email.length > 0}
               />
             </div>
 

@@ -202,13 +202,13 @@
 
   /* Set the left image as background for each slide */
   .swiper-slide:nth-child(1) .cube-carousel-slide {
-    background-image: url('../../Assets/collectionCarosal1left.jpg') !important;
+    background-image: url('../../Assets/Front Page Doc and Images/Front Page Doc and Images/sec- 3/image (1)/image.png') !important;
   }
   .swiper-slide:nth-child(2) .cube-carousel-slide {
-    background-image: url('../../Assets/collectionCarosal2left.jpg') !important;
+    background-image: url('../../Assets/Front Page Doc and Images/Front Page Doc and Images/sec- 3/image (1)/image (2).png') !important;
   }
   .swiper-slide:nth-child(3) .cube-carousel-slide {
-    background-image: url('../../Assets/collectionCarosal3left.jpg') !important;
+    background-image: url('../../Assets/Front Page Doc and Images/Front Page Doc and Images/sec- 3/image (1)/image (4).png') !important;
   }
   /* Add more .swiper-slide:nth-child(X) for additional slides if needed */
 
