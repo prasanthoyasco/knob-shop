@@ -1,3 +1,4 @@
+import Hero from "../Components/Hero/Hero";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { useEffect, useState } from "react";
@@ -14,6 +15,7 @@ import left from "../Assets/left-image-interior.png";
 import left1 from "../Assets/left-image-interior1.png";
 import right from "../Assets/right-image-interior.png";
 import right1 from "../Assets/right-image-interior1.png";
+import CollectionsCarosal from "../Components/CollectionsCarosal/CollectionsCarosal";
 import SingleCarosal from "../Components/singleCarosal/SingleCarosal";
 import ShelfHighlight from "../Components/ShelfHighlight/ShelfHighlight";
 import CubeCarousel from "../Components/CubeCarousel/CubeCarousel";
@@ -30,6 +32,8 @@ import DealOfTheDay from "../Components/DealOfTheDay/DealOfTheDay";
 import ShopTheRoom from "../Components/ShopTheRoom/ShopTheRoom";
 import NewHero from "../Components/NewHero/NewHero";
 import Sale from "../Components/Sale/Sale";
+import LockSlider from "../Components/LockSlider/LockSlider";
+import AboutUsGrid from "../Components/AboutUsGrid/AboutUsGrid";
 import AboutUs from "../Components/AboutUs/AboutUs";
 import MeshPinImage from "../Assets/Product Categories and its Product (Knobs Shop)/product img/product img/Wardrobe Door Lock/Mesh Pin/mesh pin.webp";
 import ML81PAV from "../Assets/Product Categories and its Product (Knobs Shop)/product img/product img/Wardrobe Door Lock/ML81PAV/ML81PAV.webp";
@@ -49,20 +53,25 @@ import image4 from "../Assets/categoryBanner/DigitalDoorLock.webp";
 import image5 from '../Assets/CategoriesImge/Knob Shop/clock.jpg'
 import image6 from '../Assets/CategoriesImge/Knob Shop/wardrobes.jpg'
 import { fetchCategories } from "../API/categoriesApi"; 
+import cat1 from '../Assets/New folder/New folder/01.png'
+import cat2 from '../Assets/New folder/New folder/02.png'
 import cat3 from '../Assets/New folder/New folder/3.png'
+import cat7 from '../Assets/New folder/New folder/7.png'
+import cat8 from '../Assets/CategoriesImge/Knob Shop/sec-2.png'
 import cat10 from '../Assets/CategoriesImge/Knob Shop/Hexa bolt.png'
-import aldrops from '../Assets/Explore Our Product Range/Explore Our Product Range/Logos/Aldrop (1).png'
+import cat9 from '../Assets/CategoriesImge/Knob Shop/black-rim.png'
+import aldrops from '../Assets/New folder/New folder/aldrops.png'
 import Crystal from '../Assets/New folder/New folder/Crystal Collection.png'
 import DoorCloser from '../Assets/New folder/New folder/Door Closer.png'
-import DoorStopper from '../Assets/Explore Our Product Range/Explore Our Product Range/Logos/Door_stopper.png'
-import hinges from '../Assets/Explore Our Product Range/Explore Our Product Range/Logos/Hinges(02).png'
+import DoorStopper from '../Assets/New folder/New folder/Door Stopper.png'
+import hinges from '../Assets/New folder/New folder/hinges.png'
 import lockcollections from '../Assets/New folder/New folder/lock collections.png'
-import Rimlock from '../Assets/Explore Our Product Range/Explore Our Product Range/Logos/Rim_lock(01).png'
-import Telescopic from '../Assets/Explore Our Product Range/Explore Our Product Range/Logos/Telescopic(1).png'
+import Rimlock from '../Assets/New folder/New folder/Rimlock.png'
+import sofalegs from '../Assets/New folder/New folder/sofa legs.png'
+import Telescopic from '../Assets/New folder/New folder/Telescopic.png'
 import Brackets from '../Assets/New folder/New folder/Brackets.png'
 import hooks from '../Assets/New folder/New folder/hooks.png'
-import doorKnoker from '../Assets/Explore Our Product Range/Explore Our Product Range/Logos/Door knockers.jpg'
-import Tower from '../Assets/Explore Our Product Range/Explore Our Product Range/Logos/Tower_bolt.png'
+import Tower from '../Assets/New folder/New folder/Tower Bolt.png'
 export const Home = () => {
   const [categories, setCategories] = useState([]);
   const categoryImageMap = {
@@ -79,8 +88,6 @@ export const Home = () => {
     "Crystal collections":Crystal,
     "Lock collections":lockcollections,
     "Tower Bolt":Tower,
-    "Door Knocker":doorKnoker,
-    
   };
   
   const TARGET_CATEGORY_NAMES = [
@@ -96,8 +103,7 @@ export const Home = () => {
     "Hooks",
     "Brackets",
     "Crystal collections",
-    "Lock collections",
-    "Door Knocker",
+    "Lock collections"
   ];
   useEffect(() => {
     const getSelectedCategories = async () => {
