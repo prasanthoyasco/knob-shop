@@ -21,6 +21,8 @@ import brand15 from '../../Assets/brand3.png'
 import colortex from '../../Assets/Logo/New folder/Color tek.png'
 import hetachi from '../../Assets/Logo/New folder/Hettich-logo-sw.svg'
 import ideal from '../../Assets/Logo/New folder/Ideal.png'
+import faber from '../../Assets/Explore Our Product Range/Explore Our Product Range/Review/Faber.png'
+import pankaj from '../../Assets/Explore Our Product Range/Explore Our Product Range/Review/Pankaj Logo.png'
 import { getAllProducts } from "../../API/productApi";
 const images = [
   brand2,
@@ -37,6 +39,8 @@ const images = [
   brand13,
   brand14,
   brand15,
+  faber,
+  pankaj
 ];
 
 const brandData = [
@@ -57,6 +61,8 @@ const brandData = [
   { name: "Color tek", image: colortex },
   { name: "Hettich", image: hetachi },
   { name: "Ideal", image: ideal },
+  { name: "faber", image: faber },
+  { name: "pankaj", image: pankaj,className: "pankaj-size" },
 ];
 function Brand() {
   const [currentSlide, setCurrentSlide] = useState(0);

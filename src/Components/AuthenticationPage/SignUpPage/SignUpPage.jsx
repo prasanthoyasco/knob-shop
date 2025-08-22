@@ -135,7 +135,7 @@ const handleSignup = async (e) => {
 const authUser = JSON.parse(localStorage.getItem("authUser"));
 console.log("authUser : ", authUser);
 
-      navigate("/knob-shop")
+      navigate("/")
     } catch (err) {
       setError(err.error || "Signup failed");
     } finally {
