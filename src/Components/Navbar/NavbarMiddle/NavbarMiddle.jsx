@@ -152,7 +152,7 @@ function NavbarMiddle() {
           <div
             className="profile"
             onClick={() =>
-              user ? navigate("/account") : navigate("/auth/register")
+              user ? navigate("/account") : navigate("/auth/login")
             }
             style={{ cursor: "pointer" }}
           >
