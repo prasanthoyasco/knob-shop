@@ -432,7 +432,7 @@ export const Home = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const timeout = setTimeout(() => setLoading(false), 5000);
+    const timeout = setTimeout(() => setLoading(false), 1000);
     return () => clearTimeout(timeout);
   }, []);
 

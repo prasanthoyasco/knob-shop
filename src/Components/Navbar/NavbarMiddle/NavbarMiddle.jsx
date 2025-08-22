@@ -156,12 +156,25 @@ function NavbarMiddle() {
             }
             style={{ cursor: "pointer" }}
           >
-            <img src={profile_icon} alt="Profile" />
+            {user?.profileUrl ? (
+              <img
+                src={user?.profileUrl}
+                alt="Profile"
+                style={{
+                  width: "30px",
+                  height: "30px",
+                  objectFit: "cover",
+                  borderRadius: 50,
+                }}
+              />
+            ) : (
+              <img src={profile_icon} alt="Profile" />
+            )}
             <div>
               {user ? (
                 <>
                   <p>Hello,</p>
-                  <h6>{user.name}</h6>
+                  <h6>{user.name.slice(0, 8) + "..."}</h6>
                 </>
               ) : (
                 <>

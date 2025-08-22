@@ -1,32 +1,32 @@
-import React,{useState} from 'react'
-import image from '../../../Assets/Untitled/auth-side.jpg'
-import './LoginPage.css'
-import { Login,getUserById,phoneLogin  } from "../../../API/authApi";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import image from "../../../Assets/Untitled/auth-side.jpg";
+import "./LoginPage.css";
+import { Login, getUserById, phoneLogin } from "../../../API/authApi";
+import { Link, useNavigate } from "react-router-dom";
 function LoginPage() {
-    const [showPassword, setShowPassword] = useState(false);
-    const [formData, setFormData] = useState({
-      email: "",
-      phone: "",
-      password: "",
-    });
-    
-    const [loading, setLoading] = useState(false);
-    const [errorMsg, setErrorMsg] = useState("");
-    const [successMsg, setSuccessMsg] = useState("");
-    const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
+  const [formData, setFormData] = useState({
+    email: "",
+    phone: "",
+    password: "",
+  });
 
-      // Handle input changes
-      const handleChange = (e) => {
-        const { name, value } = e.target;
-      
-        // If email has value → disable phone
-        // If phone has value → disable email
-        setFormData((prev) => ({
-          ...prev,
-          [name]: value,
-        }));
-      };
+  const [loading, setLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
+  const [successMsg, setSuccessMsg] = useState("");
+  const navigate = useNavigate();
+
+  // Handle input changes
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    // If email has value → disable phone
+    // If phone has value → disable email
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
 
   // Handle login
   const handleSubmit = async (e) => {
@@ -34,31 +34,37 @@ function LoginPage() {
     setLoading(true);
     setErrorMsg("");
     setSuccessMsg("");
-  
+
     try {
       let res;
-  
+
       if (formData.email) {
         // Email login
-        res = await Login({ email: formData.email, password: formData.password });
+        res = await Login({
+          email: formData.email,
+          password: formData.password,
+        });
       } else if (formData.phone) {
         // Phone login
-        res = await phoneLogin({ phone: formData.phone, password: formData.password });
+        res = await phoneLogin({
+          phone: formData.phone,
+          password: formData.password,
+        });
       } else {
         setErrorMsg("Please enter email or phone number.");
         setLoading(false);
         return;
       }
-  
+
       // Save token and user
       localStorage.setItem("token", res.token);
-      localStorage.setItem("authUser", JSON.stringify(res.user));
       setSuccessMsg("Login successful! Redirecting...");
-  
+
       // Fetch full user by ID
       const fullUser = await getUserById(res.user.id);
+      localStorage.setItem("authUser", JSON.stringify(fullUser.user));
       console.log("Full user data:", fullUser);
-  
+
       setTimeout(() => {
         navigate("/"); // Redirect
       }, 1500);
@@ -68,16 +74,12 @@ function LoginPage() {
       setLoading(false);
     }
   };
-  
+
   return (
     <div className="login-container">
       {/* Left Side (Image + Overlay) */}
       <div className="login-left">
-        <img
-          alt="auth"
-          className="login-image"
-          src={image}
-        />
+        <img alt="auth" className="login-image" src={image} />
         <div className="login-overlay">
           <div>
             <h2 className="login-title">
@@ -108,10 +110,10 @@ function LoginPage() {
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                disabled={formData.phone.length > 0} 
+                disabled={formData.phone.length > 0}
               />
-              <div className='singup-or-text'>
-                <p>--------- OR ----------</p>
+              <div className="singup-or-text">
+                <p> OR </p>
               </div>
               <label className="form-label" htmlFor="phone">
                 Phone Number
@@ -160,23 +162,34 @@ function LoginPage() {
                 <input type="checkbox" />
                 Remember Me
               </label>
-              <button type="button" className="forgot-password"  onClick={() =>
-    navigate("/auth/forgot-password", { state: { email: formData.email } })
-  }>
+              <button
+                type="button"
+                className="forgot-password"
+                onClick={() =>
+                  navigate("/auth/forgot-password", {
+                    state: { email: formData.email },
+                  })
+                }
+              >
                 Forget Password?
               </button>
             </div>
-            {errorMsg && <p className="error-text">{errorMsg}</p>}
-              {successMsg && <p className="success-text">{successMsg}</p>}
-              
+            {errorMsg && <p className="text-danger m-auto">{errorMsg}</p>}
+            {successMsg && <p className="success-text">{successMsg}</p>}
+
             <button type="submit" className="login-btn" disabled={loading}>
-            {loading ? "Logging in..." : "Log In"}
+              {loading ? "Logging in..." : "Log In"}
             </button>
+            <div className="m-auto mt-2">
+              <Link to={"/auth/register"} className="forgot-password">
+                Don't have an account? Sign up here.
+              </Link>
+            </div>
           </form>
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default LoginPage
+export default LoginPage;
