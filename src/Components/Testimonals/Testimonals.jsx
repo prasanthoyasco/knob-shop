@@ -53,18 +53,6 @@ materials like door handles, etc. from Sailesh Golcha’s Knobs Shop.
   },
   {
     idx:3,
-    imgage: testinomalImage4,
-    name: "Chandra Varatharajan",
-    profession: "Wellness Square",
-    message: `
-    I will highly recommend
-    “The Knob Shop” to my colleagues and friends, seeking any hardware, Cabinet or door or glass
-    needs. Wishing you all the best in all your endeavors.
-    
-    `
-  },
-  {
-    idx:0,
     imgage: testinomalImage5,
     name: "RAHUL RANKA",
     profession: "HARSHAVARDHAN",
@@ -76,7 +64,7 @@ endeavours.
     `
   },
   {
-    idx:1,
+    idx:0,
     imgage: testinomalImage6,
     name: "Sharavana Nanjundanar",
     profession: "Global Coatings",
@@ -86,7 +74,7 @@ Appreciate Mr. Sailesh Golcha of “Knob Shop”.We thank Mr.Sailesh Golcha for 
     `
   },
   {
-    idx: 2,
+    idx: 1,
     imgage: testinomalImage7,
     name: "KARTHI A.P",
     profession: "FORESIGHT CORPORATION",
@@ -98,7 +86,7 @@ Appreciate Mr. Sailesh Golcha of “Knob Shop”.We thank Mr.Sailesh Golcha for 
     `
   },
   {
-    idx: 3,
+    idx: 2,
     imgage: testinomalImage8,
     name: "Mahendran Raghavan",
     profession: "MAsquare Engineers Pvt Ltd",
@@ -108,7 +96,7 @@ doing civil consulting & Structural design services for all kind of buildings an
     `
   },
   {
-    idx: 0,
+    idx: 3,
     imgage: testinomalImage9,
     name: "CHRISTOPHER RAJKUMAR C",
     profession: "FORESIGHT CORPORATION",
@@ -119,7 +107,7 @@ is very happy
     `
   },
   {
-    idx: 1,
+    idx: 0,
     imgage: testinomalImage10,
     name: "SRINIVASAN R",
     profession: "PEOPLE POINT",
@@ -130,7 +118,7 @@ Fraternity, had an apartment made.
     `
   },
   {
-    idx: 2,
+    idx: 1,
     imgage: testinomalImage11,
     name: "Yuvaraj K.",
     profession: "TKT Chamber Bricks",
@@ -141,7 +129,7 @@ Fraternity, had an apartment made.
     `
   },
   {
-    idx: 3,
+    idx: 2,
     imgage: testinomalImage12,
     name: "Nagarajan M    ",
     profession: "Annam Associates",
@@ -152,7 +140,7 @@ Fraternity, had an apartment made.
     `
   },
   {
-    idx: 0,
+    idx: 3,
     imgage: testinomalImage13,
     name: "Karthikeyan T.    ",
     profession: "MAL BUILDING CENTERING MATERIAL",
@@ -162,7 +150,7 @@ Fraternity, had an apartment made.
     `
   },
   {
-    idx: 1,
+    idx: 0,
     imgage: testinomalImage14,
     name: "Nivas S    ",
     profession: "AGAMA ANURAKSATI BUSINESS PROMOTION",
@@ -172,7 +160,7 @@ Fraternity, had an apartment made.
     `
   },
   {
-    idx: 2,
+    idx: 1,
     imgage: testinomalImage15,
     name: "Bhavesh Mehta",
     profession: "Rishab Investments",
@@ -185,7 +173,7 @@ Fraternity, had an apartment made.
     `
   },
   {
-    idx: 3,
+    idx: 2,
     imgage: testinomalImage16,
     name: "Mahesh Prasanna    ",
     profession: "Future Tech Cranes and Hoists Coimbatore    ",
@@ -196,9 +184,9 @@ Fraternity, had an apartment made.
     `
   },
   {
-    idx: 0,
+    idx: 3,
     imgage: testinomalImage17,
-    name: "MR.Visagamuruthi",
+    name: "Dr.D.Visagamoorthi",
     profession: "Insighters India",
     message:`
     They also expressed that quality of the materials given by them
@@ -207,7 +195,7 @@ Fraternity, had an apartment made.
     `
   },
   {
-    idx: 1,
+    idx: 0,
     imgage: testinomalImage18,
     name: "SANJEEV M",
     profession: "COMFORT HOTELS    ",
@@ -219,7 +207,7 @@ Fraternity, had an apartment made.
     `
   },
   {
-    idx: 2,
+    idx: 1,
     imgage: testinomalImage19,
     name: "Dr. Kalaivani R.",
     profession: "Wellness Physiotherapy & Fitness Clinic",
@@ -230,7 +218,7 @@ Fraternity, had an apartment made.
     `
   },
   {
-    idx: 3,
+    idx: 2,
     imgage: testinomalImage20,
     name: "K Saravanan",
     profession: "Royal Furnitures",
@@ -241,7 +229,7 @@ Fraternity, had an apartment made.
     `
   },
   {
-    idx: 1,
+    idx: 3,
     imgage: testinomalImage21,
     name: "Neeraj Shankla",
     profession: "Neeraj Aromatics Private Limited",
