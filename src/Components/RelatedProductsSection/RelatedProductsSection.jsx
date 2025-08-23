@@ -4,15 +4,20 @@ import ProductCard from "../ProductCard/ProductCard";
 import { getAllProducts } from "../../API/productApi";
 const RelatedProductsSection = () => {
   const sliderRef = React.useRef(null);
+  const [Loading,setLoading] = useState(false)
   const [allProduct, setAllProduct] = useState([]);
 
   useEffect(() => {
     const fetchAllProduct = async () => {
+      setLoading(true)
       try {
         const res = await getAllProducts();
-        setAllProduct(res)
+        const { data } = res;
+        setAllProduct(data)
       } catch (err) {
         console.error("Failed to fetch product", err);
+      }finally{
+        setLoading(false)
       }
     };
 
@@ -25,6 +30,9 @@ const RelatedProductsSection = () => {
   const scrollRight = () => {
     sliderRef.current.scrollBy({ left: 300, behavior: "smooth" });
   };
+  if(Loading){
+    return(<></>)
+  }
 
   return (
     <div className="mt-3 mb-4 my-md-5">

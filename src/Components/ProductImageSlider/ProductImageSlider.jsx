@@ -165,7 +165,7 @@ const ProductImageSlider = ({ images: propImages = [], fetchById = true }) => {
             height:'600px',
             maxHeight: "700px",
             objectFit: "contain",
-            width: "100%",
+            width: "100vh",
           }}
         />
         <button

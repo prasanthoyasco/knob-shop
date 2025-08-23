@@ -44,7 +44,6 @@ const ProductCard = ({ product }) => {
       try {
         if (!id) return; // avoid call if productId missing
         const reviews = await getReviewsByProduct(id);
-        console.log("reviews data :", reviews);
         if (reviews?.length > 0) {
           const sum = reviews.reduce((acc, r) => acc + (r.rating || 0), 0);
           const avg = sum / reviews.length;
