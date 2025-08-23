@@ -1,9 +1,10 @@
 import Lottie from "lottie-react";
 import successAnimation from "../Assets/order-confirmed.json";
 import Confetti from "react-confetti";
-import failAnimation from "../Assets/payment-failed.json"; // <-- Add this animation
+import failAnimation from "../Assets/payment-failed.json";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { markCouponUsed } from "../API/CouponApi";
 
 const OrderConfirmed = () => {
   const navigate = useNavigate();
@@ -17,6 +18,8 @@ const OrderConfirmed = () => {
   const [statusText, setStatusText] = useState(
     isSuccess ? "Payment initiated..." : "Verifying payment..."
   );
+  // ✅ New state to prevent multiple API calls
+  const [couponMarked, setCouponMarked] = useState(false);
 
   useEffect(() => {
     const timeout = setTimeout(() => setLoading(false), 6000);
@@ -51,6 +54,29 @@ const OrderConfirmed = () => {
 
     return () => clearInterval(interval);
   }, [loading, isSuccess]);
+
+  // ✅ New useEffect to handle coupon logic after loading is complete
+  useEffect(() => {
+    if (!loading && isSuccess && !couponMarked) {
+      const appliedCouponCode = localStorage.getItem("appliedCouponCode");
+
+      if (appliedCouponCode) {
+        const { code } = JSON.parse(appliedCouponCode);
+        const markCoupon = async () => {
+          try {
+            await markCouponUsed(code);
+            console.log("Coupon marked as used successfully.");
+          } catch (error) {
+            console.error("Failed to mark coupon as used:", error);
+          } finally {
+            localStorage.removeItem("appliedCouponCode"); // ✅ Clean up local storage
+            setCouponMarked(true); // ✅ Set state to prevent re-running
+          }
+        };
+        markCoupon();
+      }
+    }
+  }, [loading, isSuccess, couponMarked]);
 
   if (loading) {
     return (
@@ -89,15 +115,12 @@ const OrderConfirmed = () => {
             Your order has been confirmed
           </h2>
           <p className="text-secondary text-center mb-1">
-            Thanks for your order, Your order Id :{" "}
+            Thanks for your order, Your order Id:{" "}
             <a href="#" className="text-primary text-decoration-underline">
               {orderId}
             </a>
             . We will process your order in <strong>24hr</strong>.
           </p>
-          {/* <p className="text-muted small mb-4 text-center">
-          Order within <strong>20h 34m</strong> for same-day processing.
-        </p> */}
           <button
             className="btn btn-dark px-4 py-3 mt-4 m-0"
             onClick={() => navigate("/")}
@@ -126,7 +149,6 @@ const OrderConfirmed = () => {
       <div style={{ width: "600px", height: "280px" }} className="mb-1">
         <Lottie animationData={failAnimation} loop={false} />
       </div>
-      {/* <h2 className="fw-bold mb-2 text-center text-danger">Payment Failed</h2> */}
       <p className="text-secondary text-center my-4">
         Unfortunately, your payment could not be processed. Please try again.
       </p>

@@ -6,6 +6,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { createDTDCConsignment } from "../../API/createOrderConsigment";
 import { createOrderWithShipping } from "../../API/orderApi";
 import { initiateTransaction } from "../../API/paymentApi";
+import Confetti from "react-confetti";
 import StoreLocator from "./StoreLocator";
 import { getAvailableCoupons, validateCoupon } from "../../API/CouponApi";
 const countries = [
@@ -259,7 +260,7 @@ function PaymentPage() {
     }
   })();
 
-  const Userid = storedUser.id || storedUser._id;
+  var Userid = storedUser.id || storedUser._id;
   const [deliveryOption, setDeliveryOption] = useState("ship");
   const [pickupAddress, setPickupAddress] = useState("");
   const [showStoreInfo, setShowStoreInfo] = useState(false);
@@ -298,6 +299,7 @@ function PaymentPage() {
   const [showFields, setShowFields] = useState(false);
   const [gstNumber, setGstNumber] = useState("");
   const [companyName, setCompanyName] = useState("");
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
 
   const location = useLocation();
   const cartItems = location.state?.cartItems || [];
@@ -320,11 +322,10 @@ function PaymentPage() {
   useEffect(() => {
     getAvailableCoupons().then(setAvailableCoupons).catch(console.error);
   }, []);
-  console.log("Available Coupons:", availableCoupons);
   useEffect(() => {
     if (storedUser) {
       setContactInfo(storedUser.email || "");
-      // setMobileInfo(storedUser.phone || storedUser.mobile || "");
+      setMobileInfo(storedUser?.phone || storedUser?.mobile || "");
     }
   }, [storedUser]);
 
@@ -346,17 +347,16 @@ function PaymentPage() {
     shippingZip,
   ]);
 
-  const applyCoupon = async () => {
+  const applyCoupon = async (coupon) => {
     if (!Userid) {
-      alert("Please login to use a coupon");
+      const storedUser = JSON.parse(localStorage.getItem("authUser"));
+      Userid = storedUser.id || storedUser._id;
       return;
     }
-
     try {
-      const data = await validateCoupon(Userid, couponCode);
-
+      const data = await validateCoupon(Userid, couponCode || coupon);
       let discountValue = 0;
-      if (data.type === "percent") {
+      if (data.type === "percent" || data.type === "percentage") {
         discountValue = (subtotal * data.discount) / 100;
       } else {
         discountValue = data.discount;
@@ -364,9 +364,10 @@ function PaymentPage() {
 
       setDiscount(discountValue);
       setCouponApplied(true);
-      alert("Coupon applied successfully!");
+      setShowSuccessPopup(true);
+      setTimeout(() => setShowSuccessPopup(false), 15000);
     } catch (err) {
-      alert(err.message || "Coupon error");
+      alert("Coupon error");
     }
   };
 
@@ -390,6 +391,20 @@ function PaymentPage() {
       setBillingZip("");
     }
   };
+  const COUPON_EXPIRY = 1 * 60 * 1000;
+
+  // 🔄 On component load, check localStorage
+  useEffect(() => {
+    const storedCoupon = localStorage.getItem("appliedCoupon");
+    if (storedCoupon) {
+      const { expiry } = JSON.parse(storedCoupon);
+      const now = Date.now();
+
+      if (now > expiry) {
+        localStorage.removeItem("appliedCoupon");
+      }
+    }
+  }, []);
 
   const handlePayment = async () => {
     setPaying(true);
@@ -400,7 +415,7 @@ function PaymentPage() {
         return;
       }
 
-      const totalValue = subtotal;
+      const totalValue = subtotal - discount;
 
       const shippingData = {
         name: `${shippingFirstName} + ' ' + ${shippingLastName}`,
@@ -417,10 +432,11 @@ function PaymentPage() {
         name: `${billingFirstName} ${billingLastName}`,
         street: billingAddress,
         city: billingCity,
+        district: billingCity, // 👈 using city as district (or add a separate billingDistrict field if available)
         state: billingState || "Tamil Nadu",
-        zip: billingZip,
+        pincode: billingZip, // 👈 renamed from zip → pincode
         country: "India",
-        phone: contactInfo,
+        phone: mobileInfo, // 👈 only set if it’s not an email
         email: contactInfo.includes("@") ? contactInfo : "test@example.com",
       };
 
@@ -479,8 +495,7 @@ function PaymentPage() {
         userId: Userid,
         items,
         totalAmount: totalValue,
-        shippingAddress:
-          deliveryOption === "ship" ? shippingData : null,
+        shippingAddress: deliveryOption === "ship" ? shippingData : billingData,
         dtdcReferenceNumber:
           deliveryOption === "ship" ? referenceNumber : "PICKUP",
         deliveryMode: deliveryOption,
@@ -496,8 +511,7 @@ function PaymentPage() {
       localStorage.setItem(
         "latestInvoiceData",
         JSON.stringify({
-          shippingAddress:
-            deliveryOption === "ship" ? shippingData : null,
+          shippingAddress: deliveryOption === "ship" ? shippingData : null,
           cartItems,
           totalAmount: totalValue,
           dtdcReferenceNumber:
@@ -508,7 +522,11 @@ function PaymentPage() {
           orderId: order.orderId,
         })
       );
-
+      const expiry = Date.now() + COUPON_EXPIRY;
+      localStorage.setItem(
+        "appliedCoupon",
+        JSON.stringify({ code: couponCode, expiry })
+      );
       const ccResponse = await initiateTransaction({
         orderId: order?.orderId,
         amount: totalValue,
@@ -562,12 +580,40 @@ function PaymentPage() {
         shippingZip,
         shippingState,
       ].every((field) => field.trim());
+    } else if (deliveryOption === "pickup") {
+      return [
+        billingFirstName,
+        billingLastName,
+        billingAddress,
+        billingCity,
+        billingZip,
+        billingState,
+      ].every((field) => field.trim());
     }
-
-    return !!pickupAddress;
   };
   return (
     <>
+      {showSuccessPopup && (
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100vw",
+            height: "100vh",
+            pointerEvents: "none", // so clicks pass through
+            zIndex: 2000, // above everything else
+          }}
+        >
+          <Confetti
+            numberOfPieces={400}
+            width={window.innerWidth}
+            height={window.innerHeight}
+            recycle={false}
+          />
+        </div>
+      )}
+
       <NavbarTop />
       <div className="payment-page-container">
         {redirecting && (
@@ -768,6 +814,80 @@ function PaymentPage() {
               <StoreLocator
                 onStoreSelect={(store) => setPickupAddress(store)}
               />
+              <div className="contact-con-head">
+                <h3 className="contact-con-head-h3 mt-4 mb-0">Your Address</h3>
+              </div>
+              <div className="shop-conatiner mt-3">
+                <select
+                  className="select-box"
+                  disabled
+                  title="only inside india available"
+                >
+                  <option selected>India</option>
+                </select>
+
+                <div className="first-last-name-input-div">
+                  <input
+                    type="text"
+                    placeholder="First Name"
+                    className="first-name-input"
+                    value={billingFirstName}
+                    onChange={(e) => setBillingFirstName(e.target.value)}
+                    disabled={sameAsShipping}
+                  />
+                  <input
+                    type="text"
+                    placeholder="Last Name"
+                    className="first-name-input"
+                    value={billingLastName}
+                    onChange={(e) => setBillingLastName(e.target.value)}
+                    disabled={sameAsShipping}
+                  />
+                </div>
+                <input
+                  type="text"
+                  className="contact-con-input"
+                  placeholder="Address"
+                  value={billingAddress}
+                  onChange={(e) => setBillingAddress(e.target.value)}
+                  disabled={sameAsShipping}
+                />
+                <div className="first-last-name-input-div">
+                  <input
+                    type="text"
+                    placeholder="City"
+                    className="first-name-input"
+                    value={billingCity}
+                    onChange={(e) => setBillingCity(e.target.value)}
+                    disabled={sameAsShipping}
+                  />
+                  <select
+                    className="first-name-input"
+                    value={billingState}
+                    onChange={(e) => setBillingState(e.target.value)}
+                    disabled={sameAsShipping}
+                  >
+                    <option value="" disabled>
+                      Select your state
+                    </option>
+                    {indianStates.map((state) => (
+                      <option key={state} value={state}>
+                        {state}
+                      </option>
+                    ))}
+                  </select>
+
+                  <input
+                    type="text"
+                    placeholder="Zip Code"
+                    className="first-name-input"
+                    value={billingZip}
+                    onChange={(e) => setBillingZip(e.target.value)}
+                    disabled={sameAsShipping}
+                    onBlur={() => setDeliveryCompleted(true)}
+                  />
+                </div>
+              </div>
             </div>
           )}
           {deliveryOption === "pickup" && showStoreInfo && (
@@ -1011,7 +1131,7 @@ function PaymentPage() {
                     style={{ cursor: "pointer" }}
                     onClick={() => {
                       setCouponCode(coupon.code);
-                      if (!couponApplied) applyCoupon();
+                      applyCoupon(coupon.code);
                     }}
                   >
                     {coupon.code} —{" "}
@@ -1117,7 +1237,10 @@ function PaymentPage() {
             </div>
             {discount > 0 && (
               <div className="sub-cal">
-                <p>Coupon Discount</p>
+                <p>
+                  Coupon Discount{" "}
+                  <span style={{ fontSize: "12px" }}>({couponCode})</span>
+                </p>
                 <p>- ₹ {discount.toLocaleString("en-IN")}</p>
               </div>
             )}

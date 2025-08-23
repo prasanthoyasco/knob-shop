@@ -38,7 +38,7 @@ export const CartProvider = ({ children }) => {
   const addToCart = async (item) => {
     const storedUser = localStorage.getItem('authUser');
     const parsedUser = storedUser ? JSON.parse(storedUser) : null;
-    const userId = parsedUser?.id;
+    const userId = parsedUser?.id || parsedUser?._id;
   
     console.log("userId :", userId);
   

@@ -57,13 +57,14 @@ function LoginPage() {
       }
 
       // Save token and user
-      localStorage.setItem("token", res.token);
+      localStorage.setItem("authToken", res.token);
       setSuccessMsg("Login successful! Redirecting...");
 
       // Fetch full user by ID
       const fullUser = await getUserById(res.user.id);
       localStorage.setItem("authUser", JSON.stringify(fullUser.user));
       console.log("Full user data:", fullUser);
+      localStorage.getItem("authToken");
 
       setTimeout(() => {
         navigate("/"); // Redirect

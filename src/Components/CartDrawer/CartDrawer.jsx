@@ -29,13 +29,9 @@ const CartDrawer = ({
       item.variant?.[0]?.sizes?.[0]?.sellingPrice ||
       item.price ||
       0;
-  
+
     return sum + sellingPrice * (item.quantity || 1);
   }, 0);
-  
-  
-  
-  
 
   useEffect(() => {
     console.log("CartDrawer: cartItems updated", cartItems);
@@ -52,8 +48,8 @@ const CartDrawer = ({
           setRecommendedItems(filtered);
         } else {
           // Fetch all products if cart is empty
-          const response = await getAllProducts();
-          setRecommendedItems(response);
+          const response = await getAllProducts({ random: true, limit: 20 });
+          setRecommendedItems(response.data);
         }
       } catch (error) {
         console.error("Failed to fetch recommended items", error);
@@ -67,11 +63,10 @@ const CartDrawer = ({
   const handleIncrement = (id) => {
     updateCartItemQuantity(id, 1);
   };
-  
+
   const handleDecrement = (id) => {
     updateCartItemQuantity(id, -1);
   };
-
 
   return (
     <>
@@ -176,21 +171,27 @@ const CartDrawer = ({
                       </button>
                     </div>
                     <div className="quantity-box-cart-drawer">
-  <button
-    onClick={() => handleDecrement(item._id || item.id || item.productId?._id)}
-    disabled={item.quantity === 1}
-  >
-    -
-  </button>
-  <span>{item.quantity}</span>
-  <button
-    onClick={() => handleIncrement(item._id || item.id || item.productId?._id)}
-  >
-    +
-  </button>
-</div>
-
-
+                      <button
+                        onClick={() =>
+                          handleDecrement(
+                            item._id || item.id || item.productId?._id
+                          )
+                        }
+                        disabled={item.quantity === 1}
+                      >
+                        -
+                      </button>
+                      <span>{item.quantity}</span>
+                      <button
+                        onClick={() =>
+                          handleIncrement(
+                            item._id || item.id || item.productId?._id
+                          )
+                        }
+                      >
+                        +
+                      </button>
+                    </div>
                   </div>
                 </div>
               ))}
