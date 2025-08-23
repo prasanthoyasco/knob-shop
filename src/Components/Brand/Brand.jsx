@@ -4,6 +4,7 @@ import "./Brand.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useNavigate } from "react-router-dom";
+import archis from '../../Assets/Explore Our Product Range/Explore Our Product Range/Review/Archis_page-0001.jpg'
 import brand2 from '../../Assets/BrandLogos/dorset-logo.webp'
 import brand3 from '../../Assets/Logo/New folder/Dorma-removebg-preview.png'
 import brand4 from '../../Assets/Logo/New folder/Decor Point.png'
@@ -25,6 +26,7 @@ import faber from '../../Assets/Explore Our Product Range/Explore Our Product Ra
 import pankaj from '../../Assets/Explore Our Product Range/Explore Our Product Range/Review/Pankaj Logo.png'
 import { getAllProducts } from "../../API/productApi";
 const images = [
+  archis,
   brand2,
   brand3,
   brand4,
@@ -44,6 +46,7 @@ const images = [
 ];
 
 const brandData = [
+  { name: "Archis", image: archis, className: "archis-size" },
   { name: "Dorset", image: brand2, className: "dorset-size" },
   { name: "Dorma", image: brand3, className: "Dorma-size" },
   { name: "Decorpoint", image: brand4, className: "l2-black" },
