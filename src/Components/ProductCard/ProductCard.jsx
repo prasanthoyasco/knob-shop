@@ -81,14 +81,6 @@ const ProductCard = ({ product }) => {
         )
       : 0;
 
-  // function getCloudinaryTransformedUrl(url, width = 500, height = 500) {
-  //   if (!url?.includes("/upload/")) return url;
-
-  //   return url.replace(
-  //     /\/upload\/(v\d+\/)?/,
-  //     `/upload/w_${width},h_${height},c_pad,f_webp,q_auto:best,e_upscale,dpr_auto/$1`
-  //   );
-  // }
 
   return (
     <div className="card product-card h-100 position-relative cursor-pointer">

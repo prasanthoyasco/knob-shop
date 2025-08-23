@@ -1,15 +1,11 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
 import ProductCard from "../ProductCard/ProductCard";
 import "./TrendingProducts.css";
 import { useNavigate } from "react-router-dom";
 import { getAllProducts } from "../../API/productApi";
-import chair from "../../Assets/product-category/p1.jpg";
+import { getReviewsByProduct } from "../../API/reviewApi";
 import chair2 from "../../Assets/product-category/p6.jpg";
-import sofa from "../../Assets/product-category/p2.jpg";
-import sofa2 from "../../Assets/product-category/p3.jpg";
-import sofa3 from "../../Assets/product-category/p4.jpg";
-import bchair from "../../Assets/product-category/p3.jpg";
-import bchair1 from "../../Assets/product-category/p7.jpg";
 
 const tabs = [
   "All Products",
@@ -18,74 +14,17 @@ const tabs = [
   "Featured Products",
 ];
 
-const productsDefault = [
-  {
-    id: 1,
-    title: "Door Knob",
-    price: 22490,
-    oldPrice: 23599,
-    discount: 5,
-    rating: 4.9,
-    image: bchair,
-    icons: [
-      { name: "Card Key", imgUrl: "/product-icon/card_key.svg" },
-      { name: "Pin Code", imgUrl: "/product-icon/pin_code.svg" },
-      { name: "Fingerprint", imgUrl: "/product-icon/fingerprint.svg" },
-      { name: "Machnic Key", imgUrl: "/product-icon/machnic_key.svg" },
-    ],
-    hoverImage: bchair1,
-  },
-  {
-    id: 3,
-    title: "Safty Locker",
-    price: 9490,
-    oldPrice: 17997,
-    discount: 47,
-    rating: 4.9,
-    image: chair,
-    hoverImage: chair2,
-  },
-  {
-    id: 4,
-    title: "Door Hinje",
-    price: 12290,
-    oldPrice: 14412,
-    discount: 15,
-    rating: 4.8,
-    image: sofa3,
-    hoverImage: sofa3,
-  },
-  {
-    id: 2,
-    title: "Knobs- Door Knob",
-    price: 16290,
-    oldPrice: 19412,
-    discount: 25,
-    rating: 4.9,
-    icons: [
-      { name: "Card Key", imgUrl: "/product-icon/card_key.svg" },
-      { name: "Pin Code", imgUrl: "/product-icon/pin_code.svg" },
-      { name: "Fingerprint", imgUrl: "/product-icon/fingerprint.svg" },
-      { name: "Machnic Key", imgUrl: "/product-icon/machnic_key.svg" },
-    ],
-    image: sofa2,
-    hoverImage: sofa,
-  },
-  {
-    id: 5,
-    title: "Knobs",
-    price: 19490,
-    oldPrice: 23997,
-    discount: 19,
-    rating: 4.9,
-    image: sofa,
-    hoverImage: sofa2,
-  },
-];
+// helper: deterministic "random" index generator
+function seededRandom(seed, max) {
+  let h = 0;
+  for (let i = 0; i < seed.length; i++) {
+    h = (Math.imul(31, h) + seed.charCodeAt(i)) | 0;
+  }
+  return Math.abs(h) % max;
+}
 
 const TrendingProducts = () => {
   const [activeTab, setActiveTab] = useState("All Products");
-  const [products, setProducts] = useState([]);
   const scrollRef = useRef(null);
   const autoScrollRef = useRef(null);
   const isDragging = useRef(false);
@@ -93,89 +32,89 @@ const TrendingProducts = () => {
   const scrollLeft = useRef(0);
   const navigate = useNavigate();
 
-  const fetchProducts = async () => {
-    try {
-      const data = await getAllProducts();
-      // console.log("data from trending products:", data);
-      setProducts(data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  // ✅ React Query for products
+  const {
+    data: products = [],
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ["products", { random: true, limit: 60 }],
+    queryFn: async () => {
+      const response = await getAllProducts({ random: true, limit: 60 });
+      const { data } = response;
 
-  useEffect(() => {
-    fetchProducts();
-  }, []);
+      // Fetch ratings for each product
+      return Promise.all(
+        data.map(async (product) => {
+          try {
+            const reviews = await getReviewsByProduct(product._id);
+            const sum = reviews.reduce((acc, r) => acc + (r.rating || 0), 0);
+            const avg =
+              reviews.length > 0 ? (sum / reviews.length).toFixed(1) : 0;
+            return { ...product, avgRating: avg };
+          } catch {
+            return { ...product, avgRating: 0 };
+          }
+        })
+      );
+    },
+  });
+
+  const handleTabChange = (tab) => setActiveTab(tab);
 
   const getFilteredProducts = () => {
-    const actualProducts = products.length === 0 ? productsDefault : products;
+    if (!products.length) return [];
 
-    // Group products by categoryId
+    // Group by categoryId
     const categoryMap = {};
-    actualProducts.forEach((product) => {
-      const categoryId = product.categoryId || product.category || "Others";
+    products.forEach((product) => {
+      const categoryId = product.category?._id || "Others";
       if (!categoryMap[categoryId]) {
         categoryMap[categoryId] = [];
       }
       categoryMap[categoryId].push(product);
     });
 
-    // Shuffle each category's product list
-    Object.keys(categoryMap).forEach((categoryId) => {
-      categoryMap[categoryId] = categoryMap[categoryId].sort(
-        () => Math.random() - 0.5
-      );
-    });
+    // Deterministic daily seed
+    const today = new Date().toISOString().split("T")[0];
 
-    // Round-robin merge: pick one from each category until all are empty
-    const mergedList = [];
-    let productsRemaining = true;
-    while (productsRemaining) {
-      productsRemaining = false;
-      for (const categoryId of Object.keys(categoryMap)) {
-        if (categoryMap[categoryId].length > 0) {
-          mergedList.push(categoryMap[categoryId].shift());
-          productsRemaining = true;
-        }
-      }
-    }
+    // Pick one product per category
+    const onePerCategory = Object.keys(categoryMap).map((categoryId) => {
+      const items = categoryMap[categoryId];
+      const idx = seededRandom(today + categoryId, items.length);
+      return items[idx];
+    });
 
     switch (activeTab) {
       case "Latest Products":
-        return [...mergedList]
-          .sort(
-            (a, b) =>
-              new Date(b.createdAt || Date.now()) -
-              new Date(a.createdAt || Date.now())
-          )
+        return onePerCategory
+          .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
           .slice(0, 10);
-
       case "Best Sellers":
-        return mergedList.filter(
-          (product) => product.variant[0].sizes[0].sellingPrice > 10000
+        return onePerCategory.filter(
+          (product) => product.variant?.[0]?.sizes?.[0]?.sellingPrice > 10000
         );
-
       case "Featured Products":
-        return mergedList.filter(
-          (product) => product.discount || product.discount?.isActive
+        return onePerCategory.filter(
+          (product) => product.discount?.isActive || product.discount
         );
-
       default:
-        return mergedList;
+        return onePerCategory;
     }
   };
 
   const handleViewAll = () => {
-    const actualProducts = products.length === 0 ? productsDefault : products;
     navigate("/category/all-products", {
       state: {
         product: {
-          productList: actualProducts,
+          productList: products,
           text: "All Products",
         },
       },
     });
   };
+
+  // auto-scroll carousel
   const startAutoScroll = () => {
     const container = scrollRef.current;
     if (!container) return;
@@ -186,13 +125,10 @@ const TrendingProducts = () => {
 
     autoScrollRef.current = setInterval(() => {
       if (!container) return;
-
       scrollAmount += cardWidth + gap;
-
       if (scrollAmount >= container.scrollWidth - container.clientWidth) {
         scrollAmount = 0;
       }
-
       container.scrollTo({ left: scrollAmount, behavior: "smooth" });
     }, 2000);
   };
@@ -206,7 +142,7 @@ const TrendingProducts = () => {
     isDragging.current = true;
     startPos.current = e.pageX - scrollRef.current.offsetLeft;
     scrollLeft.current = scrollRef.current.scrollLeft;
-    clearInterval(autoScrollRef.current); // Stop auto-scroll on drag
+    clearInterval(autoScrollRef.current);
     scrollRef.current.classList.add("dragging");
   };
 
@@ -214,13 +150,13 @@ const TrendingProducts = () => {
     if (!isDragging.current) return;
     e.preventDefault();
     const x = e.pageX - scrollRef.current.offsetLeft;
-    const walk = (x - startPos.current) * 2; // Adjust multiplier for drag speed
+    const walk = (x - startPos.current) * 2;
     scrollRef.current.scrollLeft = scrollLeft.current - walk;
   };
 
   const onMouseUp = () => {
     isDragging.current = false;
-    startAutoScroll(); // Resume auto-scroll after drag ends
+    startAutoScroll();
     scrollRef.current.classList.remove("dragging");
   };
 
@@ -228,20 +164,26 @@ const TrendingProducts = () => {
     if (isDragging.current) {
       isDragging.current = false;
       scrollRef.current.classList.remove("dragging");
-      startAutoScroll(); // Resume auto-scroll if mouse leaves while dragging
+      startAutoScroll();
     }
   };
+
+  if (isLoading) {
+    return <div className="text-center py-10"></div>;
+  }
+
+  if (isError) {
+    return <div className="text-center py-10 text-red-500">Failed to load products</div>;
+  }
 
   return (
     <section className="container-fluied mx-4 py-5 trending-products">
       <div className="row mb-4">
         <div className="col-md-12">
-          <div className="">
-            <div className="d-flex flex-column align-items-center mb-3 text-center">
-              <h2 className="h5 text-uppercase fw-semibold product-head">
-                <div className="section-line me-2"></div> Our Products
-              </h2>
-            </div>
+          <div className="d-flex flex-column align-items-center mb-3 text-center">
+            <h2 className="h5 text-uppercase fw-semibold product-head">
+              <div className="section-line me-2"></div> Our Products
+            </h2>
           </div>
 
           <ul className="custom-tabs mb-4">
@@ -249,7 +191,7 @@ const TrendingProducts = () => {
               <li className="nav-item" key={tab}>
                 <button
                   className={`nav-link ${activeTab === tab ? "active" : ""}`}
-                  onClick={() => setActiveTab(tab)}
+                  onClick={() => handleTabChange(tab)}
                 >
                   {tab}
                 </button>
@@ -277,6 +219,7 @@ const TrendingProducts = () => {
                   key_features,
                   discount,
                   features,
+                  avgRating,
                 } = product;
 
                 const transformedProduct = {
@@ -285,9 +228,9 @@ const TrendingProducts = () => {
                   price: price || 0,
                   oldPrice: compare_price || price || 0,
                   discount: discount?.isActive ? discount.value : "",
-                  rating: 4.9, // or product.rating if available from backend
-                  variant: variant, // fallback image
-                  hoverImage: images?.[1] || images?.[0] || chair2, // fallback
+                  rating: avgRating,
+                  variant: variant,
+                  hoverImage: images?.[1] || images?.[0] || chair2,
                   features: features || [],
                   icons: key_features,
                 };
@@ -302,7 +245,6 @@ const TrendingProducts = () => {
           </div>
           <div className="d-flex align-items-center justify-content-center mt-3">
             <button className="ctn btn-animation" onClick={handleViewAll}>
-              {" "}
               view All Products
             </button>
           </div>

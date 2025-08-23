@@ -60,18 +60,19 @@ import cat7 from '../Assets/New folder/New folder/7.png'
 import cat8 from '../Assets/CategoriesImge/Knob Shop/sec-2.png'
 import cat10 from '../Assets/CategoriesImge/Knob Shop/Hexa bolt.png'
 import cat9 from '../Assets/CategoriesImge/Knob Shop/black-rim.png'
-import aldrops from '../Assets/New folder/New folder/aldrops.png'
+import aldrops from '../Assets/Explore Our Product Range/Explore Our Product Range/Logos/Aldrop (1).png'
 import Crystal from '../Assets/New folder/New folder/Crystal Collection.png'
 import DoorCloser from '../Assets/New folder/New folder/Door Closer.png'
-import DoorStopper from '../Assets/New folder/New folder/Door Stopper.png'
-import hinges from '../Assets/New folder/New folder/hinges.png'
+import DoorStopper from '../Assets/Explore Our Product Range/Explore Our Product Range/Logos/Door_stopper.png'
+import hinges from '../Assets/Explore Our Product Range/Explore Our Product Range/Logos/Hinges(02).png'
 import lockcollections from '../Assets/New folder/New folder/lock collections.png'
-import Rimlock from '../Assets/New folder/New folder/Rimlock.png'
+import Rimlock from '../Assets/Explore Our Product Range/Explore Our Product Range/Logos/Rim_lock(01).png'
 import sofalegs from '../Assets/New folder/New folder/sofa legs.png'
-import Telescopic from '../Assets/New folder/New folder/Telescopic.png'
+import Telescopic from '../Assets/Explore Our Product Range/Explore Our Product Range/Logos/Telescopic(1).png'
 import Brackets from '../Assets/New folder/New folder/Brackets.png'
 import hooks from '../Assets/New folder/New folder/hooks.png'
-import Tower from '../Assets/New folder/New folder/Tower Bolt.png'
+import doorKnoker from '../Assets/Explore Our Product Range/Explore Our Product Range/Logos/Door knockers.jpg'
+import Tower from '../Assets/Explore Our Product Range/Explore Our Product Range/Logos/Tower_bolt.png'
 export const Home = () => {
   const [categories, setCategories] = useState([]);
   const categoryImageMap = {
@@ -88,6 +89,8 @@ export const Home = () => {
     "Crystal collections":Crystal,
     "Lock collections":lockcollections,
     "Tower Bolt":Tower,
+    "Door Knocker":doorKnoker,
+    
   };
   
   const TARGET_CATEGORY_NAMES = [
@@ -103,7 +106,8 @@ export const Home = () => {
     "Hooks",
     "Brackets",
     "Crystal collections",
-    "Lock collections"
+    "Lock collections",
+    "Door Knocker",
   ];
   useEffect(() => {
     const getSelectedCategories = async () => {
@@ -432,7 +436,7 @@ export const Home = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const timeout = setTimeout(() => setLoading(false), 1000);
+    const timeout = setTimeout(() => setLoading(false), 5000);
     return () => clearTimeout(timeout);
   }, []);
 
