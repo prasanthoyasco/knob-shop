@@ -1,28 +1,45 @@
 import React, { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import ProductCard from "../ProductCard/ProductCard";
-import { getAllProducts } from "../../API/productApi";
-const RelatedProductsSection = () => {
+import { fetchProductsByCategory, getAllProducts } from "../../API/productApi";
+
+const RelatedProductsSection = ({ categoryId }) => {
+  console.log(categoryId)
   const sliderRef = React.useRef(null);
-  const [Loading,setLoading] = useState(false)
-  const [allProduct, setAllProduct] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [relatedProducts, setRelatedProducts] = useState([]);
 
   useEffect(() => {
-    const fetchAllProduct = async () => {
-      setLoading(true)
+    const fetchRelatedProducts = async () => {
+      setLoading(true);
       try {
-        const res = await getAllProducts();
-        const { data } = res;
-        setAllProduct(data)
+        // Step 1: Check if a categoryId is provided
+        if (categoryId) {
+          // Step 2: Fetch products directly by category ID
+          const allProductsResponse = await fetchProductsByCategory(categoryId);
+          setRelatedProducts(allProductsResponse.data);
+        } else {
+          // Fallback: If no categoryId is provided, fetch a random set of products
+          const randomProductsResponse = await getAllProducts({ random: true, limit: 10 });
+          setRelatedProducts(randomProductsResponse.data);
+        }
       } catch (err) {
-        console.error("Failed to fetch product", err);
-      }finally{
-        setLoading(false)
+        console.error("Failed to fetch related products", err);
+        // Fallback to random products on error
+        try {
+          const randomProductsResponse = await getAllProducts({ random: true, limit: 10 });
+          setRelatedProducts(randomProductsResponse.data);
+        } catch (fallbackErr) {
+          console.error("Failed to fetch fallback products", fallbackErr);
+        }
+      } finally {
+        setLoading(false);
       }
     };
 
-    fetchAllProduct();
-  }, []);
+    fetchRelatedProducts();
+  }, [categoryId]); // The effect now re-runs when the categoryId changes
+
   const scrollLeft = () => {
     sliderRef.current.scrollBy({ left: -300, behavior: "smooth" });
   };
@@ -30,8 +47,9 @@ const RelatedProductsSection = () => {
   const scrollRight = () => {
     sliderRef.current.scrollBy({ left: 300, behavior: "smooth" });
   };
-  if(Loading){
-    return(<></>)
+
+  if (loading) {
+    return <></>;
   }
 
   return (
@@ -49,10 +67,10 @@ const RelatedProductsSection = () => {
             height: "50px",
             width: "50px",
             left: 10,
-            backgroundColor:"black",
+            backgroundColor: "black",
           }}
         >
-          <ChevronLeft size={30} color="white"/>
+          <ChevronLeft size={30} color="white" />
         </button>
 
         {/* Scrollable Row */}
@@ -65,7 +83,7 @@ const RelatedProductsSection = () => {
             msOverflowStyle: "none",
           }}
         >
-          {allProduct?.map((product, i) => {
+          {relatedProducts?.map((product, i) => {
             const hasKeyFeatures = Array.isArray(product?.key_features) && product.key_features.length > 0;
             const formattedProduct = {
               id: product?._id,
@@ -74,7 +92,7 @@ const RelatedProductsSection = () => {
               oldPrice: product?.compare_price,
               variant: product.variant,
               discount: product?.discount?.value,
-              rating: product?.rating ?? 4.5, 
+              rating: product?.avgRating ?? 4.5,
               image: product?.images?.[0],
               ...(hasKeyFeatures && { icons: product.key_features }),
               hoverImage: product.images?.[1] || product.images?.[0],
@@ -98,10 +116,10 @@ const RelatedProductsSection = () => {
             height: "50px",
             width: "50px",
             right: 10,
-            backgroundColor:"black",
+            backgroundColor: "black",
           }}
         >
-          <ChevronRight size={30} color="white"/>
+          <ChevronRight size={30} color="white" />
         </button>
       </div>
     </div>

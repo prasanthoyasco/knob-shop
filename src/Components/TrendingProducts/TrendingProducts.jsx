@@ -4,7 +4,6 @@ import ProductCard from "../ProductCard/ProductCard";
 import "./TrendingProducts.css";
 import { useNavigate } from "react-router-dom";
 import { getAllProducts } from "../../API/productApi";
-import { getReviewsByProduct } from "../../API/reviewApi";
 import chair2 from "../../Assets/product-category/p6.jpg";
 
 const tabs = [
@@ -32,7 +31,7 @@ const TrendingProducts = () => {
   const scrollLeft = useRef(0);
   const navigate = useNavigate();
 
-  // ✅ React Query for products
+  // ✅ Updated React Query hook
   const {
     data: products = [],
     isLoading,
@@ -40,24 +39,11 @@ const TrendingProducts = () => {
   } = useQuery({
     queryKey: ["products", { random: true, limit: 60 }],
     queryFn: async () => {
+      // The backend now handles the avgRating, so we can remove the extra API calls
       const response = await getAllProducts({ random: true, limit: 60 });
-      const { data } = response;
-
-      // Fetch ratings for each product
-      return Promise.all(
-        data.map(async (product) => {
-          try {
-            const reviews = await getReviewsByProduct(product._id);
-            const sum = reviews.reduce((acc, r) => acc + (r.rating || 0), 0);
-            const avg =
-              reviews.length > 0 ? (sum / reviews.length).toFixed(1) : 0;
-            return { ...product, avgRating: avg };
-          } catch {
-            return { ...product, avgRating: 0 };
-          }
-        })
-      );
+      return response.data;
     },
+    staleTime: 1000 * 60 * 5, // 5 minutes
   });
 
   const handleTabChange = (tab) => setActiveTab(tab);
