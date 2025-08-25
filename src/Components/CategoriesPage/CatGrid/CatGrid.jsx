@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./CatGrid.css";
-import { useNavigate,useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { fetchCategories } from "../../../API/categoriesApi";
 import { RetryableImage } from "./RetryableImage";
 
@@ -13,9 +13,9 @@ function CatGrid() {
   const passedAllData = location.state?.allProducts || null;
   const passedCategoryData = location.state?.category || null;
   const passedTitle = location.state?.title || null;
-  
+
   useEffect(() => {
-      const filterCategories = (list) => list.filter(item => !item.subpageType);
+    const filterCategories = (list) => list.filter((item) => !item.subpageType);
     if (passedAllData) {
       const formatted = passedAllData.map((item, index) => ({
         _id: `${passedTitle}-${index}`,
@@ -24,17 +24,12 @@ function CatGrid() {
         categoryImageUrl: item.bgImage,
         categoryList: item.category?.length ? item.category : null,
       }));
-       const filtered = filterCategories(formatted);
-      setAllProducts(filtered);      // save all data
-      setCategories(filtered);       // show full data initially
+      const filtered = filterCategories(formatted);
+      setAllProducts(filtered); // save all data
+      setCategories(filtered); // show full data initially
       setLoading(false);
     } else if (passedCategoryData) {
-      const formatted = passedCategoryData.map((item, index) => ({
-        _id: `${passedTitle}-${index}`,
-        category_name: item.catgoryName,
-        description: item.description,
-        categoryImageUrl: item.image,
-      }));
+      const formatted = passedCategoryData
       setCategories(filterCategories(formatted));
       setLoading(false);
     } else {
@@ -132,7 +127,7 @@ function CatGrid() {
     renderSkeletons()
   ) : (
     <div className="cat-data-grid-wrapper">
-            {allProducts.length > 0 && allProducts.length !== categories.length && (
+      {allProducts.length > 0 && allProducts.length !== categories.length && (
         <div className="text-center my-3">
           <button className="btn btn-outline-dark" onClick={handleReset}>
             ← Back to All Products
@@ -151,8 +146,10 @@ function CatGrid() {
                     : ""
                 }`}
                 onClick={() =>
-                  data.categoryList ? handleFilterCategory(data) : handleClick(data)
-                }                
+                  data.categoryList
+                    ? handleFilterCategory(data)
+                    : handleClick(data)
+                }
               >
                 <div className="cat-data-image-wrapper">
                   <RetryableImage
