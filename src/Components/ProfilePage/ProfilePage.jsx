@@ -14,7 +14,7 @@ function ProfilePage() {
    const location = useLocation();
   const [activeSection, setActiveSection] = useState('personal');
   const storedUser = localStorage.getItem("authUser");
-  const userId = storedUser.id || JSON.parse(storedUser).id || storedUser._id; 
+  const userId = storedUser.id || JSON.parse(storedUser)._id || storedUser._id; 
   console.log("User ID:", userId);
   useEffect(() => {
     if (location.state?.section) {

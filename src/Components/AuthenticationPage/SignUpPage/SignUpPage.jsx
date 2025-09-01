@@ -166,7 +166,7 @@ function SignUpPage() {
   }
 };
  if (verified) {
-  return <VerificationSuccess onComplete={() => navigate("/")} />;
+  return <VerificationSuccess onComplete={() => navigate(-1)} />;
 }
 
   return (

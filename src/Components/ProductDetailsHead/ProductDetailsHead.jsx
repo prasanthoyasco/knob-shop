@@ -227,7 +227,7 @@ export default function ProductDetailsHead() {
 
   return (
     <>
-      <div className="container-fluid pt-4 px-3 px-md-5">
+      <div className="container-fluid pt-4 px-3 mx-3 px-md-5">
         {/* Breadcrumb */}
         <nav className="breadcrumb mb-4 small">
           <span className="breadcrumb-item" onClick={() => navigate("/")}>
@@ -267,9 +267,9 @@ export default function ProductDetailsHead() {
             {/* Details */}
             <div className="col-12 col-md-6">
               <div className="d-flex justify-content-between align-items-center mb-3 mb-md-2">
-                <p className="text-muted fw-medium mb-0 d-flex gap-2">
-                  <strong>Brand :</strong> {cartItem.brand}{" "}
-                  <strong> SKU :</strong> {cartItem.sku}
+                <p className="text-muted fw-medium mb-0 d-flex gap-2 flex-wrap">
+                  <div className="inline"><strong>Brand :</strong> {cartItem.brand}{" "}</div>
+                  <div className="inline"><strong> SKU :</strong> {cartItem.sku}</div>
                 </p>
                 <div className="d-flex gap-3">
                   <div className="d-flex gap-3 align-items-center">

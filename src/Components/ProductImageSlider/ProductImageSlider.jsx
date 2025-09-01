@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   ChevronDown,
   ChevronLeft,
@@ -13,14 +13,17 @@ const ProductImageSlider = ({ images: propImages = [], fetchById = true }) => {
   const [product, setProduct] = useState(null);
   const [imageLoading, setImageLoading] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
-  // const thumbnailRefs = useRef([]);
+  const thumbnailRefs = useRef([]);
+    const intervalRef = useRef(null);
 
   // Optional: Only fetch from API if fetchById is true
   useEffect(() => {
     const fetchProduct = async () => {
       if (!fetchById) return;
 
-      const { id } = await import("react-router-dom").then((mod) => mod.useParams());
+      const { id } = await import("react-router-dom").then((mod) =>
+        mod.useParams()
+      );
       const { getProductById } = await import("../../API/productApi");
 
       try {
@@ -45,24 +48,41 @@ const ProductImageSlider = ({ images: propImages = [], fetchById = true }) => {
       : [];
 
   // Scroll active thumbnail into view
-  // useEffect(() => {
-  //   // Reset to first image when images change
-  //   setCurrentIndex(0);
-  // }, [imageList]);
+  useEffect(() => {
+    // Reset to first image when images change
+    setCurrentIndex(0);
+  }, [images]);
 
-  // const handleThumbnailClick = (index) => {
-  //   setCurrentIndex(index);
-  //   thumbnailRefs.current[index]?.scrollIntoView({
-  //     behavior: "smooth",
-  //     inline: "center",
-  //   });
-  // };
+  const handleThumbnailClick = (index) => {
+    setCurrentIndex(index);
+    thumbnailRefs.current[index]?.scrollIntoView({
+      behavior: "smooth",
+      inline: "center",
+    });
+  };
 
   const handlePrev = () =>
     setCurrentIndex((prev) => (prev > 0 ? prev - 1 : images.length - 1));
   const handleNext = () =>
     setCurrentIndex((prev) => (prev < images.length - 1 ? prev + 1 : 0));
+useEffect(() => {
+    startAutoSlide();
+    return stopAutoSlide; // cleanup
+  }, []);
 
+  const startAutoSlide = () => {
+    if (intervalRef.current) return; // prevent multiple timers
+    intervalRef.current = setInterval(() => {
+      handleNext();
+    }, 3000); // 3s per slide
+  };
+
+  const stopAutoSlide = () => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+    }
+  };
   const swipeHandlers = useSwipeable({
     onSwipedLeft: handleNext,
     onSwipedRight: handlePrev,
@@ -70,17 +90,14 @@ const ProductImageSlider = ({ images: propImages = [], fetchById = true }) => {
     trackMouse: true,
   });
 
-  const getTransformedImageUrl = (url, width = 700, height = 700) => {
-  if (!url?.includes("/upload/")) return url;
+  // const getTransformedImageUrl = (url, width = 700, height = 700) => {
+  //   if (!url?.includes("/upload/")) return url;
 
-  return url.replace(
-    /\/upload\/(v\d+\/)?/,
-    `/upload/w_${width},h_${height},c_pad,b_white,q_auto:best,e_upscale,f_auto,dpr_auto/$1`
-  );
-};
-
-
-
+  //   return url.replace(
+  //     /\/upload\/(v\d+\/)?/,
+  //     `/upload/w_${width},h_${height},c_pad,b_white,q_auto:best,e_upscale,f_auto,dpr_auto/$1`
+  //   );
+  // };
 
   return (
     <div className="d-flex flex-column-reverse flex-md-row gap-3 position-relative">
@@ -109,7 +126,7 @@ const ProductImageSlider = ({ images: propImages = [], fetchById = true }) => {
             overflowY: "auto",
           }}
         >
-          {imageList.map((img, i) => (
+          {images.map((img, i) => (
             <img
               key={i}
               ref={(el) => (thumbnailRefs.current[i] = el)}
@@ -141,58 +158,39 @@ const ProductImageSlider = ({ images: propImages = [], fetchById = true }) => {
       </div> */}
 
       {/* Main Image */}
-      <div
-        className="product-image position-relative text-center"
-        {...swipeHandlers}
-      >
-        {imageLoading && (
-          <div
-            className="position-absolute top-0 start-0 mx-auto w-100 h-100 d-flex align-items-center justify-content-center bg-light"
-            style={{ zIndex: 1 }}
-          >
-            <span className="spinner-border text-secondary" role="status"></span>
-          </div>
-        )}
-        <img
-          src={getTransformedImageUrl(images[currentIndex]?.url)}
-          alt="Main Product"
-          className="img-fluid main-image"
-          onLoad={() => setImageLoading(false)}
-          onError={() => setImageLoading(false)}
-          style={{
-            border: "1px solid #ccc",
-            borderRadius: "4px",
-            height:'600px',
-            maxHeight: "700px",
-            objectFit: "contain",
-            width: "100vh",
-          }}
-        />
-        <button
-          onClick={handlePrev}
-          className="btn border-0 position-absolute p-2 top-50 translate-middle-y"
-          style={{
-            zIndex: 2,
-            left: "10px",
-            background: "#ffffff6b",
-            borderRadius: 0,
-          }}
+       <div
+      className="product-image-wrapper position-relative text-center"
+      {...swipeHandlers}
+      onMouseEnter={stopAutoSlide} // pause on hover
+      onMouseLeave={startAutoSlide} // resume on leave
+    >
+      {imageLoading && (
+        <div
+          className="position-absolute top-0 start-0 mx-auto w-100 h-100 d-flex align-items-center justify-content-center bg-light"
+          style={{ zIndex: 1 }}
         >
-          <ChevronLeft size={20} />
-        </button>
-        <button
-          onClick={handleNext}
-          className="btn border-0 position-absolute p-2 top-50 translate-middle-y"
-          style={{
-            zIndex: 2,
-            right: "10px",
-            background: "#ffffff6b",
-            borderRadius: 0,
-          }}
-        >
-          <ChevronRight size={20} />
-        </button>
-      </div>
+          <span className="spinner-border text-secondary" role="status"></span>
+        </div>
+      )}
+
+      <img
+        src={images[currentIndex]?.url}
+        alt="Main Product"
+        className="img-fluid main-image"
+        onLoad={() => setImageLoading(false)}
+        onError={() => setImageLoading(false)}
+      />
+
+      {/* Left Arrow */}
+      <button onClick={handlePrev} className="arrow-btn left-arrow">
+        <ChevronLeft size={20} />
+      </button>
+
+      {/* Right Arrow */}
+      <button onClick={handleNext} className="arrow-btn right-arrow">
+        <ChevronRight size={20} />
+      </button>
+    </div>
     </div>
   );
 };

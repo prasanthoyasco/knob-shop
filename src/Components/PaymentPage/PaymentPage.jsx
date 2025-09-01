@@ -8,203 +8,10 @@ import { createOrderWithShipping } from "../../API/orderApi";
 import { initiateTransaction } from "../../API/paymentApi";
 import Confetti from "react-confetti";
 import StoreLocator from "./StoreLocator";
+import happyAnim from "../../Assets/CategoriesImge/Knob Shop/heart.json";
 import { getAvailableCoupons, validateCoupon } from "../../API/CouponApi";
-const countries = [
-  "Afghanistan",
-  "Albania",
-  "Algeria",
-  "Andorra",
-  "Angola",
-  "Antigua and Barbuda",
-  "Argentina",
-  "Armenia",
-  "Australia",
-  "Austria",
-  "Azerbaijan",
-  "Bahamas",
-  "Bahrain",
-  "Bangladesh",
-  "Barbados",
-  "Belarus",
-  "Belgium",
-  "Belize",
-  "Benin",
-  "Bhutan",
-  "Bolivia",
-  "Bosnia and Herzegovina",
-  "Botswana",
-  "Brazil",
-  "Brunei",
-  "Bulgaria",
-  "Burkina Faso",
-  "Burundi",
-  "Cabo Verde",
-  "Cambodia",
-  "Cameroon",
-  "Canada",
-  "Central African Republic",
-  "Chad",
-  "Chile",
-  "China",
-  "Colombia",
-  "Comoros",
-  "Congo (Congo-Brazzaville)",
-  "Costa Rica",
-  "Croatia",
-  "Cuba",
-  "Cyprus",
-  "Czechia",
-  "Democratic Republic of the Congo",
-  "Denmark",
-  "Djibouti",
-  "Dominica",
-  "Dominican Republic",
-  "Ecuador",
-  "Egypt",
-  "El Salvador",
-  "Equatorial Guinea",
-  "Eritrea",
-  "Estonia",
-  "Eswatini",
-  "Ethiopia",
-  "Fiji",
-  "Finland",
-  "France",
-  "Gabon",
-  "Gambia",
-  "Georgia",
-  "Germany",
-  "Ghana",
-  "Greece",
-  "Grenada",
-  "Guatemala",
-  "Guinea",
-  "Guinea-Bissau",
-  "Guyana",
-  "Haiti",
-  "Honduras",
-  "Hungary",
-  "Iceland",
-  "India",
-  "Indonesia",
-  "Iran",
-  "Iraq",
-  "Ireland",
-  "Israel",
-  "Italy",
-  "Jamaica",
-  "Japan",
-  "Jordan",
-  "Kazakhstan",
-  "Kenya",
-  "Kiribati",
-  "Kuwait",
-  "Kyrgyzstan",
-  "Laos",
-  "Latvia",
-  "Lebanon",
-  "Lesotho",
-  "Liberia",
-  "Libya",
-  "Liechtenstein",
-  "Lithuania",
-  "Luxembourg",
-  "Madagascar",
-  "Malawi",
-  "Malaysia",
-  "Maldives",
-  "Mali",
-  "Malta",
-  "Marshall Islands",
-  "Mauritania",
-  "Mauritius",
-  "Mexico",
-  "Micronesia",
-  "Moldova",
-  "Monaco",
-  "Mongolia",
-  "Montenegro",
-  "Morocco",
-  "Mozambique",
-  "Myanmar (Burma)",
-  "Namibia",
-  "Nauru",
-  "Nepal",
-  "Netherlands",
-  "New Zealand",
-  "Nicaragua",
-  "Niger",
-  "Nigeria",
-  "North Korea",
-  "North Macedonia",
-  "Norway",
-  "Oman",
-  "Pakistan",
-  "Palau",
-  "Palestine State",
-  "Panama",
-  "Papua New Guinea",
-  "Paraguay",
-  "Peru",
-  "Philippines",
-  "Poland",
-  "Portugal",
-  "Qatar",
-  "Romania",
-  "Russia",
-  "Rwanda",
-  "Saint Kitts and Nevis",
-  "Saint Lucia",
-  "Saint Vincent and the Grenadines",
-  "Samoa",
-  "San Marino",
-  "Sao Tome and Principe",
-  "Saudi Arabia",
-  "Senegal",
-  "Serbia",
-  "Seychelles",
-  "Sierra Leone",
-  "Singapore",
-  "Slovakia",
-  "Slovenia",
-  "Solomon Islands",
-  "Somalia",
-  "South Africa",
-  "South Korea",
-  "South Sudan",
-  "Spain",
-  "Sri Lanka",
-  "Sudan",
-  "Suriname",
-  "Sweden",
-  "Switzerland",
-  "Syria",
-  "Tajikistan",
-  "Tanzania",
-  "Thailand",
-  "Timor-Leste",
-  "Togo",
-  "Tonga",
-  "Trinidad and Tobago",
-  "Tunisia",
-  "Turkey",
-  "Turkmenistan",
-  "Tuvalu",
-  "Uganda",
-  "Ukraine",
-  "United Arab Emirates",
-  "United Kingdom",
-  "United States of America",
-  "Uruguay",
-  "Uzbekistan",
-  "Vanuatu",
-  "Vatican City",
-  "Venezuela",
-  "Vietnam",
-  "Yemen",
-  "Zambia",
-  "Zimbabwe",
-];
+import Lottie from "lottie-react";
+import { getAddressByUserId } from "../../API/addressApi";
 const indianStates = [
   "Andhra Pradesh",
   "Arunachal Pradesh",
@@ -297,6 +104,7 @@ function PaymentPage() {
   const [paying, setPaying] = useState(false);
 
   const [showFields, setShowFields] = useState(false);
+  const [Applying, setApplying] = useState(false);
   const [gstNumber, setGstNumber] = useState("");
   const [companyName, setCompanyName] = useState("");
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
@@ -304,6 +112,7 @@ function PaymentPage() {
   const location = useLocation();
   const cartItems = location.state?.cartItems || [];
   const navigate = useNavigate();
+
 
   const handleCheckboxChange = (e) => {
     setShowFields(e.target.checked);
@@ -320,8 +129,28 @@ function PaymentPage() {
   );
 
   useEffect(() => {
-    getAvailableCoupons().then(setAvailableCoupons).catch(console.error);
-  }, []);
+    getAvailableCoupons()
+      .then((coupons) => {
+        console.log(coupons);
+        const filteredCoupons = coupons.filter((coupon) => {
+          if (coupon.appliesTo === "all") return true;
+
+          if (coupon.appliesTo === "single" && coupon.productId) {
+            return cartItems.some((item) => {
+              const itemId =
+                item._id || item.id || item?.productId || item?.productId?._id;
+
+              return String(itemId) === String(coupon.productId);
+            });
+          }
+          return false;
+        });
+
+        setAvailableCoupons(filteredCoupons);
+      })
+      .catch(console.error);
+  }, [cartItems]);
+
   useEffect(() => {
     if (storedUser) {
       setContactInfo(storedUser.email || "");
@@ -348,6 +177,7 @@ function PaymentPage() {
   ]);
 
   const applyCoupon = async (coupon) => {
+    setApplying(true);
     if (!Userid) {
       const storedUser = JSON.parse(localStorage.getItem("authUser"));
       Userid = storedUser.id || storedUser._id;
@@ -367,7 +197,10 @@ function PaymentPage() {
       setShowSuccessPopup(true);
       setTimeout(() => setShowSuccessPopup(false), 15000);
     } catch (err) {
+      console.log(err);
       alert("Coupon error");
+    } finally {
+      setApplying(false);
     }
   };
 
@@ -601,16 +434,64 @@ function PaymentPage() {
             left: 0,
             width: "100vw",
             height: "100vh",
-            pointerEvents: "none", // so clicks pass through
-            zIndex: 2000, // above everything else
+            background: "rgba(0,0,0,0.4)", // dark backdrop
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            zIndex: 2000,
           }}
         >
+          {/* Confetti background */}
           <Confetti
-            numberOfPieces={400}
+            numberOfPieces={300}
             width={window.innerWidth}
             height={window.innerHeight}
             recycle={false}
           />
+
+          {/* Popup card */}
+          <div
+            style={{
+              background: "#fff",
+              padding: "2rem",
+              minWidth: "400px",
+              borderRadius: "12px",
+              boxShadow: "0 10px 30px rgba(0,0,0,0.2)",
+              textAlign: "center",
+              position: "relative",
+              zIndex: 2100, // above confetti
+            }}
+          >
+            <div style={{ height: "60px", marginBottom: "2rem" }}>
+              <Lottie
+                animationData={happyAnim}
+                loop={true}
+                autoplay
+                style={{ width: "100%", height: "100%" }}
+              />
+            </div>
+            <h2 style={{ fontSize: "1.5rem", marginBottom: "2rem" }}>
+              Coupon Applied!
+            </h2>
+            <p style={{ fontSize: "1rem", marginBottom: "1.5rem" }}>
+              You saved ₹{discount}
+            </p>
+            <button
+              onClick={() => setShowSuccessPopup(false)}
+              style={{
+                background: "#ab7b53",
+                color: "#fff",
+                border: "none",
+                marginTop: "1rem",
+                padding: "0.6rem 1.2rem",
+                borderRadius: "8px",
+                cursor: "pointer",
+                fontSize: "1rem",
+              }}
+            >
+              Okay
+            </button>
+          </div>
         </div>
       )}
 
@@ -626,7 +507,7 @@ function PaymentPage() {
           <div className="contact-container">
             <div className="contact-con-head">
               <h3 className="contact-con-head-h3">CONTACT</h3>
-              {!Userid && <a href="login">Log in</a>}
+              {!Userid && <a href="/auth/login">Log in</a>}
             </div>
             <input
               type="text"
@@ -727,20 +608,10 @@ function PaymentPage() {
               <p className="radio-btn-text">Pickup in store</p>
             </label>
 
-            <i class="bi bi-shop"></i>
+            <i className="bi bi-shop"></i>
           </div>
           {deliveryOption === "ship" && (
             <div className="shop-conatiner">
-              <select className="select-box">
-                <option value="" disabled>
-                  Select your country
-                </option>
-                {countries.map((state) => (
-                  <option key={state} value={state}>
-                    {state}
-                  </option>
-                ))}
-              </select>
               <div className="first-last-name-input-div">
                 <input
                   type="text"
@@ -823,7 +694,7 @@ function PaymentPage() {
                   disabled
                   title="only inside india available"
                 >
-                  <option selected>India</option>
+                  <option defaultValue>India</option>
                 </select>
 
                 <div className="first-last-name-input-div">
@@ -934,16 +805,6 @@ function PaymentPage() {
               </div>
 
               <div className="shop-conatiner">
-                <select className="select-box">
-                  <option value="" disabled>
-                    Select your country
-                  </option>
-                  {countries.map((state) => (
-                    <option key={state} value={state}>
-                      {state}
-                    </option>
-                  ))}
-                </select>
                 <div className="first-last-name-input-div">
                   <input
                     type="text"
@@ -962,6 +823,7 @@ function PaymentPage() {
                     disabled={sameAsShipping}
                   />
                 </div>
+                
                 <input
                   type="text"
                   className="contact-con-input"
@@ -1008,96 +870,6 @@ function PaymentPage() {
               </div>
             </div>
           )}
-
-          {/* <div className="payment-section">
-            <h3 className="contact-con-head-h3">Payment</h3>
-            <p>All transactions are secure and encrpted</p>
-            <div className="card-container">
-              <div className="payment-page-delivery-sec">
-                <label className="radio-btn-delivery-text">
-                  <input
-                    type="radio"
-                    name="payment"
-                    className="radio-input"
-                    value="credit"
-                    checked={selectedPayment === "credit"}
-                    onChange={() => setSelectedPayment("credit")}
-                  />
-                  <span className="radio-btn-delivery"></span>
-                  <p className="radio-btn-text">Credit Card</p>
-                </label>
-              </div>
-              {selectedPayment === "credit" && (
-                <div className="shop-conatiner-payemnt">
-                  <input
-                    type="text"
-                    className="contact-con-input"
-                    placeholder="Card Number"
-                  />
-                  <div className="first-last-name-input-div">
-                    <input
-                      type="text"
-                      placeholder="Expiration Date (MM / YY)"
-                      className="first-name-input"
-                    />
-                    <input
-                      type="text"
-                      placeholder="Security code"
-                      className="first-name-input"
-                    />
-                  </div>
-                  <input
-                    type="text"
-                    className="contact-con-input"
-                    placeholder="Name on card"
-                  />
-                  <div className="card-image-payment">
-                    {cardImages.map((image) => (
-                      <img src={image} />
-                    ))}
-                  </div>
-                </div>
-              )}
-              <div className="payment-page-delivery-sec">
-                <label className="radio-btn-delivery-text">
-                  <input
-                    type="radio"
-                    name="payment"
-                    className="radio-input"
-                    value="upi"
-                    checked={selectedPayment === "upi"}
-                    onChange={() => setSelectedPayment("upi")}
-                  />
-                  <span className="radio-btn-delivery"></span>
-                  <p className="radio-btn-text">UPI</p>
-                </label>
-              </div>
-              {selectedPayment === "upi" && (
-                <div className="upi-inside-container">
-                  <div className="scaner">
-                    <p>Scan and pay by any UPI app on your phone</p>
-                    <div className="upi-image-payment">
-                      {cardImages.map((image) => (
-                        <img src={image} />
-                      ))}
-                    </div>
-                    <div className="qr-code-con">
-                      <p>Generate QR Code</p>
-                    </div>
-                  </div>
-                  <div className="enter-upi-id-div">
-                    <h6>Pay with UPI id</h6>
-                    <p>Enter your UPI id</p>
-                    <input
-                      type="text"
-                      placeholder="UPI id"
-                      className="contact-con-input"
-                    />
-                  </div>
-                </div>
-              )}
-            </div>
-          </div> */}
           <h3 className="contact-con-head-h3 mt-4">COUPON CODE</h3>
 
           <div className="d-flex justify-content-between align-items-stretch gap-3 mt-2 coupon-section">
@@ -1115,7 +887,7 @@ function PaymentPage() {
               onClick={applyCoupon}
               disabled={couponApplied}
             >
-              {couponApplied ? "Applied" : "Apply"}
+              {Applying ? "Applying..." : couponApplied ? "Applied" : "Apply"}
             </button>
           </div>
 
@@ -1129,15 +901,21 @@ function PaymentPage() {
                     key={coupon.code}
                     className="badge bg-light text-dark border border-secondary p-2 coupon-badge"
                     style={{ cursor: "pointer" }}
+                    disabled={couponApplied}
                     onClick={() => {
-                      setCouponCode(coupon.code);
-                      applyCoupon(coupon.code);
+                      if (!couponApplied) {
+                        setCouponCode(coupon.code);
+                        applyCoupon(coupon.code);
+                      }
                     }}
                   >
                     {coupon.code} —{" "}
                     {coupon.type === "percent"
                       ? `${coupon.value}% Off`
                       : `₹${coupon.value} Off`}
+                    {coupon.appliesTo === "single" && (
+                      <span className="exclusive-badge">Exclusive</span>
+                    )}
                   </span>
                 ))}
               </div>
@@ -1153,8 +931,8 @@ function PaymentPage() {
           </button>
           <hr />
           <div className="card-image-payment">
-            {cardImages.map((image) => (
-              <img src={image} />
+            {cardImages.map((image, index) => (
+              <img key={index} src={image} />
             ))}
           </div>
         </div>
@@ -1167,70 +945,97 @@ function PaymentPage() {
               <p>If you order in the next 20 hours and 34 minutes</p>{" "}
             </>
           )}
-          {cartItems.map((item, index) => (
-            <div key={index} className="payment-product-image-div">
-              <div className="payment-product-image">
-                <img
-                  src={
-                    item.images?.[0] ||
-                    item?.variant?.[0]?.images?.[0]?.url ||
-                    item.image ||
-                    item?.productId.variant?.[0]?.images?.[0]?.url ||
-                    "/fallback.png"
-                  }
-                  alt={item.title}
-                  loading="lazy"
-                />
-                <div className="payment-product-image-content">
-                  {item?.productId?.brand ||
-                    (item?.brand && (
-                      <p>
-                        Brand:{" "}
-                        <strong>{item?.productId?.brand || item?.brand}</strong>
-                      </p>
-                    ))}
-                  <h3>
-                    {(() => {
-                      const safeTitle =
-                        item?.title || item?.productId.name || ""; // Fallback to empty string
-                      const words = safeTitle.split(" ").slice(0, 5);
-                      const line = words.join(" ");
-                      return `${line}${
-                        safeTitle.split(" ").length > 5 ? "..." : ""
-                      }`;
-                    })()}
-                  </h3>
-                  {item?.productId?.variant?.[0]?.title ||
-                    item?.colorsText ||
-                    (item?.variant?.[0]?.title && (
+          <div
+            className="cart-items-wrapper"
+            style={{
+              maxHeight: "480px", // adjust as per design
+              overflowY: "auto",
+              paddingRight: "8px", // to avoid scrollbar overlap
+            }}
+          >
+            {cartItems.map((item, index) => (
+              <div key={index} className="payment-product-image-div">
+                <div className="payment-product-image">
+                  <img
+                    src={
+                      item.images?.[0] ||
+                      item?.variant?.[0]?.images?.[0]?.url ||
+                      item.image ||
+                      item?.productId.variant?.[0]?.images?.[0]?.url ||
+                      "/fallback.png"
+                    }
+                    alt={item.title}
+                    loading="lazy"
+                  />
+                  <div className="payment-product-image-content">
+                    {item?.productId?.brand ||
+                      (item?.brand && (
+                        <p>
+                          Brand:{" "}
+                          <strong>
+                            {item?.productId?.brand || item?.brand}
+                          </strong>
+                        </p>
+                      ))}
+                    <h3>
+                      {(() => {
+                        const safeTitle =
+                          item?.title ||
+                          item?.productId.name ||
+                          item?.name ||
+                          ""; // Fallback to empty string
+                        const words = safeTitle.split(" ").slice(0, 4);
+                        const line = words.join(" ");
+                        return `${line}${
+                          safeTitle.split(" ").length > 5 ? "..." : ""
+                        }`;
+                      })()}
+                    </h3>
+                    {item?.color ? (
+                      // ✅ Render color swatch if `item.color` exists
+                      <div className="d-flex align-items-center gap-2">
+                        <span className="me-1">Color:</span>
+                        <span
+                          className="rounded-circle border-dark"
+                          style={{
+                            width: "16px",
+                            height: "16px",
+                            display: "inline-block",
+                            border: "1px solid #000",
+                            backgroundColor: item.color,
+                          }}
+                        ></span>
+                      </div>
+                    ) : (
+                      // ✅ Fallback to text if no color
                       <p>
                         Color:{" "}
                         <strong>
                           {item.colorsText ||
-                            item.color ||
-                            item?.productId?.variant?.[0]?.title}
+                            item?.productId?.variant?.[0]?.title ||
+                            item?.variant?.[0]?.title}
                         </strong>
                       </p>
-                    ))}
-
-                  <p>Quantity: {item.quantity}</p>
+                    )}
+                    <p>Quantity: {item.quantity}</p>
+                  </div>
                 </div>
+                <p className="payment-price">
+                  <strong>
+                    {" "}
+                    ₹{" "}
+                    {(
+                      item?.price ||
+                      item?.productId.variant[0]?.sizes[0].sellingPrice *
+                        item.quantity
+                    ).toLocaleString("en-IN")}
+                  </strong>
+                </p>
               </div>
-              <p className="payment-price">
-                <strong>
-                  {" "}
-                  ₹{" "}
-                  {(
-                    item?.price ||
-                    item?.productId.variant[0]?.sizes[0].sellingPrice *
-                      item.quantity
-                  ).toLocaleString("en-IN")}
-                </strong>
-              </p>
-            </div>
-          ))}
+            ))}
+          </div>
 
-          <div className="total-calc">
+          <div className="total-calc mt-4">
             <div className="sub-cal">
               <p>Subtotal</p>
               <p>₹ {subtotal.toLocaleString("en-IN")}</p>

@@ -1,9 +1,9 @@
 .profile-page-sidebar-con {
   width: 20%;
-  background-color: rgb(242, 241, 241);
+  /* background-color: rgb(242, 241, 241); */
   position: sticky;
   height: fit-content;
-  top: 0;
+  top: 10%;
 }
 
 .profile-page-sidebar-image {
@@ -59,6 +59,7 @@
 
 .profile-page-sidebar-icon-text {
   display: flex;
+  background-color: rgb(242, 241, 241);
   flex-direction: row;
   cursor: pointer;
   gap: 10px;
@@ -69,15 +70,18 @@
 .profile-page-sidebar-icon-text:hover {
   background-color: #ffffff;
   padding: 20px;
-  border-radius: 8px;
+  border-radius: 0px;
 }
 
 .profile-page-sidebar-icon-text.active {
-  background-color: white;
-  color: black;
-  border-radius: 8px;
+  background-color: #c28b5f;
+  color: white;
+  border-radius: 0px;
 }
 
+.profile-page-sidebar-icon-text.active h5 {
+color: white !important;
+}
 .profile-page-sidebar-icon-text h5 {
   font-size: 18px;
   margin: 0;

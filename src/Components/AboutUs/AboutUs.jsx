@@ -45,14 +45,14 @@ const AboutUs = () => {
   const [hasAnimated, setHasAnimated] = useState(false);
   const counterRef = useRef();
 
-
-  const handleHover = (index) => { // <-- added function
+  const handleHover = (index) => {
+    // <-- added function
     setActive(index);
     setTimeout(() => {
       setActive(null);
     }, 1000); // animation lasts 1s
   };
-  
+
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -95,7 +95,11 @@ const AboutUs = () => {
   }, [hasAnimated]);
 
   return (
-    <section ref={counterRef} className="about-us-section my-5" id="about-section">
+    <section
+      ref={counterRef}
+      className="about-us-section my-5"
+      id="about-section"
+    >
       <div className="container-flued mx-5">
         <div className="row align-items-center">
           {/* Left Image Side */}
@@ -123,33 +127,33 @@ const AboutUs = () => {
               >
                 <span className="fw-bold">Best ratings.</span>
                 <p className="small mb-1">
-                Top choice for unbeatable quality and service.
+                  Top choice for unbeatable quality and service.
                 </p>
                 <div className="emojis" style={{ display: "flex", gap: "8px" }}>
-      {reactions.map((reaction, index) => (
-        <div
-          key={reaction.name}
-          className="emojis-div"
-          onMouseEnter={() => handleHover(index)}
-          style={{ width: 30, height: 30, cursor: "pointer" }}
-        >
-          {active === index ? (
-            <Lottie
-              animationData={reaction.anim}
-              loop={false}
-              autoplay
-              style={{ width: "100%", height: "100%" }}
-            />
-          ) : (
-            <img
-              src={reaction.gif}
-              alt={reaction.name}
-              style={{ width: "100%", height: "100%" }}
-            />
-          )}
-        </div>
-      ))}
-    </div>
+                  {reactions.map((reaction, index) => (
+                    <div
+                      key={reaction.name}
+                      className="emojis-div"
+                      onMouseEnter={() => handleHover(index)}
+                      style={{ width: 30, height: 30, cursor: "pointer" }}
+                    >
+                      {active === index ? (
+                        <Lottie
+                          animationData={reaction.anim}
+                          loop={false}
+                          autoplay
+                          style={{ width: "100%", height: "100%" }}
+                        />
+                      ) : (
+                        <img
+                          src={reaction.gif}
+                          alt={reaction.name}
+                          style={{ width: "100%", height: "100%" }}
+                        />
+                      )}
+                    </div>
+                  ))}
+                </div>
               </div>
 
               <div

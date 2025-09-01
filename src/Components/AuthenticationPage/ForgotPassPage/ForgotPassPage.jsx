@@ -1,16 +1,16 @@
-import React,{useState,useEffect} from 'react'
-import './ForgotPassPage.css'
-import image from '../../../Assets/Untitled/auth-side.jpg'
+import React, { useState, useEffect } from "react";
+import "./ForgotPassPage.css";
+import image from "../../../Assets/Untitled/auth-side.jpg";
 import { useLocation, useNavigate } from "react-router-dom";
 import { checkUser, sendOtpToEmail } from "../../../API/authApi";
 function ForgotPassPage() {
-    const location = useLocation();
-    const navigate = useNavigate();
-    const [email, setEmail] = useState("");
-    const [message, setMessage] = useState("");
-    const [errorMsg, setErrorMsg] = useState("");
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
 
-      // Auto-fill email if passed from login
+  // Auto-fill email if passed from login
   useEffect(() => {
     if (location.state?.email) {
       setEmail(location.state.email);
@@ -23,17 +23,17 @@ function ForgotPassPage() {
     setErrorMsg("");
 
     try {
-        // ✅ Check if user exists
-        const exists = await checkUser({ email });
-        if (!exists || exists.exists === false) {
-          setErrorMsg("User does not exist with this email.");
-          return;
-        }
+      // ✅ Check if user exists
+      const exists = await checkUser({ email });
+      if (!exists || exists.exists === false) {
+        setErrorMsg("User does not exist with this email.");
+        return;
+      }
 
       // ✅ Send OTP
       await sendOtpToEmail(email);
       setMessage("OTP sent successfully!");
-      
+
       // ✅ Navigate to reset page with email
       navigate("/auth/reset", { state: { email } });
     } catch (err) {
@@ -44,12 +44,11 @@ function ForgotPassPage() {
     <div className="login-container">
       {/* Left Side (Image + Overlay) */}
       <div className="login-left">
-        <img
-          alt="auth"
-          className="login-image"
-          src={image}
-        />
+        <img alt="auth" className="login-image" src={image} />
         <div className="login-overlay">
+          <div className="login-logo">
+            <img src="/logo.png" alt="Knobs Logo" />
+          </div>
           <div>
             <h2 className="login-title">
               Welcome to <br />
@@ -80,19 +79,23 @@ function ForgotPassPage() {
               />
             </div>
             {errorMsg && <p className="error-text">{errorMsg}</p>}
-              {message && <p className="success-text">{message}</p>}
-            <button type="submit" className="login-btn">
+            {message && <p className="success-text">{message}</p>}
+            <button type="submit" className="login-btn mt-4 mb-0">
               Send OTP
             </button>
           </form>
-          <button type="button" className="back-to-login-btn"onClick={() => navigate("/auth/login")}>
-      <i className="bi bi-arrow-left icon-arrow"></i>
-      Back to login
-    </button>
+          <button
+            type="button"
+            className="back-to-login-btn"
+            onClick={() => navigate("/auth/login")}
+          >
+            <i className="bi bi-arrow-left icon-arrow"></i>
+            Back to login
+          </button>
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default ForgotPassPage
+export default ForgotPassPage;

@@ -163,10 +163,10 @@ const CategoryPageLayout2 = ({ products = [], categoryData }) => {
 
       result = result.filter((p) => {
         console.log(p);
-        
+
         if (!p) {
-        return false;
-    }
+          return false;
+        }
         const techSpecEntry = p.tech_spec?.find(
           (ts) => ts.title.toLowerCase() === filterName
         );
@@ -385,25 +385,53 @@ const CategoryPageLayout2 = ({ products = [], categoryData }) => {
             <div className="d-flex justify-content-center my-4">
               <nav>
                 <ul className="pagination pagination-sm custom-pagination mb-0">
-                  {[...Array(totalPages)].map((_, index) => {
+                  {Array.from({ length: totalPages }, (_, index) => {
                     const page = index + 1;
-                    return (
-                      <li
-                        key={page}
-                        className={`page-item ${
-                          currentPage === page ? "active" : ""
-                        }`}
-                      >
-                        <button
-                          className={`page-link ${
-                            currentPage === page ? "active-link" : "no-border"
+
+                    // Always show first, last, current, and neighbors
+                    if (
+                      page === 1 ||
+                      page === totalPages ||
+                      (page >= currentPage - 1 && page <= currentPage + 1)
+                    ) {
+                      return (
+                        <li
+                          key={page}
+                          className={`page-item ${
+                            currentPage === page ? "active" : ""
                           }`}
-                          onClick={() => handlePageChange(page)}
                         >
-                          {page}
-                        </button>
-                      </li>
-                    );
+                          <button
+                            className={`page-link ${
+                              currentPage === page ? "active-link" : "no-border"
+                            }`}
+                            onClick={() => handlePageChange(page)}
+                          >
+                            {page}
+                          </button>
+                        </li>
+                      );
+                    }
+
+                    // Ellipses before current page
+                    if (page === currentPage - 2 || page === 2) {
+                      return (
+                        <li key={page} className="page-item disabled" style={{paddingLeft:'1px'}}>
+                          <span className="page-link px-0">...</span>
+                        </li>
+                      );
+                    }
+
+                    // Ellipses after current page
+                    if (page === currentPage + 2 || page === totalPages - 1) {
+                      return (
+                        <li key={page} className="page-item disabled" style={{paddingLeft:'1px'}}>
+                          <span className="page-link px-0">...</span>
+                        </li>
+                      );
+                    }
+
+                    return null; // Hide everything else
                   })}
                 </ul>
               </nav>

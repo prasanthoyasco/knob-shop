@@ -7,34 +7,35 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 
 import singleCarosal1 from "../../Assets/blogcoverphoto.jpg";
-import singleCarosal2 from "../../Assets/New folder/New folder/section5-i.png";
-import singleCarosal3 from "../../Assets/New folder/New folder/section5-ii.png";
+import singleCarosal2 from "../../Assets/blogcoverphoto2.png";
+import singleCarosal3 from "../../Assets/blogcoverphoto1.jpg";
 import "./SingleCarosal.css";
 import { useNavigate } from "react-router-dom";
 
-const carouselData = [
+const carouselData =   [
   {
     image: singleCarosal1,
-    subtit: "Pankaj Plywood ",
+    subtit: "Pankaj Plywood",
     title: "Crafted for Creators. Trusted by Pros.",
     description:
-      "Trusted by architects, builders & carpenters for quality and style.",
+      "Premium plywood solutions ensuring durability, strength and timeless finish.",
   },
   {
     image: singleCarosal2,
     subtit: "Decor point",
-    title: "MAKE A KITCHEN PART OF THE FAMILY",
+    title: "TURN Any ROOM INTO A LUXURY SPACE",
     description:
-      "Modular kitchens tailor-made for the Indian style of cooking...",
+      "Stylish interior designs that elevate comfort and add elegance.",
   },
   {
     image: singleCarosal3,
     subtit: "Faber",
-    title: "ENHANCING YOUR SLEEP EXPERIENCE",
+    title: "Smart Modern Kitchen Chimney From Faber",
     description:
-      "Plywood is renowned for its quality craftsmanship and attention to detail when it comes to beds and mattresses.",
+      "Advanced chimneys engineered for powerful suction and a smoke-free kitchen.",
   },
 ];
+
 
 const SingleCarosal = () => {
   const navigate = useNavigate();
@@ -74,9 +75,7 @@ const SingleCarosal = () => {
                 <button
                   className="custom-carousel-button"
                   onClick={() =>
-                    navigate(
-                      `/subpage/${item?.subtit.replace(/\s+/g, "")}`
-                    )
+                    navigate(`/subpage/${item?.subtit.replace(/\s+/g, "")}`)
                   }
                 >
                   Explore NOW

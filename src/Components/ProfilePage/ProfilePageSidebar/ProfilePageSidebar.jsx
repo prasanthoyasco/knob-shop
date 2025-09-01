@@ -1,5 +1,4 @@
 import "./ProfilePageSidebar.css";
-import profileImage from "../../../Assets/CategoriesImge/Knob Shop/personImage.jpg";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Toast } from "react-bootstrap";
@@ -15,7 +14,7 @@ function ProfilePageSidebar({ setActiveSection, activeSection }) {
       ? "profile-page-sidebar-icon-text active"
       : "profile-page-sidebar-icon-text";
   const [profiledata, setProfileData] = useState({
-    name: "John Doe",
+    name: "",
     email: "",
   });
   useEffect(() => {
@@ -35,109 +34,85 @@ function ProfilePageSidebar({ setActiveSection, activeSection }) {
     navigate("/"); // Redirect to login page or home
   };
 
-const getBackgroundColor = (name) => {
-  const colors = ["#FFB3BA", "#FFDFBA", "#FFFFBA", "#BAFFC9", "#BAE1FF",
-  "#E0BBE4", "#D5AAFF", "#B5EAD7", "#C7CEEA", "#FFDAC1",
-  "#FF9AA2", "#F3FFE3", "#E2F0CB", "#C8D5B9", "#A2D2FF"];
-  const index = name?.charCodeAt(0) % colors.length;
-  return colors[index];
-};
-
-
-
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      const updatedProfile = {
-        ...profiledata,
-        profileUrl: reader.result, // base64 image
-      };
-
-      localStorage.setItem("authUser", JSON.stringify(updatedProfile));
-      setProfileData(updatedProfile);
-    };
-    reader.readAsDataURL(file); // convert to base64
-  };
-
   return (
     <div className="profile-page-sidebar-con">
-            {/* Mobile menu toggle button */}
-            <div className="mobile-menu-toggle" onClick={() => setMenuOpen(!menuOpen)}>
-        <i className="bi bi-list" style={{ fontSize: "24px", cursor: "pointer" }}></i>
+      {/* Mobile menu toggle button */}
+      <div
+        className="mobile-menu-toggle"
+        onClick={() => setMenuOpen(!menuOpen)}
+      >
+        <i
+          className="bi bi-list"
+          style={{ fontSize: "24px", cursor: "pointer" }}
+        ></i>
       </div>
 
-  {/* Sidebar items for mobile */}
-  {menuOpen && (
-    <div className="mobile-sidebar-menu">
-      <div
-        className={isActive("personal")}
-        onClick={() => {
-          setActiveSection("personal");
-          setMenuOpen(false);
-        }}
-      >
-        <i className="bi bi-person"></i>
-        <h5>Account Overview</h5>
-      </div>
+      {/* Sidebar items for mobile */}
+      {menuOpen && (
+        <div className="mobile-sidebar-menu">
+          <div
+            className={isActive("personal")}
+            onClick={() => {
+              setActiveSection("personal");
+              setMenuOpen(false);
+            }}
+          >
+            <i className="bi bi-person"></i>
+            <h5>Account Overview</h5>
+          </div>
 
-      <div
-        className={isActive("orders")}
-        onClick={() => {
-          setActiveSection("orders");
-          setMenuOpen(false);
-        }}
-      >
-        <i className="bi bi-journal-text"></i>
-        <h5>My Orders</h5>
-      </div>
+          <div
+            className={isActive("orders")}
+            onClick={() => {
+              setActiveSection("orders");
+              setMenuOpen(false);
+            }}
+          >
+            <i className="bi bi-journal-text"></i>
+            <h5>My Orders</h5>
+          </div>
 
-      <div
-        className={isActive("address")}
-        onClick={() => {
-          setActiveSection("address");
-          setMenuOpen(false);
-        }}
-      >
-        <i className="bi bi-geo-alt"></i>
-        <h5>Saved Addresses</h5>
-      </div>
+          <div
+            className={isActive("address")}
+            onClick={() => {
+              setActiveSection("address");
+              setMenuOpen(false);
+            }}
+          >
+            <i className="bi bi-geo-alt"></i>
+            <h5>Saved Addresses</h5>
+          </div>
 
-      <div
-        className={isActive("wishlist")}
-        onClick={() => {
-          setActiveSection("wishlist");
-          setMenuOpen(false);
-        }}
-      >
-        <i className="bi bi-heart"></i>
-        <h5>My Wishlist</h5>
-      </div>
+          <div
+            className={isActive("wishlist")}
+            onClick={() => {
+              setActiveSection("wishlist");
+              setMenuOpen(false);
+            }}
+          >
+            <i className="bi bi-heart"></i>
+            <h5>My Wishlist</h5>
+          </div>
 
-      <div
-        className={isActive("help")}
-        onClick={() => {
-          setActiveSection("help");
-          setMenuOpen(false);
-        }}
-      >
-        <i className="bi bi-patch-question"></i>
-        <h5>Need Help</h5>
-      </div>
+          <div
+            className={isActive("help")}
+            onClick={() => {
+              setActiveSection("help");
+              setMenuOpen(false);
+            }}
+          >
+            <i className="bi bi-patch-question"></i>
+            <h5>Need Help</h5>
+          </div>
 
-      <div
-        onClick={handleSignOut}
-        style={{ cursor: "pointer" }}
-      >
-        <div className="profile-page-sidebar-icon-text">
-          <i className="bi bi-box-arrow-in-left"></i>
-          <h5>Log Out</h5>
+          <div onClick={handleSignOut} style={{ cursor: "pointer" }}>
+            <div className="profile-page-sidebar-icon-text">
+              <i className="bi bi-box-arrow-in-left"></i>
+              <h5>Log Out</h5>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-  )}
+      )}
       {/* <div className="profile-page-sidebar-image">
   <label htmlFor="profile-upload" style={{ cursor: "pointer" }}>
     {profiledata?.profileUrl ? (
@@ -177,7 +152,7 @@ const getBackgroundColor = (name) => {
   <h4>{profiledata?.name}</h4>
   <p>{profiledata?.email || profiledata?.phone}</p>
 </div> */}
-  <div className="desktop-sidebar">
+      <div className="desktop-sidebar">
         <div className="profile-page-sidebar-individual-sec">
           <div
             className={isActive("personal")}
@@ -189,8 +164,8 @@ const getBackgroundColor = (name) => {
             <i class="bi bi-person"></i>
             <h5>Account Overview</h5>
           </div>
-          </div>
-          <div className="profile-page-sidebar-individual-sec">
+        </div>
+        <div className="profile-page-sidebar-individual-sec">
           <div
             className={isActive("orders")}
             onClick={() => {
@@ -201,8 +176,8 @@ const getBackgroundColor = (name) => {
             <i class="bi bi-journal-text"></i>
             <h5>My Orders</h5>
           </div>
-          </div>
-          <div className="profile-page-sidebar-individual-sec">
+        </div>
+        <div className="profile-page-sidebar-individual-sec">
           <div
             className={isActive("address")}
             onClick={() => {
@@ -213,8 +188,8 @@ const getBackgroundColor = (name) => {
             <i class="bi bi-geo-alt"></i>
             <h5>Saved Addresses</h5>
           </div>
-          </div>
-          <div className="profile-page-sidebar-individual-sec">
+        </div>
+        <div className="profile-page-sidebar-individual-sec">
           <div
             className={isActive("wishlist")}
             onClick={() => {
@@ -225,24 +200,12 @@ const getBackgroundColor = (name) => {
             <i className="bi bi-heart"></i>
             <h5>My Wishlist</h5>
           </div>
+        </div>
+        <div className="profile-page-sidebar-individual-sec">
+          <div>
           </div>
-          <div className="profile-page-sidebar-individual-sec">
-          <div
-            className={isActive("w")}
-            onClick={() => setActiveSection("w")}
-          >
-            {/* <i className="bi bi-heart"></i> */}
-            <h5></h5>
-          </div>
-          </div>
-          {/* <div
-            className={isActive("orders")}
-            onClick={() => setActiveSection("orders")}
-          >
-            <i className="bi bi-box-seam"></i>
-            <h5>My orders</h5>
-          </div> */}
-          <div className="profile-page-sidebar-individual-sec">
+        </div>
+        <div className="profile-page-sidebar-individual-sec">
           <div
             className={isActive("help")}
             onClick={() => {
@@ -253,25 +216,22 @@ const getBackgroundColor = (name) => {
             <i className="bi bi-patch-question"></i>
             <h5>Need Help</h5>
           </div>
+        </div>
+        <div className="profile-page-sidebar-individual-sec">
+          <div>
           </div>
-          <div className="profile-page-sidebar-individual-sec">
-          <div
-            className={isActive("wi")}
-            onClick={() => setActiveSection("wi")}
-          >
-            {/* <i className="bi bi-heart"></i> */}
-            <h5></h5>
-          </div>
-          </div>
-          <div className="profile-page-sidebar-individual-sec"
+        </div>
+        <div
+          className="profile-page-sidebar-individual-sec"
           onClick={handleSignOut}
-          style={{ cursor: "pointer" }}>
+          style={{ cursor: "pointer" }}
+        >
           <div className="profile-page-sidebar-icon-text">
             <i className="bi bi-box-arrow-in-left"></i>
             <h5>Log Out</h5>
           </div>
-          </div>
-          </div>
+        </div>
+      </div>
     </div>
   );
 }

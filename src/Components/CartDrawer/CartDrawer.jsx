@@ -17,11 +17,11 @@ const CartDrawer = ({
   const navigate = useNavigate();
   const { updateCartItemQuantity } = useCart();
   const [activeTab, setActiveTab] = useState(null);
-  const [note, setNote] = useState("");
-  const [country, setCountry] = useState("India");
-  const [postalCode, setPostalCode] = useState("");
+  // const [note, setNote] = useState("");
+  // const [country, setCountry] = useState("India");
+  // const [postalCode, setPostalCode] = useState("");
   const ShipPrice = 123456;
-  const [shippingRate, setShippingRate] = useState(null);
+  // const [shippingRate, setShippingRate] = useState(null);
   const [recommendedItems, setRecommendedItems] = useState([]);
   const total = cartItems.reduce((sum, item) => {
     const sellingPrice =
@@ -127,7 +127,13 @@ const CartDrawer = ({
                   />
                   <div className="flex-grow-1">
                     <h6 className="mb-1">
-                      {item.title || item.name || item.productId?.name}
+                      {item.title?.trim().split(" ").slice(0, 3).join(" ") ||
+                        item.name?.trim().split(" ").slice(0, 3).join(" ") ||
+                        item.productId?.name
+                          ?.trim()
+                          .split(" ")
+                          .slice(0, 3)
+                          .join(" ")}
                     </h6>
                     <p className="text-muted mb-1">
                       {item.colorsText
@@ -195,6 +201,15 @@ const CartDrawer = ({
                   </div>
                 </div>
               ))}
+              {(!activeTab || cartItems.length === 0) && (
+                <RecommendedSlider
+                  recommendedItems={recommendedItems}
+                  onAddToCart={(item) => {
+                    console.log("Adding from slider:", item); // Optional Debug
+                    onAddToCart(item); // ✅ Pass full item object
+                  }}
+                />
+              )}
             </>
           )}
         </div>
@@ -214,7 +229,7 @@ const CartDrawer = ({
           </div>
         ))}
       </div> */}
-        {(!activeTab || cartItems.length === 0) && (
+        {cartItems.length === 0 && (
           <RecommendedSlider
             recommendedItems={recommendedItems}
             onAddToCart={(item) => {
@@ -228,7 +243,7 @@ const CartDrawer = ({
           <>
             <div className="border-top p-3 mt-3">
               {/* Tab Buttons */}
-              <div className="d-flex justify-content-around align-items-center mb-3 gap-3">
+              {/* <div className="d-flex justify-content-around align-items-center mb-3 gap-3">
                 <button
                   className={`btn d-flex align-items-center gap-2 border-0 rounded-0 m-0 px-2 py-1 ${
                     activeTab === "notes" ? "text-dark" : "text-muted"
@@ -256,10 +271,10 @@ const CartDrawer = ({
                   <TruckIcon size={18} />
                   <span>Shipping</span>
                 </button>
-              </div>
+              </div> */}
 
               {/* Tab Contents */}
-              {activeTab === "notes" && (
+              {/* {activeTab === "notes" && (
                 <div className="mb-3">
                   <textarea
                     className="form-control costum-textarea"
@@ -284,9 +299,9 @@ const CartDrawer = ({
                     </button>
                   </div>
                 </div>
-              )}
+              )} */}
 
-              {activeTab === "shipping" && (
+              {/* {activeTab === "shipping" && (
                 <div className="mb-3">
                   <CountrySelect country={country} setCountry={setCountry} />
                   <input
@@ -331,7 +346,7 @@ const CartDrawer = ({
                     </div>
                   )}
                 </div>
-              )}
+              )} */}
 
               {/* Subtotal */}
               <div className="d-flex justify-content-between fw-bold mt-3">

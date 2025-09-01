@@ -20,7 +20,7 @@
     position: sticky;
     top: 0;
     height: 100vh;
-    overflow-y: scroll;
+    /* overflow-y: scroll; */
 }
 .contact-con-head{
     display: flex;
@@ -545,8 +545,38 @@
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
 }
+.exclusive-badge {
+  background: #ab7b53;
+  color: #fff;
+  font-size: 12px;
+  padding: 2px 6px;
+  margin-left: 8px;
+  border-radius: 6px;
+}
 
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+.cart-items-wrapper {
+  scrollbar-width:thin; /* Firefox */
+  scrollbar-color: #888 transparent; /* Firefox */
+}
+
+/* Chrome, Edge, Safari */
+.cart-items-wrapper::-webkit-scrollbar {
+  width: 3px;
+}
+
+.cart-items-wrapper::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.cart-items-wrapper::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 12px;
+}
+
+.cart-items-wrapper::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
 }

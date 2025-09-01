@@ -3,6 +3,7 @@ import "./NavbarBottom.css";
 import todayDealImage from "../../../Assets/today-deal.png";
 import sbc_icon from "../../../Assets/shop-by-category-icon.svg";
 import { fetchCategories } from "../../../API/categoriesApi";
+import { useNavigate } from "react-router-dom";
 const navbarContent = [
   {
     href: "living-room",
@@ -37,6 +38,7 @@ const navbarContent = [
 // ];
 
 function NavbarBottom() {
+  const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [openCategory, setOpenCategory] = useState(null); // State to manage which category's sub-items are open
   const [category, setCategory] = useState([]);
@@ -160,6 +162,7 @@ function NavbarBottom() {
 
       {/* Today's Deal - hidden on mobile */}
       <img
+      onClick={()=>navigate('')}
         src={todayDealImage}
         className="today-deal-image desktop-only"
         alt="Today's Deal"

@@ -3,16 +3,18 @@ import axios from "axios";
 import "./MyOrders.css";
 import image from '../../../Assets/New folder/New folder/4.png'
 import { getProductById } from "../../../API/productApi";
+
 function MyOrders({ userId }) {
   const [orders, setOrders] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
 
-  const LIMIT = 2; // Number of orders per page
+  const LIMIT = 4; // Number of orders to fetch per request
+  const SCROLL_THRESHOLD =900; // Load more items when the user is this many pixels from the bottom
 
   useEffect(() => {
-    if (!userId) return;
+    if (!userId || !hasMore) return;
 
     const fetchOrders = async () => {
       setLoading(true);
@@ -21,57 +23,67 @@ function MyOrders({ userId }) {
           `${import.meta.env.VITE_API_BASE_URI}/order/user/${userId}`,
           {
             params: {
-              page: currentPage,
+              page: page,
               limit: LIMIT,
             },
           }
         );
         let fetchedOrders = res.data.orders || [];
-                // Attach product details to each order item
-                const ordersWithProducts = await Promise.all(
-                  fetchedOrders.map(async (order) => {
-                    const itemsWithDetails = await Promise.all(
-                      order.items.map(async (item) => {
-                        try {
-                          const product = await getProductById(item.productId);
-                          return { ...item, product };
-                        } catch (err) {
-                          console.error("Error fetching product details:", err);
-                          return item; // fallback
-                        }
-                      })
-                    );
-                    return { ...order, items: itemsWithDetails };
-                  })
-                );
-          console.log("orders from my order :",ordersWithProducts)
-        setOrders(ordersWithProducts);
-        setTotalPages(Math.ceil((res.data.totalCount || 0) / LIMIT));
+        
+        // Attach product details to each order item
+        const ordersWithProducts = await Promise.all(
+          fetchedOrders.map(async (order) => {
+            const itemsWithDetails = await Promise.all(
+              order.items.map(async (item) => {
+                try {
+                  const product = await getProductById(item.productId);
+                  return { ...item, product };
+                } catch (err) {
+                  console.error("Error fetching product details:", err);
+                  return item; // fallback
+                }
+              })
+            );
+            return { ...order, items: itemsWithDetails };
+          })
+        );
+        
+        setOrders((prevOrders) => [...prevOrders, ...ordersWithProducts]);
+        setHasMore(fetchedOrders.length > 0);
       } catch (err) {
         console.error("Error fetching orders:", err);
-        setOrders([]);
+        setHasMore(false);
       } finally {
         setLoading(false);
       }
     };
 
     fetchOrders();
-  }, [userId, currentPage]);
+  }, [userId, page, hasMore]);
 
-  const handlePrev = () => {
-    setCurrentPage((prev) => Math.max(prev - 1, 1));
-  };
 
-  const handleNext = () => {
-    setCurrentPage((prev) => Math.min(prev + 1, totalPages));
-  };
+  useEffect(() => {
+    const handleScroll = () => {
+      const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
+      if (
+        scrollTop + clientHeight >= scrollHeight - SCROLL_THRESHOLD &&
+        !loading &&
+        hasMore
+      ) {
+        setPage((prevPage) => prevPage + 1);
+      }
+    };
 
-  if (loading) return <p>Loading your orders...</p>;
-  if (orders.length === 0) return <p>No orders found.</p>;
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [loading, hasMore]);
+  
+
+  if (orders.length === 0 && !loading) return <p>No orders found.</p>;
 
   return (
     <div className="my-orders">
-      <h2 className="mb-3">My Orders</h2>
+      <h2 className="mb-3 mt-0">My Orders</h2>
       {orders.map((order) =>
       order.items.map((item) => (
       <div key={item._id} className="my-order-new-con">
@@ -87,55 +99,12 @@ function MyOrders({ userId }) {
       </div>
       ))
       )}
-      {/* {orders.map((order) => (
-        <div key={order._id} className="order-card mb-4 p-3 border rounded bg-white">
-          <div className="d-flex justify-content-between">
-            <h5>Order ID: <strong>{order.orderId}</strong></h5>
-            <span>Status: <strong>{order.status}</strong></span>
-          </div>
-          <p className="text-muted mb-1">Placed on: {new Date(order.createdAt).toLocaleDateString()}</p>
-          <p className="mb-2">Payment: <strong>{order.paymentStatus}</strong> ({order.paymentMethod})</p>
-
-          <h6 className="mb-2">Shipping Address:</h6>
-          <p className="small">
-            {order.shippingAddress.name}<br />
-            {order.shippingAddress.street}, {order.shippingAddress.city},<br />
-            {order.shippingAddress.district}, {order.shippingAddress.state} - {order.shippingAddress.pincode}<br />
-            Phone: {order.shippingAddress.phone}
-          </p>
-
-          <h6 className="mt-3">Items:</h6>
-          <ul className="list-unstyled">
-            {order.items.map((item) => (
-              <li key={item._id} className="border-bottom py-2">
-                <strong>{item.productName}</strong> — {item.quantity} × ₹{item.price} = ₹{item.total}
-              </li>
-            ))}
-          </ul>
-
-          <div className="mt-3">
-            <strong>Total: ₹{order.totalAmount}</strong>
-          </div>
-        </div>
-      ))} */}
-
-      <div className="pagination-controls d-flex justify-content-center align-items-center mt-4 gap-3">
-        <button
-          className="btn btn-outline-primary"
-          onClick={handlePrev}
-          disabled={currentPage === 1}
-        >
-          Previous
-        </button>
-        <span>Page {currentPage} of {totalPages}</span>
-        <button
-          className="btn btn-outline-primary"
-          onClick={handleNext}
-          disabled={currentPage === totalPages}
-        >
-          Next
-        </button>
-      </div>
+      {loading && <p>Loading more orders...</p>}
+      {!loading && !hasMore && orders.length > 0 && (
+        <p style={{ textAlign: 'center', margin: '20px 0', fontSize: '1.2em', color: '#666' }}>
+          That's it! You have viewed all your orders.
+        </p>
+      )}
     </div>
   );
 }

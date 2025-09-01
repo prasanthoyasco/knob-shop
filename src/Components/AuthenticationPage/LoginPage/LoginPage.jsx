@@ -67,7 +67,11 @@ function LoginPage() {
       localStorage.getItem("authToken");
 
       setTimeout(() => {
-        navigate("/"); // Redirect
+        if (window.history.length > 1) {
+          navigate(-1); // go back if possible
+        } else {
+          navigate("/"); // fallback to home
+        }
       }, 1500);
     } catch (err) {
       setErrorMsg(err.error || "Login failed. Try again!");
@@ -82,6 +86,9 @@ function LoginPage() {
       <div className="login-left">
         <img alt="auth" className="login-image" src={image} />
         <div className="login-overlay">
+          <div className="login-logo">
+            <img src="/logo.png" alt="Knobs Logo" />
+          </div>
           <div>
             <h2 className="login-title">
               Welcome to <br />

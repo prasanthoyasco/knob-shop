@@ -7,7 +7,7 @@ const RecommendedSlider = ({ recommendedItems = [], onAddToCart }) => {
   };
 
   return (
-    <div className="cart-drawer-recommend px-3 py-1 py-md-3 border-top">
+    <div className="cart-drawer-recommend px-3 py-1 py-md-1 border-top">
       <div className="d-flex justify-content-between align-items-center mb-3">
         <h6 className="mb-0">You may also like</h6>
         <div className="d-flex gap-2">

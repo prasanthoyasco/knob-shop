@@ -78,7 +78,7 @@ const TrendingProducts = () => {
           .slice(0, 10);
       case "Best Sellers":
         return onePerCategory.filter(
-          (product) => product.variant?.[0]?.sizes?.[0]?.sellingPrice > 10000
+          (product) => product.variant?.[0]?.sizes?.[0]?.sellingPrice > 1000
         );
       case "Featured Products":
         return onePerCategory.filter(
