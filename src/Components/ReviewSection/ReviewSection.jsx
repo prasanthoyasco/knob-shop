@@ -4,10 +4,11 @@ import { User, User2Icon } from 'lucide-react';
 import { PiUserFill } from 'react-icons/pi';
 import { getReviewsByProduct, createOrUpdateReview } from '../../API/reviewApi';
 import {  useEffect } from "react";
-import { useParams } from 'react-router-dom';
-import { useSearchParams } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 import { useLocation } from "react-router-dom";
 function ReviewSection() {
+    const navigate = useNavigate();
+
   const location = useLocation();
   const [reviewImage, setReviewImage] = useState(null);
 
@@ -34,9 +35,9 @@ const handleImageChange = (e) => {
     if (storedUser) {
       try {
         const parsedUser = JSON.parse(storedUser);
-        if (parsedUser && parsedUser.id) {
-          setUserId(parsedUser.id);
-          console.log("User ID:", parsedUser.id);
+        if (parsedUser && parsedUser._id) {
+          setUserId(parsedUser._id);
+          console.log("User ID:", parsedUser._id);
         } else {
           console.warn("User ID not found in stored data");
         }
@@ -59,10 +60,6 @@ const handleImageChange = (e) => {
   }, [productId]);
 
   const handleSubmitReview = async () => {
-    if (!userId) {
-      alert("You must be logged in to write a review.");
-      return;
-    }
     if (userRating === 0 || reviewText.trim() === "") {
       alert("Please provide a rating and comment.");
       return;
@@ -134,7 +131,16 @@ const averageRating =
       (review) => Math.floor(review.rating) === star
     );
   });
+const handleClick = () => {
+    if (!userId) {
+      alert("You must be logged in to write a review.");
+      navigate("/auth/login"); // redirect to login page
+      return;
+    }
 
+    // If logged in → toggle textarea
+    setShowTextArea(!showTextArea);
+  };
 
   
   return (
@@ -186,7 +192,7 @@ const averageRating =
 
           <div
             className={`write-review ${showTextArea ? 'no-decoration' : 'underline'}`}
-            onClick={() => setShowTextArea(!showTextArea)}
+             onClick={handleClick}
             style={{ cursor: 'pointer' }}
           >
             Write a review

@@ -31,15 +31,15 @@ export default function ProductTabs() {
 
 
 const tabData = {
-  Description: product?.description ? (
-    <div className="mt-3">
-      {product.description.split("\n").map((line, i) => (
-        <p key={i} className="mb-1">{line}</p>
-      ))}
-    </div>
-  ) : (
-    <p className="mt-3">No description available.</p>
-  ),
+ Description: product?.description ? (
+  <div
+    className="mt-3 prose prose-sm max-w-none"
+    dangerouslySetInnerHTML={{ __html: product.description }}
+  />
+) : (
+  <p className="mt-3">No description available.</p>
+),
+
 ...(product?.features?.length > 0 && {
   Features: (<ProductFeatures features={product.features} />),
   }),

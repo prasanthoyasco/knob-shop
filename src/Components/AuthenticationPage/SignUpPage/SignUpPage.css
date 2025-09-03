@@ -266,6 +266,11 @@
 .singup-or-text::after {
   right: 0;
 }
+.password-hint {
+  font-size: 0.69rem;
+  margin-top: 0.6rem !important;
+  color: #a4aaaf; /* optional muted */
+}
 
 /* Desktop Styles */
 @media (min-width: 768px) {

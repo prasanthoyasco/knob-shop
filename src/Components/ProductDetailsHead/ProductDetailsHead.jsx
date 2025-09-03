@@ -464,12 +464,12 @@ export default function ProductDetailsHead() {
 
               {/* Payment Icons */}
               <div className="d-flex gap-2 flex-wrap mb-3">
-                {["visa", "paypal", "master", "discover"].map((p) => (
+                {["visa", "apple-pay", "master", "upisvg"].map((p) => (
                   <img
                     key={p}
                     src={`/payment-icon/${p}.svg`}
                     alt={p}
-                    height={38}
+                    height={32}
                   />
                 ))}
               </div>

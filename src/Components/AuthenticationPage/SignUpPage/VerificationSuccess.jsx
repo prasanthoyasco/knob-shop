@@ -3,7 +3,7 @@ import Confetti from "react-confetti";
 
 const VerificationSuccess = ({ onComplete }) => {
   useEffect(() => {
-    const timer = setTimeout(onComplete, 500); 
+    const timer = setTimeout(onComplete, 3000); // 3 seconds delay
     return () => clearTimeout(timer);
   }, [onComplete]);
 

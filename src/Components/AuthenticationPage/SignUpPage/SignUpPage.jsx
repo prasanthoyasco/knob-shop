@@ -23,9 +23,16 @@ function SignUpPage() {
     otp: "",
   });
   const [loading, setLoading] = useState(false);
+  const [resending, setresend] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [verified, setVerified] = useState(false);
+  const [passwordValidation, setPasswordValidation] = useState({
+    length: false,
+    specialChar: false,
+    number: false,
+    capitalLetter: false,
+  });
 
   // New state for OTP resend timer
   const [timer, setTimer] = useState(30);
@@ -43,6 +50,22 @@ function SignUpPage() {
         ? localPart[0] + "****" + localPart[localPart.length - 1]
         : "****";
     return `${maskedLocalPart}@${domain}`;
+  };
+
+  // Function to validate password on blur and update state
+  const handlePasswordBlur = () => {
+    const { password } = formData;
+    const length = password.length >= 8;
+    const specialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+    const number = /\d/.test(password);
+    const capitalLetter = /[A-Z]/.test(password);
+
+    setPasswordValidation({
+      length,
+      specialChar,
+      number,
+      capitalLetter,
+    });
   };
 
   // Timer useEffect hook
@@ -88,6 +111,13 @@ function SignUpPage() {
       return;
     }
 
+    // Check all password validation criteria before proceeding
+    const isValid = Object.values(passwordValidation).every(Boolean);
+    if (!isValid) {
+      setError("Please ensure your password meets all requirements.");
+      return;
+    }
+
     try {
       setLoading(true);
 
@@ -115,7 +145,7 @@ function SignUpPage() {
   const handleResendOtp = async () => {
     setError("");
     setSuccess("");
-    setLoading(true);
+    setresend(true);
     try {
       const res = await sendOtpToEmail(formData.email);
       setSuccess(res.message || "New OTP sent successfully!");
@@ -124,50 +154,50 @@ function SignUpPage() {
     } catch (err) {
       setError(err.error || "Failed to resend OTP. Please try again.");
     } finally {
-      setLoading(false);
+       setresend(false);
     }
   };
 
   // Step 2: Verify OTP + Signup
   const handleVerifyAndSignup = async (e) => {
-  e.preventDefault();
-  setError("");
-  setSuccess("");
+    e.preventDefault();
+    setError("");
+    setSuccess("");
 
-  if (formData.password !== formData.confirmPassword) {
-    setError("Passwords do not match!");
-    return;
+    if (formData.password !== formData.confirmPassword) {
+      setError("Passwords do not match!");
+      return;
+    }
+
+    try {
+      setLoading(true);
+      // Verify OTP
+      await verifyEmailOtp(formData.email, formData.otp);
+
+      const payload = {
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        password: formData.password,
+      };
+
+      const res = await Signup(payload);
+
+      // Save token & user
+      localStorage.setItem("token", res.token);
+      localStorage.setItem("authUser", JSON.stringify(res.user));
+
+      // Show success animation
+      setVerified(true);
+    } catch (err) {
+      setError(err.error || "Signup failed");
+    } finally {
+      setLoading(false);
+    }
+  };
+  if (verified) {
+    return <VerificationSuccess onComplete={() => navigate("/")} />;
   }
-
-  try {
-    setLoading(true);
-    // Verify OTP
-    await verifyEmailOtp(formData.email, formData.otp);
-
-    const payload = {
-      name: formData.name,
-      email: formData.email,
-      phone: formData.phone,
-      password: formData.password,
-    };
-
-    const res = await Signup(payload);
-
-    // Save token & user
-    localStorage.setItem("token", res.token);
-    localStorage.setItem("authUser", JSON.stringify(res.user));
-
-    // Show success animation
-    setVerified(true);
-  } catch (err) {
-    setError(err.error || "Signup failed");
-  } finally {
-    setLoading(false);
-  }
-};
- if (verified) {
-  return <VerificationSuccess onComplete={() => navigate(-1)} />;
-}
 
   return (
     <div className="login-container">
@@ -252,6 +282,7 @@ function SignUpPage() {
                     name="password"
                     value={formData.password}
                     onChange={handleChange}
+                    onBlur={handlePasswordBlur}
                   />
                   <span
                     className="toggle-password"
@@ -264,9 +295,15 @@ function SignUpPage() {
                     )}
                   </span>
                 </div>
+                <p
+                  className="password-hint"
+                >
+                  At least 8 characters, one special character, one number, one
+                  capital letter
+                </p>
               </div>
               <div>
-                <label className="form-label" htmlFor="password">
+                <label className="form-label" htmlFor="confirmPassword">
                   Confirm Password
                 </label>
                 <div className="input-wrapper">
@@ -342,11 +379,11 @@ function SignUpPage() {
                 {canResend ? (
                   <button
                     type="button"
-                    className="resend-btn"
+                    className="btn btn-outline-dark btn-sm"
                     onClick={handleResendOtp}
                     disabled={loading}
                   >
-                    {loading ? "Sending..." : "Resend OTP"}
+                    {resending ? "Sending..." : "Resend OTP"}
                   </button>
                 ) : (
                   <p className="resend-timer">Resend in {timer}s</p>
