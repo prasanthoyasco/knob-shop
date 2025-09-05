@@ -63,6 +63,13 @@ export default function EssentialsSection() {
       header: "Urban Vibes",
       para: "Bold and modern city feel",
     },
+    {
+      id: 5,
+      image:
+        "https://images.unsplash.com/photo-1505691938895-1758d7feb511?w=800",
+      header: "Modern Living",
+      para: "Bold and modern city feel",
+    },
   ],
 ];
 

@@ -27,7 +27,7 @@ const OurDesign = ({ rows }) => {
           ))}
 
           {/* Black Box for single-item row */}
-          {row.length === 1 && (
+          {/* {row.length === 1 && (
             <div className="black-box">
               <h1>AND MANY MORE ...</h1>
               <img
@@ -36,7 +36,7 @@ const OurDesign = ({ rows }) => {
                 style={{ filter: "contrast(0.5)" }}
               />
             </div>
-          )}
+          )} */}
         </div>
       ))}
     </div>
