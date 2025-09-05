@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./EssentialsSection.css";
 import { getEssentials } from "../../API/essentialApi";
+import { Subtitles } from "lucide-react";
 
 export default function EssentialsSection() {
   const navigate = useNavigate();
@@ -21,6 +22,50 @@ export default function EssentialsSection() {
     };
     fetchData();
   }, []);
+  const rowsData = [
+  [
+    {
+      id: 1,
+      image:
+        "https://images.unsplash.com/photo-1505691938895-1758d7feb511?w=800",
+      header: "Modern Design",
+      para: "Sleek and stylish",
+    },
+    {
+      id: 2,
+      image:
+        "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=800",
+      header: "Classic Touch",
+      para: "Timeless looks",
+    },
+  ],
+  [
+    {
+      id: 3,
+      image:
+        "https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=800",
+      header: "Luxury Theme",
+      para: "Elegant finishes",
+    },
+  ],
+  [
+    {
+      id: 4,
+      image:
+        "https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=800",
+      header: "Nature Inspired",
+      para: "Bringing the outdoors inside",
+    },
+    {
+      id: 5,
+      image:
+        "https://images.unsplash.com/photo-1505691938895-1758d7feb511?w=800",
+      header: "Urban Vibes",
+      para: "Bold and modern city feel",
+    },
+  ],
+];
+
 
   if (!essentials) return null; // or add a loader/spinner
 
@@ -63,7 +108,12 @@ export default function EssentialsSection() {
                   data-aos-delay={100 * (index + 1)}
                   onClick={() =>
                     navigate("/categories", {
-                      state: { title: card.title, category: card.categories },
+                      state: {
+                        title: card.title,
+                        Subtitles: "essentials",
+                        category: card.categories,
+                        rowsData: rowsData,
+                      },
                     })
                   }
                 >
@@ -86,7 +136,17 @@ export default function EssentialsSection() {
                             {card.description}
                           </p>
                           <a
-                            href="/categories"
+                            href=""
+                            onClick={() =>
+                              navigate("/categories", {
+                                state: {
+                                  title: card.title,
+                                  Subtitles: "essentials",
+                                  category: card.categories,
+                                  rowsData: rowsData,
+                                },
+                              })
+                            }
                             className="text-decoration-underline text fw-medium small"
                           >
                             Read More
