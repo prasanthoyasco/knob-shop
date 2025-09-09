@@ -114,9 +114,12 @@ function PaymentPage() {
   const navigate = useNavigate();
 
 
+
   const handleCheckboxChange = (e) => {
     setShowFields(e.target.checked);
   };
+
+  
 
   const subtotal = cartItems.reduce(
     (sum, item) =>
@@ -248,7 +251,7 @@ function PaymentPage() {
         return;
       }
 
-      const totalValue = subtotal - discount;
+      const totalValue = Math.max(0, subtotal - discount);
 
       const shippingData = {
         name: `${shippingFirstName} + ' ' + ${shippingLastName}`,
@@ -278,7 +281,7 @@ function PaymentPage() {
           item._id || item.id || item?.productId || item?.productId._id,
         productName: item.title || item.productName || item?.productId?.name,
         quantity: item.quantity,
-        price: item.price || item?.productId?.variant[0].sizes[0].sellingPrice,
+        price: totalValue,
         total: (item.price || 0) * item.quantity,
       }));
 
