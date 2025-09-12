@@ -96,7 +96,7 @@ const DealOfTheDay = () => {
           data-aos="fade-right"
           data-aos-delay="230"
           onClick={() => {
-            navigate("/category/all-products");
+            navigate("/offer");
           }}
         >
           SHOP NOW{" "}

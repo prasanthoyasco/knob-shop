@@ -19,7 +19,7 @@ const ProductCard = ({ product }) => {
 
   const [selectedSizeLabel, setSelectedSizeLabel] = useState(initialSizeLabel);
 
-  const { id } = product;
+  const id = product.id || product._id;
   const title = product.title || product.name || "Untitled Product";
   const handleWishlistClick = () => {
     const authToken = localStorage.getItem("authToken");

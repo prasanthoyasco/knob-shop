@@ -6,7 +6,6 @@ import CategoryFilters from "./CategoryFilters";
 import { getCategoryById } from "../../API/categoriesApi";
 
 const CategoryPageLayout2 = ({ products = [], categoryData }) => {
-  // ⬅ added categoryData
   console.log("category", categoryData);
   console.log("product from category", products);
   const [filteredProducts, setFilteredProducts] = useState(products);
@@ -92,7 +91,10 @@ const CategoryPageLayout2 = ({ products = [], categoryData }) => {
     } = filters;
 
     if (brand.length > 0) {
-      result = result.filter((p) => brand.includes(p.brand));
+      const selectedBrands = brand.map((b) => b.trim().toLowerCase());
+      result = result.filter((p) =>
+        selectedBrands.includes(p.brand?.trim().toLowerCase())
+      );
     }
 
     if (availability.length > 0) {
@@ -416,7 +418,11 @@ const CategoryPageLayout2 = ({ products = [], categoryData }) => {
                     // Ellipses before current page
                     if (page === currentPage - 2 || page === 2) {
                       return (
-                        <li key={page} className="page-item disabled" style={{paddingLeft:'1px'}}>
+                        <li
+                          key={page}
+                          className="page-item disabled"
+                          style={{ paddingLeft: "1px" }}
+                        >
                           <span className="page-link px-0">...</span>
                         </li>
                       );
@@ -425,7 +431,11 @@ const CategoryPageLayout2 = ({ products = [], categoryData }) => {
                     // Ellipses after current page
                     if (page === currentPage + 2 || page === totalPages - 1) {
                       return (
-                        <li key={page} className="page-item disabled" style={{paddingLeft:'1px'}}>
+                        <li
+                          key={page}
+                          className="page-item disabled"
+                          style={{ paddingLeft: "1px" }}
+                        >
                           <span className="page-link px-0">...</span>
                         </li>
                       );

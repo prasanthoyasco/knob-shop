@@ -43,6 +43,7 @@ import LoginPage from './Components/AuthenticationPage/LoginPage/LoginPage';
 import SignUpPage from './Components/AuthenticationPage/SignUpPage/SignUpPage';
 import ForgotPassPage from './Components/AuthenticationPage/ForgotPassPage/ForgotPassPage';
 import ResetPassPage from './Components/AuthenticationPage/ResetPassPage/ResetPassPage';
+import OfferProducts from './Pages/OfferProducts';
 // import NavbarTop from './Components/Navbar/NavbarTop/NavbarTop';
 
 function App() {
@@ -89,6 +90,8 @@ function App() {
        <Route path="/auth/reset" element={<ResetPassPage/>} />
        <Route path="/account" element={<ProfilePage/>} />
        <Route path="/invoice" element={<Invoice/>} />
+       <Route path="/offer" element={<OfferProducts/>} />
+       <Route path="/offer/todaysdeal" element={<OfferProducts/>} />
        <Route path="*" element={<Notfound />} />
       </Routes>
       </div>

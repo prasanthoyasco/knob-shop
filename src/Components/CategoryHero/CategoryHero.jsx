@@ -3,7 +3,7 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { getCategoryById } from '../../API/categoriesApi'; // adjust the path as needed
 
-const CategoryHero = ({count, backgroundImage }) => {
+const CategoryHero = ({count, backgroundImage,categoryTitle: propTitle }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const { categoryId,query  } = useParams();
@@ -25,7 +25,7 @@ const CategoryHero = ({count, backgroundImage }) => {
   }, [categoryId, location.state?.category]);
 
   const bannerImage = category?.bannerImageUrl || category?.image || backgroundImage;
-  const categoryTitle = category?.category_name || productState?.text || query  || "Category";
+  const categoryTitle = category?.category_name ||  propTitle || productState?.text || query  || "Category";
   const productCount = category?.productCount || count ||  0;
 
   return (

@@ -65,3 +65,13 @@ export const markCouponUsed = async (code) => {
     throw err.response?.data || { message: "Failed to mark coupon as used" };
   }
 };
+
+
+export const getAllofferProducts = async () => {
+  try {
+    const {data} = await axios.get(`${API_BASE}/all`);
+    return data;
+  } catch (err) {
+    throw err.response?.data || {message: "faild to fetch Offer Products"}
+  }
+}

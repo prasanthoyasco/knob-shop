@@ -47,15 +47,15 @@ export default function EssentialsSection() {
       header: "Luxury Theme",
       para: "Elegant finishes",
     },
+    {
+      id: 5,
+      image:
+        "https://images.unsplash.com/photo-1505691938895-1758d7feb511?w=800",
+      header: "Modern Living",
+      para: "Bold and modern city feel",
+    },
   ],
   [
-    {
-      id: 4,
-      image:
-        "https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=800",
-      header: "Nature Inspired",
-      para: "Bringing the outdoors inside",
-    },
     {
       id: 5,
       image:

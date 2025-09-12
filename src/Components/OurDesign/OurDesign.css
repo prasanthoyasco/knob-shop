@@ -51,12 +51,30 @@
     font-size: 13px;
     color: #fff !important;
 }
-.our-design-container img{
-    width: 100%;
-    height:100%;
-    border-radius: 20px;
-    object-fit: cover;
+.our-design-container img {
+  width: 100%;
+  height: 100%;
+  border-radius: 20px;
+  object-fit: cover;
+  display: block; /* avoids inline-gap issues */
 }
+
+.our-design-container-image {
+  overflow: hidden;
+  border-radius: 20px;
+  
+  position: relative; /* ensures overflow works predictably */
+}
+.our-design-container-image img{
+  transition: transform .8s ease-in-out; /* move transition here for smoother effect */
+}
+.our-design-container-image:hover .overlay {
+background-image: linear-gradient(#000000a4, #0000002d);
+}
+.our-design-container-image:hover img {
+  transform: scale(1.2);
+}
+
 .black-box{
     width: 31.5%;
     height: 350px;
@@ -166,6 +184,7 @@
   width: 100%;
   height: 100%;
   background-image: linear-gradient(#000000d8, #00000070);
+  transition: background-image 0.8s ease-in-out;
   border-radius: 20px;
 }
 

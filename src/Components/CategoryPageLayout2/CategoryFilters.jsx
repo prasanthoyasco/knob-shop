@@ -13,9 +13,14 @@ const CategoryFilters = ({
   categoryFilters = [], // 👈 from API
 }) => {
   const uniqueValues = (field) => {
-    const values = products.map((p) => p[field]).filter(Boolean);
+    const values = products
+      .map((p) => p[field]?.trim()) // remove leading/trailing spaces
+      .filter(Boolean) // remove null/undefined/empty
+      .map((v) => v.toLowerCase()); // normalize case for comparison
+
     return [...new Set(values)];
   };
+
   // Remove duplicates by color name
   const colorSwatches = [
     ...new Map(

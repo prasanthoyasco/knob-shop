@@ -1,6 +1,8 @@
+import { useNavigate } from "react-router-dom";
 import "./OurDesign.css"; 
 
 const OurDesign = ({ rows }) => {
+  const Navigate = useNavigate()
   return (
     <div className="our-design-items-wrapper">
       {rows?.map((row, rowIndex) => (
@@ -9,6 +11,7 @@ const OurDesign = ({ rows }) => {
           className={`our-design-row ${
             rowIndex % 2 === 0 ? "row-normal" : "row-reverse"
           }`}
+          
         >
           {row?.map((item, i) => (
             <div
@@ -16,6 +19,8 @@ const OurDesign = ({ rows }) => {
               className={`our-design-container-image ${
                 i === 0 ? "big" : "small"
               }`}
+              style={{cursor:'pointer'}}
+              onClick={()=> Navigate('/category/6888b08542e07ad91f60e7ae')}
             >
               <img src={item.image} alt={item.header} />
               <div className="overlay" />

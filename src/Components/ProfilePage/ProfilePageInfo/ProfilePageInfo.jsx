@@ -59,6 +59,8 @@ function ProfilePageInfo() {
     name: "",
     phone: "",
     email: "",
+    company: "", // ✅ new
+    GST: "", // ✅ new
   });
   const [addressForm, setAddressForm] = useState({});
   const [errorMessage, setErrorMessage] = useState("");
@@ -70,7 +72,7 @@ function ProfilePageInfo() {
 
   useEffect(() => {
     const storedUser = localStorage.getItem("authUser");
-    console.log(storedUser)
+    console.log(storedUser);
     if (!storedUser) return;
 
     const parsedUser = JSON.parse(storedUser);
@@ -84,6 +86,8 @@ function ProfilePageInfo() {
           name: data.user.name || "",
           phone: data.user.phone || "",
           email: data.user.email || "",
+          company: data.user.company|| "", // ✅ match schema
+          GST: data.user.GST || "", // ✅ match schema
         });
         // Fetch addresses
         const addressData = await getAddressByUserId(id);
@@ -265,6 +269,29 @@ function ProfilePageInfo() {
                 onChange={handleInputChange}
                 className="edit-mode-input-field"
               />
+              <input
+                type="text"
+                name="company"
+                value={formData.company}
+                onChange={handleInputChange}
+                className="edit-mode-input-field"
+                placeholder="Company Name"
+              />
+              <input
+                type="text"
+                name="GST"
+                value={formData.GST}
+                onChange={(e) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    GST: e.target.value.toUpperCase().slice(0, 14), // ⬅️ caps + 14 limit
+                  }))
+                }
+                className="edit-mode-input-field"
+                placeholder="GST Number"
+                maxLength={15}
+                 style={{ textTransform: "uppercase" }}
+              />
               {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
               {successMessage && (
                 <p style={{ color: "green" }}>{successMessage}</p>
@@ -293,6 +320,18 @@ function ProfilePageInfo() {
                   <i class="bi bi-envelope"></i>
                   <p>{user?.email}</p>
                 </div>
+                {user?.company && (
+                  <div className="user-phone-icon-div">
+                    <i className="bi bi-building"></i>
+                    <p>{user.company}</p>
+                  </div>
+                )}
+                {user?.GST && (
+                  <div className="user-phone-icon-div">
+                    <i className="bi bi-receipt"></i>
+                    <p>{user.GST}</p>
+                  </div>
+                )}
               </div>
             </>
           )}

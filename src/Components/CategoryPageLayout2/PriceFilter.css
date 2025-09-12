@@ -17,6 +17,9 @@
   height: 18px;
   margin-top: 0.2rem;
 }
+.form-check-label{
+  text-transform: capitalize !important;
+}
 .custom-checkbox:checked {
   background-color: #fff;
   border-color: #000;

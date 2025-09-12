@@ -12,6 +12,7 @@ import happyAnim from "../../Assets/CategoriesImge/Knob Shop/heart.json";
 import { getAvailableCoupons, validateCoupon } from "../../API/CouponApi";
 import Lottie from "lottie-react";
 import { getAddressByUserId } from "../../API/addressApi";
+import axios from "axios";
 const indianStates = [
   "Andhra Pradesh",
   "Arunachal Pradesh",
@@ -106,13 +107,64 @@ function PaymentPage() {
   const [showFields, setShowFields] = useState(false);
   const [Applying, setApplying] = useState(false);
   const [gstNumber, setGstNumber] = useState("");
+  const [gstData, setGstData] = useState(null);
+  const [error, setError] = useState(null);
+
   const [companyName, setCompanyName] = useState("");
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
 
   const location = useLocation();
   const cartItems = location.state?.cartItems || [];
   const navigate = useNavigate();
+  const API_KEY = "848cf9974177b193fdcae5d1a8ab5efb"; 
 
+  const handleGstBlur = async (val) => {
+  // If val is event, fall back to state
+  const gst = typeof val === "string" ? val : gstNumber;
+  console.log("GST to validate:", gst);
+
+  if (!gst || gst.length !== 15) {
+    setError("GST number must be 15 characters long");
+    return;
+  } else if (gstData?.gstin === gst) {
+    setError(null);
+    return;
+  }
+
+  try {
+    setError(null);
+    const url = `http://sheet.gstincheck.co.in/check/${API_KEY}/${gst}`;
+    const { data } = await axios.get(url);
+
+    console.log("GST API Response:", data);
+    setGstData(data.data);
+
+    if (data.data?.lgnm) {
+      setCompanyName(data.data.lgnm);
+    }
+  } catch (err) {
+    console.error("GST API error:", err);
+    setError("Failed to fetch GST details. Please try again.");
+  }
+};
+
+
+  console.log(gstData);
+  const formatDate = (date) =>
+    date.toLocaleDateString("en-US", {
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+    });
+
+  const today = new Date();
+
+  // Example: delivery window = +2 to +5 days from today
+  const startDate = new Date(today);
+  startDate.setDate(today.getDate() + 2);
+
+  const endDate = new Date(today);
+  endDate.setDate(today.getDate() + 5);
 
   const handleCheckboxChange = (e) => {
     setShowFields(e.target.checked);
@@ -542,10 +594,22 @@ function PaymentPage() {
                   placeholder="Enter GST Number"
                   name="gstNumber"
                   className="contact-con-input"
-                  style={{ margin: "20px 0" }}
+                  style={{ margin: "20px 0", textTransform: "uppercase" }}
+                  maxLength={15}
                   value={gstNumber}
-                  onChange={(e) => setGstNumber(e.target.value)}
+                  onChange={(e) => {
+                    const value = e.target.value.toUpperCase();
+                    setGstNumber(value);
+                  }}
+                  onBlur={handleGstBlur}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                      handleGstBlur();
+                    }
+                  }}
                 />
+
                 <input
                   type="text"
                   placeholder="Enter Company Name"
@@ -554,6 +618,37 @@ function PaymentPage() {
                   value={companyName}
                   onChange={(e) => setCompanyName(e.target.value)}
                 />
+              </div>
+            )}
+            {error && (
+              <div
+                style={{ color: "red", marginTop: "10px", fontSize: "12px" }}
+              >
+                {error}
+              </div>
+            )}
+            {gstData && gstNumber && (
+              <div style={{ marginTop: "10px", fontSize: "10px" }}>
+                <p>
+                  GST number <strong>{gstData.gstin}</strong> is valid, the
+                  legal name is <strong>{gstData.lgnm}</strong>, status is{" "}
+                  <strong
+                    style={{
+                      color:
+                        gstData.sts?.toLowerCase() === "active"
+                          ? "green"
+                          : "red",
+                    }}
+                  >
+                    {gstData.sts}
+                  </strong>
+                  {gstData.tradeNam && (
+                    <>
+                      , and the trade name is{" "}
+                      <strong>{gstData.tradeNam}</strong>.
+                    </>
+                  )}
+                </p>
               </div>
             )}
           </div>
@@ -823,7 +918,7 @@ function PaymentPage() {
                     disabled={sameAsShipping}
                   />
                 </div>
-                
+
                 <input
                   type="text"
                   className="contact-con-input"
@@ -941,8 +1036,10 @@ function PaymentPage() {
             <strong>Pay now and Pick from store after 24 hours</strong>
           ) : (
             <>
-              <h5>Arriving 19 jun 2025</h5>
-              <p>If you order in the next 20 hours and 34 minutes</p>{" "}
+              <h5>
+                Arriving {formatDate(startDate)} - {formatDate(endDate)}
+              </h5>
+              <p>If you order in the next 20 hours and 34 minutes</p>
             </>
           )}
           <div

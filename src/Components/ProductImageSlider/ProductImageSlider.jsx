@@ -159,7 +159,7 @@ useEffect(() => {
 
       {/* Main Image */}
        <div
-      className="product-image-wrapper position-relative text-center"
+      className="product-image-wrapper w-100 mx-auto position-relative text-center"
       {...swipeHandlers}
       onMouseEnter={stopAutoSlide} // pause on hover
       onMouseLeave={startAutoSlide} // resume on leave
@@ -176,7 +176,7 @@ useEffect(() => {
       <img
         src={images[currentIndex]?.url}
         alt="Main Product"
-        className="img-fluid main-image"
+        className="img-fluid mx-auto main-image"
         onLoad={() => setImageLoading(false)}
         onError={() => setImageLoading(false)}
       />

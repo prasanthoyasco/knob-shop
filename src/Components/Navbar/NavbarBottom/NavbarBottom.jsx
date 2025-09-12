@@ -162,7 +162,7 @@ function NavbarBottom() {
 
       {/* Today's Deal - hidden on mobile */}
       <img
-      onClick={()=>navigate('')}
+      onClick={()=>navigate('/offer/todaysdeal')}
         src={todayDealImage}
         className="today-deal-image desktop-only"
         alt="Today's Deal"
