@@ -116,38 +116,44 @@ function PaymentPage() {
   const location = useLocation();
   const cartItems = location.state?.cartItems || [];
   const navigate = useNavigate();
-  const API_KEY = "848cf9974177b193fdcae5d1a8ab5efb"; 
+  const API_KEY = "848cf9974177b193fdcae5d1a8ab5efb";
 
   const handleGstBlur = async (val) => {
-  // If val is event, fall back to state
-  const gst = typeof val === "string" ? val : gstNumber;
-  console.log("GST to validate:", gst);
+    // If val is event, fall back to state
+    const gst = typeof val === "string" ? val : gstNumber;
+    console.log("GST to validate:", gst);
 
-  if (!gst || gst.length !== 15) {
-    setError("GST number must be 15 characters long");
-    return;
-  } else if (gstData?.gstin === gst) {
-    setError(null);
-    return;
-  }
-
-  try {
-    setError(null);
-    const url = `http://sheet.gstincheck.co.in/check/${API_KEY}/${gst}`;
-    const { data } = await axios.get(url);
-
-    console.log("GST API Response:", data);
-    setGstData(data.data);
-
-    if (data.data?.lgnm) {
-      setCompanyName(data.data.lgnm);
+    if (!gst || gst.length !== 15) {
+      setError("GST number must be 15 characters long");
+      return;
+    } else if (gstData?.gstin === gst) {
+      setError(null);
+      return;
     }
-  } catch (err) {
-    console.error("GST API error:", err);
-    setError("Failed to fetch GST details. Please try again.");
-  }
-};
 
+    try {
+      setError(null);
+      const url = `https://gst-return-status.p.rapidapi.com/free/gstin/${gst}`;
+      const { data } = await axios.get(url, {
+        headers: {
+          "x-rapidapi-key":
+            "482b251a62msh4859eb060f58367p106744jsnc8920f169fe5",
+          "x-rapidapi-host": "gst-return-status.p.rapidapi.com",
+          "Content-Type": "application/json",
+        },
+      });
+
+      console.log("GST API Response:", data);
+      setGstData(data.data);
+
+      if (data.data?.lgnm) {
+        setCompanyName(data.data.lgnm);
+      }
+    } catch (err) {
+      console.error("GST API error:", err);
+      setError("Failed to fetch GST details. Please try again.");
+    }
+  };
 
   console.log(gstData);
   const formatDate = (date) =>
@@ -166,12 +172,9 @@ function PaymentPage() {
   const endDate = new Date(today);
   endDate.setDate(today.getDate() + 5);
 
-
   const handleCheckboxChange = (e) => {
     setShowFields(e.target.checked);
   };
-
-  
 
   const subtotal = cartItems.reduce(
     (sum, item) =>
@@ -193,7 +196,11 @@ function PaymentPage() {
           if (coupon.appliesTo === "single" && coupon.productId) {
             return cartItems.some((item) => {
               const itemId =
-                item._id || item.id || item?.productId || item?.productId?._id;
+                item._id ??
+                item.id ??
+                item.productId?._id ??
+                item.productId ??
+                null;
 
               return String(itemId) === String(coupon.productId);
             });
@@ -328,14 +335,21 @@ function PaymentPage() {
         email: contactInfo.includes("@") ? contactInfo : "test@example.com",
       };
 
-      const items = cartItems.map((item) => ({
-        productId:
-          item._id || item.id || item?.productId || item?.productId._id,
-        productName: item.title || item.productName || item?.productId?.name,
-        quantity: item.quantity,
-        price: totalValue,
-        total: (item.price || 0) * item.quantity,
-      }));
+      const items = cartItems.map((item) => {
+        const unitPrice =
+          item.price ||
+          item?.productId?.variant?.[0]?.sizes?.[0]?.sellingPrice ||
+          0;
+
+        return {
+          productId:
+            item._id || item.id || item?.productId?._id || item?.productId,
+          productName: item.title || item.productName || item?.productId?.name,
+          quantity: item.quantity,
+          price: unitPrice, // individual item price
+          total: unitPrice * item.quantity, // total for this item
+        };
+      });
 
       let referenceNumber = "";
       let orderId = `ORDER-${Date.now()}`;
@@ -1008,7 +1022,7 @@ function PaymentPage() {
                     }}
                   >
                     {coupon.code} —{" "}
-                    {coupon.type === "percent"
+                    {coupon.type === "percentage"
                       ? `${coupon.value}% Off`
                       : `₹${coupon.value} Off`}
                     {coupon.appliesTo === "single" && (

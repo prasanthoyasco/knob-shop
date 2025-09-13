@@ -4,7 +4,7 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import 'font-awesome/css/font-awesome.min.css';
 import { Home } from './Pages/Home';
 import NewsletterModal from './Components/NewsletterModal/NewsletterModal';
@@ -44,9 +44,19 @@ import SignUpPage from './Components/AuthenticationPage/SignUpPage/SignUpPage';
 import ForgotPassPage from './Components/AuthenticationPage/ForgotPassPage/ForgotPassPage';
 import ResetPassPage from './Components/AuthenticationPage/ResetPassPage/ResetPassPage';
 import OfferProducts from './Pages/OfferProducts';
+import { useEffect } from 'react';
 // import NavbarTop from './Components/Navbar/NavbarTop/NavbarTop';
 
 function App() {
+  function RouteTracker() {
+  const location = useLocation();
+
+  useEffect(() => {
+    localStorage.setItem("lastPath", location.pathname);
+  }, [location]);
+
+  return null;
+}
   const { drawerOpen, toggleDrawer, cartItems, removeFromCart, recommendedItems, addToCart } = useCart();
    const {
     drawerOpen: wishlistDrawerOpen,
@@ -57,6 +67,7 @@ function App() {
   return (
 
     <Router>
+      <RouteTracker />
       {/* <NewsletterModal /> */}
       {/* <NavbarTop /> */}
       <ScrollToTop/>

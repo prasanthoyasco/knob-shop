@@ -67,10 +67,15 @@ function LoginPage() {
       localStorage.getItem("authToken");
 
       setTimeout(() => {
-        if (window.history.length > 1) {
-          navigate(-1); // go back if possible
+        const lastPath = localStorage.getItem("lastPath");
+        console.log(lastPath)
+
+        if (lastPath === "/auth/register" || lastPath === "/auth/forgot-password" || lastPath === "/auth/login") {
+          navigate("/");
+        } else if (window.history.length > 1) {
+          navigate(-1);
         } else {
-          navigate("/"); // fallback to home
+          navigate("/");
         }
       }, 1500);
     } catch (err) {

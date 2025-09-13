@@ -5,13 +5,14 @@ import './ProfilePage.css';
 import NavbarTop from '../Navbar/NavbarTop/NavbarTop';
 import ProductPageAddress from './ProductPageAddress/ProductPageAddress';
 import Wishlist from './Wishlist/Wishlist';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import CartPageProfile from './CartPageProfile/CartPageProfile';
 import MyOrders from './MyOrders/MyOrders';
 import Footer from '../Footer/Footer';
 import Image from '../../Assets/Untitled/WhatsApp Image 2025-08-19 at 09.22.25_e569d92c.jpg'
 function ProfilePage() {
    const location = useLocation();
+   const navigate = useNavigate();
   const [activeSection, setActiveSection] = useState('personal');
   const storedUser = localStorage.getItem("authUser");
   const userId = storedUser.id || JSON.parse(storedUser)._id || storedUser._id; 
@@ -41,7 +42,7 @@ function ProfilePage() {
         {activeSection === 'cart' && <CartPageProfile/>}
         {activeSection === 'wishlist' && <Wishlist userId={userId} />}
         {activeSection === 'orders' && <MyOrders userId={userId} />}
-        {activeSection === 'help' && <div><h1>Help Section</h1></div>}
+        {/* {activeSection === 'help' && <div><h1>Help Section</h1></div>} */}
       </div>
     </div>
     <Footer/>

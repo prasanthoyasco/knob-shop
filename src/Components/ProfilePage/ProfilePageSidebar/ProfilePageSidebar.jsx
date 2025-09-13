@@ -25,14 +25,18 @@ function ProfilePageSidebar({ setActiveSection, activeSection }) {
 
   const navigate = useNavigate();
 
-  const handleSignOut = () => {
-    localStorage.removeItem("authUser"); // or clear all: localStorage.clear();
-    localStorage.removeItem("authToken");
-    clearWishlist(); // clear wishlist
-    clearCart(); // Clear cart items
-    alert("Signed out successfully"); // Optional
-    navigate("/"); // Redirect to login page or home
-  };
+const handleSignOut = () => {
+  const confirmLogout = window.confirm("Are you sure you want to log out?");
+  if (!confirmLogout) return; // cancel if user clicks "No"
+
+  localStorage.removeItem("authUser"); // or clear all: localStorage.clear();
+  localStorage.removeItem("authToken");
+  clearWishlist(); // clear wishlist
+  clearCart(); // Clear cart items
+  alert("Signed out successfully"); // Optional
+  navigate("/"); // Redirect to login page or home
+};
+
 
   return (
     <div className="profile-page-sidebar-con">
@@ -94,7 +98,7 @@ function ProfilePageSidebar({ setActiveSection, activeSection }) {
             <h5>My Wishlist</h5>
           </div>
 
-          <div
+          {/* <div
             className={isActive("help")}
             onClick={() => {
               setActiveSection("help");
@@ -103,7 +107,7 @@ function ProfilePageSidebar({ setActiveSection, activeSection }) {
           >
             <i className="bi bi-patch-question"></i>
             <h5>Need Help</h5>
-          </div>
+          </div> */}
 
           <div onClick={handleSignOut} style={{ cursor: "pointer" }}>
             <div className="profile-page-sidebar-icon-text">
@@ -201,11 +205,11 @@ function ProfilePageSidebar({ setActiveSection, activeSection }) {
             <h5>My Wishlist</h5>
           </div>
         </div>
-        <div className="profile-page-sidebar-individual-sec">
+        {/* <div className="profile-page-sidebar-individual-sec">
           <div>
           </div>
-        </div>
-        <div className="profile-page-sidebar-individual-sec">
+        </div> */}
+        {/* <div className="profile-page-sidebar-individual-sec">
           <div
             className={isActive("help")}
             onClick={() => {
@@ -216,7 +220,7 @@ function ProfilePageSidebar({ setActiveSection, activeSection }) {
             <i className="bi bi-patch-question"></i>
             <h5>Need Help</h5>
           </div>
-        </div>
+        </div> */}
         <div className="profile-page-sidebar-individual-sec">
           <div>
           </div>
