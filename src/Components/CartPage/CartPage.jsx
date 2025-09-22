@@ -80,8 +80,8 @@ function CartPage() {
       : [
           {
             id: 1,
-            title: "YDME50NxT Smart Door Lock",
-            brand: "Yale",
+            title: "Country Chicken",
+            brand: "Iraichi kadai",
             color: "Black",
             price: 89299,
             quantity: 1,

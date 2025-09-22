@@ -73,7 +73,13 @@ export default function EssentialsSection() {
   ],
 ];
 
-
+function chunkArray(arr, size) {
+  const result = [];
+  for (let i = 0; i < arr.length; i += size) {
+    result.push(arr.slice(i, i + size));
+  }
+  return result;
+}
   if (!essentials) return null; // or add a loader/spinner
 
   return (
@@ -106,7 +112,7 @@ export default function EssentialsSection() {
 
             {/* Cards */}
             <div className="box-number col-12 col-lg-8 d-flex gap-3 justify-content-start flex-wrap flex-md-nowrap">
-              {essentials.cards.map((card, index) => (
+              {essentials.cards.slice(0, 3).map((card, index) => (
                 <div
                   key={card._id || index}
                   className="mb-4"
@@ -114,12 +120,12 @@ export default function EssentialsSection() {
                   data-aos="fade-up"
                   data-aos-delay={100 * (index + 1)}
                   onClick={() =>
-                    navigate("/categories", {
+                    navigate("/essentials-details", {
                       state: {
                         title: card.title,
                         Subtitles: "essentials",
                         category: card.categories,
-                        rowsData: rowsData,
+                        rowsData: chunkArray(essentials.cards, 2),
                       },
                     })
                   }
@@ -145,12 +151,12 @@ export default function EssentialsSection() {
                           <a
                             href=""
                             onClick={() =>
-                              navigate("/categories", {
+                              navigate("/essentials-details", {
                                 state: {
                                   title: card.title,
                                   Subtitles: "essentials",
                                   category: card.categories,
-                                  rowsData: rowsData,
+                                  rowsData: chunkArray(essentials.cards, 2),
                                 },
                               })
                             }
@@ -173,15 +179,16 @@ export default function EssentialsSection() {
           <button
             className="dark-btn rounded-pill px-4 py-2"
             onClick={() =>
-              navigate("/categories", {
+              navigate("/essentials-details", {
                 state: {
-                  allProducts: essentials.cards,
+                  rowsData: chunkArray(essentials.cards, 2),  
+                  Subtitles: "essentials",
                   title: "All Products",
                 },
               })
             }
           >
-            CHECK ALL PRODUCTS
+            Check All Essentials
           </button>
         </div>
       </div>

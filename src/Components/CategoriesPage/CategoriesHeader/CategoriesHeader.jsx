@@ -13,7 +13,7 @@ function CategoriesHeader() {
   const navigate = useNavigate()
     const title = location.state?.title || "SHOP BY CATEGORIES";
   const category = location.state?.Subtitles || "Categories"
-  const rowsData = location.state?.rowsData || "Categories"
+  const rowsData = location.state?.rowsData
   return (
     <>
     <NavbarTop/>
@@ -25,9 +25,9 @@ function CategoriesHeader() {
         <h1>{category}</h1>
       </div>
     </div>
-     <OurDesign rows={rowsData} />
+     {rowsData? <OurDesign rows={rowsData} /> : <CatGrid/>}
     {/* <CategoriesGrid/> */}
-    <CatGrid/>
+    
     <CategoriesBanner/>
     <Footer/>
     </>

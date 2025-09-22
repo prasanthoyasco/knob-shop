@@ -65,12 +65,12 @@ export const createDTDCConsignment = async (orderData) => {
           origin_details: {
             name: "knobsshop",
             phone: "917092466600",
-            alternate_phone: "9123456789",
-            address_line_1: "dummy sender",
-            address_line_2: "",
-            pincode: "110046",
-            city: "New Delhi",
-            state: "Delhi",
+            alternate_phone: "04222550744",
+            address_line_1: "746 747, Mettupalayam Rd, R.S. Puram",
+            address_line_2: "Coimbatore, Tamil Nadu",
+            pincode: "641002",
+            city: "Coimbatore",
+            state: "TamilNadu",
           },
           destination_details: {
             name: fallback(shippingAddress.name, "Receiver"),
@@ -86,22 +86,22 @@ export const createDTDCConsignment = async (orderData) => {
             state: validState,
           },
           return_details: {
-            address_line_1: "Test_Address_Return",
-            address_line_2: "Test_Address_Return line 2",
-            city_name: "DELHI",
-            name: "Test_Return",
-            phone: "9876543212",
-            pincode: "248001",
-            state_name: "DELHI",
-            email: "amisha.arora@test.co.in",
-            alternate_phone: "9123456791",
+            address_line_1: "746 747, Mettupalayam Rd, R.S. Puram", //746 747, Mettupalayam Rd, R.S. Puram, Coimbatore, Tamil Nadu - 641002
+            address_line_2: "Coimbatore, Tamil Nadu",
+            city_name: "Coimbatore",
+            name: "Knobsshop",
+            phone: "917092466600",
+            pincode: "641002",
+            state_name: "TamilNadu",
+            email: "ecom@knobsshop.store",
+            alternate_phone: "04222550744",
           },
           customer_reference_number: _id,
           cod_collection_mode: "",
           cod_amount: "",
           commodity_id: "99",
           eway_bill: ewayBill,
-          is_risk_surcharge_applicable: "false",
+          is_risk_surcharge_applicable: "true",
           invoice_number: invoiceNo,
           invoice_date: invoiceDate,
           reference_number: "",
@@ -112,7 +112,7 @@ export const createDTDCConsignment = async (orderData) => {
     console.log("📦 Final Payload to Send to DTDC:", payload);
 
     const response = await axios.post(
-      "https://alphademodashboardapi.shipsy.io/api/customer/integration/consignment/softdata",
+      "https://dtdcapi.shipsy.io/api/customer/integration/consignment/softdata",
       payload,
       {
         headers: {

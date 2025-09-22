@@ -46,12 +46,12 @@ const carouselData = [
   },
 ];
 
-const CubeCarousel = () => {
+const CubeCarousel = ({Title}) => {
   const navigate = useNavigate()
   const prevRef = useRef(null);
   const nextRef = useRef(null);
    const [isMobile, setIsMobile] = useState(false);
-
+   const Heading = Title ? Title +" Collection" : "New & Tradition Collection";
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth <= 768);
     checkMobile(); // Set on mount
@@ -67,8 +67,8 @@ const CubeCarousel = () => {
   return (
     <div className="cube-carousel-wrapper">
       <div className="flex-grow-1 text-center my-4">
-        <h2 className="h5 text-uppercase fw-medium">
-          New & Tradition Collection
+        <h2 className="h5 text-capitalize fw-bold">
+           {Heading}
         </h2>
       </div>
 

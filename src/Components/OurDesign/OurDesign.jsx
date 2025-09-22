@@ -2,7 +2,17 @@ import { useNavigate } from "react-router-dom";
 import "./OurDesign.css"; 
 
 const OurDesign = ({ rows }) => {
-  const Navigate = useNavigate()
+  const navigate = useNavigate()
+  console.log(rows)
+  function slugify(text) {
+  return text
+    .toString()
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, "-")        // spaces → -
+    .replace(/[^\w\-]+/g, "")    // remove non-word chars
+    .replace(/\-\-+/g, "-");     // collapse multiple -
+}
   return (
     <div className="our-design-items-wrapper">
       {rows?.map((row, rowIndex) => (
@@ -20,13 +30,13 @@ const OurDesign = ({ rows }) => {
                 i === 0 ? "big" : "small"
               }`}
               style={{cursor:'pointer'}}
-              onClick={()=> Navigate('/category/6888b08542e07ad91f60e7ae')}
+              onClick={()=> navigate(`/essentials-details/${slugify(item.header || item.title)}`,{ state: item })}
             >
-              <img src={item.image} alt={item.header} />
+              <img src={item.image || item.bgImage} alt={item.header} />
               <div className="overlay" />
               <div className="our-design-container-image-inside-text">
-                <h3>{item.header}</h3>
-                <p>{item.para}</p>
+                <h3>{item.header || item.title }</h3>
+                <p>{item.para || item.description}</p>
               </div>
             </div>
           ))}

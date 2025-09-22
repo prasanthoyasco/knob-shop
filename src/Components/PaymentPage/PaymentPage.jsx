@@ -13,6 +13,7 @@ import { getAvailableCoupons, validateCoupon } from "../../API/CouponApi";
 import Lottie from "lottie-react";
 import { getAddressByUserId } from "../../API/addressApi";
 import axios from "axios";
+import { generateEwayBill } from "../../utils/ewayBill";
 const indianStates = [
   "Andhra Pradesh",
   "Arunachal Pradesh",
@@ -187,6 +188,7 @@ function PaymentPage() {
   );
 
   useEffect(() => {
+      if (!cartItems?.length) return;
     getAvailableCoupons()
       .then((coupons) => {
         console.log(coupons);
@@ -304,6 +306,7 @@ function PaymentPage() {
   const handlePayment = async () => {
     setPaying(true);
     try {
+       let ewayBill = null;
       if (!Userid) {
         alert("Please login before payment");
         navigate("/auth/register");
@@ -311,6 +314,11 @@ function PaymentPage() {
       }
 
       const totalValue = Math.max(0, subtotal - discount);
+
+      if (totalValue >= 50000) {
+      ewayBill = await generateEwayBill(order);
+      console.log("Generated eWay Bill:", ewayBill);
+    }
 
       const shippingData = {
         name: `${shippingFirstName} + ' ' + ${shippingLastName}`,
@@ -361,7 +369,7 @@ function PaymentPage() {
           invoiceNo: `INV-${Date.now()}`,
           invoiceDate: new Date().toISOString().split("T")[0],
           totalAmount: totalValue,
-          ewayBill: "12345678",
+          ewayBill: ewayBill,
           shippingAddress: shippingData,
           cartItems,
           dimensions: {

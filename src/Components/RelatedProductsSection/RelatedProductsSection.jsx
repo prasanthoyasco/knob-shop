@@ -3,11 +3,12 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import ProductCard from "../ProductCard/ProductCard";
 import { fetchProductsByCategory, getAllProducts } from "../../API/productApi";
 
-const RelatedProductsSection = ({ categoryId }) => {
-  console.log(categoryId)
+const RelatedProductsSection = ({ categoryId, Title }) => {
+  console.log(categoryId);
   const sliderRef = React.useRef(null);
   const [loading, setLoading] = useState(false);
   const [relatedProducts, setRelatedProducts] = useState([]);
+  const Heading = Title ? Title +" Products" : "You may also like";
 
   useEffect(() => {
     const fetchRelatedProducts = async () => {
@@ -20,14 +21,20 @@ const RelatedProductsSection = ({ categoryId }) => {
           setRelatedProducts(allProductsResponse.data);
         } else {
           // Fallback: If no categoryId is provided, fetch a random set of products
-          const randomProductsResponse = await getAllProducts({ random: true, limit: 10 });
+          const randomProductsResponse = await getAllProducts({
+            random: true,
+            limit: 10,
+          });
           setRelatedProducts(randomProductsResponse.data);
         }
       } catch (err) {
         console.error("Failed to fetch related products", err);
         // Fallback to random products on error
         try {
-          const randomProductsResponse = await getAllProducts({ random: true, limit: 10 });
+          const randomProductsResponse = await getAllProducts({
+            random: true,
+            limit: 10,
+          });
           setRelatedProducts(randomProductsResponse.data);
         } catch (fallbackErr) {
           console.error("Failed to fetch fallback products", fallbackErr);
@@ -54,7 +61,7 @@ const RelatedProductsSection = ({ categoryId }) => {
 
   return (
     <div className="mt-3 mb-4 my-md-5">
-      <h4 className="fw-semibold mb-4 text-center">You may also like</h4>
+      <h4 className="fw-semibold mb-4 text-center text-capitalize">{Heading}</h4>
 
       <div className="position-relative">
         {/* Left Arrow */}
@@ -84,7 +91,9 @@ const RelatedProductsSection = ({ categoryId }) => {
           }}
         >
           {relatedProducts?.map((product, i) => {
-            const hasKeyFeatures = Array.isArray(product?.key_features) && product.key_features.length > 0;
+            const hasKeyFeatures =
+              Array.isArray(product?.key_features) &&
+              product.key_features.length > 0;
             const formattedProduct = {
               id: product?._id,
               title: product?.name,

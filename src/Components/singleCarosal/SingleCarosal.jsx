@@ -10,7 +10,7 @@ import singleCarosal1 from "../../Assets/blogcoverphoto.jpg";
 import singleCarosal2 from "../../Assets/blogcoverphoto2.png";
 import singleCarosal3 from "../../Assets/blogcoverphoto1.jpg";
 import "./SingleCarosal.css";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const carouselData =   [
   {
@@ -37,8 +37,21 @@ const carouselData =   [
 ];
 
 
-const SingleCarosal = () => {
+const SingleCarosal  = ({ bannerRef }) => {
+  
   const navigate = useNavigate();
+  const location = useLocation(); 
+  const handleCTA = (item) => {
+    if (location.pathname.startsWith("/essentials-details/")) {
+       bannerRef?.current?.scrollIntoView({ behavior: "smooth" });
+      // navigate(`/special-living-room/${item.subtit.replace(/\s+/g, "")}`);
+    } else if (location.pathname === "/") {
+      navigate(`/subpage/${item?.subtit.replace(/\s+/g, "")}`)
+    } else { 
+      console.log("Living Room CTA else clicked:", item);
+      // navigate(`/subpage/${item.subtit.replace(/\s+/g, "")}`);
+    }
+  };
   return (
     <div className="custom-carousel-container mt-4">
       <Swiper
@@ -74,9 +87,7 @@ const SingleCarosal = () => {
                 </p>
                 <button
                   className="custom-carousel-button"
-                  onClick={() =>
-                    navigate(`/subpage/${item?.subtit.replace(/\s+/g, "")}`)
-                  }
+                  onClick={() => handleCTA(item)}
                 >
                   Explore NOW
                 </button>
