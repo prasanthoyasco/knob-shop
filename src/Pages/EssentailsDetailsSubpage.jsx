@@ -1,35 +1,63 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import NavbarTop from "../Components/Navbar/NavbarTop/NavbarTop";
 import CategoryHero from "../Components/CategoryHero/CategoryHero";
-import lockerBg from "../Assets/CategoriesImge/image.jpg";
 import SingleCarosal from "../Components/singleCarosal/SingleCarosal";
 import RelatedProductsSection from "../Components/RelatedProductsSection/RelatedProductsSection";
 import Footer from "../Components/Footer/Footer";
 import CategoriesBanner from "../Components/CategoriesPage/CategoriesBanner/CategoriesBanner";
+import { getEssentials } from "../API/essentialApi";
 
 const EssentailsDetailsSubpage = () => {
   const { name } = useParams();
   const { state } = useLocation();
+  const bannerRef = useRef(null);
+
+  const [essentials, setEssentials] = useState(null);
+  const [card, setCard] = useState(null);
 
   function deslugify(slug) {
     return slug.replace(/-/g, " ");
   }
 
-  const count = 0;
-  const bannerRef = useRef(null); // ✅ create a ref
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await getEssentials();
+        if (Array.isArray(data) && data.length > 0) {
+          setEssentials(data[0]);
+
+          const match = data[0].cards.find(
+            (c) =>
+              c.title.toLowerCase() === deslugify(name).toLowerCase() ||
+              c._id === state?.id
+          );
+          setCard(match || null);
+        }
+      } catch (error) {
+        console.error("Failed to fetch essentials:", error);
+      }
+    };
+    fetchData();
+  }, [name, state]);
+
+  if (!card) return null; // or add a loader
 
   return (
     <>
       <NavbarTop />
       <CategoryHero
-        categoryTitle={deslugify(name)}
-        count={count}
-        backgroundImage={lockerBg}
+        categoryTitle={card.title}
+        count={card.products?.length || 0}
+        backgroundImage={card.bgImage}
       />
-      <SingleCarosal bannerRef={bannerRef} /> {/* ✅ pass down ref */}
-      <RelatedProductsSection Title={deslugify(name)} />
-      <CategoriesBanner ref={bannerRef} /> {/* ✅ attach ref */}
+      <SingleCarosal bannerRef={bannerRef} sliders={card.sliders || []} />
+      <RelatedProductsSection
+       products={card.products || []}
+        categoryId={card.categories?.[0]}
+        Title={card.title}
+      />
+      <CategoriesBanner ref={bannerRef} />
       <div className="mt-4" />
       <Footer />
     </>

@@ -37,7 +37,7 @@ const carouselData =   [
 ];
 
 
-const SingleCarosal  = ({ bannerRef }) => {
+const SingleCarosal  = ({ bannerRef ,sliders =carouselData }) => {
   
   const navigate = useNavigate();
   const location = useLocation(); 
@@ -68,7 +68,7 @@ const SingleCarosal  = ({ bannerRef }) => {
         loop={true}
         className="custom-single-swiper"
       >
-        {carouselData.map((item, index) => (
+        {sliders.map((item, index) => (
           <SwiperSlide key={index}>
             <div
               className="custom-single-carousel-slide-bg"

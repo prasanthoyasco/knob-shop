@@ -3,7 +3,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import ProductCard from "../ProductCard/ProductCard";
 import { fetchProductsByCategory, getAllProducts } from "../../API/productApi";
 
-const RelatedProductsSection = ({ categoryId, Title }) => {
+const RelatedProductsSection = ({  products = [], categoryId, Title }) => {
   console.log(categoryId);
   const sliderRef = React.useRef(null);
   const [loading, setLoading] = useState(false);
@@ -15,17 +15,18 @@ const RelatedProductsSection = ({ categoryId, Title }) => {
       setLoading(true);
       try {
         // Step 1: Check if a categoryId is provided
-        if (categoryId) {
-          // Step 2: Fetch products directly by category ID
-          const allProductsResponse = await fetchProductsByCategory(categoryId);
-          setRelatedProducts(allProductsResponse.data);
+        if (products.length > 0) {
+          // Directly use provided products
+          console.log(products)
+          setRelatedProducts(products);
+        } else if (categoryId) {
+          // Fetch by category
+          const res = await fetchProductsByCategory(categoryId);
+          setRelatedProducts(res.data);
         } else {
-          // Fallback: If no categoryId is provided, fetch a random set of products
-          const randomProductsResponse = await getAllProducts({
-            random: true,
-            limit: 10,
-          });
-          setRelatedProducts(randomProductsResponse.data);
+          // Fallback: random
+          const res = await getAllProducts({ random: true, limit: 10 });
+          setRelatedProducts(res.data);
         }
       } catch (err) {
         console.error("Failed to fetch related products", err);

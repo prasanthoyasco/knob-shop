@@ -159,7 +159,7 @@ const ProductCard = ({ product }) => {
 
           {/* Color Select */}
           <div className="product-colors d-flex align-items-center gap-2 my-2 products-color-show">
-            {product.variant?.map((color, index) => (
+            {product.variant?.slice(0, 4).map((color, index) => (
               <input
                 key={index}
                 type="radio"
