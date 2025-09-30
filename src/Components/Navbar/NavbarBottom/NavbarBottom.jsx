@@ -72,7 +72,13 @@ function NavbarBottom() {
           <p>Shop By Categories</p>
           <div className="vertical-line desktop-only"></div>
 
-          <div className="category-dropdown-menu">
+          <div
+  className="category-dropdown-menu"
+  style={{
+    columnCount: Math.ceil(category.length /15), // ✅ dynamic column count
+    columnGap: "20px"
+  }}
+>
             {category.length === 0 ? (
               <p className="dropdown-item">Loading...</p>
             ) : (
