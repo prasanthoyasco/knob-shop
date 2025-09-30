@@ -126,7 +126,9 @@
   padding: 10px 0;
   z-index: 100;
   border-radius: 4px;
-  min-width: 200px;
+  min-width: max-content;   /* expand to fit widest item */
+  width: auto;              /* let width auto-adjust */
+  white-space: nowrap;      /* prevent text wrapping */
   animation: fadeInDropdown 0.3s ease forwards;
 }
 
