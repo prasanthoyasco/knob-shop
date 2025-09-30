@@ -75,7 +75,7 @@ function NavbarBottom() {
           <div
   className="category-dropdown-menu"
   style={{
-    columnCount: Math.ceil(category.length /15), // ✅ dynamic column count
+    columnCount: Math.ceil(category.length /10), // ✅ dynamic column count
     columnGap: "20px"
   }}
 >
