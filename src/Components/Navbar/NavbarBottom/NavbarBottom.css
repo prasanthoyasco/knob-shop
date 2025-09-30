@@ -116,21 +116,23 @@
 .category-dropdown-menu {
   display: none;
   position: absolute;
-  column-count: 3;
-  column-gap: 20px;
+  column-count: auto;     /* auto-adjust columns */
+  column-width: 200px;    /* each column has min width */
+  column-gap: 30px;       /* spacing between columns */
   max-height: 75vh;
   top: 40px;
   left: 0;
   background-color: white;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 10px 0;
+  padding: 15px 20px;
   z-index: 100;
   border-radius: 4px;
-  min-width: max-content;   /* expand to fit widest item */
-  width: auto;              /* let width auto-adjust */
-  white-space: nowrap;      /* prevent text wrapping */
-  animation: fadeInDropdown 0.3s ease forwards;
+
+  width: max-content;     /* fit content width */
+  max-width: 90vw;        /* prevent going outside screen */
+  overflow-y: auto;       /* scroll vertically if too tall */
 }
+
 
 .navbar-bottom-text-icon:hover .category-dropdown-menu {
   display: block;
