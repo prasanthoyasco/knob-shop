@@ -123,29 +123,14 @@
   padding: 10px;
   z-index: 100;
   border-radius: 4px;
-  animation: fadeInDropdown 0.3s ease forwards;
 
-  /* Keep newspaper-style columns */
-  column-count: 3;
+  /* Remove max-height to prevent scroll */
+  /* max-height: 75vh; */
+
+  /* Use columns */
   column-gap: 20px;
-
-  /* ✅ Allow width to grow with content */
-  width: max-content;
-  min-width: 250px;
-
-  /* ✅ Prevent items from splitting across columns */
-  .dropdown-item {
-    break-inside: avoid;
-    -webkit-column-break-inside: avoid;
-    page-break-inside: avoid;
-    display: block;
-    padding: 5px 10px;
-    white-space: nowrap; /* keep text in one line */
-  }
-
-  /* ✅ Scroll if too tall */
-  max-height: 75vh;
-  overflow-y: auto;
+  /* width will auto-fit content */
+  white-space: nowrap;
 }
 
 
