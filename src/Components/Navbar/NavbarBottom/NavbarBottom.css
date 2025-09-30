@@ -116,18 +116,38 @@
 .category-dropdown-menu {
   display: none;
   position: absolute;
-  column-gap: 20px;
-  max-height: 75vh;
   top: 40px;
   left: 0;
   background-color: white;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 10px 0;
+  padding: 10px;
   z-index: 100;
   border-radius: 4px;
-  min-width: 200px;
   animation: fadeInDropdown 0.3s ease forwards;
+
+  /* Keep newspaper-style columns */
+  column-count: 3;
+  column-gap: 20px;
+
+  /* ✅ Allow width to grow with content */
+  width: max-content;
+  min-width: 250px;
+
+  /* ✅ Prevent items from splitting across columns */
+  .dropdown-item {
+    break-inside: avoid;
+    -webkit-column-break-inside: avoid;
+    page-break-inside: avoid;
+    display: block;
+    padding: 5px 10px;
+    white-space: nowrap; /* keep text in one line */
+  }
+
+  /* ✅ Scroll if too tall */
+  max-height: 75vh;
+  overflow-y: auto;
 }
+
 
 .navbar-bottom-text-icon:hover .category-dropdown-menu {
   display: block;
