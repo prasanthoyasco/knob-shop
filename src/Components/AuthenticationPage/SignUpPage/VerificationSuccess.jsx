@@ -17,7 +17,7 @@ const VerificationSuccess = ({ onComplete }) => {
           style={{ width: "220px", marginBottom: "1rem" }}
         />
         <h2 className="fw-bold text-success">Email Verified!</h2>
-        <p className="text-muted">Redirecting to home...</p>
+        <p className="text-muted">Redirecting...</p>
       </div>
     </div>
   );

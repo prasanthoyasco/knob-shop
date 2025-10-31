@@ -1,0 +1,35 @@
+/* Custom modal backdrop for fixed position and overlay */
+.modal-backdrop-custom {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5); /* Black with 50% opacity */
+  z-index: 1050; /* Bootstrap's modal backdrop z-index */
+  display: flex; /* Ensures centering with justify-content-center and align-items-center */
+}
+
+/* Custom modal content styling to match your original design */
+.custom-modal-content {
+  border-radius: 0.75rem; /* Equivalent to rounded-xl */
+  padding: 1.5rem; /* Equivalent to p-6 */
+  max-width: 24rem; /* Equivalent to max-w-sm */
+  width: 100%;
+  margin: 1.75rem auto; /* Ensures it's not glued to the top/bottom on smaller screens */
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15); /* Equivalent to shadow-lg */
+}
+
+/* Custom button style for your brand color */
+.custom-login-btn {
+  background-color: #ab7b53; /* Your custom primary color */
+  color: white;
+  border-color: #ab7b53; /* Match border color */
+}
+
+.custom-login-btn:hover,
+.custom-login-btn:focus {
+  background-color: #946441; /* Your custom hover color */
+  border-color: #946441;
+  color: white; /* Ensure text remains white on hover */
+}

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import RecommendedSlider from "./cart-drawer-recommend";
 import { getAllProducts } from "../../API/productApi";
 import "./CartDrawer.css";
-import { NotebookPen, TruckIcon, X } from "lucide-react";
+import { NotebookPen, Share2, TruckIcon, X } from "lucide-react";
 import { CountrySelect } from "./CountrySelect";
 import { useNavigate } from "react-router-dom";
 import { fetchProductsByCategory } from "../../API/productApi";
@@ -15,7 +15,7 @@ const CartDrawer = ({
   onAddToCart,
 }) => {
   const navigate = useNavigate();
-  const { updateCartItemQuantity } = useCart();
+  const { updateCartItemQuantity,shareCurrentCart } = useCart();
   const [activeTab, setActiveTab] = useState(null);
   // const [note, setNote] = useState("");
   // const [country, setCountry] = useState("India");
@@ -79,6 +79,13 @@ const CartDrawer = ({
           <h5 className="mb-0 fs-6 fw-normal">
             {cartItems.length ? "Item Added to Your Cart" : "Shopping Cart"}
           </h5>
+          <div className="d-flex gap-2 align-items-center">
+            <button
+            className="btn btn-sm rounded-50 py-1 px-2 share-cart-btn m-0 border-0 w-auto border-0 me-2"
+            onClick={() => shareCurrentCart()}
+          >
+            <Share2 size={18}/>
+          </button>
           <button
             className="btn p-0 m-0 border-0"
             title="Close cart"
@@ -86,6 +93,7 @@ const CartDrawer = ({
           >
             <X />
           </button>
+          </div>
         </div>
 
         <div className="cart-drawer-body px-3 py-2">

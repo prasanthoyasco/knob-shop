@@ -30,60 +30,75 @@ function LoginPage() {
 
   // Handle login
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setErrorMsg("");
-    setSuccessMsg("");
+  e.preventDefault();
+  setLoading(true);
+  setErrorMsg("");
+  setSuccessMsg("");
 
-    try {
-      let res;
+  try {
+    let res;
 
-      if (formData.email) {
-        // Email login
-        res = await Login({
-          email: formData.email,
-          password: formData.password,
-        });
-      } else if (formData.phone) {
-        // Phone login
-        res = await phoneLogin({
-          phone: formData.phone,
-          password: formData.password,
+    if (formData.email) {
+      res = await Login({
+        email: formData.email,
+        password: formData.password,
+      });
+    } else if (formData.phone) {
+      res = await phoneLogin({
+        phone: formData.phone,
+        password: formData.password,
+      });
+    } else {
+      setErrorMsg("Please enter email or phone number.");
+      setLoading(false);
+      return;
+    }
+
+    // ✅ Save token and user info
+    localStorage.setItem("authToken", res.token);
+    const fullUser = await getUserById(res.user.id);
+    localStorage.setItem("authUser", JSON.stringify(fullUser.user));
+
+    setSuccessMsg("Login successful! Redirecting...");
+
+    // 🧠 Check for saved payment/cart session
+    const pendingSession = localStorage.getItem("pendingPaymentSession");
+
+    setTimeout(() => {
+      if (pendingSession) {
+        const session = JSON.parse(pendingSession);
+        localStorage.removeItem("pendingPaymentSession");
+
+        // Redirect to saved page and restore form/cart data
+        navigate(session.redirectUrl, {
+          state: {
+            formData: session.formData,
+            cartItems: session.cartItems,
+          },
         });
       } else {
-        setErrorMsg("Please enter email or phone number.");
-        setLoading(false);
-        return;
-      }
-
-      // Save token and user
-      localStorage.setItem("authToken", res.token);
-      setSuccessMsg("Login successful! Redirecting...");
-
-      // Fetch full user by ID
-      const fullUser = await getUserById(res.user.id);
-      localStorage.setItem("authUser", JSON.stringify(fullUser.user));
-      console.log("Full user data:", fullUser);
-      localStorage.getItem("authToken");
-
-      setTimeout(() => {
+        // ✅ Existing redirect logic (fallback)
         const lastPath = localStorage.getItem("lastPath");
-        console.log(lastPath)
-
-        if (lastPath === "/auth/register" || lastPath === "/auth/forgot-password" || lastPath === "/auth/login") {
+        if (
+          lastPath === "/auth/register" ||
+          lastPath === "/auth/forgot-password" ||
+          lastPath === "/auth/login"
+        ) {
           navigate("/");
         } else if (window.history.length > 1) {
           navigate(-1);
         } else {
           navigate("/");
         }
-      }, 1500);
-    } catch (err) {
-      setErrorMsg(err.error || "Login failed. Try again!");
-    } finally {
-      setLoading(false);
-    }
-  };
+      }
+    }, 1500);
+  } catch (err) {
+    setErrorMsg(err.error || "Login failed. Try again!");
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   return (
     <div className="login-container">

@@ -7,6 +7,7 @@ import {
   sendOtpToEmail,
   verifyEmailOtp,
   checkUser,
+  getUserById,
 } from "../../../API/authApi";
 import VerificationSuccess from "./VerificationSuccess";
 
@@ -154,7 +155,7 @@ function SignUpPage() {
     } catch (err) {
       setError(err.error || "Failed to resend OTP. Please try again.");
     } finally {
-       setresend(false);
+      setresend(false);
     }
   };
 
@@ -184,8 +185,9 @@ function SignUpPage() {
       const res = await Signup(payload);
 
       // Save token & user
-      localStorage.setItem("token", res.token);
-      localStorage.setItem("authUser", JSON.stringify(res.user));
+      localStorage.setItem("authToken", res.token);
+      const fullUser = await getUserById(res.user.id);
+      localStorage.setItem("authUser", JSON.stringify(fullUser.user));
 
       // Show success animation
       setVerified(true);
@@ -196,7 +198,24 @@ function SignUpPage() {
     }
   };
   if (verified) {
-    return <VerificationSuccess onComplete={() => navigate("/")} />;
+    return (
+      <VerificationSuccess
+        onComplete={() => {
+          const pendingSession = localStorage.getItem("pendingPaymentSession");
+          const session = JSON.parse(pendingSession);
+          if (session.redirectUrl) {
+            navigate(session.redirectUrl, {
+              state: {
+                formData: session.formData ? session.formData : null,
+                cartItems: session.cartItems ? session.cartItems : [],
+              },
+            });
+          } else {
+            navigate("/");
+          }
+        }}
+      />
+    );
   }
 
   return (
@@ -295,9 +314,7 @@ function SignUpPage() {
                     )}
                   </span>
                 </div>
-                <p
-                  className="password-hint"
-                >
+                <p className="password-hint">
                   At least 8 characters, one special character, one number, one
                   capital letter
                 </p>

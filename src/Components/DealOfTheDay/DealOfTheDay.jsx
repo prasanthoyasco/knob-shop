@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 const DealOfTheDay = () => {
   const navigate = useNavigate();
   const calculateTimeLeft = () => {
-    const targetDate = new Date("2025-09-20T00:00:00");
+    const targetDate = new Date("2025-10-25T00:00:00");
     const now = new Date();
     const difference = targetDate - now;
 

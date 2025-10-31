@@ -15,7 +15,7 @@ const CartItemsList = ({
 
   if (!cartItems.length) {
     return (
-      <div className="text-center my-5 d-flex flex-column align-items-center">
+      <div className="text-center my-5 py-5 d-flex flex-column align-items-center">
         <img src="/cart_empty.svg" alt="Empty Cart" style={{ width: "90px" }} />
         <p>Your cart is empty</p>
         <button
@@ -42,7 +42,7 @@ const CartItemsList = ({
           className="shopping-cart-table-product"
         >
           <div>
-            <div className="shopping-cart-table-product-image" style={{cursor:'pointer'}} onClick={() => Navigate(`/product/${item.id}`)}>
+            <div className="shopping-cart-table-product-image mb-5" style={{cursor:'pointer'}} onClick={() => Navigate(`/product/${item.id}`)}>
               <img
                 src={
                   item.productId?.variant?.[0]?.images?.[0]?.url ||
@@ -73,14 +73,14 @@ const CartItemsList = ({
                   )}
               </div>
             </div>
-            <button
+            {/* <button
               className="continue-shopping-btn"
               onClick={() => {
                 Navigate("/");
               }}
             >
               CONTINUE SHOPPING
-            </button>
+            </button> */}
           </div>
 
           <div className="shopping-cart-table-product-count">

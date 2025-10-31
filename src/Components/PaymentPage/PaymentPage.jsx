@@ -8,6 +8,7 @@ import { createOrderWithShipping } from "../../API/orderApi";
 import { initiateTransaction } from "../../API/paymentApi";
 import Confetti from "react-confetti";
 import StoreLocator from "./StoreLocator";
+import LoginPromptModal from "./LoginPromptModal";
 import happyAnim from "../../Assets/CategoriesImge/Knob Shop/heart.json";
 import { getAvailableCoupons, validateCoupon } from "../../API/CouponApi";
 import Lottie from "lottie-react";
@@ -61,18 +62,19 @@ const cardImages = [
 
 function PaymentPage() {
   const gstRegex = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/;
-  const storedUser = (() => {
+  const storedUser = React.useMemo(() => {
     try {
       return JSON.parse(localStorage.getItem("authUser")) || {};
     } catch {
       return {};
     }
-  })();
+  }, []);
 
   var Userid = storedUser.id || storedUser._id;
-  const [deliveryOption, setDeliveryOption] = useState("ship");
+  const [deliveryOption, setDeliveryOption] = useState("pickup");
   const [pickupAddress, setPickupAddress] = useState("");
   const [showStoreInfo, setShowStoreInfo] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(false);
   const [contactInfo, setContactInfo] = useState("");
   const [mobileInfo, setMobileInfo] = useState("");
   const [contactCompleted, setContactCompleted] = useState(false);
@@ -188,7 +190,37 @@ function PaymentPage() {
   );
 
   useEffect(() => {
-      if (!cartItems?.length) return;
+    if (location.state?.formData) {
+      const { formData } = location.state;
+        try{
+        setDeliveryOption(formData.deliveryOption || "pickup");
+        setPickupAddress(formData.pickupAddress || "");
+        setContactInfo(formData.contactInfo || "");
+        setMobileInfo(formData.mobileInfo || "");
+        setCouponCode(formData.couponCode || "");
+        setShippingFirstName(formData.shipping?.firstName || "");
+        setShippingLastName(formData.shipping?.lastName || "");
+        setShippingAddress(formData.shipping?.address || "");
+        setShippingCity(formData.shipping?.city || "");
+        setShippingState(formData.shipping?.state || "");
+        setShippingZip(formData.shipping?.zip || "");
+        setBillingFirstName(formData.billing?.firstName || "");
+        setBillingLastName(formData.billing?.lastName || "");
+        setBillingAddress(formData.billing?.address || "");
+        setBillingCity(formData.billing?.city || "");
+        setBillingState(formData.billing?.state || "");
+        setBillingZip(formData.billing?.zip || "");
+        setSameAsShipping(formData.sameAsShipping || false);
+        setGstNumber(formData.gstNumber || "");
+        setCompanyName(formData.companyName || "");
+      } catch {
+        console.error("Failed to restore payment form data");
+      }
+    }
+  },[location.state]);
+
+  useEffect(() => {
+    if (!cartItems?.length) return;
     getAvailableCoupons()
       .then((coupons) => {
         console.log(coupons);
@@ -216,11 +248,12 @@ function PaymentPage() {
   }, [cartItems]);
 
   useEffect(() => {
-    if (storedUser) {
-      setContactInfo(storedUser.email || "");
-      setMobileInfo(storedUser?.phone || storedUser?.mobile || "");
+    const savedUser = JSON.parse(localStorage.getItem("authUser") || "{}");
+    if (savedUser) {
+      setContactInfo(savedUser.email || "");
+      setMobileInfo(savedUser?.phone || savedUser?.mobile || "");
     }
-  }, [storedUser]);
+  }, []);
 
   useEffect(() => {
     setDeliveryCompleted(
@@ -304,9 +337,50 @@ function PaymentPage() {
   }, []);
 
   const handlePayment = async () => {
+    if (!Userid) {
+      // Save all form data before redirect
+      const paymentSession = {
+        redirectUrl: "/payment", // Where to go after login
+        formData: {
+          deliveryOption,
+          pickupAddress,
+          contactInfo,
+          mobileInfo,
+          couponCode,
+          shipping: {
+            firstName: shippingFirstName,
+            lastName: shippingLastName,
+            address: shippingAddress,
+            city: shippingCity,
+            state: shippingState,
+            zip: shippingZip,
+          },
+          billing: {
+            firstName: billingFirstName,
+            lastName: billingLastName,
+            address: billingAddress,
+            city: billingCity,
+            state: billingState,
+            zip: billingZip,
+          },
+          sameAsShipping,
+          gstNumber,
+          companyName,
+        },
+        cartItems, // 🛒 Include current cart
+      };
+
+      // Store everything locally
+      localStorage.setItem(
+        "pendingPaymentSession",
+        JSON.stringify(paymentSession)
+      );
+      setShowLoginModal(true);
+      return;
+    }
     setPaying(true);
     try {
-       let ewayBill = null;
+      let ewayBill = null;
       if (!Userid) {
         alert("Please login before payment");
         navigate("/auth/register");
@@ -315,19 +389,20 @@ function PaymentPage() {
 
       const totalValue = Math.max(0, subtotal - discount);
 
-      if (totalValue >= 50000) {
-      ewayBill = await generateEwayBill(order);
-      console.log("Generated eWay Bill:", ewayBill);
-    }
+      // if (totalValue >= 50000) {
+      //   ewayBill = await generateEwayBill(order);
+      //   console.log("Generated eWay Bill:", ewayBill);
+      // }
 
       const shippingData = {
-        name: `${shippingFirstName} + ' ' + ${shippingLastName}`,
+        name: `${shippingFirstName} ${shippingLastName}`,
         phone: mobileInfo,
         alternate_phone: mobileInfo,
         street: shippingAddress,
         city: shippingCity,
         district: shippingCity,
         pincode: shippingZip,
+        email: contactInfo.includes("@") ? contactInfo : "test@example.com",
         state: shippingState || "Tamil Nadu",
       };
 
@@ -351,8 +426,9 @@ function PaymentPage() {
 
         return {
           productId:
-            item._id || item.id || item?.productId?._id || item?.productId,
-          productName: item.title || item.productName || item?.productId?.name,
+            item?._id || item?.id || item?.productId?._id || item?.productId,
+          productName:
+            item?.title || item?.productName || item?.productId?.name,
           quantity: item.quantity,
           price: unitPrice, // individual item price
           total: unitPrice * item.quantity, // total for this item
@@ -400,11 +476,15 @@ function PaymentPage() {
           return;
         }
       }
+      console.log("shipping data :", shippingData?.phone);
 
       const orderData = {
         userId: Userid,
         items,
         totalAmount: totalValue,
+        discount: discount, // 💰 how much was discounted
+        couponCode: couponApplied ? couponCode : null, // 🎟️ applied coupon
+        couponApplied: couponApplied, // boolean
         shippingAddress: deliveryOption === "ship" ? shippingData : billingData,
         dtdcReferenceNumber:
           deliveryOption === "ship" ? referenceNumber : "PICKUP",
@@ -679,18 +759,6 @@ function PaymentPage() {
           </div>
           <div className="deliver-section-container">
             <h3 className="contact-con-head-h3">DELIVERY</h3>
-            {deliveryCompleted && (
-              <div className="entered-delivery-info">
-                <p>
-                  {shippingFirstName} {shippingLastName}
-                </p>
-                <p>{shippingAddress}</p>
-                <p>
-                  {shippingCity} - {shippingZip}
-                </p>
-              </div>
-            )}
-
             <div
               className="payment-page-delivery-sec"
               style={{ cursor: "pointer" }}
@@ -1181,6 +1249,14 @@ function PaymentPage() {
             </div>
           </div>
         </div>
+        <LoginPromptModal
+          open={showLoginModal}
+          onClose={() => setShowLoginModal(false)}
+          onLogin={() => {
+            setShowLoginModal(false);
+            navigate("/auth/login", { state: { redirectTo: "/payment" } });
+          }}
+        />
       </div>
       <Footer />
     </>

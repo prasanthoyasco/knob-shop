@@ -67,7 +67,7 @@ function NavbarBottom() {
       {/* Shop By Categories - desktop only */}
       <div className="navbar-borrom-categories-container">
         <div className="navbar-bottom-text-icon desktop-only">
-          <img src={sbc_icon} alt="hamburger-menu"/>
+          <img src={sbc_icon} alt="hamburger-menu" />
           <i className="bi bi-grid-3x3-gap-fill mobile-only"></i>
           <p>Shop By Categories</p>
           <div className="vertical-line desktop-only"></div>
@@ -80,14 +80,14 @@ function NavbarBottom() {
                 <a
                   key={cat._id}
                   href={
-                    cat._id === "all" 
+                    cat._id === "all"
                       ? "/categories"
                       : `/category/${cat._id
                           ?.toLowerCase()
                           ?.replace(/\s+/g, "-")}`
                   }
                   className="dropdown-item"
-                  style={{textTransform:"Capitalize"}}
+                  style={{ textTransform: "Capitalize" }}
                 >
                   {cat.category_name || cat.name}
                 </a>
@@ -95,8 +95,8 @@ function NavbarBottom() {
             )}
           </div>
         </div>
-                {/* ✅ Mobile version with toggle */}
-                <div
+        {/* ✅ Mobile version with toggle */}
+        <div
           className={`navbar-bottom-text-icons mobile-only ${
             mobileCategoriesOpen ? "active" : ""
           }`}
@@ -112,38 +112,47 @@ function NavbarBottom() {
         </div>
 
         {mobileCategoriesOpen && (
-          <div className="category-dropdown-menu mobile-only">
-            {category.length === 0 ? (
-              <p className="dropdown-item">Loading...</p>
-            ) : (
-              category.map((cat) => (
-                <a
-                  key={cat._id}
-                  href={
-                    cat._id === "all"
-                      ? "/categories"
-                      : `/category/${cat._id
-                          ?.toLowerCase()
-                          ?.replace(/\s+/g, "-")}`
-                  }
-                  className="dropdown-item"
-                  style={{ textTransform: "capitalize" }}
-                >
-                  {cat.category_name || cat.name}
-                </a>
-              ))
-            )}
+          <div className="mobile-category-modal">
+            <div className="modal-header">
+              <p>Shop By Categories</p>
+              <button
+                className="close-modal-btn"
+                onClick={() => setMobileCategoriesOpen(false)}
+              >
+                <i className="bi bi-x-lg"></i>
+              </button>
+            </div>
+            <div className="modal-content">
+              {category.length === 0 ? (
+                <p className="dropdown-item">Loading...</p>
+              ) : (
+                category.map((cat) => (
+                  <a
+                    key={cat._id}
+                    href={
+                      cat._id === "all"
+                        ? "/categories"
+                        : `/category/${cat._id
+                            ?.toLowerCase()
+                            ?.replace(/\s+/g, "-")}`
+                    }
+                    className="dropdown-item"
+                    onClick={() => setMobileCategoriesOpen(false)}
+                  >
+                    {cat.category_name || cat.name}
+                  </a>
+                ))
+              )}
+            </div>
           </div>
         )}
       </div>
-
-      
 
       {/* Main navbar links - desktop only */}
       <div className="a-tag-container desktop-only">
         {navbarContent.map((item, index) => (
           <div className="a-tag-text-icon" key={index}>
-            <a style={{textTransform:'capitalize'}}>{item.text}</a>
+            <a style={{ textTransform: "capitalize" }}>{item.text}</a>
             {item.subItems?.length > 0 && (
               <i className="bi bi-chevron-down"></i>
             )}
@@ -162,7 +171,7 @@ function NavbarBottom() {
 
       {/* Today's Deal - hidden on mobile */}
       <img
-      onClick={()=>navigate('/offer/todaysdeal')}
+        onClick={() => navigate("/offer/todaysdeal")}
         src={todayDealImage}
         className="today-deal-image desktop-only"
         alt="Today's Deal"

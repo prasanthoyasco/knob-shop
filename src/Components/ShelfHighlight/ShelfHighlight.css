@@ -108,7 +108,7 @@ margin-left: 0 !important;
 
 @media (max-width: 768px) {
   .shelf-highlight-section {
-    min-height: 100px; /* shorter on mobile */
+    min-height: 140px; /* shorter on mobile */
     margin-top: 1.5rem;
   }
   

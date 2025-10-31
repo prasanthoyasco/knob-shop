@@ -1,94 +1,102 @@
-import { Download } from "lucide-react";
+import React from "react";
+import { Download, Info } from "lucide-react";
 import "./Tracking.css";
-// import { Container, Row, Col, Button } from "react-bootstrap";
 
-export const Tracking = () => {
+export const Tracking = ({ trackingData, loading }) => {
+  if (loading) return <p>Fetching tracking info...</p>;
+  if (!trackingData) return <p>No tracking info available</p>;
+
+  const { trackHeader, trackDetails } = trackingData;
+  const progressPercent = Math.min((trackDetails.length / 5) * 100, 100); // Simple progress
+
+  // Time formatting helpers
+  const formatDTDCTime = (time) => {
+    if (!time || time.length < 3) return time;
+    let hours = parseInt(time.slice(0, 2), 10);
+    const minutes = time.slice(2, 4);
+    const ampm = hours >= 12 ? "PM" : "AM";
+    hours = hours % 12;
+    hours = hours === 0 ? 12 : hours;
+    return `${hours}:${minutes} ${ampm}`;
+  };
+
+  const formatDTDCDateTime = (date, time) => {
+    if (!date || date.length !== 8) return time || date;
+    const day = date.slice(0, 2);
+    const month = date.slice(2, 4);
+    const year = date.slice(4, 8);
+    return `${day}-${month}-${year} ${formatDTDCTime(time)}`;
+  };
+
   return (
     <div className="container-flued order-tracking my-4 my-md-5 p-1 p-md-4 bg-white">
+      {/* Header */}
       <div className="row justify-content-between align-items-center mb-3">
         <div className="col-md-8 p-0">
           <h5 className="fw-semibold order-head">ORDER DETAILS</h5>
         </div>
         <div className="col-md-4 text-end">
           <a href="#" className="download-invoice">
-           <Download color="#111" size={16}/><span className="mx-2">Download Invoice</span>
+            <Download color="#111" size={16} />
+            <span className="mx-2">Download Invoice</span>
           </a>
         </div>
       </div>
 
+      {/* Shipment Info */}
       <div className="row my-3 my-md-5 px-0 px-md-3 border-top-bottom py-4 gy-3">
-        <div className="col-12 col-md d-flex flex-row flex-md-column align-items-center justify-content-around gap-3">
-          <div className="w-50 w-md-100"><p className='text-muted m-0'>Order Number</p></div>
-          <div className="w-50 w-md-100 ps-2 ps-md-0"><span className="fs-7 fw-medium mt-0 text-sm-start">RB19011</span></div>
-        </div>
-        <div className="col-12 col-md d-flex flex-row flex-md-column align-items-center justify-content-around gap-3">
-         <div className="w-50 w-md-100"><p className='text-muted m-0'>Order Number</p></div>
-           <div className="w-50 w-md-100 ps-2 ps-md-0"><span className="fs-7 fw-medium mt-0 text-sm-start">Jun 17th, 2025</span></div>
-        </div>
-        <div className="col-12 col-md d-flex flex-row flex-md-column align-items-center justify-content-around gap-3">
-          <div className="w-50 w-md-100"><p className='text-muted m-0'>Order Delivered</p></div>
-           <div className="w-50 w-md-100 ps-2 ps-md-0"><span className="fs-7 fw-medium mt-0 text-sm-start">Jun 20th, 2025</span></div>
-        </div>
-        <div className="col-12 col-md d-flex flex-row flex-md-column align-items-center justify-content-around gap-3">
-          <div className="w-50 w-md-100"><p className='text-muted m-0'>No of items</p></div>
-          <div className="w-50 w-md-100 ps-2 ps-md-0"><span className="fs-7 fw-medium mt-0 text-sm-start">1 Item</span></div>
-        </div>
-        <div className="col-12 col-md d-flex flex-row flex-md-column align-items-center justify-content-around gap-3">
-          <div className="w-50 w-md-100"><p className='text-muted m-0'>Status</p></div>
-          <div className="w-50 w-md-100 ps-2 ps-md-0"><span className="text-warning fs-7 fw-bold m-0 text-sm-start">Out for delivery</span></div>
-        </div>
-      </div>
-
-      {/* <hr /> */}
-
-      <div className="d-flex justify-content-between mt-4 mb-2">
-        <div className=" text-muted">
-          <h6 className="order-track-head">ORDER TRACKING</h6>
-        </div>
-        <div className="text-end text-muted order-track-id">Tracking ID #123323</div>
-      </div>
-
-      <div className="tracking-steps-wrapper position-relative">
-        <div class="order-progress-container">
-          <div class="progress-line">
-            <div class="progress-fill" style={{ width: "80%" }}></div>
+        {[
+          { label: "Order Number", value: trackHeader.strShipmentNo },
+          { label: "Status", value: trackHeader.strStatus },
+          { label: "Origin", value: trackHeader.strOrigin },
+          { label: "Destination", value: trackHeader.strDestination },
+          { label: "Booked Date", value: trackHeader.strBookedDate },
+          { label: "Pieces", value: trackHeader.strPieces },
+          { label: "Weight", value: trackHeader.strWeight },
+        ].map((item, idx) => (
+          <div key={idx} className="col-12 col-md d-flex flex-row flex-md-column align-items-center justify-content-around gap-3">
+            <div className="w-50 w-md-100"><p className="text-muted m-0">{item.label}</p></div>
+            <div className="w-50 w-md-100 ps-2 ps-md-0"><span className="fs-7 fw-medium">{item.value || "-"}</span></div>
           </div>
+        ))}
+      </div>
 
-          <div class="progress-steps mx-2" >
-            <div class="circle completed"></div>
-            <div class="circle completed"></div>
-            <div class="circle completed"></div>
-            <div class="circle completed"></div>
-            <div class="circle"></div>
+      {/* Tracking Steps */}
+      <div className="tracking-steps-wrapper position-relative">
+        <div className="order-progress-container">
+          <div className="progress-line">
+            <div className="progress-fill" style={{ width: `${progressPercent}%` }}></div>
+          </div>
+          <div className="progress-steps mx-2">
+            {trackDetails.map((step, idx) => (
+              <div key={idx} className={`circle ${step.strAction === "Delivered" ? "completed" : "current"}`}></div>
+            ))}
           </div>
         </div>
 
         <div className="d-flex justify-content-between text-center tracking-steps">
-          <div className="step completed">
-            <div className="icon order-placed" />
-            <div className="label">Order Placed</div>
-            <div className="date">Jun 17th, 2025</div>
-          </div>
-          <div className="step completed">
-            <div className="icon order-packed" />
-            <div className="label">Order Packed</div>
-            <div className="date">Jun 18th, 2025</div>
-          </div>
-          <div className="step completed">
-            <div className="icon in-transport" />
-            <div className="label">In Transport</div>
-            <div className="date">Jun 19th, 2025</div>
-          </div>
-          <div className="step current">
-            <div className="icon out-delivery" />
-            <div className="label">Out of Delivery</div>
-            <div className="date">Jun 20th, 2025</div>
-          </div>
-          <div className="step">
-            <div className="icon delivered" />
-            <div className="label">Delivered</div>
-            <div className="date">Jun 20th, 2025</div>
-          </div>
+          {trackDetails.map((step, idx) => (
+            <div key={idx} className={`step ${step.strAction === "Delivered" ? "completed" : "current"}`} style={{ position: "relative" }}>
+              <div className={`icon ${step.strAction.toLowerCase().replace(/\s/g, "-")}`} />
+              <div className="label">{step.strAction}</div>
+              <div className="date">{formatDTDCDateTime(step.strActionDate, step.strActionTime)}</div>
+
+              {/* Info icon */}
+              <div className="step-info-icon" style={{ marginTop: "5px", cursor: "pointer" }}>
+                <Info size={16} color="#3182ce" />
+                <div className="step-info-tooltip">
+                  <p><strong>Origin:</strong> {step.strOrigin || "-"}</p>
+                  <p><strong>Destination:</strong> {step.strDestination || "-"}</p>
+                  <p><strong>Manifest No:</strong> {step.strManifestNo || "-"}</p>
+                  {step.sTrRemarks && <p><strong>Remarks:</strong> {step.sTrRemarks}</p>}
+                  {step.strLatitude && step.strLongitude && (
+                    <p><strong>Location:</strong> {step.strLatitude}, {step.strLongitude}</p>
+                  )}
+                  {step.strNDCOTP && <p><strong>OTP:</strong> {step.strNDCOTP}</p>}
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </div>

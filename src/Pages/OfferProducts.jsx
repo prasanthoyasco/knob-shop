@@ -43,19 +43,31 @@ const OfferProducts = () => {
   return (
     <>
       <NavbarTop />
-      <CategoryHero categoryTitle={categoryTitle} backgroundImage={lockerBg} />
-
-      <div className="my-5">
-        {loading ? (
-          <div className="d-flex justify-content-center align-items-center py-5">
-            <div className="spinner-border text-primary" role="status">
-              <span className="visually-hidden">Loading...</span>
-            </div>
-          </div>
-        ) : (
-          <CategoryPageLayout2 products={products} />
-        )}
+      {products?.length > 0 ? (
+        <>
+          {" "}
+          <CategoryHero
+            categoryTitle={categoryTitle}
+            backgroundImage={lockerBg}
+          />
+          <div className="my-5">
+            {loading ? (
+              <div className="d-flex justify-content-center align-items-center py-5">
+                <div className="spinner-border text-primary" role="status">
+                  <span className="visually-hidden">Loading...</span>
+                </div>
+              </div>
+            ) : (
+              <CategoryPageLayout2 products={products} />
+            )}
+          </div>{" "}
+        </>
+      ): <>
+      <div className="mx-auto my-4 py-5 text-center">
+        <h1 className="h1 fw-bold">We don't have any deals Today</h1>
+      <p>Connect with our CONSULTATION </p>
       </div>
+      </>}
 
       <CategoriesBanner />
       <Footer />

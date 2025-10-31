@@ -51,6 +51,7 @@ import ResetPassPage from "./Components/AuthenticationPage/ResetPassPage/ResetPa
 import OfferProducts from "./Pages/OfferProducts";
 import { useEffect } from "react";
 import EssentailsDetailsSubpage from "./Pages/EssentailsDetailsSubpage";
+import SharedCartLoader from "./Pages/SharedCartLoader";
 // import NavbarTop from './Components/Navbar/NavbarTop/NavbarTop';
 
 function App() {
@@ -92,6 +93,7 @@ function App() {
           <Route path="/products/brand/:brandName" element={<ProductList />} />
           <Route path="/product/:id" element={<ProductDetails />}></Route>
           <Route path="/categories" element={<CategoriesHeader />}></Route>
+          <Route path="/share-cart/:token" element={<SharedCartLoader />} />
           <Route
             path="/essentials-details"
             element={<CategoriesHeader />}
