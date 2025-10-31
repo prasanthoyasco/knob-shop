@@ -37,6 +37,7 @@ function SignUpPage() {
 
   // New state for OTP resend timer
   const [timer, setTimer] = useState(30);
+  const [session, setSession] = useState(null);
   const [canResend, setCanResend] = useState(false);
 
   // Utility function to mask the email
@@ -158,7 +159,7 @@ function SignUpPage() {
       setresend(false);
     }
   };
-
+  let pendingSession;
   // Step 2: Verify OTP + Signup
   const handleVerifyAndSignup = async (e) => {
     e.preventDefault();
@@ -188,6 +189,8 @@ function SignUpPage() {
       localStorage.setItem("authToken", res.token);
       const fullUser = await getUserById(res.user.id);
       localStorage.setItem("authUser", JSON.stringify(fullUser.user));
+      pendingSession = localStorage.getItem("pendingPaymentSession");
+      setSession(JSON.parse(pendingSession));
 
       // Show success animation
       setVerified(true);
@@ -201,20 +204,11 @@ function SignUpPage() {
     return (
       <VerificationSuccess
         onComplete={() => {
-          const redirectPath = localStorage.getItem("postLoginRedirect");
-          const savedFormData = localStorage.getItem("checkoutFormData");
-          const savedCartItems = localStorage.getItem("checkoutCartItems");
-
-          // Cleanup
-          localStorage.removeItem("postLoginRedirect");
-          localStorage.removeItem("checkoutFormData");
-          localStorage.removeItem("checkoutCartItems");
-
-          if (redirectPath) {
-            navigate(redirectPath, {
+          if (session.redirectUrl) {
+            navigate(session.redirectUrl, {
               state: {
-                formData: savedFormData ? JSON.parse(savedFormData) : null,
-                cartItems: savedCartItems ? JSON.parse(savedCartItems) : [],
+                formData: session.formData ? session.formData : null,
+                cartItems: session.cartItems ? session.cartItems : [],
               },
             });
           } else {
