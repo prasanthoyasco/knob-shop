@@ -82,7 +82,7 @@ export const ProductList = () => {
       }
     };
     loadProducts();
-  }, [categoryId, brandName, passedState,searchQuery]);
+  }, [categoryId, brandName, passedState,searchQuery,query]);
 const [loading, setLoading] = useState(true);
 
 

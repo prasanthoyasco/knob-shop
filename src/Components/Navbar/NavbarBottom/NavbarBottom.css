@@ -45,7 +45,7 @@
 
 .a-tag-container {
   display: flex !important;
-  gap: 30px;
+  gap: 15px;
   animation: fadeIn 0.5s ease forwards;
 }
 
@@ -83,6 +83,7 @@
   display: none;
   position: absolute;
   top: 30px;
+  left: -70px;  
   background-color: white;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 5px;
@@ -90,6 +91,9 @@
   z-index: 10000000 !important;
   min-width: 150px;
   animation: fadeInDropdown 0.3s ease forwards;
+}
+.a-tag-text-icon:first-child .dropdown-menu{
+  left: 0px;  
 }
 
 .a-tag-text-icon:hover .dropdown-menu {
@@ -122,30 +126,19 @@
   left: 0;
   background-color: white;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 10px 0;
-  z-index: 1000;
+  padding: 10px;
+  z-index: 100;
   border-radius: 4px;
-  min-width: 220px;
-  max-width: 80vw;
-  max-height: 75vh;
-  overflow-y: auto;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 10px 10px;
-  animation: fadeInDropdown 0.3s ease forwards;
+
+  /* Remove max-height to prevent scroll */
+  /* max-height: 75vh; */
+
+  /* Use columns */
+  column-gap: 20px;
+  /* width will auto-fit content */
+  white-space: nowrap;
 }
 
-/* Scrollbar for long category lists */
-.category-dropdown-menu::-webkit-scrollbar {
-  width: 2px;
-}
-.category-dropdown-menu::-webkit-scrollbar-thumb {
-  background: #ccc;
-  border-radius: 10px;
-}
-.category-dropdown-menu::-webkit-scrollbar-thumb:hover {
-  background: #aaa;
-}
 
 .navbar-bottom-text-icon:hover .category-dropdown-menu {
   display: grid !important;

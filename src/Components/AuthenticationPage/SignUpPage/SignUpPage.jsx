@@ -201,13 +201,20 @@ function SignUpPage() {
     return (
       <VerificationSuccess
         onComplete={() => {
-          const pendingSession = localStorage.getItem("pendingPaymentSession");
-          const session = JSON.parse(pendingSession);
-          if (session.redirectUrl) {
-            navigate(session.redirectUrl, {
+          const redirectPath = localStorage.getItem("postLoginRedirect");
+          const savedFormData = localStorage.getItem("checkoutFormData");
+          const savedCartItems = localStorage.getItem("checkoutCartItems");
+
+          // Cleanup
+          localStorage.removeItem("postLoginRedirect");
+          localStorage.removeItem("checkoutFormData");
+          localStorage.removeItem("checkoutCartItems");
+
+          if (redirectPath) {
+            navigate(redirectPath, {
               state: {
-                formData: session.formData ? session.formData : null,
-                cartItems: session.cartItems ? session.cartItems : [],
+                formData: savedFormData ? JSON.parse(savedFormData) : null,
+                cartItems: savedCartItems ? JSON.parse(savedCartItems) : [],
               },
             });
           } else {
