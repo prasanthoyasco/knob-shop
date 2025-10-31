@@ -73,7 +73,7 @@ function Footer() {
   };
   return (
     <>
-      <div className="footer py-5">
+      <div className="footer py-5" id="contact-section">
         <div className="logo-background"></div>
         <div className="footer-bottom-background"></div>
         <div className="footer-buliding-background"></div>

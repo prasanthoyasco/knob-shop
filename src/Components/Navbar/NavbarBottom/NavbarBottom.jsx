@@ -4,27 +4,81 @@ import todayDealImage from "../../../Assets/today-deal.png";
 import sbc_icon from "../../../Assets/shop-by-category-icon.svg";
 import { fetchCategories } from "../../../API/categoriesApi";
 import { useNavigate } from "react-router-dom";
+import { searchProductsByParam } from "../../../API/productApi";
 const navbarContent = [
   {
     href: "living-room",
-    text: "Living Room",
-    subItems: ["Sofas", "TV Units", "Coffee Tables"],
+    text: "Door Accessories",
+    subItems: [
+      { label: "Auto Hinges", link: "/auto hinges" },
+      { label: "Tower Bolt", link: "/tower bolt" },
+      { label: "Hinges", link: "/hinges" },
+      { label: "Aldrop", link: "/aldrop" },
+      { label: "Door Eye", link: "/door eye" },
+      { label: "Door Stopper", link: "/door stopper" },
+      { label: "Door Knocker", link: "/door knocker" },
+      { label: "Door Closer", link: "/door closer" },
+      { label: "Self Pin", link: "/self pin" },
+    ],
   },
   {
     href: "dining-room",
-    text: "Dining Room",
-    subItems: ["Dining Tables", "Chairs", "Storage Cabinets"],
+    text: "Locks",
+    subItems: [
+      { label: "Rim Locks", link: "/rim locks" },
+      { label: "Cylindrical Lock", link: "/cylindrical lock" },
+      { label: "Furniture Lock", link: "/furniture lock" },
+    ],
   },
   {
     href: "lightning",
-    text: "Lightning",
-    subItems: ["Ceiling Lights", "Wall Lamps", "Table Lamps"],
+    text: "Window",
+    subItems: [
+      { label: "Window Handle", link: "/window handle" },
+      { label: "Friction Stay", link: "/friction stay" },
+      { label: "Window Hook", link: "/window hook" },
+      { label: "Window Tower Bolt", link: "/window tower bolt" },
+    ],
   },
-  { href: "sale", text: "Sale", subItems: [] },
-  { href: "about-us", text: "About Us", subItems: [] },
-  { href: "blog", text: "Blog", subItems: [] },
-  { href: "contact-us", text: "Contact Us", subItems: [] },
+  {
+    href: "lightning",
+    text: "Locks",
+    subItems: [
+      { label: "Mortise Combo Set", link: "/mortise combo set" },
+      { label: "Rose Combo Set", link: "/rose combo set" },
+      { label: "Mortise Lock", link: "/mortise lock" },
+      { label: "Rose Lock", link: "/rose lock" },
+      { label: "Baby Latch", link: "/baby latch" },
+      { label: "Cylinder", link: "/cylinder" },
+      { label: "Lock Body", link: "/lock body" },
+    ],
+  },
+  {
+    href: "lightning",
+    text: "Video Door Bell",
+    subItems: [
+      { label: "Video Door Phone View", link: "/video door phone view" },
+      { label: "Digital Lock", link: "/digital lock" },
+    ],
+  },
+  {
+    href: "lightning",
+    text: "Handle Collections",
+    subItems: [
+      { label: "Wardrobe Handle", link: "/wardrobe handle" },
+      { label: "Pull Handle", link: "/pull handle" },
+      { label: "Cabinet Handle", link: "/cabinet handle" },
+      { label: "Conceal (or) Sliding Handle", link: "/conceal sliding handle" },
+      { label: "Profile Handle", link: "/profile handle" },
+    ],
+  },
+  {
+    href: "contact-us",
+    text: "Contact Us",
+    subItems: [],
+  },
 ];
+
 
 // const categoryItem = [
 //   { id: 0, text: "All Category" },
@@ -61,6 +115,19 @@ function NavbarBottom() {
   const toggleCategory = (categoryText) => {
     setOpenCategory(openCategory === categoryText ? null : categoryText);
   };
+
+  const handleContactUsClick = () => {
+  const section = document.getElementById("contact-section");
+
+  if (section) {
+    // ✅ Scroll to section if already on the same page
+    section.scrollIntoView({ behavior: "smooth" });
+  } else {
+    // ✅ Otherwise navigate to home and scroll after render
+    navigate("/", { state: { scrollToContact: true } });
+  }
+};
+
 
   return (
     <div className="navbar-bottom-container">
@@ -149,15 +216,27 @@ function NavbarBottom() {
       <div className="a-tag-container desktop-only">
         {navbarContent.map((item, index) => (
           <div className="a-tag-text-icon" key={index}>
-            <a style={{textTransform:'capitalize'}}>{item.text}</a>
+    <a
+      style={{ textTransform: "capitalize", cursor: "pointer" }}
+      onClick={() => {
+        if (item.text === "Contact Us") {
+          handleContactUsClick();
+        }
+      }}
+    >
+      {item.text}
+    </a>
             {item.subItems?.length > 0 && (
               <i className="bi bi-chevron-down"></i>
             )}
             {item.subItems?.length > 0 && (
               <div className="dropdown-menu">
                 {item.subItems.map((subItem, subIndex) => (
-                  <p key={subIndex} className="dropdown-item">
-                    {subItem}
+                  <p key={subIndex} className="dropdown-item"
+                        onClick={() => {
+        navigate(`/products/search/${subItem.label.toLowerCase()}`);
+      }}>
+                    {subItem.label}
                   </p>
                 ))}
               </div>

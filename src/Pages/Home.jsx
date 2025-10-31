@@ -73,8 +73,21 @@ import Brackets from '../Assets/New folder/New folder/Brackets.png'
 import hooks from '../Assets/New folder/New folder/hooks.png'
 import doorKnoker from '../Assets/Explore Our Product Range/Explore Our Product Range/Logos/Door knockers.jpg'
 import Tower from '../Assets/Explore Our Product Range/Explore Our Product Range/Logos/Tower_bolt.png'
+import { useLocation } from "react-router-dom";
 export const Home = () => {
   const [categories, setCategories] = useState([]);
+    const location = useLocation();
+
+  useEffect(() => {
+    if (location.state?.scrollToContact) {
+      const section = document.getElementById("contact-section");
+      if (section) {
+        setTimeout(() => {
+          section.scrollIntoView({ behavior: "smooth" });
+        }, 300); // small delay to ensure DOM is ready
+      }
+    }
+  }, [location]);
   const categoryImageMap = {
     "Door Closer":DoorCloser,
     "Rim Lock":Rimlock,
@@ -529,7 +542,7 @@ export const Home = () => {
         <LocationMap />
       </div>
       <div data-aos="fade-up" data-aos-delay="100">
-        <Footer />
+        <Footer/>
       </div>
     </>
   );
