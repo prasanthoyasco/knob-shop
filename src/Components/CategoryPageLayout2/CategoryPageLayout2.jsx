@@ -299,7 +299,7 @@ const CategoryPageLayout2 = ({ products = [], categoryData }) => {
   };
 
   return (
-    <div className="container-fluid my-4">
+    <div className="container-fluid py-4">
       <div className="row">
         {/* Mobile Filters Button */}
         <div className="d-md-none mb-3">

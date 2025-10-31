@@ -56,7 +56,7 @@ const navbarContent = [
   {
     // NOTE: This category is likely intended to be "Handles & Locks" or similar,
     // as it contains Mortise/Rose/Cylinder items.
-    text: "Locks",
+    text: "Handles & Locks",
     subItems: [
       // Matched: "Mortise Combo Set" -> "Mortise Lock Combo Set"
       { label: "Mortise Combo Set", id: "68d43cd895364359eb541b3c" },
@@ -304,7 +304,7 @@ function NavbarBottom() {
                 className="mobile-nav-item-header"
                 onClick={() => toggleCategory(item.text)}
               >
-                <a href={`/${item.href}`}>{item.text}</a>
+                <p style={{ margin: 0 }}>{item.text}</p>
                 {item.subItems?.length > 0 && (
                   <i
                     className={`bi bi-chevron-down ${
@@ -313,29 +313,32 @@ function NavbarBottom() {
                   ></i>
                 )}
               </div>
+
               {item.subItems?.length > 0 && openCategory === item.text && (
                 <div className="mobile-subitems">
-                  {item.subItems.map((sub, subIndex) => (
-                    <a
+                  {item.subItems.map((subItem, subIndex) => (
+                    <p
                       key={subIndex}
-                      href={`/${item.href}/${sub
-                        .toLowerCase()
-                        .replace(/\s+/g, "-")}`}
                       className="dropdown-item"
+                      onClick={() => {
+                        navigate(`/category/${subItem.id}`);
+                        setMobileMenuOpen(false); // Close menu after navigation
+                      }}
                     >
-                      {sub}
-                    </a>
+                      {subItem.label}
+                    </p>
                   ))}
-                  <img
+                </div>
+              )}              
+            </div>
+            
+          ))}
+          <img
                     onClick={() => navigate("/offer/todaysdeal")}
                     src={todayDealImage}
-                    className="today-deal-image desktop-only"
+                    className="mobile-todays-deal p-2"
                     alt="Today's Deal"
                   />
-                </div>
-              )}
-            </div>
-          ))}
         </div>
       )}
     </div>
