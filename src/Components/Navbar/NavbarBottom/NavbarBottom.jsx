@@ -7,78 +7,102 @@ import { useNavigate } from "react-router-dom";
 import { searchProductsByParam } from "../../../API/productApi";
 const navbarContent = [
   {
-    href: "living-room",
     text: "Door Accessories",
     subItems: [
-      { label: "Auto Hinges", link: "/auto hinges" },
-      { label: "Tower Bolt", link: "/tower bolt" },
-      { label: "Hinges", link: "/hinges" },
-      { label: "Aldrop", link: "/aldrop" },
-      { label: "Door Eye", link: "/door eye" },
-      { label: "Door Stopper", link: "/door stopper" },
-      { label: "Door Knocker", link: "/door knocker" },
-      { label: "Door Closer", link: "/door closer" },
-      { label: "Self Pin", link: "/self pin" },
+      // Matched: "Auto Hinges" -> "Auto Hinges"
+      { label: "Auto Hinges", id: "6888b08542e07ad91f60e7ae" },
+      // Matched: "Tower Bolt" -> "Tower Bolt"
+      { label: "Tower Bolt", id: "6888f696a016fb31bad48e4c" },
+      // Matched: "Hinges" -> "Door Hinges" (Best available match)
+      { label: "Hinges", id: "6888f4fda016fb31bad48e2a" },
+      // Matched: "Aldrop" -> "Aldrop"
+      { label: "Aldrop", id: "6888f450a016fb31bad48e1e" },
+      // Matched: "Door Eye" -> "Door Eye"
+      { label: "Door Eye", id: "6888f646a016fb31bad48e44" },
+      // Matched: "Door Stopper" -> "Door Stopper"
+      { label: "Door Stopper", id: "688f55f6e3b9929b398ff6b9" },
+      // Matched: "Door Knocker" -> "Door Knocker"
+      { label: "Door Knocker", id: "6888f517a016fb31bad48e2e" },
+      // Matched: "Door Closer" -> "Door Closer"
+      { label: "Door Closer", id: "6888f770a016fb31bad48e58" },
+      // Matched: "Self Pin" -> "Self Pin"
+      { label: "Self Pin", id: "6888f66ba016fb31bad48e48" },
     ],
   },
   {
-    href: "dining-room",
     text: "Locks",
     subItems: [
-      { label: "Rim Locks", link: "/rim locks" },
-      { label: "Cylindrical Lock", link: "/cylindrical lock" },
-      { label: "Furniture Lock", link: "/furniture lock" },
+      // Matched: "Rim Lock" -> "Rim Lock"
+      { label: "Rim Lock", id: "6888f55ca016fb31bad48e32" },
+      // Matched: "Cylindrical Locks" -> "Cylindrical Locks"
+      { label: "Cylindrical Locks", id: "6888f600a016fb31bad48e36" },
+      // Matched: "Furniture Lock" -> "Furniture lock"
+      { label: "Furniture Lock", id: "688f01846986f87fa840433f" },
     ],
   },
   {
-    href: "lightning",
     text: "Window",
     subItems: [
-      { label: "Window Handle", link: "/window handle" },
-      { label: "Friction Stay", link: "/friction stay" },
-      { label: "Window Hook", link: "/window hook" },
-      { label: "Window Tower Bolt", link: "/window tower bolt" },
+      // Matched: "Window Handle" -> "Window Handle"
+      { label: "Window Handle", id: "68d04ec9fd53e3a4faa15c7f" },
+      // Matched: "Friction Stay" -> "Window Friction Stay" (Best available match)
+      { label: "Friction Stay", id: "68bc347faedea44e0b73dacb" },
+      // NOTE: "Window Hook" has no exact or close match in the provided category list. Retaining old ID.
+      { label: "Window Hook", id: "671b4f981f25b95c2a9a1c15" },
+      // Matched: "Window Tower Bolt" -> "Tower Bolt" (Best available match)
+      { label: "Window Tower Bolt", id: "6888f696a016fb31bad48e4c" },
     ],
   },
   {
-    href: "lightning",
+    // NOTE: This category is likely intended to be "Handles & Locks" or similar,
+    // as it contains Mortise/Rose/Cylinder items.
     text: "Locks",
     subItems: [
-      { label: "Mortise Combo Set", link: "/mortise combo set" },
-      { label: "Rose Combo Set", link: "/rose combo set" },
-      { label: "Mortise Lock", link: "/mortise lock" },
-      { label: "Rose Lock", link: "/rose lock" },
-      { label: "Baby Latch", link: "/baby latch" },
-      { label: "Cylinder", link: "/cylinder" },
-      { label: "Lock Body", link: "/lock body" },
+      // Matched: "Mortise Combo Set" -> "Mortise Lock Combo Set"
+      { label: "Mortise Combo Set", id: "68d43cd895364359eb541b3c" },
+      // Matched: "Rose Combo Set" -> "Rose Handle Comboset"
+      { label: "Rose Combo Set", id: "68d43a5e95364359eb541b30" },
+      // Matched: "Mortise Lock" -> "Mortise Lock"
+      { label: "Mortise Lock", id: "68d43cc795364359eb541b38" },
+      // Matched: "Rose Lock" -> "Rose Handle" (Best available match)
+      { label: "Rose Lock", id: "68d43a2695364359eb541b2c" },
+      // Matched: "Baby Latch" -> "Baby Latch"
+      { label: "Baby Latch", id: "68d04f36fd53e3a4faa1632d" },
+      // Matched: "Cylinder" -> "Cylinder Locks" (Best available match)
+      { label: "Cylinder", id: "68cad9b4646a5944d6dd19c9" },
+      // Matched: "Lock Body" -> "Lock Body"
+      { label: "Lock Body", id: "68cae240a1d68fc002116ca1" },
     ],
   },
   {
-    href: "lightning",
     text: "Video Door Bell",
     subItems: [
-      { label: "Video Door Phone View", link: "/video door phone view" },
-      { label: "Digital Lock", link: "/digital lock" },
+      // Matched: "Video Door Phone View" -> "Video Door Bell" (Best available match)
+      { label: "Video Door Phone View", id: "68a6f463be62b34c49ffb086" },
+      // Matched: "Digital Lock" -> "Digital Lock"
+      { label: "Digital Lock", id: "688a008ceb18e197cb94839d" },
     ],
   },
   {
-    href: "lightning",
     text: "Handle Collections",
     subItems: [
-      { label: "Wardrobe Handle", link: "/wardrobe handle" },
-      { label: "Pull Handle", link: "/pull handle" },
-      { label: "Cabinet Handle", link: "/cabinet handle" },
-      { label: "Conceal (or) Sliding Handle", link: "/conceal sliding handle" },
-      { label: "Profile Handle", link: "/profile handle" },
+      // Matched: "Wardrobe Handle" -> "WARDROBE HANDLES"
+      { label: "Wardrobe Handle", id: "68e3ae082fd5b8167440d482" },
+      // Matched: "Pull Handle" -> "Pull Handle"
+      { label: "Pull Handle", id: "68e3b3ef2fd5b8167441a5bb" },
+      // Matched: "Cabinet Handle" -> "Cabinet Handle"
+      { label: "Cabinet Handle", id: "68e4f55e34adbedb5930bf3a" },
+      // Matched: "Conceal/ Sliding Handle" -> "Conseal / Slideing Handle"
+      { label: "Conceal/ Sliding Handle", id: "68e600cb7913514149eacbb3" },
+      // Matched: "Profile Handle" -> "Profile Handle"
+      { label: "Profile Handle", id: "68e618aa7913514149eb5c02" },
     ],
   },
   {
-    href: "contact-us",
     text: "Contact Us",
     subItems: [],
   },
 ];
-
 
 // const categoryItem = [
 //   { id: 0, text: "All Category" },
@@ -117,17 +141,16 @@ function NavbarBottom() {
   };
 
   const handleContactUsClick = () => {
-  const section = document.getElementById("contact-section");
+    const section = document.getElementById("contact-section");
 
-  if (section) {
-    // ✅ Scroll to section if already on the same page
-    section.scrollIntoView({ behavior: "smooth" });
-  } else {
-    // ✅ Otherwise navigate to home and scroll after render
-    navigate("/", { state: { scrollToContact: true } });
-  }
-};
-
+    if (section) {
+      // ✅ Scroll to section if already on the same page
+      section.scrollIntoView({ behavior: "smooth" });
+    } else {
+      // ✅ Otherwise navigate to home and scroll after render
+      navigate("/", { state: { scrollToContact: true } });
+    }
+  };
 
   return (
     <div className="navbar-bottom-container">
@@ -140,12 +163,12 @@ function NavbarBottom() {
           <div className="vertical-line desktop-only"></div>
 
           <div
-  className="category-dropdown-menu"
-  style={{
-    columnCount: Math.ceil(category.length /10), // ✅ dynamic column count
-    columnGap: "20px"
-  }}
->
+            className="category-dropdown-menu"
+            style={{
+              columnCount: Math.ceil(category.length / 10), // ✅ dynamic column count
+              columnGap: "20px",
+            }}
+          >
             {category.length === 0 ? (
               <p className="dropdown-item">Loading...</p>
             ) : (
@@ -225,26 +248,29 @@ function NavbarBottom() {
       <div className="a-tag-container desktop-only">
         {navbarContent.map((item, index) => (
           <div className="a-tag-text-icon" key={index}>
-    <a
-      style={{ textTransform: "capitalize", cursor: "pointer" }}
-      onClick={() => {
-        if (item.text === "Contact Us") {
-          handleContactUsClick();
-        }
-      }}
-    >
-      {item.text}
-    </a>
+            <a
+              style={{ textTransform: "capitalize", cursor: "pointer" }}
+              onClick={() => {
+                if (item.text === "Contact Us") {
+                  handleContactUsClick();
+                }
+              }}
+            >
+              {item.text}
+            </a>
             {item.subItems?.length > 0 && (
               <i className="bi bi-chevron-down"></i>
             )}
             {item.subItems?.length > 0 && (
               <div className="dropdown-menu">
                 {item.subItems.map((subItem, subIndex) => (
-                  <p key={subIndex} className="dropdown-item"
-                        onClick={() => {
-        navigate(`/products/search/${subItem.label.toLowerCase()}`);
-      }}>
+                  <p
+                    key={subIndex}
+                    className="dropdown-item"
+                    onClick={() => {
+                      navigate(`/category/${subItem.id}`);
+                    }}
+                  >
                     {subItem.label}
                   </p>
                 ))}
@@ -300,6 +326,12 @@ function NavbarBottom() {
                       {sub}
                     </a>
                   ))}
+                  <img
+                    onClick={() => navigate("/offer/todaysdeal")}
+                    src={todayDealImage}
+                    className="today-deal-image desktop-only"
+                    alt="Today's Deal"
+                  />
                 </div>
               )}
             </div>
