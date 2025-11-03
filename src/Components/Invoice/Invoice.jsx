@@ -3,15 +3,18 @@ import "./Invoice.css";
 import logo from "../../Assets/logo.png";
 import html2pdf from "html2pdf.js";
 import { getProductById } from "../../API/productApi";
+import { getAddressByUserId } from "../../API/addressApi";
+import { getUserById } from "../../API/authApi";
+import sealImage from '../../Assets/invoiceImage/Seal.png'
+import signImage from '../../Assets/invoiceImage/Sir Sign.png'
 const invoiceData = {
   company: {
-    name: "KNOBSSHOP, Inc",
     website: "knobsshop.store",
     phone: "+91 70924 66600",
     email: "ecom@knobsshop.store",
   },
   from: {
-    name: "Knobsshop, Inc.",
+    name: "Knobsshop",
     address: ["746-747,Mettupalayam Road,X-Cut", "Coimbatore, 641301"],
     phone: "+91 70924 66600",
     fax: "(123) 456-7890",
@@ -88,18 +91,51 @@ function Invoice() {
   const handlePrint = () => {
     window.print();
   };
+const handleDownloadPDF = async () => {
+  const element = document.getElementById("invoice-to-download");
 
-  const handleDownloadPDF = () => {
-    const element = document.getElementById("invoice-to-download");
-    const opt = {
-      margin: 0.5,
-      filename: "invoice.pdf",
-      image: { type: "jpeg", quality: 0.99 },
-      html2canvas: { scale: 2 },
-      jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
-    };
-    html2pdf().set(opt).from(element).save();
+  if (!invoiceAllDetails?.cartItems?.length) {
+    alert("Invoice data is still loading. Please wait a few seconds and try again.");
+    return;
+  }
+
+  const buttons = document.querySelectorAll(".no-export");
+  buttons.forEach((btn) => (btn.style.display = "none"));
+
+  // Wait for images and content to fully load
+  await new Promise((resolve) => setTimeout(resolve, 800));
+
+  const opt = {
+    margin: 0,
+    filename: `Invoice_${invoiceAllDetails?.orderId || "Invoice"}.pdf`,
+    image: { type: "jpeg", quality: 1 },
+    html2canvas: {
+      scale: 1,
+      useCORS: true,
+      scrollX: 0,
+      scrollY: 0,
+      backgroundColor: "#ffffff",
+    },
+    jsPDF: {
+      unit: "pt",
+      format: "a4",
+      orientation: "portrait",
+    },
+    pagebreak: { mode: ["avoid-all", "css", "legacy"] },
   };
+
+  html2pdf()
+    .set(opt)
+    .from(element)
+    .save()
+    .then(() => {
+      buttons.forEach((btn) => (btn.style.display = "block"));
+    })
+    .catch((err) => {
+      console.error("PDF export failed:", err);
+      buttons.forEach((btn) => (btn.style.display = "block"));
+    });
+};
 
   useEffect(() => {
     const storedInvoice = localStorage.getItem("latestInvoiceData");
@@ -134,10 +170,75 @@ function Invoice() {
         );
     }
   }, [invoiceDatas]);
+
+  useEffect(() => {
+    const fetchRecentAddress = async () => {
+      try {
+        if (invoiceAllDetails?.userId && !invoiceAllDetails?.shippingAddress) {
+          console.log("📬 Fetching address for user:", invoiceAllDetails.userId);
+          const res = await getAddressByUserId(invoiceAllDetails.userId);
+
+          // Extract the array of addresses
+          const addressArray = res?.addresses || [];
+
+          if (addressArray.length > 0) {
+            // Sort by updatedAt (most recent first)
+            const sorted = [...addressArray].sort(
+              (a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)
+            );
+
+            const recentAddress = sorted[0]; // take the most recent one
+
+            // Merge with invoice data
+            setInvoiceAllDetails((prev) => ({
+              ...prev,
+              shippingAddress: recentAddress,
+            }));
+
+            console.log("✅ Merged recent address:", recentAddress);
+          } else {
+            console.warn("⚠️ No addresses found for this user.");
+          }
+        }
+      } catch (error) {
+        console.error("❌ Error fetching recent address:", error);
+      }
+    };
+
+    fetchRecentAddress();
+  }, [invoiceAllDetails?.userId]);
+
+
+
   console.log(invoiceAllDetails);
   useEffect(() => {
     console.log("📄 Current invoiceDatas state:", invoiceAllDetails);
   }, [invoiceAllDetails]);
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        if (invoiceAllDetails?.userId && !invoiceAllDetails?.userDetails) {
+          console.log("👤 Fetching user data for:", invoiceAllDetails.userId);
+          const res = await getUserById(invoiceAllDetails.userId);
+
+          if (res?.user) {
+            setInvoiceAllDetails((prev) => ({
+              ...prev,
+              userDetails: res.user,
+            }));
+
+            console.log("✅ Merged user details:", res.user);
+          } else {
+            console.warn("⚠️ No user data found for this ID");
+          }
+        }
+      } catch (error) {
+        console.error("❌ Error fetching user data:", error);
+      }
+    };
+
+    fetchUserData();
+  }, [invoiceAllDetails?.userId]);
 
   const { company, from, to, invoice, items, notes, transport } = invoiceData;
 
@@ -234,7 +335,8 @@ function Invoice() {
   };
 
   return (
-    <div className="container">
+
+    <div className="invoice-container">
       <div className="col-md-12" id="invoice-to-download">
         <div className="logo-and-address">
           <img src={logo} />
@@ -249,6 +351,7 @@ function Invoice() {
               <p>45-SF 595/2A-1,Rk Complex,Palkarar thottam,</p>
               <p>Goldwins,Coimbatore,Tamilnadu</p>
             </div>
+                      </div>
             <div className="office-location contact-info-invoice">
               <p>
                 <strong>Ph : </strong> +91 70924 66600
@@ -256,17 +359,14 @@ function Invoice() {
               <p>
                 <strong>E : </strong> ecom@knobsshop.store
               </p>
-            </div>
-            <div className="office-location">
-              <p>
+                            <p>
                 <strong>W : </strong> knobsshop.store
               </p>
             </div>
-          </div>
         </div>
         <div className="invoice">
           <div className="invoice-company text-inverse f-w-600">
-            <span className="pull-right hidden-print">
+            <span className="pull-right hidden-print no-export">
               <button
                 onClick={handleDownloadPDF}
                 className="btn btn-sm btn-white m-b-10 p-l-5"
@@ -288,7 +388,7 @@ function Invoice() {
           <div className="invoice-header">
             <div className="invoice-from">
               <small>from</small>
-              <address className="m-t-5 m-b-5">
+              <address className="m-0">
                 <strong className="text-inverse">{from.name}</strong>
                 <br />
                 {from.address.map((line, i) => (
@@ -305,7 +405,10 @@ function Invoice() {
             <div className="invoice-to">
               <small>To</small>
               {invoiceAllDetails?.shippingAddress ? (
-                <address className="m-t-5 m-b-5">
+                <address className="m-0">
+                  <strong className="text-inverse">
+                    {invoiceAllDetails.userDetails.name}
+                  </strong>
                   <strong className="text-inverse">
                     {invoiceAllDetails.shippingAddress.name}
                   </strong>
@@ -347,11 +450,12 @@ function Invoice() {
                 <tr>
                   <th>SI NO.</th>
                   <th>PRODUCT</th>
-                  <th className="table-data">RATE</th>
+                  <th className="table-data">HSN/SAC</th>
                   <th className="table-data">QTY</th>
+                  <th className="table-data">RATE</th>
                   <th className="table-data">DISC%</th>
-                  <th className="table-data">GST%</th>
-                  <th className="table-data">GST Amt</th>
+                  {/* <th className="table-data">GST%</th> */}
+                  {/* <th className="table-data">GST Amt</th> */}
                   <th className="table-data">TOTAL</th>
                 </tr>
               </thead>
@@ -363,7 +467,7 @@ function Invoice() {
                   const mrpTotal = (item.mrpPrice || item.price) * qty;
                   const sellingTotal = item.price * qty;
                   const title = item.product.name;
-
+                  const hsncode = item.product.hsncode;
                   const discountPercent =
                     ((mrpTotal - sellingTotal) / mrpTotal) * 100;
                   const discountPercentRounded = discountPercent.toFixed(2);
@@ -378,17 +482,20 @@ function Invoice() {
                         <br />
                       </td>
                       <td className="table-data">
+                        {item.product.hsncode}
+                      </td>
+                      <td className="table-data">{qty}</td>
+                      <td className="table-data">
                         <i class="bi bi-currency-rupee"></i>
                         {item.price}
                       </td>
-                      <td className="table-data">{qty}</td>
                       <td className="table-data">{discountPercentRounded}%</td>
 
-                      <td className="table-data">18%</td>
+                      {/* <td className="table-data">18%</td>
                       <td className="table-data">
                         <i class="bi bi-currency-rupee"></i>
                         {gstAmt.toFixed(2)}
-                      </td>
+                      </td> */}
                       <td className="table-data">
                         <i class="bi bi-currency-rupee"></i>
                         {(taxable + gstAmt).toFixed(2)}
@@ -417,6 +524,37 @@ function Invoice() {
               </tbody>
             </table>
           </div>
+          {/* --- GST Breakdown Section (below table) --- */}
+          {/* --- GST Breakdown Section (below table) --- */}
+          <div className="gst-breakdown-section">
+            {invoiceAllDetails?.shippingAddress?.state === "Tamil Nadu" ? (
+              <>
+                <div className="gst-line">
+                  <span className="gst-label"><em>Output CGST</em></span>
+                  <span className="gst-value">
+                    <i className="bi bi-currency-rupee"></i>
+                    {(totalGST / 2).toFixed(2)}
+                  </span>
+                </div>
+                <div className="gst-line">
+                  <span className="gst-label"><em>Output SGST</em></span>
+                  <span className="gst-value">
+                    <i className="bi bi-currency-rupee"></i>
+                    {(totalGST / 2).toFixed(2)}
+                  </span>
+                </div>
+              </>
+            ) : (
+              <div className="gst-line">
+                <span className="gst-label"><em>Output IGST</em></span>
+                <span className="gst-value">
+                  <i className="bi bi-currency-rupee"></i>
+                  {totalGST.toFixed(2)}
+                </span>
+              </div>
+            )}
+          </div>
+
 
           <div className="invoice-price">
             <img src="/favIcon.png" className="invoice-logo-icon" />
@@ -509,7 +647,7 @@ function Invoice() {
               <strong>Amount Chargeable (in words):</strong>{" "}
               {toWords(roundedTotal)}
             </p>
-            <div className="bank-details-invoice mt-3 invoice-price px-4 py-1">
+            {/* <div className="bank-details-invoice mt-3 invoice-price px-4 py-1">
               <div className="mt-1">
                 <p>
                   <strong>Company's Bank Details</strong>
@@ -530,8 +668,8 @@ function Invoice() {
                   <strong>Company's PAN:</strong> AHAPG8378C
                 </p>
               </div>
-            </div>
-            <div className="mt-4 declare-content-and-sign">
+            </div> */}
+            <div className="mt-4 declare-content-and-sign align-items-center">
               <div className="declartions-content-invoice">
                 <p>
                   <strong>Declation</strong>
@@ -543,11 +681,15 @@ function Invoice() {
                   goods described and that all particulars are true and correct
                 </p>
               </div>
-              <div className="text-end">
+              <div className="text-end d-flex flex-column align-items-center">
                 <p>
                   <strong>for KNOBS SHOP</strong>
                 </p>
-                <p className="mt-5">Authorised Signatory</p>
+                <div className="position-relative">
+                <img src={signImage} className="seal-image-invoice" />
+                <img src={sealImage} className="sign-image-invoice" />
+                </div>
+                <p className="">Authorised Signatory</p>
               </div>
             </div>
             <hr className="invoice-hr" />
