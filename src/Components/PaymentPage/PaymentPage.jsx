@@ -335,7 +335,49 @@ function PaymentPage() {
       }
     }
   }, []);
+const handilloginClick = () => {
+  if (!Userid) {
+      // Save all form data before redirect
+      const paymentSession = {
+        redirectUrl: "/payment", // Where to go after login
+        formData: {
+          deliveryOption,
+          pickupAddress,
+          contactInfo,
+          mobileInfo,
+          couponCode,
+          shipping: {
+            firstName: shippingFirstName,
+            lastName: shippingLastName,
+            address: shippingAddress,
+            city: shippingCity,
+            state: shippingState,
+            zip: shippingZip,
+          },
+          billing: {
+            firstName: billingFirstName,
+            lastName: billingLastName,
+            address: billingAddress,
+            city: billingCity,
+            state: billingState,
+            zip: billingZip,
+          },
+          sameAsShipping,
+          gstNumber,
+          companyName,
+        },
+        cartItems, // 🛒 Include current cart
+      };
 
+      // Store everything locally
+      localStorage.setItem(
+        "pendingPaymentSession",
+        JSON.stringify(paymentSession)
+      );
+      navigate('/auth/login');
+      return;
+    }
+}
   const handlePayment = async () => {
     if (!Userid) {
       // Save all form data before redirect
@@ -664,7 +706,7 @@ function PaymentPage() {
           <div className="contact-container">
             <div className="contact-con-head">
               <h3 className="contact-con-head-h3">CONTACT</h3>
-              {!Userid && <a href="/auth/login">Log in</a>}
+              {!Userid && <button className="btn btn-link" onClick={handilloginClick}>Log in</button>}
             </div>
             <input
               type="text"
