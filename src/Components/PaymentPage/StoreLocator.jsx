@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 const StoreLocator = ({ onStoreSelect }) => {
-  const [selectedStore, setSelectedStore] = useState("");
+  const [selectedStore, setSelectedStore] = useState("metupalayam");
 
   const storeDetails = {
     metupalayam: {

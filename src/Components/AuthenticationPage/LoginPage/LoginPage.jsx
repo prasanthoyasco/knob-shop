@@ -208,9 +208,9 @@ function LoginPage() {
             <button type="submit" className="login-btn" disabled={loading}>
               {loading ? "Logging in..." : "Log In"}
             </button>
-            <div className="m-auto mt-2">
-              <Link to={"/auth/register"} className="forgot-password">
-                Don't have an account? Sign up here.
+            <div className="text-center">
+              <Link to={"/auth/register"} className="signup-btn">
+                 New User?
               </Link>
             </div>
           </form>

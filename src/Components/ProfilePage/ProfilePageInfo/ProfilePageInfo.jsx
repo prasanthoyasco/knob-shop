@@ -86,7 +86,7 @@ function ProfilePageInfo() {
           name: data.user.name || "",
           phone: data.user.phone || "",
           email: data.user.email || "",
-          company: data.user.company|| "", // ✅ match schema
+          company: data.user.company || "", // ✅ match schema
           GST: data.user.GST || "", // ✅ match schema
         });
         // Fetch addresses
@@ -290,7 +290,7 @@ function ProfilePageInfo() {
                 className="edit-mode-input-field"
                 placeholder="GST Number"
                 maxLength={15}
-                 style={{ textTransform: "uppercase" }}
+                style={{ textTransform: "uppercase" }}
               />
               {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
               {successMessage && (
@@ -429,7 +429,19 @@ function ProfilePageInfo() {
                   </div>
                 ) : (
                   <div className="user-address-container-value">
-                    <h5>{user?.name || "Name"}</h5>
+                    <h5>
+                      {user?.name || "Name"}
+                      {user?.company && (
+                        <>
+                          {" "}
+                          from{" "}
+                          <strong style={{ color: "#c28b5f" }}>
+                            {user.company}
+                          </strong>
+                        </>
+                      )}
+                    </h5>
+
                     <p>
                       {addr.street}, {addr.city}, {addr.district} -{" "}
                       {addr.pincode}, {addr.state}

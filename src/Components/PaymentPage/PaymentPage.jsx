@@ -123,6 +123,11 @@ function PaymentPage() {
 
   const handleGstBlur = async (val) => {
     // If val is event, fall back to state
+    if (!gstNumber) return;
+    const savedUser = JSON.parse(localStorage.getItem("authUser") || "{}");
+    // Skip API call if gstNumber is already from savedUser
+    if (savedUser?.GST || savedUser?.gst === gstNumber) return;
+
     const gst = typeof val === "string" ? val : gstNumber;
     console.log("GST to validate:", gst);
 
@@ -158,7 +163,6 @@ function PaymentPage() {
     }
   };
 
-  console.log(gstData);
   const formatDate = (date) =>
     date.toLocaleDateString("en-US", {
       day: "numeric",
@@ -176,7 +180,26 @@ function PaymentPage() {
   endDate.setDate(today.getDate() + 5);
 
   const handleCheckboxChange = (e) => {
-    setShowFields(e.target.checked);
+    const checked = e.target.checked;
+    const savedUser = JSON.parse(localStorage.getItem("authUser") || "{}");
+    setShowFields(checked);
+    if (checked) {
+      // ✅ Check if user already has saved GST/company info
+      if (savedUser?.GST || savedUser?.gst ||  savedUser?.company) {
+        setGstNumber(savedUser?.GST || savedUser?.gst || "");
+        setCompanyName(savedUser?.company || "");
+        setGstData(null); // skip API call
+      } else {
+        // no saved data — show blank inputs for entry
+        setGstNumber("");
+        setCompanyName("");
+      }
+    } else {
+      // if unchecked — clear values
+      setGstNumber("");
+      setCompanyName("");
+      setGstData(null);
+    }
   };
 
   const subtotal = cartItems.reduce(
@@ -192,7 +215,7 @@ function PaymentPage() {
   useEffect(() => {
     if (location.state?.formData) {
       const { formData } = location.state;
-        try{
+      try {
         setDeliveryOption(formData.deliveryOption || "pickup");
         setPickupAddress(formData.pickupAddress || "");
         setContactInfo(formData.contactInfo || "");
@@ -217,8 +240,40 @@ function PaymentPage() {
         console.error("Failed to restore payment form data");
       }
     }
-  },[location.state]);
+  }, [location.state]);
+  useEffect(() => {
+    if (!Userid) return; // user not logged in
 
+    const fetchUserAddress = async () => {
+      try {
+        const addressData = await getAddressByUserId(Userid);
+        if (!addressData) return;
+
+        // If the API returns an array, use the first one
+        const address = Array.isArray(addressData.addresses)
+          ? addressData.addresses[0]
+          : addressData.addresses;
+
+        // --- Autofill Shipping Address ---
+        setShippingAddress(address.street || address.address || "");
+        setShippingCity(address.city || "");
+        setShippingState(address.state || "");
+        setShippingZip(address.zip || address.pincode || "");
+
+        // --- If pickup mode selected, autofill Billing too ---
+        if (deliveryOption === "pickup") {
+          setBillingAddress(address.street || address.address || "");
+          setBillingCity(address.city || "");
+          setBillingState(address.state || "");
+          setBillingZip(address.zip || address.pincode || "");
+        }
+      } catch (err) {
+        console.error("Failed to fetch user address:", err);
+      }
+    };
+
+    fetchUserAddress();
+  }, [Userid, deliveryOption]);
   useEffect(() => {
     if (!cartItems?.length) return;
     getAvailableCoupons()
@@ -249,9 +304,24 @@ function PaymentPage() {
 
   useEffect(() => {
     const savedUser = JSON.parse(localStorage.getItem("authUser") || "{}");
+    console.log("Saved user from localStorage:", savedUser);
     if (savedUser) {
       setContactInfo(savedUser.email || "");
       setMobileInfo(savedUser?.phone || savedUser?.mobile || "");
+      if (savedUser?.name) {
+        const [firstName, ...lastNameParts] = savedUser.name.trim().split(" ");
+        const lastName = lastNameParts.join(" ") || "";
+
+        console.log("Auto-filling name fields:", firstName, lastName);
+
+        // For shipping fields
+        setShippingFirstName(firstName);
+        setShippingLastName(lastName);
+
+        // For billing fields
+        setBillingFirstName(firstName);
+        setBillingLastName(lastName);
+      }
     }
   }, []);
 
@@ -335,8 +405,8 @@ function PaymentPage() {
       }
     }
   }, []);
-const handilloginClick = () => {
-  if (!Userid) {
+  const handilloginClick = () => {
+    if (!Userid) {
       // Save all form data before redirect
       const paymentSession = {
         redirectUrl: "/payment", // Where to go after login
@@ -374,10 +444,10 @@ const handilloginClick = () => {
         "pendingPaymentSession",
         JSON.stringify(paymentSession)
       );
-      navigate('/auth/login');
+      navigate("/auth/login");
       return;
     }
-}
+  };
   const handlePayment = async () => {
     if (!Userid) {
       // Save all form data before redirect
@@ -706,7 +776,11 @@ const handilloginClick = () => {
           <div className="contact-container">
             <div className="contact-con-head">
               <h3 className="contact-con-head-h3">CONTACT</h3>
-              {!Userid && <button className="btn btn-link" onClick={handilloginClick}>Log in</button>}
+              {!Userid && (
+                <button className="btn btn-link" onClick={handilloginClick}>
+                  Log in
+                </button>
+              )}
             </div>
             <input
               type="text"
@@ -913,7 +987,10 @@ const handilloginClick = () => {
                 <strong>Coimbatore, Tamil Nadu, India</strong>
               </p>
               <StoreLocator
-                onStoreSelect={(store) => setPickupAddress(store)}
+                onStoreSelect={(store) => {
+                  setPickupAddress(store);
+                  console.log("Selected store:", pickupAddress);
+                }}
               />
               <div className="contact-con-head">
                 <h3 className="contact-con-head-h3 mt-4 mb-0">Your Address</h3>
