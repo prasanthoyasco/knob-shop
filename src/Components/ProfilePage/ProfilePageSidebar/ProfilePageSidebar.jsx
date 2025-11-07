@@ -228,9 +228,9 @@ const handleSignOut = () => {
         <div
           className="profile-page-sidebar-individual-sec"
           onClick={handleSignOut}
-          style={{ cursor: "pointer" }}
+          style={{ cursor: "pointer", backgroundColor:"#f2f1f1" }}
         >
-          <div className="profile-page-sidebar-icon-text">
+          <div className="profile-page-sidebar-icon-text" style={{ backgroundColor:"#f2f1f1"}}>
             <i className="bi bi-box-arrow-in-left"></i>
             <h5>Log Out</h5>
           </div>

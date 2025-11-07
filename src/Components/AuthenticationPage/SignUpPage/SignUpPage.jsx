@@ -100,9 +100,21 @@ function SignUpPage() {
 
     try {
       setLoading(true);
-      const userCheck = await checkUser({ email: formData.email });
-      if (userCheck.exists)
-        return setError("User already exists with this email! Please log in.");
+      // Check both email and phone in a single call
+      const userCheck = await checkUser({
+        email: formData.email,
+        phone: formData.phone,
+      });
+
+      if (userCheck.emailExists) {
+        setError("User already exists with this email! Please log in.");
+        return;
+      }
+
+      if (userCheck.phoneExists) {
+        setError("User already exists with this phone number! Please log in.");
+        return;
+      }
 
       const resOtp = await sendOtpToEmail(formData.email);
       setSuccess(resOtp.message || "OTP sent successfully!");
@@ -413,8 +425,36 @@ function SignUpPage() {
                 className="form-input"
                 type="text"
                 name="phone"
+                maxLength={10}
                 value={formData.phone}
-                onChange={handleChange}
+                onChange={(e) => {
+                  const value = e.target.value;
+
+                  // Allow only digits
+                  const cleaned = value.replace(/\D/g, "");
+
+                  // If user tries to enter +91 or more than 10 digits
+                  if (value.startsWith("+91") || cleaned.length > 10) {
+                    setError(
+                      "Don’t add +91 before your number — enter only 10 digits."
+                    );
+                    return;
+                  }
+
+                  // Clear error if they correct it
+                  if (
+                    error &&
+                    cleaned.length <= 10 &&
+                    !value.startsWith("+91")
+                  ) {
+                    setError("");
+                  }
+
+                  setFormData((prev) => ({
+                    ...prev,
+                    phone: cleaned,
+                  }));
+                }}
               />
 
               <label className="form-label">Password</label>
@@ -469,8 +509,8 @@ function SignUpPage() {
                 {loading ? "Processing..." : "Sign Up"}
               </button>
               <div className="text-center">
-                <Link to={"/auth/login"} className="signup-btn">
-                  login Here?
+                <Link to="/auth/login" className="signup-btn">
+                  Already have an account?
                 </Link>
               </div>
             </form>

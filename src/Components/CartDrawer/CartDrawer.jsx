@@ -7,6 +7,7 @@ import { CountrySelect } from "./CountrySelect";
 import { useNavigate } from "react-router-dom";
 import { fetchProductsByCategory } from "../../API/productApi";
 import { useCart } from "../../Context/CartContext";
+import LoginPromptModal from "../PaymentPage/LoginPromptModal";
 const CartDrawer = ({
   show,
   onClose,
@@ -15,8 +16,9 @@ const CartDrawer = ({
   onAddToCart,
 }) => {
   const navigate = useNavigate();
-  const { updateCartItemQuantity,shareCurrentCart } = useCart();
+  const { updateCartItemQuantity, shareCurrentCart } = useCart();
   const [activeTab, setActiveTab] = useState(null);
+  const [showLoginModal, setShowLoginModal] = useState(false);
   // const [note, setNote] = useState("");
   // const [country, setCountry] = useState("India");
   // const [postalCode, setPostalCode] = useState("");
@@ -33,6 +35,32 @@ const CartDrawer = ({
     return sum + sellingPrice * (item.quantity || 1);
   }, 0);
 
+
+  const handleCheckout = () => {
+    const authUser = localStorage.getItem("authUser");
+    const authToken = localStorage.getItem("authToken");
+
+    if (!authUser || !authToken) {
+      // 🚨 Not logged in → Save session for post-login redirect
+      const paymentSession = {
+        redirectUrl: "/payment",
+        formData: null,
+        cartItems,
+      };
+      localStorage.setItem("pendingPaymentSession", JSON.stringify(paymentSession));
+      setShowLoginModal(true);
+      return;
+    }
+
+    // ✅ Logged in → Proceed to payment
+    onClose();
+    navigate("/payment", { state: { cartItems } });
+  };
+  const handleLoginRedirect = () => {
+    setShowLoginModal(false);
+    onClose();
+    navigate("/auth/register");
+  };
   useEffect(() => {
     console.log("CartDrawer: cartItems updated", cartItems);
   }, [cartItems]);
@@ -70,6 +98,11 @@ const CartDrawer = ({
 
   return (
     <>
+      <LoginPromptModal
+        open={showLoginModal}
+        onClose={() => setShowLoginModal(false)}
+        onLogin={handleLoginRedirect}
+      />
       <div
         className={`cart-backdrop ${show ? "show" : ""}`}
         onClick={onClose}
@@ -81,18 +114,18 @@ const CartDrawer = ({
           </h5>
           <div className="d-flex gap-2 align-items-center">
             <button
-            className="btn btn-sm rounded-50 py-1 px-2 share-cart-btn m-0 border-0 w-auto border-0 me-2"
-            onClick={() => shareCurrentCart()}
-          >
-            <Share2 size={18}/>
-          </button>
-          <button
-            className="btn p-0 m-0 border-0"
-            title="Close cart"
-            onClick={onClose}
-          >
-            <X />
-          </button>
+              className="btn btn-sm rounded-50 py-1 px-2 share-cart-btn m-0 border-0 w-auto border-0 me-2"
+              onClick={() => shareCurrentCart()}
+            >
+              <Share2 size={18} />
+            </button>
+            <button
+              className="btn p-0 m-0 border-0"
+              title="Close cart"
+              onClick={onClose}
+            >
+              <X />
+            </button>
           </div>
         </div>
 
@@ -380,10 +413,7 @@ const CartDrawer = ({
               </button>
               <button
                 className="btn btn-dark w-100 h-100 m-0 py-2"
-                onClick={() => {
-                  onClose();
-                  navigate("/payment", { state: { cartItems } });
-                }}
+                onClick={handleCheckout}
               >
                 Checkout
               </button>

@@ -17,10 +17,14 @@ export const Signup = async ( payload) => {
 };
 
 export const checkUser = async ({ email, phone }) => {
-  const query = email ? `email=${email}` : `phone=${phone}`;
-    const res = await axios.get(`${BASE_URL}/check?${query}`);
-    return res.data;
+  const params = new URLSearchParams();
+  if (email) params.append("email", email);
+  if (phone) params.append("phone", phone);
+
+  const res = await axios.get(`${BASE_URL}/check?${params.toString()}`);
+  return res.data;
 };
+
 export const getUserById = async (userId) => {
   try {
     const res = await axios.get(`${BASE_URL}/${userId}`);

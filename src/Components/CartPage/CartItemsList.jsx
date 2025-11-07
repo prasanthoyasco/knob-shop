@@ -133,7 +133,7 @@ const CartItemsList = ({
 
       <div className="mobile-cart-page-container">
         {cartItems.map((item) => (
-          <div key={item.id} className="cart-mobile-product">
+          <div key={item.id} className="cart-mobile-product" style={{cursor:'pointer'}} onClick={() => Navigate(`/product/${item.id}`)}>
             <div className="cart-mobile-left">
               <img src={item.image} alt={item.title} loading="lazy" />
             </div>

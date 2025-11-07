@@ -133,6 +133,9 @@ p {
   width: 100%;
   height: auto;
 }
+.username {
+  color: #e18436 !important;
+}
 
 .count-badge {
   position: absolute;
@@ -241,9 +244,12 @@ p {
   .navbar-mob-middle-search-box-icon i {
     padding: 5px 18px;
   }
-
+.profile, .icon-wrapper{
+  padding: 0 !important;
+}
   .profile div {
     display: none; /* Hides text near profile */
+    padding: 0 !important;
   }
 
   .heart-cart-person-signIn-icon {

@@ -121,6 +121,15 @@ function PaymentPage() {
   const navigate = useNavigate();
   const API_KEY = "848cf9974177b193fdcae5d1a8ab5efb";
 
+  useEffect(() => {
+    const savedUser = JSON.parse(localStorage.getItem("authUser") || "{}");
+    if (savedUser?.GST || savedUser?.gst) {
+      setShowFields(true); // ✅ Auto-check GST checkbox
+      setGstNumber(savedUser?.GST || savedUser?.gst || "");
+      setCompanyName(savedUser?.company || "");
+    }
+  }, []);
+
   const handleGstBlur = async (val) => {
     // If val is event, fall back to state
     if (!gstNumber) return;
@@ -185,7 +194,7 @@ function PaymentPage() {
     setShowFields(checked);
     if (checked) {
       // ✅ Check if user already has saved GST/company info
-      if (savedUser?.GST || savedUser?.gst ||  savedUser?.company) {
+      if (savedUser?.GST || savedUser?.gst || savedUser?.company) {
         setGstNumber(savedUser?.GST || savedUser?.gst || "");
         setCompanyName(savedUser?.company || "");
         setGstData(null); // skip API call
@@ -444,7 +453,7 @@ function PaymentPage() {
         "pendingPaymentSession",
         JSON.stringify(paymentSession)
       );
-      navigate("/auth/login");
+      navigate("/auth/register");
       return;
     }
   };
@@ -507,7 +516,7 @@ function PaymentPage() {
       // }
 
       const shippingData = {
-        name: `${shippingFirstName} ${shippingLastName}`,
+        name: [shippingFirstName, shippingLastName].filter(Boolean).join(" "),
         phone: mobileInfo,
         alternate_phone: mobileInfo,
         street: shippingAddress,
@@ -519,14 +528,14 @@ function PaymentPage() {
       };
 
       const billingData = {
-        name: `${billingFirstName} ${billingLastName}`,
+        name: [billingFirstName, billingLastName].filter(Boolean).join(" "),
         street: billingAddress,
         city: billingCity,
-        district: billingCity, // 👈 using city as district (or add a separate billingDistrict field if available)
+        district: billingCity,
         state: billingState || "Tamil Nadu",
-        pincode: billingZip, // 👈 renamed from zip → pincode
+        pincode: billingZip,
         country: "India",
-        phone: mobileInfo, // 👈 only set if it’s not an email
+        phone: mobileInfo,
         email: contactInfo.includes("@") ? contactInfo : "test@example.com",
       };
 
@@ -676,7 +685,6 @@ function PaymentPage() {
     if (deliveryOption === "ship") {
       return [
         shippingFirstName,
-        shippingLastName,
         shippingAddress,
         shippingCity,
         shippingZip,
@@ -685,7 +693,6 @@ function PaymentPage() {
     } else if (deliveryOption === "pickup") {
       return [
         billingFirstName,
-        billingLastName,
         billingAddress,
         billingCity,
         billingZip,
@@ -799,7 +806,12 @@ function PaymentPage() {
               onBlur={() => setContactCompleted(true)}
             />
             <div className="contact-con-checkbox-text">
-              <input type="checkbox" onChange={handleCheckboxChange} />
+              <input
+                type="checkbox"
+                checked={showFields}
+                onChange={handleCheckboxChange}
+              />
+
               <p>
                 Add my GST details and company name for Billing and auto-fill on
                 future purchases.{" "}
