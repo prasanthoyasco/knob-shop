@@ -2,7 +2,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
-
+import "./CartPage.css";
 const CartItemsList = ({
   cartItems,
   handleIncrement,
@@ -37,12 +37,15 @@ const CartItemsList = ({
       </div>
 
       {cartItems.map((item) => (
-        <div
-          key={item._id}
-          className="shopping-cart-table-product"
-        >
+        <div key={item._id} className="shopping-cart-table-product">
           <div>
-            <div className="shopping-cart-table-product-image mb-5" style={{cursor:'pointer'}} onClick={() => Navigate(`/product/${item.id}`)}>
+            <div
+              className="shopping-cart-table-product-image mb-5"
+              style={{ cursor: "pointer" }}
+              onClick={() =>
+                Navigate(`/product/${item.productId?._id || item.productId}`)
+              }
+            >
               <img
                 src={
                   item.productId?.variant?.[0]?.images?.[0]?.url ||
@@ -54,7 +57,12 @@ const CartItemsList = ({
                 loading="lazy"
               />
               <div className="shopping-cart-table-product-image-content">
-                {item.brand && <p>Brand : {item.brand}</p>}
+                {item.brand && (
+                  <p>
+                    Brand :{" "}
+                    <strong style={{ color: "#d6791f" }}>{item.brand}</strong>
+                  </p>
+                )}
                 <h3>{item.title || item.name || item.productId.name}</h3>
                 {(item.productId?.variant?.[0]?.title ||
                   item.colorsText ||
@@ -64,13 +72,25 @@ const CartItemsList = ({
                     item.variant?.[0]?.title) !== "0" && (
                     <p>
                       Color:{" "}
-                      <strong>
+                      <strong style={{ color: "#d6791f" }}>
                         {item.productId?.variant?.[0]?.title ||
                           item.colorsText ||
+                          item.colorCode ||
                           item.variant?.[0]?.title}
                       </strong>
                     </p>
                   )}
+                <p>
+                  {item.sizeLabel && (
+                    <span>
+                      {" "}
+                      Size:{" "}
+                      <strong style={{ color: "#d6791f" }}>
+                        {item.sizeLabel}
+                      </strong>
+                    </span>
+                  )}
+                </p>
               </div>
             </div>
             {/* <button
@@ -86,14 +106,14 @@ const CartItemsList = ({
           <div className="shopping-cart-table-product-count">
             <div className="shopping-cart-table-product-count-btn">
               <button
-                onClick={() => handleDecrement(item.id)}
+                onClick={() => handleDecrement(item)}
                 disabled={item.quantity === 1 || isTrackingPage}
               >
                 -
               </button>
               <span className="quantity-display">{item.quantity}</span>
               <button
-                onClick={() => handleIncrement(item.id)}
+                onClick={() => handleIncrement(item)}
                 disabled={isTrackingPage}
               >
                 +
@@ -102,7 +122,7 @@ const CartItemsList = ({
             {!isTrackingPage && (
               <div
                 className="delete-icon cursor-pointer"
-                onClick={() => handleDelete(item.id)}
+                onClick={() => handleDelete(item)}
               >
                 <i className="bi bi-trash"></i>
               </div>
@@ -111,82 +131,131 @@ const CartItemsList = ({
 
           <div className="shopping-cart-table-product-total">
             <h3>
-              {item.productId?.variant?.[0]?.sizes?.[0]?.sellingPrice != null
-                ? `₹${item.productId.variant?.[0]?.sizes?.[0]?.sellingPrice.toLocaleString(
-                    "en-IN"
-                  )}${
-                    item.price
-                      ? ` | ₹${item.price.toLocaleString("en-IN")}`
-                      : ""
-                  }`
-                : item.price != null
-                ? `₹${item.price.toLocaleString("en-IN")}`
-                : item.variant?.[0]?.sizes?.[0]?.sellingPrice != null
-                ? `₹${item.variant[0].sizes[0].sellingPrice.toLocaleString(
-                    "en-IN"
-                  )}`
-                : "Price not available"}
+              {(() => {
+                const variant =
+                  item.productId?.variant?.find(
+                    (v) => v.value === item.colorCode
+                  ) || item.variant?.find((v) => v.value === item.colorCode);
+
+                const sizeData = variant?.sizes?.find(
+                  (s) => s.label === item.sizeLabel
+                );
+
+                const price =
+                  sizeData?.sellingPrice ||
+                  item.sellingPrice ||
+                  item.price ||
+                  null;
+
+                return price
+                  ? `₹${price.toLocaleString("en-IN")}`
+                  : "Price not available";
+              })()}
             </h3>
           </div>
         </div>
       ))}
 
       <div className="mobile-cart-page-container">
-        {cartItems.map((item) => (
-          <div key={item.id} className="cart-mobile-product" style={{cursor:'pointer'}} onClick={() => Navigate(`/product/${item.id}`)}>
-            <div className="cart-mobile-left">
-              <img src={item.image} alt={item.title} loading="lazy" />
-            </div>
-            <div className="cart-mobile-right">
-              <h3>{item.title || item.name || item.productId.name}</h3>
-              <div className="price-row">
-                <span className="discount-price">
-                  {item.productId?.variant?.[0]?.sizes?.[0]?.sellingPrice !=
-                  null
-                    ? `₹${item.productId.variant?.[0]?.sizes?.[0]?.sellingPrice.toLocaleString(
-                        "en-IN"
-                      )}${
-                        item.price
-                          ? ` | ₹${item.price.toLocaleString("en-IN")}`
-                          : ""
-                      }`
-                    : item.price != null
-                    ? `₹${item.price.toLocaleString("en-IN")}`
-                    : item.variant?.[0]?.sizes?.[0]?.sellingPrice != null
-                    ? `₹${item.variant[0].sizes[0].sellingPrice.toLocaleString(
-                        "en-IN"
-                      )}`
-                    : "Price not available"}
-                </span>
-              </div>
-              <div className="quantity-remove-row">
-                <div className="quantity-box">
-                  <button
-                    onClick={() => handleDecrement(item.id)}
-                    disabled={item.quantity === 1 || isTrackingPage}
-                  >
-                    -
-                  </button>
-                  <span>{item.quantity}</span>
-                  <button
-                    onClick={() => handleIncrement(item.id)}
-                    disabled={isTrackingPage}
-                  >
-                    +
-                  </button>
+        {cartItems.map((item) => {
+          const color =
+            item.title ||
+            item.variant?.title ||
+            item.productId?.variant?.[0]?.title;
+          const size =
+            item.label ||
+            item.variant?.label ||
+            item.productId?.variant?.[0]?.sizes?.[0]?.label;
+          console.log(
+            "Rendering mobile item:",
+            item,
+            "Color:",
+            color,
+            "Size:",
+            size
+          );
+          return (
+            <div key={item.productId} className="cart-mobile-product">
+              <div className="d-flex">
+                <div
+                  className="cart-mobile-left"
+                  onClick={() =>
+                    Navigate(
+                      `/product/${item.productId?._id || item.productId}`
+                    )
+                  }
+                >
+                  <img src={item.image} alt={item.title} loading="lazy" />
                 </div>
-                {!isTrackingPage && (
-                  <div
-                    className="remove-box"
-                    onClick={() => handleDelete(item.id)}
+                <div className="cart-mobile-right">
+                  <h3
+                    className="mt-2"
+                    onClick={() =>
+                      Navigate(
+                        `/product/${item.productId?._id || item.productId}`
+                      )
+                    }
+                    style={{ cursor: "pointer" }}
                   >
-                    <i className="bi bi-trash"></i>
+                    {item.title || item.name || item.productId.name}
+                  </h3>
+                  <p className="variant-text">
+                    {color && <span>Color: {color}</span>}
+                    {size && <span> | Size: {size}</span>}
+                  </p>
+
+                  <div className="price-row d-flex justify-content-between gap-2 align-items-center">
+                    <span className="discount-price">
+                      {item.productId?.variant?.[0]?.sizes?.[0]?.sellingPrice !=
+                      null
+                        ? `₹${item.productId.variant?.[0]?.sizes?.[0]?.sellingPrice.toLocaleString(
+                            "en-IN"
+                          )}${
+                            item.sellingPrice
+                              ? ` | ₹${item.sellingPrice.toLocaleString(
+                                  "en-IN"
+                                )}`
+                              : ""
+                          }`
+                        : item.price != null
+                        ? `₹${item.price.toLocaleString("en-IN")}`
+                        : item.variant?.[0]?.sizes?.[0]?.sellingPrice != null
+                        ? `₹${item.variant[0].sizes[0].sellingPrice.toLocaleString(
+                            "en-IN"
+                          )}`
+                        : "Price not available"}
+                    </span>
+                    <div className="quantity-remove-row">
+                      <div className="quantity-box">
+                        <button
+                          onClick={() => handleDecrement(item)}
+                          disabled={item.quantity === 1 || isTrackingPage}
+                        >
+                          -
+                        </button>
+                        <span>{item.quantity}</span>
+                        <button
+                          onClick={() => handleIncrement(item)}
+                          disabled={isTrackingPage}
+                        >
+                          +
+                        </button>
+                      </div>
+                      {!isTrackingPage && (
+                        <div
+                          className="remove-box"
+                          onClick={() => handleDelete(item.productId)}
+                        >
+                          <i className="bi bi-trash"></i>
+                        </div>
+                      )}
+                    </div>
                   </div>
-                )}
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );

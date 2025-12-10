@@ -272,12 +272,16 @@
     width: 100px;
     position: absolute;
     top: 25%;
-    left: 0;
+    left: 100px;
 }
 
+.r-20{
+    right: 20%;
+}
 .seal-image-invoice {
     height: 100px;
     width: 100px;
+    object-fit: contain;
     opacity: 0.3;
 }
 

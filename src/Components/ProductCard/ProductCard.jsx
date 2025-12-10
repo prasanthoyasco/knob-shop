@@ -20,7 +20,7 @@ const ProductCard = ({ product }) => {
   const [selectedSizeLabel, setSelectedSizeLabel] = useState(initialSizeLabel);
 
   const id = product.id || product._id;
-  const title = product.title || product.name || "Untitled Product";
+  const title = product?.title || product?.name || "Untitled Product";
   const handleWishlistClick = () => {
     const authToken = localStorage.getItem("authToken");
     const authUser = localStorage.getItem("authUser");
@@ -61,7 +61,6 @@ const ProductCard = ({ product }) => {
             100
         )
       : 0;
-
 
   return (
     <div className="card product-card h-100 position-relative cursor-pointer">
@@ -231,13 +230,39 @@ const ProductCard = ({ product }) => {
             <button
               className="Addtocart"
               onClick={() => {
+                console.log(selectedVariant)
                 const itemToAdd = {
-                  ...product,
-                  color: selectedVariant?.value, // color hex or name
-                  size: selectedSizeLabel,
+                  // Backend required fields
+                  productId: id,
                   quantity: 1,
-                  price: selectedSize.sellingPrice, // optional but useful for clarity
+
+                  colorName: selectedVariant?.title || "",
+                  colorsText: selectedVariant?.title || "",
+                  colorCode: selectedVariant?.value || "",
+                  sizeLabel: selectedSize?.label || "",
+
+                  mrp: selectedSize?.mrp || 0,
+                  sellingPrice: selectedSize?.sellingPrice || 0,
+                  taxPercentage: selectedSize?.taxPercentage || 0,
+
+                  discountPercentage: selectedSize?.mrp
+                    ? Math.round(
+                        ((selectedSize?.mrp - selectedSize?.sellingPrice) /
+                          selectedSize?.mrp) *
+                          100
+                      )
+                    : 0,
+
+                  image: selectedVariant?.images?.[0]?.url || "/fallback.png",
+
+                  // UI-only fields (CartContext uses them but API ignores)
+                  id: id,
+                  title: title,
+                  name: title,
+                  price: selectedSize?.sellingPrice || 0,
+                  total: selectedSize?.sellingPrice || 0,
                 };
+
                 addToCart(itemToAdd);
                 toggleDrawer(true);
               }}

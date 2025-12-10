@@ -564,3 +564,38 @@
       width:100%;
     }
 }
+
+
+/* Truncate product name and color */
+.cart-mobile-right h3,
+.cart-mobile-right .variant-text span {
+  display: block;
+  max-width: 150px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cart-mobile-right {
+  min-width: 0;
+}
+
+/* Truncate price text */
+.discount-price {
+  max-width: 60%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Prevent horizontal overflow */
+.price-row {
+  width: inherit;
+  overflow: hidden;
+  flex-wrap: wrap;
+}
+
+.cart-mobile-product {
+  width: 100%;
+  overflow: hidden;
+}

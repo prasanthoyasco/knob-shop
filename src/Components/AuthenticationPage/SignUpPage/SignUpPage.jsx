@@ -196,8 +196,7 @@ function SignUpPage() {
           pincode: "",
         };
 
-        // --- Address Parsing Logic ---
-        // 1. Extract Pincode (6 digits, usually at the end)
+
         const pincodeMatch = fullAddress.match(/(\d{6})\s*$/);
         if (pincodeMatch) {
           parsedAddress.pincode = pincodeMatch[1];
@@ -593,14 +592,16 @@ function SignUpPage() {
               />
 
               <label className="form-label">Address</label>
-
+                 <div className="address-row">
               <input
-                placeholder="Street"
+                placeholder="Address"
                 className="form-input"
                 name="address.street" // Use dot notation for nested state
                 value={formData.address?.street || ""}
                 onChange={handleChange}
+                required 
               />
+              </div>
 
               <div className="address-row">
                 <input
@@ -609,32 +610,25 @@ function SignUpPage() {
                   name="address.city"
                   value={formData.address?.city || ""}
                   onChange={handleChange}
-                />
-
-                <input
-                  placeholder="District"
-                  className="form-input half"
-                  name="address.district"
-                  value={formData.address?.district || ""}
-                  onChange={handleChange}
+                  required
                 />
               </div>
-
               <div className="address-row">
-                <input
-                  placeholder="Pincode"
-                  className="form-input half"
-                  name="address.pincode"
-                  value={formData.address?.pincode || ""}
-                  onChange={handleChange}
-                />
-
                 <input
                   placeholder="State"
                   className="form-input half"
                   name="address.state"
                   value={formData.address?.state || ""}
                   onChange={handleChange}
+                  required
+                />
+                <input
+                  placeholder="Pincode"
+                  className="form-input half"
+                  name="address.pincode"
+                  value={formData.address?.pincode || ""}
+                  onChange={handleChange}
+                  required
                 />
               </div>
 

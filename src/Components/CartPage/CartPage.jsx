@@ -44,19 +44,35 @@ function CartPage() {
   }, [cartItems]);
 
   // 📦 Cart item handlers
-  const handleIncrement = (id) => updateCartItemQuantity(id, 1);
-  const handleDecrement = (id) => updateCartItemQuantity(id, -1);
+  const handleIncrement = (item) => updateCartItemQuantity(item, 1);
+  const handleDecrement = (item) => {
+  if (item.quantity <= 0) return;
+  updateCartItemQuantity(item, -1);
+};
   const handleDelete = (item) => removeFromCart(item);
 
   // 🧮 Subtotal calculation
-  const subtotal = cartItems.reduce((sum, item) => {
-    const sellingPrice =
-      item.productId?.variant?.[0]?.sizes?.[0]?.sellingPrice ||
-      item.variant?.[0]?.sizes?.[0]?.sellingPrice ||
-      item.price ||
-      0;
-    return sum + sellingPrice * (item.quantity || 1);
-  }, 0);
+ const subtotal = cartItems.reduce((sum, item) => {
+  // 1) Find the matching color variant
+  const variant =
+    item.productId?.variant?.find(v => v.value === item.colorCode) ||
+    item.variant?.find(v => v.value === item.colorCode);
+
+  // 2) Find the selected size inside the variant
+  const selectedSize = variant?.sizes?.find(
+    s => s.label === item.sizeLabel
+  );
+
+  // 3) Correct selling price (fallbacks included)
+  const sellingPrice =
+    selectedSize?.sellingPrice ||
+    item.sellingPrice ||     // fallback 1
+    item.price ||            // fallback 2
+    0;
+
+  return sum + sellingPrice * (item.quantity || 1);
+}, 0);
+
 
   // 🧠 Checkout click handler
   const handleCheckout = () => {

@@ -247,6 +247,7 @@ const handleDownloadPDF = async () => {
   const gstSummary = {};
 
   if (invoiceAllDetails?.cartItems?.length) {
+    console.log("all invoice data",invoiceAllDetails)
     invoiceAllDetails.cartItems.forEach((item) => {
       const qty = item.quantity || 1;
       const mrpTotal = (item.mrpPrice || item.price) * qty;
@@ -254,7 +255,7 @@ const handleDownloadPDF = async () => {
 
       const discount = mrpTotal - sellingTotal;
       const taxable = sellingTotal;
-      const gstRate = item.gst || 18; // default 18%
+      const gstRate = item.product?.variant[0]?.sizes[0]?.taxPercentage || 18; // default 18%
       const gstAmt = (taxable * gstRate) / 100;
 
       subtotal += taxable;
@@ -407,19 +408,19 @@ const handleDownloadPDF = async () => {
               {invoiceAllDetails?.shippingAddress ? (
                 <address className="m-0">
                   <strong className="text-inverse">
-                    {invoiceAllDetails.userDetails.name}
+                    {invoiceAllDetails.userDetails?.name}
                   </strong>
                   <strong className="text-inverse">
-                    {invoiceAllDetails.shippingAddress.name}
+                    {invoiceAllDetails.shippingAddress?.name}
                   </strong>
                   <br />
-                  {invoiceAllDetails.shippingAddress.street}
+                  {invoiceAllDetails.shippingAddress?.street}
                   <br />
-                  {invoiceAllDetails.shippingAddress.city},{" "}
-                  {invoiceAllDetails.shippingAddress.district}
+                  {invoiceAllDetails.shippingAddress?.city},{" "}
+                  {invoiceAllDetails.shippingAddress?.district}
                   <br />
-                  {invoiceAllDetails.shippingAddress.state} -{" "}
-                  {invoiceAllDetails.shippingAddress.pincode}
+                  {invoiceAllDetails.shippingAddress?.state} -{" "}
+                  {invoiceAllDetails.shippingAddress?.pincode}
                   <br />
                 </address>
               ) : (
@@ -472,7 +473,8 @@ const handleDownloadPDF = async () => {
                     ((mrpTotal - sellingTotal) / mrpTotal) * 100;
                   const discountPercentRounded = discountPercent.toFixed(2);
                   const taxable = sellingTotal; // after discount
-                  const gstAmt = (taxable * 18) / 100;
+                  const gstRate = item.product?.variant[0]?.sizes[0]?.taxPercentage ?? 18;
+                  const gstAmt = (taxable * gstRate) / 100;
 
                   return (
                     <tr key={i}>
@@ -482,7 +484,7 @@ const handleDownloadPDF = async () => {
                         <br />
                       </td>
                       <td className="table-data">
-                        {item.product.hsncode}
+                        {item.product.hsncode || hsncode || "9983"}
                       </td>
                       <td className="table-data">{qty}</td>
                       <td className="table-data">
@@ -685,7 +687,7 @@ const handleDownloadPDF = async () => {
                 <p>
                   <strong>for KNOBS SHOP</strong>
                 </p>
-                <div className="position-relative">
+                <div className="position-relative r-20">
                 <img src={signImage} className="seal-image-invoice" />
                 <img src={sealImage} className="sign-image-invoice" />
                 </div>

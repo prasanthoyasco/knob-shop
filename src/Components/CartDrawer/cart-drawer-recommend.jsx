@@ -43,32 +43,82 @@ const RecommendedSlider = ({ recommendedItems = [], onAddToCart }) => {
               style={{
                 width: "100px",
                 height: "100px",
-                objectFit: "cover",
+                objectFit: "contain",
+                border: "1px dashed #ccc",
+                background: "white",
+                borderRadius: "5px",
+                padding: "5px",
               }}
               className="me-3"
             />
             <div className="d-flex justify-content-between w-100">
               <div>
-                <p className="mb-1 fw-semibold">{item.name?.trim().split(' ').slice(0, 3).join(' ')}</p>
+                <p className="mb-1 fw-semibold">
+                  {item.name?.trim().split(" ").slice(0, 3).join(" ")}
+                </p>
                 <p className="mb-1 small text-decoration-line-through text-muted">
                   ₹{item.variant[0].sizes[0].mrp}
                 </p>
-                <p className="mb-1 fw-bold price">₹{item.variant[0].sizes[0].sellingPrice}</p>
+                <p className="mb-1 fw-bold price">
+                  ₹{item.variant[0].sizes[0].sellingPrice}
+                </p>
               </div>
               <button
                 className="btn btn-link m-0 btn-sm p-0 text-dark"
                 onClick={() =>
                   onAddToCart({
-                    ...item,
-                    id: item._id, // ensure id is present for consistent matching
-                    color: item.variant?.[0]?.color || "Default",
-                    size: item.variant?.[0]?.sizes?.[0]?.size || "Default",
-                    price: item.variant?.[0]?.sizes?.[0]?.sellingPrice || item.price,
+                    // Required fields
+                    productId: item._id,
                     quantity: 1,
-                    image: item.images?.[0] || item.image || "/fallback.png",
+
+                    colorName: item.variant?.[0]?.title || "",
+                    colorCode: item.variant?.[0]?.value || "",
+                    sizeLabel: item.variant?.[0]?.sizes?.[0]?.label || "",
+
+                    mrp:
+                      item.variant?.[0]?.sizes?.[0]?.mrp ||
+                      item.compare_price ||
+                      0,
+                    sellingPrice:
+                      item.variant?.[0]?.sizes?.[0]?.sellingPrice ||
+                      item.price ||
+                      0,
+
+                    discountPercentage: item.variant?.[0]?.sizes?.[0]?.mrp
+                      ? Math.round(
+                          ((item.variant?.[0]?.sizes?.[0]?.mrp -
+                            item.variant?.[0]?.sizes?.[0]?.sellingPrice) /
+                            item.variant?.[0]?.sizes?.[0]?.mrp) *
+                            100
+                        )
+                      : 0,
+
+                    taxPercentage:
+                      item.variant?.[0]?.sizes?.[0]?.tax || item.tax || 0,
+
+                    image:
+                      item.images?.[0] ||
+                      item.image ||
+                      "https://via.placeholder.com/300",
+
+                    // UI-only fields
+                    id: item._id, // required for CartContext match
+                    productName: item.name,
+                    sku: item.productId,
+                    title: item.name,
+                    categoryId: item.category?._id,
+                    brand: item.brand,
+                    category: item.category?.category_name || "",
+                    colorsText: item.variant?.[0]?.title || "",
+                    savePrice:
+                      (item.variant?.[0]?.sizes?.[0]?.mrp ||
+                        item.compare_price ||
+                        0) -
+                      (item.variant?.[0]?.sizes?.[0]?.sellingPrice ||
+                        item.price ||
+                        0),
                   })
                 }
-                
               >
                 + Add to Cart
               </button>

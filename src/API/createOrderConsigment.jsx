@@ -1,41 +1,13 @@
 import axios from "axios";
 
 // Remove non-ASCII characters and trim
+// remove non-ASCII chars
 const sanitizeASCII = (str) =>
   str ? str.replace(/[^\u0020-\u007E]/g, "").trim() : "";
 
-// Fallback utility
+
 const fallback = (value, fallbackValue) =>
   typeof value === "string" && value.trim() ? value.trim() : fallbackValue;
-
-// Normalize phone number: remove +91, 91, or any non-digit chars
-const normalizePhone = (phone) => {
-  if (!phone) return "0000000000";
-  let cleaned = String(phone).replace(/\D/g, ""); // keep only digits
-  if (cleaned.length > 10 && cleaned.startsWith("91")) cleaned = cleaned.slice(2);
-  cleaned = cleaned.slice(-10); // last 10 digits
-  return cleaned.length === 10 ? cleaned : "0000000000";
-};
-
-// Core request sender
-const sendDTDCRequest = async (payload, serviceType) => {
-  const url =
-    import.meta.env.VITE_MODE === "development"
-      ? "https://alphademodashboardapi.shipsy.io/api/customer/integration/consignment/softdata"
-      : "https://dtdcapi.shipsy.io/api/customer/integration/consignment/softdata";
-
-  // Inject current service type
-  payload.consignments[0].service_type_id = serviceType;
-
-  const response = await axios.post(url, payload, {
-    headers: {
-      "Content-Type": "application/json",
-      "api-key": import.meta.env.VITE_DTDC_API_KEY,
-    },
-  });
-
-  return response.data;
-};
 
 export const createDTDCConsignment = async (orderData) => {
   try {
@@ -54,101 +26,106 @@ export const createDTDCConsignment = async (orderData) => {
     const validCity = sanitizeASCII(shippingAddress.city);
     const validState = sanitizeASCII(shippingAddress.state);
 
-    if (!validStreet || !validCity || !validState)
+    if (!validStreet || !validCity || !validState) {
       throw new Error("Invalid shipping address.");
+    }
 
-    const declaredValue =
-      !isNaN(Number(totalAmount)) && Number(totalAmount) > 0
-        ? Number(totalAmount).toFixed(2)
-        : "100.00";
+    // Format the cart items
+    const formattedItems = cartItems.map((item) => ({
+      item_name: item.name,
+      item_quantity: item.quantity,
+      item_price: item.price,
+      item_sku: item.sku || item._id || "SKU123", // fallback SKU
+    }));
 
     const payload = {
       consignments: [
         {
           customer_code: import.meta.env.VITE_DTDC_CUSTOMER_CODE,
-          service_type_id: "B2C SMART EXPRESS", // primary
+          service_type_id: "B2C PRIORITY",
           load_type: "NON-DOCUMENT",
-          consignment_type: "Forward",
           description: cartItems
-            .map(
-              (item) =>
-                `${
-                  item?.title || item?.productName || item?.productId?.name
-                } x${item.quantity}`
-            )
+            .map((item) => `${item.name} x${item.quantity}`)
             .join(", "),
           dimension_unit: "cm",
-          length: String(dimensions?.length || 10),
-          width: String(dimensions?.width || 10),
-          height: String(dimensions?.height || 10),
+          length: String(dimensions.length),
+          width: String(dimensions.width),
+          height: String(dimensions.height),
           weight_unit: "kg",
-          weight: String(
-            Math.max(1, Number((dimensions?.weight || 1000) / 1000).toFixed(2))
-          ),
-          declared_value: declaredValue,
-          eway_bill: ewayBill || "N/A",
-          invoice_number: invoiceNo || _id,
-          invoice_date: invoiceDate
-            ? new Date(invoiceDate).toISOString().split("T")[0]
-            : new Date().toISOString().split("T")[0],
+          weight: String(dimensions.weight),
+          declared_value: String(totalAmount),
           num_pieces: "1",
+          product_code: "E",
+          pieces: [
+            {
+              product_code: "E",
+              items: formattedItems,
+            },
+          ],
           origin_details: {
-            name: "KnobsShop",
-            phone: normalizePhone("7092466600"),
-            alternate_phone: normalizePhone("04222550744"),
+            name: "knobsshop",
+            phone: "917092466600",
+            alternate_phone: "04222550744",
             address_line_1: "746 747, Mettupalayam Rd, R.S. Puram",
             address_line_2: "Coimbatore, Tamil Nadu",
-            pincode: "641038",
+            pincode: "641002",
             city: "Coimbatore",
-            state: "Tamil Nadu",
+            state: "TamilNadu",
           },
           destination_details: {
             name: fallback(shippingAddress.name, "Receiver"),
-            phone: normalizePhone(
-              fallback(shippingAddress.phone, shippingAddress.alternate_phone)
-            ),
-            alternate_phone: normalizePhone(
-              fallback(shippingAddress.alternate_phone, "0000000000")
+            phone: fallback(shippingAddress.phone, "0000000000"),
+            alternate_phone: fallback(
+              shippingAddress.alternate_phone,
+              "0000000000"
             ),
             address_line_1: validStreet,
             address_line_2: "",
             pincode: shippingAddress.pincode,
             city: validCity,
-            email: fallback(shippingAddress.email, "test@example.com"),
             state: validState,
           },
-          customer_reference_number: `ORDER-${normalizePhone(shippingAddress.phone).slice(-5)}`,
+          return_details: {
+            address_line_1: "746 747, Mettupalayam Rd, R.S. Puram", //746 747, Mettupalayam Rd, R.S. Puram, Coimbatore, Tamil Nadu - 641002
+            address_line_2: "Coimbatore, Tamil Nadu",
+            city_name: "Coimbatore",
+            name: "Knobsshop",
+            phone: "917092466600",
+            pincode: "641002",
+            state_name: "TamilNadu",
+            email: "ecom@knobsshop.store",
+            alternate_phone: "04222550744",
+          },
+          customer_reference_number: _id,
           cod_collection_mode: "",
           cod_amount: "",
-          commodity_id: "42",
+          commodity_id: "99",
+          eway_bill: ewayBill,
+          is_risk_surcharge_applicable: "true",
+          invoice_number: invoiceNo,
+          invoice_date: invoiceDate,
           reference_number: "",
         },
       ],
     };
 
-    console.log("📦 Sending to DTDC (B2C SMART EXPRESS):", payload);
+    console.log("📦 Final Payload to Send to DTDC:", payload);
 
-    // Try primary service type
-    let response = await sendDTDCRequest(payload, "B2C SMART EXPRESS");
-
-    // Auto-retry if wrong input or NO_SERIES_AVAILABLE
-    if (
-      !response.success &&
-      /NO_SERIES_AVAILABLE|WRONG_INPUT|SERIES/i.test(
-        response?.message || response?.reason || ""
-      )
-    ) {
-      console.warn("⚠️ Retrying with SMART EXPRESS...");
-      response = await sendDTDCRequest(payload, "SMART EXPRESS");
-    }
-
-    console.log("📬 Final DTDC Response:", response);
-    return response;
-  } catch (error) {
-    console.error(
-      "❌ Error creating DTDC consignment:",
-      error.response?.data || error.message
+    const response = await axios.post(
+      "https://dtdcapi.shipsy.io/api/customer/integration/consignment/softdata",
+      payload,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          "api-key": import.meta.env.VITE_DTDC_API_KEY,
+        },
+      }
     );
+
+    console.log("📦 DTDC Response:", response.data);
+    return response.data;
+  } catch (error) {
+    console.error("❌ Error creating DTDC consignment:", error.message);
     throw error;
   }
 };

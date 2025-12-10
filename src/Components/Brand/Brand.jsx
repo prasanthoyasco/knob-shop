@@ -83,7 +83,7 @@ function Brand() {
 
   const handleViewAll = async () => {
     try {
-      const allProducts = await getAllProducts(); // API call
+      const allProducts = await getAllProducts({ random: true, limit: 60 }); // API call
       navigate("/category/all-products", {
         state: {
           product: {
@@ -97,15 +97,16 @@ function Brand() {
     }
   };
   
-  const slidesToShow =6; // default slidesToShow, same as in settings
+  const slidesToShow =6; 
 
   const settings = {
     dots: false,
     infinite: true,
-    speed: 6000, // Long duration for smooth slide scroll
+    speed: 6000, 
+    loop:true,
     autoplay: true,
-    autoplaySpeed: 0, // No delay between slides
-    cssEase: "linear", // Linear easing for continuous motion
+    autoplaySpeed: 0, 
+    cssEase: "linear", 
     slidesToShow,
     slidesToScroll: 1,
     arrows: false,

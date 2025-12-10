@@ -3,194 +3,265 @@ import {
   addProductToCart as addToCartAPI,
   deleteCartItem,
   getCartByUserId,
+  clearCartAPI,
 } from "../API/cartApi";
+import { useRef } from "react";
 import { getSharedCart, shareCart } from "../API/cartShareApi";
-const CartContext = createContext();
 
+const CartContext = createContext();
 export const useCart = () => useContext(CartContext);
 
 export const CartProvider = ({ children }) => {
+  const sharedLoadedRef = useRef(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [cartItems, setCartItems] = useState([]);
+  const skipInitialCartLoad = window.location.pathname.includes("/shared-cart");
 
+
+  // -----------------------------
+  // Load Initial Cart (User OR Guest)
+  // -----------------------------
   useEffect(() => {
-    const storedUser = localStorage.getItem("authUser");
-    const parsedUser = storedUser ? JSON.parse(storedUser) : null;
-    const userId = parsedUser?.id;
 
-    if (userId) {
-      (async () => {
-        try {
-          const response = await getCartByUserId(userId);
-          console.log("cart by id", response);
-          setCartItems(response);
-        } catch (error) {
-          console.error("Error fetching cart:", error);
-        }
-      })();
-    } else {
-      const storedCart = localStorage.getItem("cart");
-      setCartItems(storedCart ? JSON.parse(storedCart) : []);
+  if (skipInitialCartLoad) return; // ✅ BLOCK initial cart load during shared load
+
+  const storedUser = JSON.parse(localStorage.getItem("authUser"));
+  const userId = storedUser?.id || storedUser?._id;
+
+  if (userId) {
+    (async () => {
+      const response = await getCartByUserId(userId);
+      setCartItems(response);
+    })();
+  } else {
+    const storedCart = localStorage.getItem("cart");
+    setCartItems(storedCart ? JSON.parse(storedCart) : []);
+  }
+
+}, []);
+
+  const refreshCart = async (userId) => {
+    try {
+      const response = await getCartByUserId(userId);
+      setCartItems(response);
+    } catch (error) {
+      console.error("Error refreshing cart:", error);
     }
-  }, []);
-
+  };
+  // Save to guest cart
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(cartItems));
   }, [cartItems]);
 
+  // -----------------------------
+  // ADD TO CART (Variant-Safe)
+  // -----------------------------
   const addToCart = async (item) => {
-    const storedUser = localStorage.getItem("authUser");
-    const parsedUser = storedUser ? JSON.parse(storedUser) : null;
-    const userId = parsedUser?.id || parsedUser?._id;
-
-    console.log("userId :", userId);
+    const storedUser = JSON.parse(localStorage.getItem("authUser"));
+    const userId = storedUser?.id || storedUser?._id;
 
     setCartItems((prev) => {
-      // Find item with matching ID (either id or _id)
       const existingItem = prev.find(
         (i) =>
-          (i.id === item.id || i._id === item._id) &&
-          i.color === item.color &&
-          i.size === item.size
+          i.productId === item.productId &&
+          i.colorCode === item.colorCode &&
+          i.sizeLabel === item.sizeLabel
       );
 
       if (existingItem) {
-        return prev.map((i) => {
-          const match =
-            (i.id === item.id || i._id === item._id) &&
-            i.color === item.color &&
-            i.size === item.size;
-
-          return match ? { ...i, quantity: i.quantity + item.quantity } : i;
-        });
+        return prev.map((i) =>
+          i.productId === item.productId &&
+          i.colorCode === item.colorCode &&
+          i.sizeLabel === item.sizeLabel
+            ? { ...i, quantity: i.quantity + item.quantity }
+            : i
+        );
       }
-
-      return [...prev, { ...item, quantity: item.quantity || 1 }];
 
       return [...prev, { ...item, quantity: item.quantity || 1 }];
     });
 
     setDrawerOpen(true);
 
-    // Sync with backend if user is logged in
+    // Backend sync for logged-in users
     if (userId) {
       try {
         await addToCartAPI({
           userId,
-          productId: item.id || item._id,
+          productId: item.productId,
+          colorCode: item.colorCode,
+          colorName: item.colorName,
+          sizeLabel: item.sizeLabel,
           quantity: item.quantity || 1,
-          price: item.price,
+          price: item.sellingPrice,
         });
+        refreshCart(userId);
       } catch (error) {
-        console.error("Add to cart (API) failed:", error);
+        console.error("Add to cart API failed:", error);
       }
-    } else {
-      console.warn("Guest user - item only added to local cart.");
     }
   };
 
+  // -----------------------------
+  // REMOVE SPECIFIC VARIANT
+  // -----------------------------
   const removeFromCart = async (item) => {
-    console.log("Item to remove:", item);
+    const storedUser = JSON.parse(localStorage.getItem("authUser"));
+    const userId = storedUser?.id || storedUser?._id;
 
-    const storedUser = localStorage.getItem("authUser");
-    const parsedUser = storedUser ? JSON.parse(storedUser) : null;
-    const userId = parsedUser?.id || parsedUser?._id;
-
-    setCartItems((prev) => {
-      console.log("Current cart items:", prev);
-
-      // Determine the item ID to remove — use productId._id if available, else fallback to _id or id
-      const itemIdToRemove = item.productId?._id || item._id || item.id;
-      console.log("Removing item ID:", itemIdToRemove);
-
-      const newCart = prev.filter((i) => {
-        // Get current cart item's ID to compare similarly
-        const currentItemId = i.productId?._id || i._id || i.id;
-        return currentItemId !== itemIdToRemove;
-      });
-
-      console.log("New cart after removal:", newCart);
-      return [...newCart]; // clone to force React re-render
-    });
+    setCartItems((prev) =>
+      prev.filter(
+        (i) =>
+          !(
+            i.productId === item._id ||
+            (item.productId._id &&
+              i.colorCode === item.colorCode &&
+              i.sizeLabel === item.sizeLabel)
+          )
+      )
+    );
 
     if (userId) {
       try {
         await deleteCartItem({
           userId,
-          productId: item.productId?._id || item._id || item.id,
+          productId: item.productId?._id || item.productId,
+          colorCode: item.colorCode,
+          sizeLabel: item.sizeLabel,
         });
-        console.log(
-          "Removed from backend:",
-          item.productId?._id || item._id || item.id
-        );
       } catch (error) {
-        console.error("Failed to remove cart item from backend:", error);
+        console.error("Failed to remove item from backend:", error);
       }
     }
   };
 
+  // -----------------------------
+  // UPDATE QUANTITY (Variant-Safe)
+  // -----------------------------
+  const updateCartItemQuantity = async (item, change) => {
+    const storedUser = JSON.parse(localStorage.getItem("authUser"));
+    const userId = storedUser?.id || storedUser?._id;
+
+    setCartItems((prev) =>
+      prev
+        .map((i) =>
+          i.productId === item.productId &&
+          i.colorCode === item.colorCode &&
+          i.sizeLabel === item.sizeLabel
+            ? {
+                ...i,
+                quantity: Math.max(1, i.quantity + change),
+              }
+            : i
+        )
+        .filter((i) => i.quantity > 0)
+    );
+
+    if (userId) {
+      try {
+        await addToCartAPI({
+          userId,
+          productId: item.productId,
+          colorCode: item.colorCode,
+          sizeLabel: item.sizeLabel,
+          quantity: change,
+        });
+        refreshCart(userId);
+      } catch (error) {
+        console.error("Failed to update backend quantity:", error);
+      }
+    }
+  };
+
+  // -----------------------------
+  // SHARE CART
+  // -----------------------------
   const shareCurrentCart = async () => {
     try {
       const response = await shareCart(cartItems);
       if (response.link) {
         await navigator.clipboard.writeText(response.link);
-        alert("Share link copied to clipboard!");
+        alert("Share link copied!");
       }
     } catch (error) {
-      console.error("Failed to share cart:", error);
+      console.error("Share cart failed:", error);
     }
   };
 
-  // Fetch shared cart (used when visiting a shared link)
+  // -----------------------------
+  // LOAD SHARED CART (With API Sync)
+  // -----------------------------
   const loadSharedCart = async (token) => {
+    if (sharedLoadedRef.current) {
+    console.log("Shared cart already loaded. Skipping API...");
+    return;
+  }
+
+  sharedLoadedRef.current = true;
     try {
       const sharedItems = await getSharedCart(token);
-      if (Array.isArray(sharedItems)) {
-        clearCart();
-        setCartItems(sharedItems);
+      const storedUser = JSON.parse(localStorage.getItem("authUser"));
+      const userId = storedUser?.id || storedUser?._id;
+
+      if (!Array.isArray(sharedItems)) return;
+
+      // Clear current cart
+      clearCart();
+
+      // Update UI cart
+      setCartItems(sharedItems);
+      console.log("shared cart items", sharedItems);
+
+      // ✅ If user logged in, also push items to backend cart
+      if (userId) {
+        for (const item of sharedItems) {
+          await addToCartAPI({
+            userId,
+            productId: item.productId?._id || item.productId,
+            colorCode: item.colorCode,
+            colorName: item.colorName,
+            sizeLabel: item.sizeLabel,
+            quantity: item.quantity,
+            price: item.price || item.sellingPrice,
+            mode: "set", 
+          });
+        }
+
+        // Refresh cart from server
+        refreshCart(userId);
       }
     } catch (error) {
       console.error("Failed to load shared cart:", error);
     }
   };
 
-  const updateCartItemQuantity = async (id, change) => {
-    setCartItems((prev) =>
-      prev.map((item) => {
-        const itemId = item._id || item.id || item.productId?._id;
-        if (itemId === id) {
-          return {
-            ...item,
-            quantity: Math.max(1, (item.quantity || 1) + change),
-          };
-        }
-        return item;
-      })
-    );
+  // -----------------------------
+  // HELPERS
+  // -----------------------------
+  const toggleDrawer = (state) => setDrawerOpen(state);
+  const clearCart = async () => {
+  const storedUser = JSON.parse(localStorage.getItem("authUser"));
+  const userId = storedUser?.id || storedUser?._id;
 
-    // Optional: sync updated quantity with backend
-    const storedUser = localStorage.getItem("authUser");
-    const parsedUser = storedUser ? JSON.parse(storedUser) : null;
-    const userId = parsedUser?.id;
+  // Clear UI cart immediately
+  setCartItems([]);
 
-    if (userId) {
-      try {
-        await addToCartAPI({
-          userId,
-          productId: id,
-          quantity: change, // sending the delta to backend
-        });
-      } catch (error) {
-        console.error("Failed to update cart item quantity:", error);
-      }
-    }
-  };
+  // Guest user — clear local storage only
+  if (!userId) {
+    localStorage.removeItem("cart");
+    return;
+  }
 
-  const toggleDrawer = (state) => {
-    setDrawerOpen(state);
-  };
-  const clearCart = () => setCartItems([]);
+  // Logged-in user — clear backend
+  try {
+    await clearCartAPI(userId);
+  } catch (error) {
+    console.error("Failed to clear backend cart:", error);
+  }
+};
 
+
+  // Recommended items (unchanged)
   const recommendedItems = [
     {
       id: "ydm4109a",

@@ -26,12 +26,15 @@ const EssentailsDetailsSubpage = () => {
         const data = await getEssentials();
         if (Array.isArray(data) && data.length > 0) {
           setEssentials(data[0]);
-
+          console.log("Fetched essentials data:", data[0]);
+          console.log("Fetched essentials name:", name);
+          
           const match = data[0].cards.find(
             (c) =>
               c.title.toLowerCase() === deslugify(name).toLowerCase() ||
               c._id === state?.id
           );
+          console.log("Fetched essentials match:",match);
           setCard(match || null);
         }
       } catch (error) {

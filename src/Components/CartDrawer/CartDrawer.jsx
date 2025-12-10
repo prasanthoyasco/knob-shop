@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import RecommendedSlider from "./cart-drawer-recommend";
 import { getAllProducts } from "../../API/productApi";
 import "./CartDrawer.css";
-import { NotebookPen, Share2, TruckIcon, X } from "lucide-react";
+import { NotebookPen, Share2, Trash2, TruckIcon, X } from "lucide-react";
 import { CountrySelect } from "./CountrySelect";
 import { useNavigate } from "react-router-dom";
 import { fetchProductsByCategory } from "../../API/productApi";
@@ -26,14 +26,37 @@ const CartDrawer = ({
   // const [shippingRate, setShippingRate] = useState(null);
   const [recommendedItems, setRecommendedItems] = useState([]);
   const total = cartItems.reduce((sum, item) => {
-    const sellingPrice =
-      item.productId?.variant?.[0]?.sizes?.[0]?.sellingPrice || // safe check
-      item.variant?.[0]?.sizes?.[0]?.sellingPrice ||
-      item.price ||
-      0;
+  // 1️⃣ Determine correct color name
+  const colorName =
+    item.colorsText ||
+    item.colorName ||
+    item.variant?.[0]?.title ||
+    item.productId?.variant?.[0]?.title;
 
-    return sum + sellingPrice * (item.quantity || 1);
-  }, 0);
+  // 2️⃣ Find the selected color variant from product data
+  const matchedVariant =
+    item.productId?.variant?.find(v => v.title === colorName) ||
+    item.variant?.find(v => v.title === colorName);
+
+  // 3️⃣ Find the selected size inside that variant
+  const selectedSize =
+    matchedVariant?.sizes?.find(s => s.label === item.sizeLabel);
+
+  const sizePrice = selectedSize?.sellingPrice;
+
+  // 4️⃣ Fallback price if size not found
+  const fallbackPrice =
+    item.price ||
+    item.sellingPrice ||
+    matchedVariant?.sizes?.[0]?.sellingPrice ||
+    item.productId?.variant?.[0]?.sizes?.[0]?.sellingPrice ||
+    0;
+
+  const finalPrice = sizePrice || fallbackPrice;
+
+  // 5️⃣ Add to total
+  return sum + finalPrice * (item.quantity || 1);
+}, 0);
 
 
   const handleCheckout = () => {
@@ -47,7 +70,10 @@ const CartDrawer = ({
         formData: null,
         cartItems,
       };
-      localStorage.setItem("pendingPaymentSession", JSON.stringify(paymentSession));
+      localStorage.setItem(
+        "pendingPaymentSession",
+        JSON.stringify(paymentSession)
+      );
       setShowLoginModal(true);
       return;
     }
@@ -88,13 +114,14 @@ const CartDrawer = ({
   }, [show, cartItems]);
 
   // Inside your component, before return()
-  const handleIncrement = (id) => {
-    updateCartItemQuantity(id, 1);
+  const handleIncrement = (item) => {
+    updateCartItemQuantity(item, 1);
   };
 
-  const handleDecrement = (id) => {
-    updateCartItemQuantity(id, -1);
-  };
+const handleDecrement = (item) => {
+  if (item.quantity <= 0) return;
+  updateCartItemQuantity(item, -1);
+};
 
   return (
     <>
@@ -163,7 +190,11 @@ const CartDrawer = ({
                     style={{
                       width: "100px",
                       height: "100px",
-                      objectFit: "cover",
+                      objectFit: "contain",
+                      border: "1px dashed #ccc",
+                      background: "white",
+                      borderRadius: "5px",
+                      padding: "5px",
                     }}
                   />
                   <div className="flex-grow-1">
@@ -174,14 +205,29 @@ const CartDrawer = ({
                           ?.trim()
                           .split(" ")
                           .slice(0, 3)
+                          .join(" ") ||
+                        item.productName
+                          ?.trim()
+                          .split(" ")
+                          .slice(0, 3)
                           .join(" ")}
                     </h6>
-                    <p className="text-muted mb-1">
-                      {item.colorsText
-                        ? item.colorsText
-                        : item.variant?.[0]?.title
-                        ? item.variant[0].title
-                        : item.productId?.variant?.[0]?.title}
+                    <p className="mb-1">
+                      <strong>color:</strong>{" "}
+                      <span style={{ color: "#d6791f" }}>
+                        {item.colorsText ||
+                          item.colorName ||
+                          item.variant?.[0]?.title ||
+                          item.productId?.variant?.[0]?.title}
+                      </span>
+                      {item.sizeLabel && (
+                        <span className="ms-1">
+                          <strong>Size:</strong>{" "}
+                          <span style={{ color: "#d6791f" }}>
+                            {item.sizeLabel}
+                          </span>{" "}
+                        </span>
+                      )}
                     </p>
 
                     <div className="d-flex justify-content-between align-items-center">
@@ -191,20 +237,34 @@ const CartDrawer = ({
                       >
                         ₹
                         {(() => {
-                          const sellingPrice =
-                            item.productId?.variant?.[0]?.sizes?.[0]
-                              ?.sellingPrice ||
-                            item.variant?.[0]?.sizes?.[0]?.sellingPrice;
+                          // 1️⃣ Detect selected color text
+                          const colorName =
+                            item.colorsText ||
+                            item.colorName ||
+                            item.variant?.[0]?.title ||
+                            item.productId?.variant?.[0]?.title;
 
-                          const basePrice = sellingPrice || item.price || 0;
+                          // 2️⃣ Find the matching color variant
+                          const matchedColorVariant =
+                            item.productId?.variant?.find(
+                              (v) => v.title === colorName
+                            ) ||
+                            item.variant?.find((v) => v.title === colorName);
 
-                          return (
-                            basePrice.toLocaleString("en-IN") +
-                            (item.price && item.price !== basePrice
-                              ? ` | ₹${item.price.toLocaleString("en-IN")}`
-                              : "")
+                          // 3️⃣ Find size inside the matched color
+                          const selectedSize = matchedColorVariant?.sizes?.find(
+                            (s) => s.label === item.sizeLabel
                           );
-                        })()}{" "}
+
+                          // 4️⃣ Priority price logic
+                          const finalPrice =
+                            selectedSize?.sellingPrice || // matched size price
+                            item.price || // fallback saved price
+                            matchedColorVariant?.sizes?.[0]?.sellingPrice || // fallback 1st size
+                            0;
+
+                          return finalPrice.toLocaleString("en-IN");
+                        })()}
                         X {item.quantity}
                       </span>
 
@@ -214,30 +274,18 @@ const CartDrawer = ({
                           onRemove(item);
                         }}
                       >
-                        Remove
+                        <Trash2 color="red" />
                       </button>
                     </div>
                     <div className="quantity-box-cart-drawer">
                       <button
-                        onClick={() =>
-                          handleDecrement(
-                            item._id || item.id || item.productId?._id
-                          )
-                        }
+                        onClick={() => handleDecrement(item)}
                         disabled={item.quantity === 1}
                       >
                         -
                       </button>
                       <span>{item.quantity}</span>
-                      <button
-                        onClick={() =>
-                          handleIncrement(
-                            item._id || item.id || item.productId?._id
-                          )
-                        }
-                      >
-                        +
-                      </button>
+                      <button onClick={() => handleIncrement(item)}>+</button>
                     </div>
                   </div>
                 </div>

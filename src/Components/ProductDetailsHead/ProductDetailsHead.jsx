@@ -17,7 +17,7 @@ export default function ProductDetailsHead() {
   const [selectedSize, setSelectedSize] = useState(null);
   const [pincodeInfo, setPincodeInfo] = useState(null);
   const { addToWishlist, removeFromWishlist, wishlistItems } = useWishlist();
-  const isWished = wishlistItems.some(
+  const isWished = wishlistItems?.some(
     (w) => w.id === product?._id || w._id === product?._id
   );
 
@@ -101,30 +101,48 @@ export default function ProductDetailsHead() {
   const selectedSizeObj = selectedVariant?.sizes?.find(
     (s) => s.label === selectedSize
   );
+const cartItem = {
 
-  const cartItem = {
-    id: product?._id,
-    title: product?.name,
-    image: product?.images?.[0] || "default.jpg",
-    price: selectedSizeObj?.sellingPrice || product?.price,
-    sku: product?.productId,
-    categoryId: product?.category?._id,
-    mrpPrice: selectedSizeObj?.mrp || product?.compare_price,
-    brand: product?.brand,
-    quantity,
-    color: selectedColor || product?.variant?.[0]?.value || null,
-    size: selectedSize || null,
-    // Corrected to use selectedVariant's title, which reflects the chosen color
-    colorsText: selectedVariant?.title || "",
-    category: product?.category?.category_name || "",
-    savePrice:
-      (selectedSizeObj?.mrp || product?.compare_price || 0) -
-      (selectedSizeObj?.sellingPrice || product?.price || 0),
-    // Removed 'Features' and 'FeaturesIcon' as they were incorrectly mapped
-    // from an array of key_features to single string properties for cartItem.
-    // If you need to store features in the cart item, consider storing the
-    // key_features array or a processed summary string.
-  };
+  // Required backend fields
+  productId: product?._id,
+  quantity,
+  colorName: selectedVariant?.title || "",
+  colorCode: selectedColor, 
+  sizeLabel: selectedSize,
+
+  mrp: selectedSizeObj?.mrp || product?.compare_price || 0,
+  sellingPrice: selectedSizeObj?.sellingPrice || product?.price || 0,
+
+  // Calculated
+  discountPercentage:
+    selectedSizeObj?.mrp
+      ? Math.round(
+          ((selectedSizeObj?.mrp - selectedSizeObj?.sellingPrice) /
+            selectedSizeObj?.mrp) *
+            100
+        )
+      : 0,
+
+  taxPercentage: selectedSizeObj?.tax || product?.tax || 0,
+
+  image:
+    product?.images?.[0] ||
+    "https://via.placeholder.com/300",
+
+  // Optional — keep for UI but not used in API
+  title: product?.name,
+  sku: product?.productId,
+  categoryId: product?.category?._id,
+  brand: product?.brand,
+  category: product?.category?.category_name || "",
+  colorsText: selectedVariant?.title || "",
+  savePrice:
+    (selectedSizeObj?.mrp || product?.compare_price || 0) -
+    (selectedSizeObj?.sellingPrice || product?.price || 0),
+};
+
+  
+
 
   const mrp = selectedSizeObj?.mrp || product?.compare_price || 0;
   const selling = selectedSizeObj?.sellingPrice || product?.price || 0;
@@ -235,12 +253,7 @@ export default function ProductDetailsHead() {
           </span>
           <span
             className="breadcrumb-item"
-            onClick={() =>
-              navigate(
-                `/category/${product.category._id}` ||
-                  `/category/${product.category.id}`
-              )
-            }
+            onClick={() => navigate(`/category/${product.category.id}`)}
           >
             Shop by Categories
           </span>
@@ -268,8 +281,12 @@ export default function ProductDetailsHead() {
             <div className="col-12 col-md-6">
               <div className="d-flex justify-content-between align-items-center mb-3 mb-md-2">
                 <p className="text-muted fw-medium mb-0 d-flex gap-2 flex-wrap">
-                  <div className="inline"><strong>Brand :</strong> {cartItem.brand}{" "}</div>
-                  <div className="inline"><strong> SKU :</strong> {cartItem.sku}</div>
+                  <div className="inline">
+                    <strong>Brand :</strong> {cartItem.brand}{" "}
+                  </div>
+                  <div className="inline">
+                    <strong> SKU :</strong> {cartItem.sku}
+                  </div>
                 </p>
                 <div className="d-flex gap-3">
                   <div className="d-flex gap-3 align-items-center">
@@ -325,7 +342,7 @@ export default function ProductDetailsHead() {
               {/* Pricing */}
               <div className="mb-3">
                 <h4 className="fw-bold d-flex align-items-center flex-wrap gap-2">
-                  <span style={{ color: "#D6791F" }}>₹ {cartItem.price}</span>
+                  <span style={{ color: "#D6791F" }}>₹ {cartItem.sellingPrice}</span>
                   {discountPercent > 0 && (
                     <span
                       className="fw-semibold text-info ms-3"
@@ -340,7 +357,7 @@ export default function ProductDetailsHead() {
                   )}
                 </h4>
                 <p className="text-muted">
-                  MRP: ₹ <s>{cartItem.mrpPrice}</s>{" "}
+                  MRP: ₹ <s>{cartItem.mrp}</s>{" "}
                   {cartItem.savePrice > 0 && (
                     <span className="text-success fw-semibold ms-2">
                       You Save ₹{" "}
@@ -365,7 +382,7 @@ export default function ProductDetailsHead() {
                   </span>
                 </p>
 
-                <div className="d-flex gap-2">
+                <div className="d-flex flex-wrap gap-2">
                   {(product?.variant || []).map((variantOption, index) => (
                     <button
                       key={index}
@@ -381,6 +398,7 @@ export default function ProductDetailsHead() {
                       }}
                       onClick={() => {
                         setSelectedColor(variantOption.value);
+                        setQuantity(1);
 
                         const variant = product?.variant?.find(
                           (v) => v.value === variantOption.value
@@ -417,7 +435,10 @@ export default function ProductDetailsHead() {
                               ? "btn-dark"
                               : "btn-light"
                           }`}
-                          onClick={() => setSelectedSize(size.label)}
+                          onClick={() => {
+                            setSelectedSize(size.label);
+                            setQuantity(1); // 🔥 reset qty
+                          }}
                         >
                           {size.label}
                         </button>

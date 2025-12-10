@@ -114,7 +114,7 @@ function MyOrders({ userId }) {
             <div className="d-flex gap-3">
               <img
                 src={item.product?.images?.[0] || image}
-                className="border rounded-2 overflow-hidden shadow-sm"
+                className="border rounded-2 shadow-sm"
               />
               <div className="my-order-new-content-div w-100">
                 {item.product?.brand?.length > 0 && (

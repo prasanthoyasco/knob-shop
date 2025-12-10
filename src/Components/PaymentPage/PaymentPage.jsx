@@ -14,7 +14,6 @@ import { getAvailableCoupons, validateCoupon } from "../../API/CouponApi";
 import Lottie from "lottie-react";
 import { getAddressByUserId } from "../../API/addressApi";
 import axios from "axios";
-import { generateEwayBill } from "../../utils/ewayBill";
 const indianStates = [
   "Andhra Pradesh",
   "Arunachal Pradesh",
@@ -211,15 +210,39 @@ function PaymentPage() {
     }
   };
 
-  const subtotal = cartItems.reduce(
-    (sum, item) =>
-      sum +
-      (item.price ||
-        item?.productId.variant?.[0]?.sizes?.[0]?.sellingPrice ||
-        0) *
-        item.quantity,
-    0
-  );
+  const subtotal = cartItems.reduce((sum, item) => {
+    // 1️⃣ Determine color name (same logic used everywhere)
+    const colorName =
+      item.colorsText ||
+      item.colorName ||
+      item.productId?.variant?.[0]?.title ||
+      item.variant?.[0]?.title;
+
+    // 2️⃣ Find the correct color variant
+    const matchedVariant =
+      item.productId?.variant?.find((v) => v.title === colorName) ||
+      item.variant?.find((v) => v.title === colorName);
+
+    // 3️⃣ Find the size inside matched variant
+    const selectedSize = matchedVariant?.sizes?.find(
+      (s) => s.label === item.sizeLabel
+    );
+
+    const sizePrice = selectedSize?.sellingPrice;
+
+    // 4️⃣ Fallback if something missing
+    const fallbackPrice =
+      item.price ||
+      item.sellingPrice ||
+      matchedVariant?.sizes?.[0]?.sellingPrice ||
+      item.productId?.variant?.[0]?.sizes?.[0]?.sellingPrice ||
+      0;
+
+    const finalPrice = sizePrice || fallbackPrice;
+
+    // 5️⃣ Add to subtotal
+    return sum + finalPrice * (item.quantity || 1);
+  }, 0);
 
   useEffect(() => {
     if (location.state?.formData) {
@@ -293,11 +316,12 @@ function PaymentPage() {
 
           if (coupon.appliesTo === "single" && coupon.productId) {
             return cartItems.some((item) => {
+              console.log("couponcheck item:", item);
               const itemId =
-                item._id ??
-                item.id ??
                 item.productId?._id ??
                 item.productId ??
+                item._id ??
+                item.id ??
                 null;
 
               return String(itemId) === String(coupon.productId);
@@ -354,30 +378,56 @@ function PaymentPage() {
 
   const applyCoupon = async (coupon) => {
     setApplying(true);
-    if (!Userid) {
+
+    // Get User ID
+    let userId = Userid;
+    if (!userId) {
       const storedUser = JSON.parse(localStorage.getItem("authUser"));
-      Userid = storedUser.id || storedUser._id;
-      return;
+      userId = storedUser?.id || storedUser?._id;
+
+      if (!userId) {
+        alert("Please login to apply coupon");
+        setApplying(false);
+        return;
+      }
     }
+
     try {
-      const data = await validateCoupon(Userid, couponCode || coupon);
+      const couponToApply = coupon || couponCode;
+
+      const data = await validateCoupon(userId, couponToApply);
+
       let discountValue = 0;
+
+      // Percentage
       if (data.type === "percent" || data.type === "percentage") {
-        discountValue = (subtotal * data.discount) / 100;
-      } else {
+        discountValue = Math.floor((subtotal * data.discount) / 100);
+      }
+      // Flat amount
+      else {
         discountValue = data.discount;
       }
 
       setDiscount(discountValue);
       setCouponApplied(true);
+      setCouponCode(couponToApply);
+
+      // Success popup
       setShowSuccessPopup(true);
       setTimeout(() => setShowSuccessPopup(false), 15000);
     } catch (err) {
-      console.log(err);
-      alert("Coupon error");
+      console.error(err);
+      alert("Invalid or expired coupon");
     } finally {
       setApplying(false);
     }
+  };
+
+  const removeCoupon = () => {
+    setCouponApplied(false);
+    setCouponCode("");
+    setDiscount(0);
+    setShowSuccessPopup(false);
   };
 
   const handleSameAsShippingChange = (e) => {
@@ -538,21 +588,34 @@ function PaymentPage() {
         phone: mobileInfo,
         email: contactInfo.includes("@") ? contactInfo : "test@example.com",
       };
-
+      console.log("cart items", cartItems);
       const items = cartItems.map((item) => {
+        console.log(JSON.parse(JSON.stringify(item)));
+        const variant =
+          item.productId?.variant.find((v) => v.value === item.colorCode) ||
+          item.variant?.find((v) => v.value === item.colorCode);
+        const selectedSize = variant?.sizes?.find(
+          (s) => s.label === item.sizeLabel
+        );
+
         const unitPrice =
-          item.price ||
-          item?.productId?.variant?.[0]?.sizes?.[0]?.sellingPrice ||
+          selectedSize?.sellingPrice || // Price of selected size
+          item.sellingPrice || // Fallback 1
+          item.price || // Fallback 2 (older stored price)
+          item?.productId?.variant?.[0]?.sizes?.[0]?.sellingPrice || // Fallback 3
           0;
 
         return {
           productId:
-            item?._id || item?.id || item?.productId?._id || item?.productId,
+            item?.productId?._id || item?.productId || item?.id || item?._id,
           productName:
             item?.title || item?.productName || item?.productId?.name,
           quantity: item.quantity,
-          price: unitPrice, // individual item price
-          total: unitPrice * item.quantity, // total for this item
+          price: unitPrice,
+          size: item.sizeLabel,
+          sku: item.sku || item.productId?.sku || "N/A",
+          color: item.colorCode || item.colorsText || "N/A",
+          total: unitPrice * item.quantity,
         };
       });
 
@@ -578,13 +641,13 @@ function PaymentPage() {
               .toFixed(1),
           },
         };
-        const dtdcResponse = await createDTDCConsignment(dtdcPayload);
-        console.log("dtdc refference number :", dtdcResponse);
-        localStorage.setItem(
-          "dtdcReferenceNumber",
-          JSON.stringify(dtdcResponse)
-        );
-        referenceNumber = dtdcResponse?.data?.[0]?.reference_number || "N/A";
+        // const dtdcResponse = await createDTDCConsignment(dtdcPayload);
+        // console.log("dtdc refference number :", dtdcResponse);
+        // localStorage.setItem(
+        //   "dtdcReferenceNumber",
+        //   JSON.stringify(dtdcResponse)
+        // );
+        // referenceNumber = dtdcResponse?.data?.[0]?.reference_number || "N/A";
       }
       localStorage.setItem("referenceNumber", JSON.stringify(referenceNumber));
       if (showFields) {
@@ -1201,12 +1264,19 @@ function PaymentPage() {
               disabled={couponApplied}
             />
             <button
-              className="btn btn-dark rounded-0 h-100"
+              className={`btn ${
+                couponApplied ? "btn-danger" : "btn-dark"
+              }  rounded-0 h-100`}
               style={{ padding: "15px 40px", marginTop: "0" }}
-              onClick={applyCoupon}
-              disabled={couponApplied}
+              onClick={() => {
+                if (couponApplied) {
+                  removeCoupon();
+                } else {
+                  applyCoupon();
+                }
+              }}
             >
-              {Applying ? "Applying..." : couponApplied ? "Applied" : "Apply"}
+              {Applying ? "Applying..." : couponApplied ? "Remove" : "Apply"}
             </button>
           </div>
 
@@ -1315,41 +1385,87 @@ function PaymentPage() {
                     {item?.color ? (
                       // ✅ Render color swatch if `item.color` exists
                       <div className="d-flex align-items-center gap-2">
-                        <span className="me-1">Color:</span>
-                        <span
-                          className="rounded-circle border-dark"
-                          style={{
-                            width: "16px",
-                            height: "16px",
-                            display: "inline-block",
-                            border: "1px solid #000",
-                            backgroundColor: item.color,
-                          }}
-                        ></span>
+                        <div>
+                          <span className="me-1">Color:</span>
+                          <span
+                            className="rounded-circle border-dark"
+                            style={{
+                              width: "16px",
+                              height: "16px",
+                              display: "inline-block",
+                              border: "1px solid #000",
+                              backgroundColor: item.colorCode,
+                            }}
+                          ></span>
+                        </div>
                       </div>
                     ) : (
                       // ✅ Fallback to text if no color
-                      <p>
+                      <div
+                        className="d-flex gap-2"
+                        style={{ fontSize: "12px" }}
+                      >
                         Color:{" "}
                         <strong>
                           {item.colorsText ||
+                            item.colorName ||
                             item?.productId?.variant?.[0]?.title ||
                             item?.variant?.[0]?.title}
                         </strong>
-                      </p>
+                        {item?.sizeLabel && (
+                          <div>
+                            Size: <strong>{item.sizeLabel}</strong>
+                          </div>
+                        )}
+                      </div>
                     )}
-                    <p>Quantity: {item.quantity}</p>
+                    <p>
+                      Quantity: <strong>{item.quantity}</strong>
+                    </p>
                   </div>
                 </div>
                 <p className="payment-price">
                   <strong>
-                    {" "}
-                    ₹{" "}
-                    {(
-                      item?.price ||
-                      item?.productId.variant[0]?.sizes[0].sellingPrice *
-                        item.quantity
-                    ).toLocaleString("en-IN")}
+                    {(() => {
+                      // 1️⃣ Identify selected color
+                      const colorName =
+                        item.colorsText ||
+                        item.colorName ||
+                        item.productId?.variant?.[0]?.title ||
+                        item.variant?.[0]?.title;
+
+                      // 2️⃣ Find matching color variant
+                      const matchedVariant =
+                        item.productId?.variant?.find(
+                          (v) => v.title === colorName
+                        ) || item.variant?.find((v) => v.title === colorName);
+
+                      // 3️⃣ Find the selected size inside that matched variant
+                      const selectedSize = matchedVariant?.sizes?.find(
+                        (s) => s.label === item.sizeLabel
+                      );
+
+                      const sizePrice = selectedSize?.sellingPrice;
+
+                      // 4️⃣ Fallbacks
+                      const fallbackPrice =
+                        item.price ||
+                        item.sellingPrice ||
+                        matchedVariant?.sizes?.[0]?.sellingPrice ||
+                        item.productId?.variant?.[0]?.sizes?.[0]
+                          ?.sellingPrice ||
+                        0;
+
+                      const finalPrice = sizePrice || fallbackPrice;
+
+                      return (finalPrice * item.quantity).toLocaleString(
+                        "en-IN",
+                        {
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2,
+                        }
+                      );
+                    })()}
                   </strong>
                 </p>
               </div>
