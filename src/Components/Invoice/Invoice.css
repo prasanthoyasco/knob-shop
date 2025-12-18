@@ -1,6 +1,22 @@
-.invoice {
+/* .invoice {
     background: #fff;
     padding: 5px 20px
+} */
+.invoice-letterhead {
+  position: relative;
+  width: 210mm;          /* A4 width */
+  min-height: 297mm;     /* A4 height */
+  margin: auto;
+  background-image: url("/Knobsshop_letterhead.jpg");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: top center;
+}
+
+/* Content padding so text does NOT overlap header design */
+.invoice {
+  padding: 27% 0px 0px 0px;
+  background: transparent;
 }
 
 .invoice-container {
@@ -18,7 +34,7 @@
 .invoice-header {
     margin: 0 -20px;
     background: #f0f3f4;
-    padding: 10px 20px
+    padding: 10px 40px
 }
 
 /* .invoice-summary{
@@ -273,10 +289,11 @@
     position: absolute;
     top: 25%;
     left: 100px;
+    padding-right: 10%;
 }
 
-.r-20{
-    right: 20%;
+.r-50{
+    right: 60%;
 }
 .seal-image-invoice {
     height: 100px;
@@ -318,13 +335,13 @@
 }
 
 #invoice-to-download {
-  width: 794px; /* A4 width in px at 96 DPI */
-  min-height: 1123px; /* A4 height in px at 96 DPI */
+  /* width: 794px;  */
+  min-height: 1123px; 
   overflow: hidden;
   margin: 0 auto;
   padding: 0;
-  background: #fff;
-  transform: scale(0.95); /* ensures fit into one page */
+  /* background: #fff; */
+  /* transform: scale(0.95);  */
   transform-origin: top center;
   page-break-inside: avoid;
 }
@@ -353,6 +370,9 @@
   .invoice-price,
   .invoice-summary {
     font-size: 10px !important;
+  }
+    .invoice-letterhead {
+    box-shadow: none;
   }
 
   /* You can also hide certain elements only in PDF */

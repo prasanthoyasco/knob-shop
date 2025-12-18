@@ -101,6 +101,8 @@ const handleDownloadPDF = async () => {
 
   const buttons = document.querySelectorAll(".no-export");
   buttons.forEach((btn) => (btn.style.display = "none"));
+  const whatsappbuttons = document.querySelectorAll(".whatsapp-float");
+  whatsappbuttons.forEach((btn) => (btn.style.display = "none"));
 
   // Wait for images and content to fully load
   await new Promise((resolve) => setTimeout(resolve, 800));
@@ -338,8 +340,8 @@ const handleDownloadPDF = async () => {
   return (
 
     <div className="invoice-container">
-      <div className="col-md-12" id="invoice-to-download">
-        <div className="logo-and-address">
+      <div className="col-md-12 invoice-letterhead" id="invoice-to-download">
+        {/* <div className="logo-and-address">
           <img src={logo} />
           <div className="head-address">
             <div className="office-location">
@@ -364,7 +366,7 @@ const handleDownloadPDF = async () => {
                 <strong>W : </strong> knobsshop.store
               </p>
             </div>
-        </div>
+        </div> */}
         <div className="invoice">
           <div className="invoice-company text-inverse f-w-600">
             <span className="pull-right hidden-print no-export">
@@ -527,7 +529,6 @@ const handleDownloadPDF = async () => {
             </table>
           </div>
           {/* --- GST Breakdown Section (below table) --- */}
-          {/* --- GST Breakdown Section (below table) --- */}
           <div className="gst-breakdown-section">
             {invoiceAllDetails?.shippingAddress?.state === "Tamil Nadu" ? (
               <>
@@ -585,12 +586,12 @@ const handleDownloadPDF = async () => {
             </div>
           </div>
           <div className="invoice-price">
-            <div className="sub-total-price-content word-price">
+            {/* <div className="sub-total-price-content word-price">
               <p>Amount Chargeable ( in words )</p>
               <h5>
                 <em>{toWords(roundedTotal)}</em>
               </h5>
-            </div>
+            </div> */}
           </div>
           <div className="invoice-summary">
             <h5>GST Summary</h5>
@@ -636,7 +637,7 @@ const handleDownloadPDF = async () => {
                   <td>
                     <strong>
                       <i class="bi bi-currency-rupee"></i>
-                      {totalGST.toFixed(2)}
+                      {roundedTotal.toFixed(2)}
                     </strong>
                   </td>
                 </tr>
@@ -647,7 +648,7 @@ const handleDownloadPDF = async () => {
           <div className="mt-4">
             <p className="invoice-price p-3">
               <strong>Amount Chargeable (in words):</strong>{" "}
-              {toWords(roundedTotal)}
+              <em>{toWords(roundedTotal)}</em>
             </p>
             {/* <div className="bank-details-invoice mt-3 invoice-price px-4 py-1">
               <div className="mt-1">
@@ -687,22 +688,22 @@ const handleDownloadPDF = async () => {
                 <p>
                   <strong>for KNOBS SHOP</strong>
                 </p>
-                <div className="position-relative r-20">
+                <div className="position-relative r-50">
                 <img src={signImage} className="seal-image-invoice" />
                 <img src={sealImage} className="sign-image-invoice" />
                 </div>
                 <p className="">Authorised Signatory</p>
               </div>
             </div>
-            <hr className="invoice-hr" />
-            <div className="computer-invoice-text">
+            {/* <hr className="invoice-hr" /> */}
+            {/* <div className="computer-invoice-text">
               <h6 style={{ margin: "0" }}>
                 SUBJECT TO COIMBATORE JURISDICTION
               </h6>
               <p>
                 <em>This is a Computer Generated Invoice</em>
               </p>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

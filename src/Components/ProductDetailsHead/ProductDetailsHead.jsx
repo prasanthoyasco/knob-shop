@@ -101,21 +101,19 @@ export default function ProductDetailsHead() {
   const selectedSizeObj = selectedVariant?.sizes?.find(
     (s) => s.label === selectedSize
   );
-const cartItem = {
+  const cartItem = {
+    // Required backend fields
+    productId: product?._id,
+    quantity,
+    colorName: selectedVariant?.title || "",
+    colorCode: selectedColor,
+    sizeLabel: selectedSize,
 
-  // Required backend fields
-  productId: product?._id,
-  quantity,
-  colorName: selectedVariant?.title || "",
-  colorCode: selectedColor, 
-  sizeLabel: selectedSize,
+    mrp: selectedSizeObj?.mrp || product?.compare_price || 0,
+    sellingPrice: selectedSizeObj?.sellingPrice || product?.price || 0,
 
-  mrp: selectedSizeObj?.mrp || product?.compare_price || 0,
-  sellingPrice: selectedSizeObj?.sellingPrice || product?.price || 0,
-
-  // Calculated
-  discountPercentage:
-    selectedSizeObj?.mrp
+    // Calculated
+    discountPercentage: selectedSizeObj?.mrp
       ? Math.round(
           ((selectedSizeObj?.mrp - selectedSizeObj?.sellingPrice) /
             selectedSizeObj?.mrp) *
@@ -123,26 +121,21 @@ const cartItem = {
         )
       : 0,
 
-  taxPercentage: selectedSizeObj?.tax || product?.tax || 0,
+    taxPercentage: selectedSizeObj?.tax || product?.tax || 0,
 
-  image:
-    product?.images?.[0] ||
-    "https://via.placeholder.com/300",
+    image: product?.images?.[0] || "https://via.placeholder.com/300",
 
-  // Optional — keep for UI but not used in API
-  title: product?.name,
-  sku: product?.productId,
-  categoryId: product?.category?._id,
-  brand: product?.brand,
-  category: product?.category?.category_name || "",
-  colorsText: selectedVariant?.title || "",
-  savePrice:
-    (selectedSizeObj?.mrp || product?.compare_price || 0) -
-    (selectedSizeObj?.sellingPrice || product?.price || 0),
-};
-
-  
-
+    // Optional — keep for UI but not used in API
+    title: product?.name,
+    sku: product?.productId,
+    categoryId: product?.category?._id,
+    brand: product?.brand,
+    category: product?.category?.category_name || "",
+    colorsText: selectedVariant?.title || "",
+    savePrice:
+      (selectedSizeObj?.mrp || product?.compare_price || 0) -
+      (selectedSizeObj?.sellingPrice || product?.price || 0),
+  };
 
   const mrp = selectedSizeObj?.mrp || product?.compare_price || 0;
   const selling = selectedSizeObj?.sellingPrice || product?.price || 0;
@@ -342,7 +335,9 @@ const cartItem = {
               {/* Pricing */}
               <div className="mb-3">
                 <h4 className="fw-bold d-flex align-items-center flex-wrap gap-2">
-                  <span style={{ color: "#D6791F" }}>₹ {cartItem.sellingPrice}</span>
+                  <span style={{ color: "#D6791F" }}>
+                    ₹ {cartItem.sellingPrice}
+                  </span>
                   {discountPercent > 0 && (
                     <span
                       className="fw-semibold text-info ms-3"
@@ -404,7 +399,15 @@ const cartItem = {
                           (v) => v.value === variantOption.value
                         );
                         if (variant?.sizes?.length > 0) {
-                          setSelectedSize(variant.sizes[0].label);
+                          if (
+                            variant?.sizes?.some(
+                              (size) => size.label === selectedSize
+                            )
+                          ) {
+                            return;
+                          } else {
+                            setSelectedSize(variant?.sizes?.[0]?.label ?? null);
+                          }
                         } else {
                           setSelectedSize(null);
                         }
