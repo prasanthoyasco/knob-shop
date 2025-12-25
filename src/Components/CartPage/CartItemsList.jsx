@@ -185,7 +185,10 @@ const CartItemsList = ({
                     )
                   }
                 >
-                  <img src={item.image} alt={item.title} loading="lazy" />
+                  <img src={item.productId?.variant?.[0]?.images?.[0]?.url ||
+                  item.image ||
+                  item.images?.[0] ||
+                  item.variant?.[0]?.images?.[0]?.url} alt={item.title} loading="lazy" />
                 </div>
                 <div className="cart-mobile-right">
                   <h3

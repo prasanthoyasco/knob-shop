@@ -74,6 +74,8 @@ import hooks from '../Assets/New folder/New folder/hooks.png'
 import doorKnoker from '../Assets/Explore Our Product Range/Explore Our Product Range/Logos/Door knockers.jpg'
 import Tower from '../Assets/Explore Our Product Range/Explore Our Product Range/Logos/Tower_bolt.png'
 import { useLocation } from "react-router-dom";
+import HeroScrollSection from "../Components/newProductSection/newProductSection";
+import ScrollEffectSection from "../Components/ScrollEffectSection/ScrollEffectSection";
 export const Home = () => {
   const [categories, setCategories] = useState([]);
     const location = useLocation();
@@ -496,6 +498,8 @@ export const Home = () => {
       <div data-aos="fade-up" data-aos-delay="100">
         <EssentialsSection />
       </div>
+      {/* <HeroScrollSection/> */}
+      {/* <ScrollEffectSection/> */}
       <div data-aos="fade-up" data-aos-delay="100">
         <ParallaxSection
           rotation={10}

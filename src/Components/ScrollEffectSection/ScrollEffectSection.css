@@ -1,0 +1,81 @@
+.new3deffect-scroll-container {
+  height: 300vh;
+  background: #f4fff0;
+}
+
+.new3deffect-sticky-wrapper {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  align-items: center; /* Center vertically */
+  justify-content: center;
+}
+
+.new3deffect-content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.new3deffect-title-main {
+  font-size: clamp(3rem, 15vw, 15rem);
+  font-weight: 800;
+  margin: 0;
+  z-index: 10;
+  pointer-events: none; /* Allows scrolling through text */
+}
+
+.new3deffect-slider-area {
+  position: relative;
+  width: 100%;
+  height: 60vh;
+  margin-top: -10vh; /* Overlap with text like the image */
+  display: flex;
+  justify-content: center;
+}
+
+.new3deffect-perspective {
+  perspective: 2000px; /* High perspective for depth */
+  width: 100%;
+  height: 100%;
+}
+
+.new3deffect-track {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.new3deffect-card {
+  position: absolute;
+  width: 300px; /* Adjusted size */
+  aspect-ratio: 4/5;
+  border-radius: 20px;
+  overflow: hidden;
+  backface-visibility: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.new3deffect-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.new3deffect-floor-glow {
+  position: absolute;
+  bottom: -20%;
+  width: 150%;
+  height: 400px;
+  background: radial-gradient(ellipse at center, rgba(175, 255, 60, 0.4) 0%, transparent 60%);
+  border-radius: 50%;
+  z-index: 1;
+}

@@ -26,18 +26,16 @@ const ShelfHighlight = () => {
   if (!shelves) {
     return <div className="text-center py-5">Loading...</div>;
   }
-
+  const isSingle = shelves.length <= 1;
   const settings = {
-    dots: true,
-    infinite: true,
-    speed: 800, // controls how fast the slide moves
+    dots: !isSingle,
+    infinite: !isSingle,
+    autoplay: !isSingle,
+    arrows: !isSingle,
+    speed: 800,
     slidesToShow: 1,
     slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 4000, // time before moving to next slide
-    arrows: true,
-    fade: false, // ❌ disable fade so slides move from right
-    cssEase: "ease-in-out", // smooth slide motion
+    cssEase: "ease-in-out",
   };
 
   return (
