@@ -19,9 +19,10 @@ const SharedCartLoader = () => {
 
     (async () => {
       await loadSharedCart(token);
-      navigate("/view-cart");
+      setTimeout(() => {
+        navigate("/view-cart");
+      }, 300);
     })();
-
   }, [token]); // 👈 removed loadSharedCart & navigate to avoid re-trigger
 
   return (

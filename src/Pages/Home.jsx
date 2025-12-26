@@ -480,6 +480,7 @@ export const Home = () => {
       <div data-aos="fade-up" data-aos-delay="100">
         <NewHero />
       </div>
+      {/* <HeroScrollSection/> */}
       {/* <LockSlider/> */}
      <div data-aos="fade-up" data-aos-delay="100" ><ProductCarousel products={categories} /></div>
       {/* <CollectionsCarosal/> */}

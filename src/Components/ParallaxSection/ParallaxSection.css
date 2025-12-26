@@ -1,9 +1,32 @@
 @import url('https://fonts.googleapis.com/css2?family=Abril+Fatface&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
 /* --- Start of new/updated CSS from user's snippet --- */
 .parallax-section {
-  min-height: 450vh; /* Crucial for extended scroll area */
-  position: relative; /* Ensure proper positioning for children */
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  margin: 2rem 0;
+  background-color: #fff;
 }
+
+/* background image layer */
+.parallax-section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("/bg_ptn_01.png");
+  background-position: 50%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  opacity: 0.4;              /* 👈 IMAGE OPACITY */
+  z-index: 0;
+}
+
+/* content stays above */
+.parallax-section > * {
+  position: relative;
+  z-index: 1;
+}
+
 .wt-parallax__content {
   position: sticky;
   height: 100vh;
@@ -14,6 +37,10 @@
   /* margin-top:var(--section-gap-top); margin-bottom:var(--section-gap-bottom); - using Tailwind gap */
 }
 .wt-parallax__content .hero__button--gap {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
   margin-block: 16px; /* calc(var(--gap, 8px) * 2) = 16px */
 }
 .wt-parallax__content .hero__button--gap:last-child {
@@ -130,7 +157,7 @@ text-align: center;
   margin: 2rem 0rem;
 }
 .hero__title,.hero__title span{
-    font-size: 8rem;
+    font-size: 7rem;
     font-weight: 800;
 }
 @media (max-width: 768px) {

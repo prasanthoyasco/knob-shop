@@ -34,7 +34,7 @@ export default function HeroScrollSection() {
 
   return (
     <section ref={sectionRef} className="hero-section-2">
-      <div className="w-layout-blockcontainer container w-container">
+      {/* <div className="w-layout-blockcontainer container w-container">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -42,28 +42,9 @@ export default function HeroScrollSection() {
           transition={{ duration: 0.8, ease: "easeOut" }}
           className="hero-2-section-inner"
         >
-          <div className="hero-2-flex-box">
-            <div className="hero-2-main-text-block">
-              <div className="hero-2-text-box">
-                <img src="images/icon-01.svg" loading="lazy" alt="Icon" className="hero-2-icon" />
-                <div className="hero-2-text">Let’s build your future</div>
-              </div>
-              <p className="hero-2-desc">Amet lectus sagittis blandit egestas pellentesque molestie odio et massa.</p>
-            </div>
-            <h1 className="hero-2-title">Creative</h1>
-          </div>
-          <div className="hero-2-flex-box-2">
-            <h1 className="hero-2-title">Brands digital</h1>
-            <div className="hero-2-btn-block">
-              <a href="/contact-us" className="btn-block w-inline-block">
-                <div>Let's talk</div>
-                <img src="images/up-right-arrow.svg" loading="lazy" alt="Arrow" className="btn-icon" />
-                <div className="btn-dot-box"></div>
-              </a>
-            </div>
-          </div>
+          
         </motion.div>
-      </div>
+      </div> */}
 
       <div className="w-layout-blockcontainer container-fuild w-container">
         <div className="hero-section-2-wrap">

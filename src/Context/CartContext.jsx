@@ -15,7 +15,7 @@ export const CartProvider = ({ children }) => {
   const sharedLoadedRef = useRef(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [cartItems, setCartItems] = useState([]);
-  const skipInitialCartLoad = window.location.pathname.includes("/shared-cart");
+  const skipInitialCartLoad = /^\/share-cart\//.test(window.location.pathname);
 
 
   // -----------------------------

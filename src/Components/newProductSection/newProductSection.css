@@ -1,9 +1,8 @@
 .hero-section-2 {
-  background-color: var(--color--white);
-  background-image: url(../images/b22876bd130c2da664a16ec7655c5018_bg_ptn_01.png);
-  background-position: 50%;
-  background-repeat: no-repeat;
-  background-size: cover;
+  position: absolute;
+  top:43vh;
+  width: 100%;
+  max-width: 100vw;
   height: 840px;
   overflow: hidden;
 }
@@ -153,3 +152,4 @@
     max-width: none;
   }
 }
+
