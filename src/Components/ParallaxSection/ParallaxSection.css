@@ -181,6 +181,9 @@ text-align: center;
   .wt-parallax__additional{
     width: 8%;
   }
+  .hero-section-2-wrap{
+    margin-top: -125px !important;
+  }
   .hero__button--gap {
     bottom: 8px !important;
     z-index: 50;
