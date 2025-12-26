@@ -4,7 +4,7 @@ import { Tracking } from "../Components/Tracking/Tracking";
 import CartItemsList from "../Components/CartPage/CartItemsList";
 import Footer from "../Components/Footer/Footer";
 import { useLocation } from "react-router-dom";
-import { trackShipment } from "../api/DTDCTracking";
+import { trackShipment } from "../API/tracking";
 
 export const OrderTracking = () => {
   const location = useLocation();
