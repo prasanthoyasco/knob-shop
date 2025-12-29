@@ -592,7 +592,7 @@ function PaymentPage() {
       const items = cartItems.map((item) => {
         console.log(JSON.parse(JSON.stringify(item)));
         const variant =
-          item.productId?.variant.find((v) => v.value === item.colorCode) ||
+          item.productId?.variant?.find((v) => v.value === item.colorCode) ||
           item.variant?.find((v) => v.value === item.colorCode);
         const selectedSize = variant?.sizes?.find(
           (s) => s.label === item.sizeLabel

@@ -153,6 +153,7 @@ text-align: center;
     padding: 0.7rem 3rem !important;
     text-decoration: none;
     z-index: 2001;
+    border-radius: 100px !important;
 }
 .hero__title{
   margin: 2rem 0rem;
@@ -186,6 +187,7 @@ text-align: center;
   }
   .hero__button--gap {
     bottom: 8px !important;
+    
     z-index: 50;
   }
 }
