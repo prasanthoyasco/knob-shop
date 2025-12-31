@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./ParallaxSection.css";
-import HeroScrollSection from "../newProductSection/newProductSection";
+import HeroSection2 from "../HeroSection2/HeroSection2";
 
 const ArrowDownIcon = () => (
   <svg
@@ -160,6 +160,7 @@ const ParallaxSection = ({
                     <span style={{ color: "#AB7B53", display:"inline-block" }}>Products</span>
                   </h2>
                 </div>
+                <HeroSection2/>
                 <div className="hero__button--gap">
                   <a href={buttonLink} className="hero__button--primary ctn big-ctn">
                     <span>{buttonText}</span>
@@ -170,7 +171,7 @@ const ParallaxSection = ({
           </div>
         </div>
 
-        <HeroScrollSection/>
+        
         </div>
         {/* <div className="wt-parallax__additional">
           <div className="wt-parallax__additional__icon">
