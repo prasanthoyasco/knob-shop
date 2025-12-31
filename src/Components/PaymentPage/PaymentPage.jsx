@@ -210,7 +210,7 @@ function PaymentPage() {
     }
   };
 
-  const subtotal = cartItems.reduce((sum, item) => {
+  const subtotal = Math.round(cartItems.reduce((sum, item) => {
     // 1️⃣ Determine color name (same logic used everywhere)
     const colorName =
       item.colorsText ||
@@ -242,7 +242,7 @@ function PaymentPage() {
 
     // 5️⃣ Add to subtotal
     return sum + finalPrice * (item.quantity || 1);
-  }, 0);
+  }, 0));
 
   useEffect(() => {
     if (location.state?.formData) {
@@ -558,7 +558,7 @@ function PaymentPage() {
         return;
       }
 
-      const totalValue = Math.max(0, subtotal - discount);
+      const totalValue = Math.round(Math.max(0, subtotal - discount));
 
       // if (totalValue >= 50000) {
       //   ewayBill = await generateEwayBill(order);
@@ -1458,12 +1458,8 @@ function PaymentPage() {
 
                       const finalPrice = sizePrice || fallbackPrice;
 
-                      return (finalPrice * item.quantity).toLocaleString(
-                        "en-IN",
-                        {
-                          minimumFractionDigits: 2,
-                          maximumFractionDigits: 2,
-                        }
+                      return Math.round(finalPrice * item.quantity).toLocaleString(
+                        "en-IN"
                       );
                     })()}
                   </strong>

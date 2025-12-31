@@ -141,7 +141,7 @@ const ParallaxSection = ({
               <div className="hero__overlay hero__overlay--center hero__overlay--mobile--">
                 <div
                   ref={titleRef}
-                  className="hero__overlay__content hero__overlay__content--center hero__overlay__content--mobile-- rte"
+                  className="w-screen"
                 >
                   <div className="hero__text rte d-flex justify-content-center">
                     <div className="d-flex align-items-end gap-2">

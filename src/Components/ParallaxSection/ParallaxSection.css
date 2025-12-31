@@ -156,11 +156,16 @@ text-align: center;
     border-radius: 100px !important;
 }
 .hero__title{
-  margin: 2rem 0rem;
+  margin: 0rem auto;
+}
+.w-screen{
+  width: 100vw;
 }
 .hero__title,.hero__title span{
     font-size: 7rem;
     font-weight: 800;
+    width: 100%;
+    max-width: 1200px;
 }
 @media (max-width: 768px) {
   .parallax-section {
@@ -169,9 +174,6 @@ text-align: center;
 .wt-parallax__content{
   align-items: flex-start !important;
   height: 75vh;
-}
-.hero-section-2 {
-  top: 33vh !important;
 }
   .wt-parallax__gallery__list{
     gap: 15vh;
@@ -182,8 +184,12 @@ text-align: center;
   .wt-parallax__additional{
     width: 8%;
   }
+  .hero__title{
+    margin: 2rem 0 !important;
+  }
   .hero-section-2-wrap{
-    margin-top: -24rem!important;
+    margin-top: -15vh !important;
+    align-items: center !important;
   }
   .hero__button--gap {
     bottom: 8px !important;
