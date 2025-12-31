@@ -24,7 +24,7 @@ const ArrowDownIcon = () => (
 const ParallaxSection = ({
   text = "See our latest inspirations",
   buttonText = "Check now",
-  buttonLink = "/pages/inspired",
+  buttonLink = "/categories",
   leftData,
   rightData,
   leftData1,
