@@ -162,7 +162,7 @@ const ParallaxSection = ({
                 </div>
                 <HeroSection2/>
                 <div className="hero__button--gap">
-                  <a href={buttonLink} className="hero__button--primary ctn big-ctn">
+                  <a href='/categories' className="hero__button--primary ctn big-ctn">
                     <span>{buttonText}</span>
                   </a>
                 </div>
