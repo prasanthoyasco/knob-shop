@@ -454,13 +454,13 @@ function PaymentPage() {
 
   // 🔄 On component load, check localStorage
   useEffect(() => {
-    const storedCoupon = localStorage.getItem("appliedCoupon");
+    const storedCoupon = localStorage.getItem("appliedCouponCode");
     if (storedCoupon) {
       const { expiry } = JSON.parse(storedCoupon);
       const now = Date.now();
 
       if (now > expiry) {
-        localStorage.removeItem("appliedCoupon");
+        localStorage.removeItem("appliedCouponCode");
       }
     }
   }, []);
@@ -698,7 +698,7 @@ function PaymentPage() {
       );
       const expiry = Date.now() + COUPON_EXPIRY;
       localStorage.setItem(
-        "appliedCoupon",
+        "appliedCouponCode",
         JSON.stringify({ code: couponCode, expiry })
       );
       const ccResponse = await initiateTransaction({
