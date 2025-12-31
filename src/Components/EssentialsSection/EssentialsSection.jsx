@@ -116,7 +116,7 @@ function chunkArray(arr, size) {
                 <div
                   key={card._id || index}
                   className="mb-4"
-                  style={{ minWidth: "250px", maxWidth: "300px" }}
+                  style={{ minWidth: "250px", maxWidth: "300px", width:"100%" }}
                   data-aos="fade-up"
                   data-aos-delay={100 * (index + 1)}
                   onClick={() =>
