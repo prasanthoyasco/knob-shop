@@ -1,12 +1,52 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import "./DealOfTheDay.css";
-import dealoftheday from "../../Assets/dealoftheday.jpg";
+// import dealoftheday from "../../Assets/dealoftheday.jpg"; // Removed unused import
 import dealdaybtnarrow from "../../Assets/dealdaybtnarrow.svg";
 import { useNavigate } from "react-router-dom";
 const DealOfTheDay = () => {
   const navigate = useNavigate();
+
+  const images = useMemo(() => [
+    "/dealoftheday/M14V2.png",
+    "/dealoftheday/M18V1.png",
+    "/dealoftheday/VIEW16_1.6.jpg"
+  ], []);
+
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  // Preloading useEffect removed - images are now rendered in DOM
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prev) => (prev + 1) % images.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, [images]);
+
+  const targetDate = useMemo(() => {
+    const getRandomFutureDate = () => {
+      const now = new Date();
+
+      const minDays = 1;   // minimum 1 day in future
+      const maxDays = 7;   // maximum 7 days in future
+
+      const randomDays =
+        Math.floor(Math.random() * (maxDays - minDays + 1)) + minDays;
+
+      const randomHours = Math.floor(Math.random() * 24);
+      const randomMinutes = Math.floor(Math.random() * 60);
+
+      const future = new Date(now);
+      future.setDate(now.getDate() + randomDays);
+      future.setHours(randomHours, randomMinutes, 0, 0);
+
+      return future;
+    };
+    return getRandomFutureDate();
+  }, []);
+
   const calculateTimeLeft = () => {
-    const targetDate = new Date("2025-10-25T00:00:00");
+
     const now = new Date();
     const difference = targetDate - now;
 
@@ -48,15 +88,19 @@ const DealOfTheDay = () => {
 
   return (
     <section className="deal-container">
-      <div className="deal-image">
-        <img
-          data-aos="fade-right"
-          data-aos-delay="100"
-          src={dealoftheday}
-          alt="Deal Visual"
-        />
+      <div className="deal-image" data-aos="fade-right" data-aos-delay="100">
+        {images.map((imgSrc, index) => (
+          <img
+            key={index}
+            className={`deal-of-the-day-slider-image ${index === currentImageIndex ? "active" : ""
+              }`}
+            src={imgSrc}
+            alt="Deal Visual"
+          />
+        ))}
       </div>
       <div className="deal-content" data-aos="fade-down" data-aos-delay="200">
+        <div className="deal-watermark"></div>
         <h2 className="mt-2" data-aos="fade-up" data-aos-delay="100">
           Deal Of The Day
         </h2>

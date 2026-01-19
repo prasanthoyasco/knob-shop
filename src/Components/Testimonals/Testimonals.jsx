@@ -21,12 +21,15 @@ import testinomalImage18 from '../../Assets/Textimonis/SANJEEV M.jpg';
 import testinomalImage19 from '../../Assets/Textimonis/Dr. Kalaivani R..JPG';
 import testinomalImage20 from '../../Assets/Textimonis/K Saravanan.jpg';
 import testinomalImage21 from '../../Assets/Textimonis/Neeraj Shankla.jpg';
+import genericMale from '../../Assets/testimonal-image1.png';
+import { useNavigate } from 'react-router-dom';
+
 const testimonials = [
   {
-    idx:0,
+    idx: 0,
     imgage: testinomalImage1,
     name: "Jegan Jeyaseelan",
-    profession : "CIVIL DOCTOR",
+    profession: "CIVIL DOCTOR",
     message: "I am Jegan from Civil Doctor, we do waterproofing, epoxy flooring and thermal insulation coatings. I recommended Mr. Sailesh of Knob Shop to my Known Engineer for all his hardwares, knobs purchase."
   },
   {
@@ -39,24 +42,24 @@ const testimonials = [
       Where I got a good feedback from him. So I purchased hardware fittings from him, where I got
       a good response from him and got a greater discounts.
     `
-  },  
+  },
   {
-    idx:2,
+    idx: 2,
     imgage: testinomalImage3,
     name: "Santhana Selvan J",
     profession: "ICONN HOMES & REALTORS",
-    message:`
+    message: `
     ICONN HOMES & REALTORS has emerged as one of the respected builders in Coimbatore. As
 a builder, we are highly in need of hardware materials. That gives us an opportunity to buy
 materials like door handles, etc. from Sailesh Golcha’s Knobs Shop.
     `
   },
   {
-    idx:3,
+    idx: 3,
     imgage: testinomalImage5,
     name: "RAHUL RANKA",
     profession: "HARSHAVARDHAN",
-    message:`
+    message: `
     i am rahul ranka and i represent harshavardhan.we have recently used the services of mr sailesh
 for our new flat at rs puram.the kind of range and quality mr sailesh holds is really amazing.. i wish him all the best for all his future
 endeavours.
@@ -64,11 +67,11 @@ endeavours.
     `
   },
   {
-    idx:0,
+    idx: 0,
     imgage: testinomalImage6,
     name: "Sharavana Nanjundanar",
     profession: "Global Coatings",
-    message:`
+    message: `
     We from the House of Global Coatings, The Paint Studio take this Opportunity to Thank and
 Appreciate Mr. Sailesh Golcha of “Knob Shop”.We thank Mr.Sailesh Golcha for the sincerity, product knowledge and service extended to us. 
     `
@@ -78,7 +81,7 @@ Appreciate Mr. Sailesh Golcha of “Knob Shop”.We thank Mr.Sailesh Golcha for 
     imgage: testinomalImage7,
     name: "KARTHI A.P",
     profession: "FORESIGHT CORPORATION",
-    message:`
+    message: `
     I will strongly
     recommend Mr. SAILESH GOLCHA, KNOB SHOP to any project and I am sure that he would
     complete every project in style, the way he did it for me.
@@ -87,7 +90,7 @@ Appreciate Mr. Sailesh Golcha of “Knob Shop”.We thank Mr.Sailesh Golcha for 
   },
   {
     idx: 2,
-    imgage: testinomalImage8,
+    imgage: testinomalImage13,
     name: "Mahendran Raghavan",
     profession: "MAsquare Engineers Pvt Ltd",
     message: `
@@ -100,7 +103,7 @@ doing civil consulting & Structural design services for all kind of buildings an
     imgage: testinomalImage9,
     name: "CHRISTOPHER RAJKUMAR C",
     profession: "FORESIGHT CORPORATION",
-    message:`
+    message: `
     one of our client Ms. Gokilavani for Shower cubical accessories needs. The quality of the
 material is good, and the rates are very competative. The products were delivered. And my client
 is very happy
@@ -111,7 +114,7 @@ is very happy
     imgage: testinomalImage10,
     name: "SRINIVASAN R",
     profession: "PEOPLE POINT",
-    message:`
+    message: `
     Srinivasan from People point into staffing, training and outsourcing services…… From doorman
 lock to treasure chest fixtures, Knob shop has all !! A Friend, from another member of BNI
 Fraternity, had an apartment made.
@@ -122,7 +125,7 @@ Fraternity, had an apartment made.
     imgage: testinomalImage11,
     name: "Yuvaraj K.",
     profession: "TKT Chamber Bricks",
-    message:`
+    message: `
     The products looks very
     heigh quality and amazing collections. Mr. SAILESH GOLCHA help us to make our home to
     look different elegant from others. He has given a fantastic service.
@@ -133,7 +136,7 @@ Fraternity, had an apartment made.
     imgage: testinomalImage12,
     name: "Nagarajan M    ",
     profession: "Annam Associates",
-    message:`
+    message: `
     I'm Nagaraj representing Annam Associates, an Office Space Furniture Turnkey Solution
     Provider. Recently I referred one of my friends to Mr. Sailesh of Knobs Shop who's into the
     business of Hardwares and Door Joiners.
@@ -144,7 +147,7 @@ Fraternity, had an apartment made.
     imgage: testinomalImage13,
     name: "Karthikeyan T.    ",
     profession: "MAL BUILDING CENTERING MATERIAL",
-    message:`
+    message: `
     Recently I have visited Knob Shop to purchase much needed Lock for my wardrobe. To my
     surprise I was able to purchase desired quantity, Brand of my choice. I wish them great success in all their future Endeavour’s.
     `
@@ -154,7 +157,7 @@ Fraternity, had an apartment made.
     imgage: testinomalImage14,
     name: "Nivas S    ",
     profession: "AGAMA ANURAKSATI BUSINESS PROMOTION",
-    message:`I have built my dream house on January 2020. All the knobs and glass works were done Sailesh
+    message: `I have built my dream house on January 2020. All the knobs and glass works were done Sailesh
     and his Knobsshop team.. It is hard to find such a dedicated team that is
     providing service with smile.
     `
@@ -164,7 +167,7 @@ Fraternity, had an apartment made.
     imgage: testinomalImage15,
     name: "Bhavesh Mehta",
     profession: "Rishab Investments",
-    message:`
+    message: `
     We sincerely thank
     you for the quality services. We would definitely and very strongly continue to refer you to our
     circle of influence. Prompt delivery, fantastic product quality and most
@@ -177,7 +180,7 @@ Fraternity, had an apartment made.
     imgage: testinomalImage16,
     name: "Mahesh Prasanna    ",
     profession: "Future Tech Cranes and Hoists Coimbatore    ",
-    message:`
+    message: `
     . I really appreciate Mr. Sailesh for the same and assure him that he will be
     getting more and more references from me inside my contact sphere. Mr. Sailesh
     took good efforts and delivered the exact product in a short span of time.
@@ -188,7 +191,7 @@ Fraternity, had an apartment made.
     imgage: testinomalImage17,
     name: "Dr.D.Visagamoorthi",
     profession: "Insighters India",
-    message:`
+    message: `
     They also expressed that quality of the materials given by them
     were very superior when compared with others. His rates are very competitive. Variety of the
     materials which they possess is innumerable.
@@ -199,7 +202,7 @@ Fraternity, had an apartment made.
     imgage: testinomalImage18,
     name: "SANJEEV M",
     profession: "COMFORT HOTELS    ",
-    message:`
+    message: `
     . We
     approached Mr. Sailesh of KnobShope for the hand rails. He had suggested us for powder coated
     stainless steel hand railings to suit our interiors.Thank You Mr.
@@ -208,10 +211,10 @@ Fraternity, had an apartment made.
   },
   {
     idx: 1,
-    imgage: testinomalImage19,
+    imgage: genericMale,
     name: "Dr. Kalaivani R.",
     profession: "Wellness Physiotherapy & Fitness Clinic",
-    message:`
+    message: `
     I am Dr. Kalaivani, physiotherapist and my husband is a civil engineer who buys hardwares,
     locks , handles for his premium clients . He says that no one can beat the quality of knob shop
     Products
@@ -222,7 +225,7 @@ Fraternity, had an apartment made.
     imgage: testinomalImage20,
     name: "K Saravanan",
     profession: "Royal Furnitures",
-    message:`
+    message: `
     Thanks for your hospitality extended during our visit to your store, My Client is really happy
     with your product and the service you have provided, The collections of handles and knob was
     excellent with high quality
@@ -233,7 +236,7 @@ Fraternity, had an apartment made.
     imgage: testinomalImage21,
     name: "Neeraj Shankla",
     profession: "Neeraj Aromatics Private Limited",
-    message:`
+    message: `
     . We
     have been purchasing from Sailesh for all our hardware needs and every time their the am is very
     responsive and also very helpful in guiding us select the right product.
@@ -269,6 +272,7 @@ function Testimonals() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
   const [fadeClass, setFadeClass] = useState('fade-in');
+  const navigate = useNavigate()
 
   const [ref1, visible1] = useScrollFadeIn();
   const [ref2, visible2] = useScrollFadeIn();
@@ -348,7 +352,7 @@ function Testimonals() {
           <div ref={ref3} className={`scroll-fade ${visible3 ? 'visible' : ''}`} style={{ marginTop: "20px" }}>
             <p>We can already call over 5,000 people our customer, When you are coming</p>
           </div>
-          <button ref={ref4} className={`scroll-fade ${visible4 ? 'visible' : ''}`}>DISCOVER NOW</button>
+          <button onClick={()=>navigate("/book-consultation")} className={`scroll-fade ${visible4 ? 'visible' : ''}`}>Book Consulting</button>
         </div>
 
         <div className='testimonial-content'>

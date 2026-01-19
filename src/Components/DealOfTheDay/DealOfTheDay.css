@@ -3,19 +3,37 @@
   display: flex;
   flex-wrap: wrap;
   background: #fff;
-  min-height: 400px;
   overflow: hidden;
 }
 
 .deal-image {
   flex: 1 1 50%;
-  min-height: 400px;
+  height: 500px;
+  position: relative;
+  overflow: hidden;
 }
 
 .deal-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+.deal-of-the-day-slider-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity 1s ease-in-out;
+  opacity: 0;
+  z-index: 1;
+}
+
+.deal-of-the-day-slider-image.active {
+  opacity: 1;
+  z-index: 2;
 }
 
 .deal-content {
@@ -41,8 +59,7 @@
   margin-bottom: 30px;
 }
 
-.deal-content::after {
-  content: '';
+.deal-watermark {
   position: absolute;
   top: 0;
   right: 0;
@@ -52,8 +69,15 @@
   background-size: contain;
   background-repeat: no-repeat;
   background-position: top right;
-  pointer-events: none; /* Makes it non-interactive */
-  opacity: 0.9; /* Optional for a subtle watermark effect */
+  opacity: 0.9;
+  transition: transform 0.5s ease-in-out;
+  pointer-events: auto;
+  /* Allow interaction */
+  cursor: pointer;
+}
+
+.deal-watermark:hover {
+  transform: translateY(-20px);
 }
 
 .countdown-timer {
@@ -87,28 +111,36 @@
   background-color: #000000;
   color: #fff;
   width: fit-content;
-  padding: 12px 14px; /* Specific padding as per request */
+  padding: 12px 14px;
+  /* Specific padding as per request */
   border: none;
   text-transform: uppercase;
   letter-spacing: 1px;
   border-radius: 3px;
   cursor: pointer;
   transition: all 0.5s ease-in;
-  display: flex; /* Use flexbox to align content */
-  align-items: center; /* Vertically center items */
+  display: flex;
+  /* Use flexbox to align content */
+  align-items: center;
+  /* Vertically center items */
 }
 
 /* Ensure the image within the button is styled correctly */
 .shop-button img {
-  height: auto; /* Maintain aspect ratio */
-  width: 20px; /* Adjust size as needed */
-  margin-left: 8px; /* Space between text and arrow */
+  height: auto;
+  /* Maintain aspect ratio */
+  width: 20px;
+  /* Adjust size as needed */
+  margin-left: 8px;
+  /* Space between text and arrow */
 }
 
 /* Add hover effect for the button */
 .shop-button:hover {
-  background-color: #222; /* Slightly lighter black on hover */
+  background-color: #222;
+  /* Slightly lighter black on hover */
 }
+
 .shop-button:hover img {
   transform: rotate(90deg);
 }
@@ -119,19 +151,26 @@
 /* For screens smaller than 992px (e.g., tablets in landscape) */
 @media (max-width: 991px) {
   .deal-container {
-    flex-direction: column; /* Stack image and content vertically */
-    min-height: auto; /* Allow height to adjust based on content */
+    flex-direction: column;
+    /* Stack image and content vertically */
+    min-height: auto;
+    /* Allow height to adjust based on content */
   }
 
   .deal-image {
-    flex: 1 1 100%; /* Image takes full width */
-    min-height: 300px; /* Adjust height for tablets */
+    flex: 1 1 100%;
+    /* Image takes full width */
+    height: 400px;
+    /* Adjust height for tablets */
   }
 
   .deal-content {
-    flex: 1 1 100%; /* Content takes full width */
-    padding: 30px; /* Reduced padding */
-    text-align: center; /* Center align text content */
+    flex: 1 1 100%;
+    /* Content takes full width */
+    padding: 30px;
+    /* Reduced padding */
+    text-align: center;
+    /* Center align text content */
   }
 
   .deal-content h2 {
@@ -144,17 +183,22 @@
     margin-bottom: 25px;
   }
 
-  .deal-content::after {
-    width: 150px; /* Smaller watermark */
+  .deal-watermark {
+    width: 150px;
+    /* Smaller watermark */
     height: 135px;
-    opacity: 0.5; /* More subtle opacity */
-    top: 10px; /* Adjust position */
+    opacity: 0.5;
+    /* More subtle opacity */
+    top: 10px;
+    /* Adjust position */
     right: 10px;
   }
 
   .countdown-timer {
-    justify-content: center; /* Center the timer segments */
-    gap: 15px; /* Reduce gap */
+    justify-content: center;
+    /* Center the timer segments */
+    gap: 15px;
+    /* Reduce gap */
     margin-bottom: 25px;
   }
 
@@ -167,7 +211,8 @@
   }
 
   .shop-button {
-    margin: 0 auto; /* Center the button on its own line */
+    margin: 0 auto;
+    /* Center the button on its own line */
     padding: 10px 12px;
     font-size: 0.9rem;
   }
@@ -176,11 +221,13 @@
 /* For screens smaller than 768px (e.g., tablets in portrait and most mobile phones) */
 @media (max-width: 767px) {
   .deal-image {
-    min-height: 250px; /* Further reduce image height */
+    height: 300px;
+    /* Further reduce image height */
   }
 
   .deal-content {
-    padding: 25px; /* Even less padding */
+    padding: 25px;
+    /* Even less padding */
   }
 
   .deal-content h2 {
@@ -194,7 +241,8 @@
   }
 
   .countdown-timer {
-    gap: 10px; /* Smaller gap for timer */
+    gap: 10px;
+    /* Smaller gap for timer */
     margin-bottom: 20px;
   }
 
@@ -215,7 +263,8 @@
 /* For very small mobile screens (e.g., less than 480px) */
 @media (max-width: 479px) {
   .deal-image {
-    min-height: 200px; /* Smallest image height */
+    height: 250px;
+    /* Smallest image height */
   }
 
   .deal-content {

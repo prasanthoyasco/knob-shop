@@ -6,7 +6,7 @@ const htmlContent = `
 <h1>KNOBS SHOP TERMS AND CONDITIONS</h1>
 
 <p>
-The website www.Knobsshop.store (“Knobsshop.store”) is operated by Knobsshop
+The website www.Knobsshop.store (“Knobsshop.store”) is operated by Knobsshop under the leadership of Mr. Salish Golchha, Managing Director, Coimbatore, Tamil Nadu. 
 ("Knobsshop.store " or "us" or "we" or "our"), having its Registered Head Office located at
 Door No. 746 - 747, Mettupalayam Road,Sukrawar Pettai, R.S Puram, Coimbatore, Tamil Nadu
 – 641 002. Please read the Conditions of Use document carefully before using the
@@ -475,16 +475,16 @@ should you have any questions.
 </p>
 `
 function TermsAndCondition() {
-  return (
-    <>
-    <NavbarTop/>
-    <div
-        className='terms-and-condition-container'
-        dangerouslySetInnerHTML={{ __html: htmlContent }}
-      />
-    <Footer/>
-    </>
-  )
+    return (
+        <>
+            <NavbarTop />
+            <div
+                className='terms-and-condition-container'
+                dangerouslySetInnerHTML={{ __html: htmlContent }}
+            />
+            <Footer />
+        </>
+    )
 }
 
 export default TermsAndCondition

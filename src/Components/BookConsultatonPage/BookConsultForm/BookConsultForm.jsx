@@ -3,9 +3,9 @@ import './BookConsultForm.css';
 import { createConsultation } from '../../../API/consultationApi'; // adjust path as needed
 import { useNavigate } from 'react-router-dom';
 function BookConsultForm() {
-    const navigate = useNavigate()
-    const [submissionMessage, setSubmissionMessage] = useState('');
-    const [errorMessage, setErrorMessage] = useState('');
+  const navigate = useNavigate()
+  const [submissionMessage, setSubmissionMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
   const [formData, setFormData] = useState({
     location: '',
     category: '',
@@ -71,9 +71,9 @@ function BookConsultForm() {
     "Ladakh", "Lakshadweep", "Puducherry"
   ];
   const categoryList = [
-    "Living Room", "Dinning Room", "Sofa", "Lightning", "Coffee Tables", "Storage Cabinets",
+    "Living Room", "Bedroom", "Kitchen", "Limo Coat", "Dinning Room", "Sofa", "Lightning", "Coffee Tables", "Storage Cabinets",
   ];
-  
+
   return (
     <div className='book-form-container'>
       <div className='book-form-header'>
@@ -83,16 +83,16 @@ function BookConsultForm() {
       <div className='book-form-con'>
         <div className='book-form-left'>
 
-          
-        <div className='input-and-text'>
+
+          <div className='input-and-text'>
             <p>Name</p>
-            <input type='text' name="name" value={formData.name} onChange={handleChange} placeholder='Enter Full Name' required/>
+            <input type='text' name="name" value={formData.name} onChange={handleChange} placeholder='Enter Full Name' required />
           </div>
 
 
           <div className='input-and-text'>
             <p>Mobile</p>
-            <input type='text' name="mobile" value={formData.mobile} onChange={handleChange} placeholder='Enter Mobile Number' required/>
+            <input type='text' name="mobile" value={formData.mobile} onChange={handleChange} placeholder='Enter Mobile Number' required />
           </div>
 
           <div className='book-form-right-checkbox'>
@@ -102,35 +102,35 @@ function BookConsultForm() {
 
           <div className='input-and-text'>
             <p>Email Id</p>
-            <input type='text' name="email" value={formData.email} onChange={handleChange} placeholder='Enter Email' required/>
+            <input type='text' name="email" value={formData.email} onChange={handleChange} placeholder='Enter Email' required />
           </div>
 
 
           <div className='input-and-text'>
             <p>Category</p>
             <select name="category" value={formData.category} onChange={handleChange} required>
-  <option value="" disabled>Select your category</option>
-  {categoryList.map((state) => (
-    <option key={state} value={state}>{state}</option>
-  ))}
-</select>
+              <option value="" disabled>Select your category</option>
+              {categoryList.map((state) => (
+                <option key={state} value={state}>{state}</option>
+              ))}
+            </select>
 
           </div>
 
           <div className='input-and-text'>
             <p>Your Location</p>
             <select name="location" value={formData.location} onChange={handleChange} required>
-  <option value="" disabled>Select your state</option>
-  {indianStates.map((state) => (
-    <option key={state} value={state}>{state}</option>
-  ))}
-</select>
+              <option value="" disabled>Select your state</option>
+              {indianStates.map((state) => (
+                <option key={state} value={state}>{state}</option>
+              ))}
+            </select>
 
           </div>
 
           <div className='input-and-text'>
             <p>Tentative Budget</p>
-            <input type='text' name="budget" value={formData.budget} onChange={handleChange} placeholder='Enter Budget' required/>
+            <input type='text' name="budget" value={formData.budget} onChange={handleChange} placeholder='Enter Budget' required />
           </div>
         </div>
 
@@ -140,15 +140,15 @@ function BookConsultForm() {
           </div>
 
           <textarea
-  className='book-form-right-select'
-  name="interest"
-  placeholder="Tell us what you are shopping for"
-  value={formData.interest}
-  onChange={handleChange}
-  required
-/>
-{errorMessage && (
-            <div className='error-message' style={{color: 'red', marginTop: '5px'}}>
+            className='book-form-right-select'
+            name="interest"
+            placeholder="Tell us what you are shopping for"
+            value={formData.interest}
+            onChange={handleChange}
+            required
+          />
+          {errorMessage && (
+            <div className='error-message' style={{ color: 'red', marginTop: '5px' }}>
               {errorMessage}
             </div>
           )}
@@ -169,7 +169,7 @@ function BookConsultForm() {
           <div className='book-form-right-checkbox'>
             <input type="checkbox" />
             <p className='book-form-right-checkbox-p'>
-              By submitting, you agree to our <strong onClick={()=>navigate('/privacy-policy')}>Privacy Policy.</strong>
+              By submitting, you agree to our <strong onClick={() => navigate('/privacy-policy')}>Privacy Policy.</strong>
             </p>
           </div>
         </div>
