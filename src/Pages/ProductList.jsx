@@ -23,7 +23,9 @@ export const ProductList = () => {
   const [products, setProducts] = useState([]);
   const [count, setCount] = useState(0);
   const [loading, setLoading] = useState(true);
-
+  const [totalCount, setTotalCount] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 12;
   const mapProduct = (item) => ({
     id: item._id,
     title: item.name,
@@ -51,36 +53,87 @@ export const ProductList = () => {
 
         // 🔍 Search query case
         if (queryParam) {
-          res = await searchProductsByParam(queryParam);
-          const data = res?.results || res?.data || [];
+          res = await searchProductsByParam(queryParam, {
+            page: currentPage,
+            limit: itemsPerPage,
+          });
+
+          const data = res?.products || [];
+          const backendTotal =
+            res?.pagination?.totalProducts ||
+            res?.total ||
+            res?.count ||
+            0;
+
+
           setProducts(data.map(mapProduct));
-          setCount(data.length);
+          setCount(backendTotal);
+          setTotalCount(backendTotal);
           return;
         }
+
 
         // 🏷️ Brand filter
         if (brandName) {
-          res = await getProductsByBrand(brandName);
-          const data = Array.isArray(res) ? res : res.data || [];
+          res = await getProductsByBrand(brandName, {
+            page: currentPage,
+            limit: itemsPerPage,
+          });
+
+          const data = res?.products || [];
+          const backendTotal =
+            res?.pagination?.totalProducts ||
+            res?.total ||
+            res?.count ||
+            0;
+
+
           setProducts(data.map(mapProduct));
-          setCount(data.length);
+          setCount(backendTotal);
+          setTotalCount(backendTotal);
           return;
         }
 
-        // 📦 All products
+
+        // 📦 All products with API pagination
         if (categoryId === "all-products") {
-          res = await getAllProducts();
-          const data = Array.isArray(res) ? res : res.data || [];
+          res = await getAllProducts({ page: currentPage, limit: itemsPerPage });
+
+          const data = res?.products || res?.data || [];
+
+          console.log("API Response:", res);
+          console.log("Products returned (current page):", data.length);
+          console.log("Backend total:", res?.total);
+
+
           setProducts(data.map(mapProduct));
-          setCount(data.length);
+
+          const backendTotal = res?.pagination?.totalProducts || data.length;
+
+          console.log("Correct backend total:", backendTotal);
+
+          setCount(backendTotal);
+          setTotalCount(backendTotal);
+
+
           return;
         }
+
+
 
         // 🧭 Category filter
-        res = await fetchProductsByCategory(categoryId);
-        const productArray = Array.isArray(res) ? res : res.data || [];
-        setProducts(productArray.map(mapProduct));
-        setCount(productArray.length);
+        res = await fetchProductsByCategory(categoryId, {
+          page: currentPage,
+          limit: itemsPerPage,
+        });
+
+        const data = res?.products || res?.data || [];
+        setProducts(data.map(mapProduct));
+        setCount(res?.total || data.length);
+        setTotalCount(res?.total || data.length);
+        console.log("Total Products Count:", res?.total || data.length);
+
+
       } catch (err) {
         console.error("Error fetching products:", err);
         setProducts([]);
@@ -92,7 +145,17 @@ export const ProductList = () => {
 
     // ✅ Depend on location so it refreshes whenever query/path changes
     loadProducts();
-  }, [location]);
+  }, [location, currentPage]);
+
+  // Pagination handler for all-products
+  const handlePageChange = (page) => {
+    if (page >= 1 && page <= Math.ceil(totalCount / itemsPerPage)) {
+      setCurrentPage(page);
+    }
+  };
+  useEffect(() => {
+    console.log("Current Page Changed:", currentPage);
+  }, [currentPage, categoryId, brandName, queryParam]);
 
   if (loading) {
     return (
@@ -118,10 +181,10 @@ export const ProductList = () => {
           queryParam
             ? `Search results for "${queryParam}"`
             : brandName
-            ? `${brandName} Products`
-            : categoryId === "all-products"
-            ? "All Products"
-            : "Digital Safe Lockers"
+              ? `${brandName} Products`
+              : categoryId === "all-products"
+                ? "All Products"
+                : "Digital Safe Lockers"
         }
         count={count}
         backgroundImage={lockerBg}
@@ -130,6 +193,11 @@ export const ProductList = () => {
         products={products}
         categoryData={categoryId}
         searchQuery={queryParam}
+
+        totalCount={totalCount}
+        currentPage={currentPage}
+        onPageChange={handlePageChange}
+        itemsPerPage={itemsPerPage}
       />
       <Footer />
     </>

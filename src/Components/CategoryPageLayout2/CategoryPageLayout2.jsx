@@ -5,14 +5,22 @@ import SortDropdown from "./SortDropdown";
 import CategoryFilters from "./CategoryFilters";
 import { getCategoryById } from "../../API/categoriesApi";
 
-const CategoryPageLayout2 = ({ products = [], categoryData }) => {
+const CategoryPageLayout2 = ({ products = [], categoryData, totalCount = 0, currentPage = 1, onPageChange, itemsPerPage = 12 }) => {
   console.log("category", categoryData);
   console.log("product from category", products);
+
   const [filteredProducts, setFilteredProducts] = useState(products);
-  const [currentPage, setCurrentPage] = useState(1);
   const [categoryFilters, setCategoryFilters] = useState([]);
   const [loading, setLoading] = useState(false);
   const [openSections, setOpenSections] = useState({});
+  const totalPages = Math.ceil(totalCount / itemsPerPage);
+const paginatedProducts = filteredProducts;
+
+
+  console.log("totalCount:", totalCount);
+  console.log("itemsPerPage:", itemsPerPage);
+  console.log("totalPages:", totalPages);
+
   const [filters, setFilters] = useState({
     brand: [],
     availability: [],
@@ -26,7 +34,7 @@ const CategoryPageLayout2 = ({ products = [], categoryData }) => {
   const [showMobileFilters, setShowMobileFilters] = useState(false);
 
   useEffect(() => {
-    if (!categoryData) return; // no ID yet
+    if (!categoryData || categoryData === "all-products") return;
 
     const fetchCategoryFilters = async () => {
       try {
@@ -60,13 +68,14 @@ const CategoryPageLayout2 = ({ products = [], categoryData }) => {
     fetchCategoryFilters();
   }, [categoryData]);
 
-  const itemsPerPage = 12;
-  const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
+  //   const itemsPerPage = 12;
+  //   const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
 
-  const safeCurrentPage = Math.min(currentPage, totalPages || 1);
-  const paginatedProducts = (
-    Array.isArray(filteredProducts) ? filteredProducts : []
-  ).slice((safeCurrentPage - 1) * itemsPerPage, safeCurrentPage * itemsPerPage);
+  // const safeCurrentPage = Math.min(currentPage, totalPages || 1);
+  // const paginatedProducts = (
+  //   Array.isArray(filteredProducts) ? filteredProducts : []
+  // ).slice((safeCurrentPage - 1) * itemsPerPage, safeCurrentPage * itemsPerPage);
+
 
   const toggleSection = (section) => {
     setOpenSections((prev) => ({
@@ -243,24 +252,33 @@ const CategoryPageLayout2 = ({ products = [], categoryData }) => {
         break;
     }
 
-    setCurrentPage(1);
-    setFilteredProducts(result);
+    // onPageChange(1);
+setFilteredProducts(result);
+
+
   };
 
   // 🛠️ Main filter effect
-  useEffect(() => {
-    setLoading(true);
-    setTimeout(() => {
-      applyFilters();
-      setLoading(false);
-    }, 100);
-  }, [filters, sortOrder, products]);
+useEffect(() => {
+  setLoading(true);
+  setTimeout(() => {
+    applyFilters();
+    setLoading(false);
+  }, 100);
+}, [filters, sortOrder]);
 
-  useEffect(() => {
-    if (currentPage > totalPages) {
-      setCurrentPage(totalPages || 1);
-    }
-  }, [totalPages]);
+
+//   useEffect(() => {
+//   onPageChange(1);
+//   applyFilters();
+// }, [filters, sortOrder]);
+
+
+  // useEffect(() => {
+  //   if (currentPage > totalPages) {
+  //     setCurrentPage(totalPages || 1);
+  //   }
+  // }, [totalPages]);
 
   const handleCheckboxChange = (filterName, value, checked) => {
     setFilters((prev) => ({
@@ -289,14 +307,23 @@ const CategoryPageLayout2 = ({ products = [], categoryData }) => {
     setFilters(resetFilters);
     setSortOrder("");
     setOpenSections({});
-    setCurrentPage(1);
+    onPageChange(1);
   };
 
+  // const handlePageChange = (pageNum) => {
+  //   if (pageNum >= 1 && pageNum <= totalPages) {
+  //     setCurrentPage(pageNum);
+  //   }
+  // };
   const handlePageChange = (pageNum) => {
     if (pageNum >= 1 && pageNum <= totalPages) {
-      setCurrentPage(pageNum);
+      onPageChange(pageNum);
     }
   };
+useEffect(() => {
+  setFilteredProducts(products);
+}, [products]);
+
 
   return (
     <div className="container-fluid py-4">
@@ -311,9 +338,8 @@ const CategoryPageLayout2 = ({ products = [], categoryData }) => {
               <i className="bi bi-filter me-2"></i>Filters
             </span>
             <i
-              className={`bi ${
-                showMobileFilters ? "bi-chevron-up" : "bi-chevron-down"
-              }`}
+              className={`bi ${showMobileFilters ? "bi-chevron-up" : "bi-chevron-down"
+                }`}
             ></i>
           </button>
         </div>
@@ -355,7 +381,7 @@ const CategoryPageLayout2 = ({ products = [], categoryData }) => {
             style={{ border: "1px solid #DADADA", borderRadius: "4px" }}
           >
             <span className="item-count fw-medium" style={{ color: "#252525" }}>
-              ({filteredProducts.length} Of {products.length} Items)
+              ({products.length} Of {totalCount} Items)
             </span>
 
             <div className="d-flex align-items-center gap-2 sort-control">
@@ -368,8 +394,9 @@ const CategoryPageLayout2 = ({ products = [], categoryData }) => {
           <div className="row g-3">
             {loading ? (
               <div className="text-center py-5">Loading...</div>
-            ) : products.length > 0 ? (
+            ) : paginatedProducts.length > 0 ? (
               paginatedProducts.map((product) => (
+
                 <div
                   className="col-12 col-sm-6 col-md-4 col-lg-4 products"
                   key={product._id}
@@ -383,31 +410,27 @@ const CategoryPageLayout2 = ({ products = [], categoryData }) => {
           </div>
 
           {/* Pagination */}
-          {totalPages > 1 && (
+          {Math.ceil(totalCount / itemsPerPage) > 1 && (
             <div className="d-flex justify-content-center my-4">
               <nav>
                 <ul className="pagination pagination-sm custom-pagination mb-0">
-                  {Array.from({ length: totalPages }, (_, index) => {
+                  {Array.from({ length: Math.ceil(totalCount / itemsPerPage) }, (_, index) => {
                     const page = index + 1;
 
-                    // Always show first, last, current, and neighbors
                     if (
                       page === 1 ||
-                      page === totalPages ||
+                      page === Math.ceil(totalCount / itemsPerPage) ||
                       (page >= currentPage - 1 && page <= currentPage + 1)
                     ) {
                       return (
-                        <li
-                          key={page}
-                          className={`page-item ${
-                            currentPage === page ? "active" : ""
-                          }`}
-                        >
+                        <li key={page} className={`page-item ${currentPage === page ? "active" : ""}`}>
                           <button
-                            className={`page-link ${
-                              currentPage === page ? "active-link" : "no-border"
-                            }`}
-                            onClick={() => handlePageChange(page)}
+                            className={`page-link ${currentPage === page ? "active-link" : "no-border"}`}
+                            onClick={() => {
+  console.log("Clicked page:", page);
+  onPageChange(page);
+}}
+
                           >
                             {page}
                           </button>
@@ -415,38 +438,21 @@ const CategoryPageLayout2 = ({ products = [], categoryData }) => {
                       );
                     }
 
-                    // Ellipses before current page
-                    if (page === currentPage - 2 || page === 2) {
+                    if (page === currentPage - 2 || page === 2 || page === currentPage + 2 || page === Math.ceil(totalCount / itemsPerPage) - 1) {
                       return (
-                        <li
-                          key={page}
-                          className="page-item disabled"
-                          style={{ paddingLeft: "1px" }}
-                        >
+                        <li key={page} className="page-item disabled">
                           <span className="page-link px-0">...</span>
                         </li>
                       );
                     }
 
-                    // Ellipses after current page
-                    if (page === currentPage + 2 || page === totalPages - 1) {
-                      return (
-                        <li
-                          key={page}
-                          className="page-item disabled"
-                          style={{ paddingLeft: "1px" }}
-                        >
-                          <span className="page-link px-0">...</span>
-                        </li>
-                      );
-                    }
-
-                    return null; // Hide everything else
+                    return null;
                   })}
                 </ul>
               </nav>
             </div>
           )}
+
         </div>
       </div>
     </div>
