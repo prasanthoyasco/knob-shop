@@ -14,7 +14,7 @@ import "swiper/css/pagination";
 import "swiper/css/effect-fade";
 import "./NewHero.css";
 
-import video from "../../Assets/New folder/New folder/Faber.webm";
+import video from "../../Assets/bannerVideo.webm";
 import lunaProImage from "../../Assets/Product Categories and its Product (Knobs Shop)/Smart Door Lock/Smart Door Lock/Luna Pro+ Facial/1_3819cf62-66f2-4a8a-b562-eddb7d96a57c.webp";
 import yaleImage from "../../Assets/Product Categories and its Product (Knobs Shop)/Smart Door Lock/Smart Door Lock/Luna Pro+ Facial/14_0fb7187f-b413-411d-a145-e62b8c9e41bb.jpg";
 import YMI70AYHImage from "../../Assets/Product Categories and its Product (Knobs Shop)/Smart Door Lock/Smart Door Lock/YMI70A-YH/YMI70_RED-GOLD-01.jpg";
@@ -43,7 +43,7 @@ const baseSlides = [
   {
     id: 2,
     route: "Safe Lock",
-    img:img2,
+    img: img2,
     imgheight: 400,
     bg: "/slider/bg-2.jpg",
     offer: "NEW SEASON ARRIVAL",
@@ -56,12 +56,12 @@ const baseSlides = [
   {
     id: 3,
     route: "Mortice Handle",
-    img:img1,
+    img: "/slider/While_matle_premium_.png",
     imgheight: 400,
-    bg: "/slider/bg-3.jpg",
+    bg: "/slider/bg-6.jpg",
     offer: "Flat 15% Off All Items",
     text: "Mortice Handle",
-    circleColor: "#00759F",
+    circleColor: "#a2c1ccff",
     number: "03",
     description:
       "Stylish mortice handles with internal locking mechanisms enhance door security and aesthetics. Available in various designs for residential and commercial doors.",
@@ -69,12 +69,12 @@ const baseSlides = [
   {
     id: 4,
     route: "Knobs",
-    img:img4,
+    img: "/slider/star-knob.png",
     imgheight: 200,
     bg: "/slider/bg-5.jpg",
     offer: "Flat 15% Off All Items",
     text: "Knobs",
-    circleColor: "#DF7A26",
+    circleColor: "#ceb59fff",
     number: "04",
     description:
       "Durable and decorative door knobs available in multiple finishes. Ideal for both interior and exterior doors, combining function with elegant design.",
@@ -82,7 +82,7 @@ const baseSlides = [
   {
     id: 5,
     route: "Pull Handle ",
-    img:img5,
+    img: img5,
     imgheight: 330,
     bg: "/slider/bg-6.jpg",
     offer: "Flat 15% Off All Items",
@@ -111,8 +111,8 @@ const NewHero = () => {
   const slides = baseSlides;
   const storedRef = JSON.parse(localStorage.getItem("dtdcReferenceNumber"));
   const storeRef = JSON.parse(localStorage.getItem("referenceNumber"));
-console.log("Stored DTDC Reference Number:", storedRef);
-console.log("Stored  Reference Number:", storeRef);
+  console.log("Stored DTDC Reference Number:", storedRef);
+  console.log("Stored  Reference Number:", storeRef);
 
   const retriggerAnimations = useCallback(() => {
     const animatedElements = document.querySelectorAll(".animate-on-slide");
@@ -135,7 +135,7 @@ console.log("Stored  Reference Number:", storeRef);
         const videoEl = document.querySelector(".full-banner-video");
         if (videoEl) {
           videoEl.currentTime = 0;
-          videoEl.play().catch(() => {});
+          videoEl.play().catch(() => { });
         }
       } else {
         swiper.autoplay?.start();
@@ -157,7 +157,7 @@ console.log("Stored  Reference Number:", storeRef);
 
   return (
     <div className="lighting-home-slider">
-      {!isMobile  && slides[currentSlideIndex]?.type !== 'video' && (
+      {!isMobile && slides[currentSlideIndex]?.type !== 'video' && (
         <div className="custom-nav">
           <button ref={prevRef} className="custom-nav-btn">
             <IoIosArrowUp />
@@ -208,7 +208,7 @@ console.log("Stored  Reference Number:", storeRef);
                 className="full-banner-video"
                 style={{
                   width: "100%",
-                  height: isMobile ? "auto" : "600px", // ✅ Responsive height
+                  height: isMobile ? "auto" : "100vh", // ✅ Responsive height
                   objectFit: "cover",
                 }}
                 onPlay={(e) => {
@@ -278,9 +278,11 @@ console.log("Stored  Reference Number:", storeRef);
                       alt={slide.text}
                       className="product-img img-fluid animate-on-slide product-animation-delay"
                       height={slide.imgheight}
-                      style={{ maxHeight: "500px" ,
-    height: slide.img === img4 ? "350px" : "initial",
-    display: "block",}}
+                      style={{
+                        maxHeight: "500px",
+                        height: slide.img === img4 ? "350px" : "initial",
+                        display: "block",
+                      }}
                     />
                   </div>
                 </div>

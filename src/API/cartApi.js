@@ -13,12 +13,14 @@ export const addProductToCart = async ({
   taxPercentage,
   sellingPrice,
   image,
+  mode,
 }) => {
   const res = await axios.post(`${BASE_URL}/add`, {
     userId,
     productId,
     quantity,
     colorName,
+
     colorCode,
     sizeLabel,
     mrp,
@@ -26,6 +28,7 @@ export const addProductToCart = async ({
     taxPercentage,
     sellingPrice,
     image,
+    mode,
   });
 
   return res.data;

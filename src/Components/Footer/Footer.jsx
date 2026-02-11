@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./Footer.css";
-import {X} from 'lucide-react'
+import { X } from 'lucide-react'
 import footerImage from "../../Assets/footer-logo.png";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
@@ -34,7 +34,7 @@ function Footer() {
   const [showLoginModal, setShowLoginModal] = useState(false);
   const UserId = localStorage.getItem("authUser")
     ? JSON.parse(localStorage.getItem("authUser")).id ||
-      JSON.parse(localStorage.getItem("authUser"))._id
+    JSON.parse(localStorage.getItem("authUser"))._id
     : null;
   console.log("Footer User ID", UserId);
   const handleTrackOrder = () => {
@@ -192,7 +192,7 @@ function Footer() {
           </div>
         </div>
         <p className="text-center">
-          Copyright <i className="bi bi-c-circle"></i> 2025{" "}
+          Copyright <i className="bi bi-c-circle"></i> {new Date().getFullYear()}{" "}
           <a
             href="https://knobsshop.com/"
             target="_blank"
@@ -214,7 +214,7 @@ function Footer() {
                   Go to Login
                 </button>
                 <button onClick={closeModal} className="close-button">
-                  <X/>
+                  <X />
                 </button>
               </div>
             </div>

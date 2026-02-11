@@ -70,7 +70,7 @@ function PaymentPage() {
   }, []);
 
   var Userid = storedUser.id || storedUser._id;
-  const [deliveryOption, setDeliveryOption] = useState("pickup");
+  const [deliveryOption, setDeliveryOption] = useState("");
   const [pickupAddress, setPickupAddress] = useState("");
   const [showStoreInfo, setShowStoreInfo] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
@@ -362,10 +362,10 @@ function PaymentPage() {
     setDeliveryCompleted(
       Boolean(
         shippingFirstName.trim() &&
-          shippingLastName.trim() &&
-          shippingAddress.trim() &&
-          shippingCity.trim() &&
-          shippingZip.trim()
+        shippingLastName.trim() &&
+        shippingAddress.trim() &&
+        shippingCity.trim() &&
+        shippingZip.trim()
       )
     );
   }, [
@@ -762,6 +762,7 @@ function PaymentPage() {
         billingState,
       ].every((field) => field.trim());
     }
+    return false;
   };
   return (
     <>
@@ -964,7 +965,7 @@ function PaymentPage() {
                   onChange={() => setDeliveryOption("ship")}
                 />
                 <span className="radio-btn-delivery"></span>
-                <p className="radio-btn-text">Ship</p>
+                <p className="radio-btn-text">Ship <span className="text-muted small">(Delivered to Home)</span></p>
               </label>
 
               <i className="bi bi-truck"></i>
@@ -984,7 +985,7 @@ function PaymentPage() {
                 onChange={() => setDeliveryOption("pickup")}
               />
               <span className="radio-btn-delivery"></span>
-              <p className="radio-btn-text">Pickup in store</p>
+              <p className="radio-btn-text">Pickup in store <span className="text-muted small">(Visit our Branch)</span></p>
             </label>
 
             <i className="bi bi-shop"></i>
@@ -1264,9 +1265,8 @@ function PaymentPage() {
               disabled={couponApplied}
             />
             <button
-              className={`btn ${
-                couponApplied ? "btn-danger" : "btn-dark"
-              }  rounded-0 h-100`}
+              className={`btn ${couponApplied ? "btn-danger" : "btn-dark"
+                }  rounded-0 h-100`}
               style={{ padding: "15px 40px", marginTop: "0" }}
               onClick={() => {
                 if (couponApplied) {
@@ -1328,13 +1328,15 @@ function PaymentPage() {
         <div className="payment-page-right-side">
           {deliveryOption === "pickup" ? (
             <strong>Pay now and Pick from store after 24 hours</strong>
-          ) : (
+          ) : deliveryOption === "ship" ? (
             <>
               <h5>
                 Arriving {formatDate(startDate)} - {formatDate(endDate)}
               </h5>
               <p>If you order in the next 20 hours and 34 minutes</p>
             </>
+          ) : (
+            <strong style={{ color: "red" }}>Please Select a Delivery Method</strong>
           )}
           <div
             className="cart-items-wrapper"
@@ -1377,9 +1379,8 @@ function PaymentPage() {
                           ""; // Fallback to empty string
                         const words = safeTitle.split(" ").slice(0, 4);
                         const line = words.join(" ");
-                        return `${line}${
-                          safeTitle.split(" ").length > 5 ? "..." : ""
-                        }`;
+                        return `${line}${safeTitle.split(" ").length > 5 ? "..." : ""
+                          }`;
                       })()}
                     </h3>
                     {item?.color ? (

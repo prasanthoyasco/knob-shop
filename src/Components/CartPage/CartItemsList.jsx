@@ -64,19 +64,18 @@ const CartItemsList = ({
                   </p>
                 )}
                 <h3>{item.title || item.name || item.productId.name}</h3>
-                {(item.productId?.variant?.[0]?.title ||
+                {(item.colorName ||
                   item.colorsText ||
-                  item.variant?.[0]?.title) &&
-                  (item.productId?.variant?.[0]?.title ||
-                    item.colorsText ||
-                    item.variant?.[0]?.title) !== "0" && (
+                  item.productId?.variant?.find((v) => v.value === item.colorCode)?.title) && (
                     <p>
                       Color:{" "}
                       <strong style={{ color: "#d6791f" }}>
-                        {item.productId?.variant?.[0]?.title ||
+                        {item.colorName ||
                           item.colorsText ||
-                          item.colorCode ||
-                          item.variant?.[0]?.title}
+                          item.productId?.variant?.find(
+                            (v) => v.value === item.colorCode
+                          )?.title ||
+                          item.colorCode}
                       </strong>
                     </p>
                   )}
@@ -157,25 +156,33 @@ const CartItemsList = ({
       ))}
 
       <div className="mobile-cart-page-container">
-        {cartItems.map((item) => {
+        {cartItems.map((item, index) => {
+          console.log("Mobile Cart Item:", JSON.stringify(item, null, 2)); // Debugging log
+
           const color =
-            item.title ||
-            item.variant?.title ||
+            item.colorName ||
+            item.colorsText ||
+            item.productId?.variant?.find((v) => v.value === item.colorCode)?.title ||
             item.productId?.variant?.[0]?.title;
+
           const size =
+            item.sizeLabel ||
+            item.size ||
             item.label ||
-            item.variant?.label ||
-            item.productId?.variant?.[0]?.sizes?.[0]?.label;
+            item.variant?.label;
+
           console.log(
             "Rendering mobile item:",
-            item,
+            item._id,
             "Color:",
             color,
             "Size:",
-            size
+            size,
+            "Raw SizeLabel:", item.sizeLabel,
+            "Raw ColorCode:", item.colorCode
           );
           return (
-            <div key={item.productId} className="cart-mobile-product">
+            <div key={item._id || `${item.productId}-${item.colorCode}-${index}`} className="cart-mobile-product">
               <div className="d-flex">
                 <div
                   className="cart-mobile-left"
@@ -186,9 +193,9 @@ const CartItemsList = ({
                   }
                 >
                   <img src={item.productId?.variant?.[0]?.images?.[0]?.url ||
-                  item.image ||
-                  item.images?.[0] ||
-                  item.variant?.[0]?.images?.[0]?.url} alt={item.title} loading="lazy" />
+                    item.image ||
+                    item.images?.[0] ||
+                    item.variant?.[0]?.images?.[0]?.url} alt={item.title} loading="lazy" />
                 </div>
                 <div className="cart-mobile-right">
                   <h3
@@ -209,24 +216,13 @@ const CartItemsList = ({
 
                   <div className="price-row d-flex justify-content-between gap-2 align-items-center">
                     <span className="discount-price">
-                      {item.productId?.variant?.[0]?.sizes?.[0]?.sellingPrice !=
-                      null
-                        ? `₹${item.productId.variant?.[0]?.sizes?.[0]?.sellingPrice.toLocaleString(
-                            "en-IN"
-                          )}${
-                            item.sellingPrice
-                              ? ` | ₹${item.sellingPrice.toLocaleString(
-                                  "en-IN"
-                                )}`
-                              : ""
-                          }`
+                      {item.sellingPrice != null
+                        ? `₹${item.sellingPrice.toLocaleString("en-IN")}`
                         : item.price != null
-                        ? `₹${item.price.toLocaleString("en-IN")}`
-                        : item.variant?.[0]?.sizes?.[0]?.sellingPrice != null
-                        ? `₹${item.variant[0].sizes[0].sellingPrice.toLocaleString(
-                            "en-IN"
-                          )}`
-                        : "Price not available"}
+                          ? `₹${item.price.toLocaleString("en-IN")}`
+                          : item.productId?.variant?.[0]?.sizes?.[0]?.sellingPrice != null
+                            ? `₹${item.productId.variant[0].sizes[0].sellingPrice.toLocaleString("en-IN")}`
+                            : "Price not available"}
                     </span>
                     <div className="quantity-remove-row">
                       <div className="quantity-box">
@@ -247,7 +243,7 @@ const CartItemsList = ({
                       {!isTrackingPage && (
                         <div
                           className="remove-box"
-                          onClick={() => handleDelete(item.productId)}
+                          onClick={() => handleDelete(item)}
                         >
                           <i className="bi bi-trash"></i>
                         </div>

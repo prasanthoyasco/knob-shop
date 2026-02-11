@@ -211,7 +211,7 @@ Fraternity, had an apartment made.
   },
   {
     idx: 1,
-    imgage: genericMale,
+    imgage: testinomalImage19,
     name: "Dr. Kalaivani R.",
     profession: "Wellness Physiotherapy & Fitness Clinic",
     message: `
@@ -352,7 +352,7 @@ function Testimonals() {
           <div ref={ref3} className={`scroll-fade ${visible3 ? 'visible' : ''}`} style={{ marginTop: "20px" }}>
             <p>We can already call over 5,000 people our customer, When you are coming</p>
           </div>
-          <button onClick={()=>navigate("/book-consultation")} className={`scroll-fade ${visible4 ? 'visible' : ''}`}>Book Consulting</button>
+          <button ref={ref4} onClick={() => navigate("/book-consultation")} className={`scroll-fade ${visible4 ? 'visible' : ''}`}>Book Consulting</button>
         </div>
 
         <div className='testimonial-content'>

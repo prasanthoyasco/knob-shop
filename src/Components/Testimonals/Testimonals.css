@@ -44,7 +44,8 @@
 .testimonial-card {
     padding: 10px;
     max-width: 300px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 8px rgba(221, 185, 145, 0.459);
+    border-radius: 10px;
     transition: transform 0.3s;
   }
   .testimonal-container{
@@ -83,6 +84,8 @@
   .testimonal-image{
     height: 75px;
     width: 75px;
+    object-fit: cover;
+    background-color: #A9A9A9;
     margin-left: 90px;
     margin-bottom: 20px;
     border-radius: 50%;

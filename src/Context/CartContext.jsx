@@ -23,22 +23,22 @@ export const CartProvider = ({ children }) => {
   // -----------------------------
   useEffect(() => {
 
-  if (skipInitialCartLoad) return; // ✅ BLOCK initial cart load during shared load
+    if (skipInitialCartLoad) return; // ✅ BLOCK initial cart load during shared load
 
-  const storedUser = JSON.parse(localStorage.getItem("authUser"));
-  const userId = storedUser?.id || storedUser?._id;
+    const storedUser = JSON.parse(localStorage.getItem("authUser"));
+    const userId = storedUser?.id || storedUser?._id;
 
-  if (userId) {
-    (async () => {
-      const response = await getCartByUserId(userId);
-      setCartItems(response);
-    })();
-  } else {
-    const storedCart = localStorage.getItem("cart");
-    setCartItems(storedCart ? JSON.parse(storedCart) : []);
-  }
+    if (userId) {
+      (async () => {
+        const response = await getCartByUserId(userId);
+        setCartItems(response);
+      })();
+    } else {
+      const storedCart = localStorage.getItem("cart");
+      setCartItems(storedCart ? JSON.parse(storedCart) : []);
+    }
 
-}, []);
+  }, []);
 
   const refreshCart = async (userId) => {
     try {
@@ -71,8 +71,8 @@ export const CartProvider = ({ children }) => {
       if (existingItem) {
         return prev.map((i) =>
           i.productId === item.productId &&
-          i.colorCode === item.colorCode &&
-          i.sizeLabel === item.sizeLabel
+            i.colorCode === item.colorCode &&
+            i.sizeLabel === item.sizeLabel
             ? { ...i, quantity: i.quantity + item.quantity }
             : i
         );
@@ -93,7 +93,7 @@ export const CartProvider = ({ children }) => {
           colorName: item.colorName,
           sizeLabel: item.sizeLabel,
           quantity: item.quantity || 1,
-          price: item.sellingPrice,
+          sellingPrice: item.sellingPrice,
         });
         refreshCart(userId);
       } catch (error) {
@@ -146,12 +146,12 @@ export const CartProvider = ({ children }) => {
       prev
         .map((i) =>
           i.productId === item.productId &&
-          i.colorCode === item.colorCode &&
-          i.sizeLabel === item.sizeLabel
+            i.colorCode === item.colorCode &&
+            i.sizeLabel === item.sizeLabel
             ? {
-                ...i,
-                quantity: Math.max(1, i.quantity + change),
-              }
+              ...i,
+              quantity: Math.max(1, i.quantity + change),
+            }
             : i
         )
         .filter((i) => i.quantity > 0)
@@ -193,11 +193,11 @@ export const CartProvider = ({ children }) => {
   // -----------------------------
   const loadSharedCart = async (token) => {
     if (sharedLoadedRef.current) {
-    console.log("Shared cart already loaded. Skipping API...");
-    return;
-  }
+      console.log("Shared cart already loaded. Skipping API...");
+      return;
+    }
 
-  sharedLoadedRef.current = true;
+    sharedLoadedRef.current = true;
     try {
       const sharedItems = await getSharedCart(token);
       const storedUser = JSON.parse(localStorage.getItem("authUser"));
@@ -206,7 +206,7 @@ export const CartProvider = ({ children }) => {
       if (!Array.isArray(sharedItems)) return;
 
       // Clear current cart
-      clearCart();
+      await clearCart();
 
       // Update UI cart
       setCartItems(sharedItems);
@@ -222,8 +222,8 @@ export const CartProvider = ({ children }) => {
             colorName: item.colorName,
             sizeLabel: item.sizeLabel,
             quantity: item.quantity,
-            price: item.price || item.sellingPrice,
-            mode: "set", 
+            sellingPrice: item.price || item.sellingPrice,
+            mode: "set",
           });
         }
 
@@ -240,25 +240,25 @@ export const CartProvider = ({ children }) => {
   // -----------------------------
   const toggleDrawer = (state) => setDrawerOpen(state);
   const clearCart = async () => {
-  const storedUser = JSON.parse(localStorage.getItem("authUser"));
-  const userId = storedUser?.id || storedUser?._id;
+    const storedUser = JSON.parse(localStorage.getItem("authUser"));
+    const userId = storedUser?.id || storedUser?._id;
 
-  // Clear UI cart immediately
-  setCartItems([]);
+    // Clear UI cart immediately
+    setCartItems([]);
 
-  // Guest user — clear local storage only
-  if (!userId) {
-    localStorage.removeItem("cart");
-    return;
-  }
+    // Guest user — clear local storage only
+    if (!userId) {
+      localStorage.removeItem("cart");
+      return;
+    }
 
-  // Logged-in user — clear backend
-  try {
-    await clearCartAPI(userId);
-  } catch (error) {
-    console.error("Failed to clear backend cart:", error);
-  }
-};
+    // Logged-in user — clear backend
+    try {
+      await clearCartAPI(userId);
+    } catch (error) {
+      console.error("Failed to clear backend cart:", error);
+    }
+  };
 
 
   // Recommended items (unchanged)
