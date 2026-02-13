@@ -26,37 +26,37 @@ const CartDrawer = ({
   // const [shippingRate, setShippingRate] = useState(null);
   const [recommendedItems, setRecommendedItems] = useState([]);
   const total = cartItems.reduce((sum, item) => {
-  // 1️⃣ Determine correct color name
-  const colorName =
-    item.colorsText ||
-    item.colorName ||
-    item.variant?.[0]?.title ||
-    item.productId?.variant?.[0]?.title;
+    // 1️⃣ Determine correct color name
+    const colorName =
+      item.colorsText ||
+      item.colorName ||
+      item.variant?.[0]?.title ||
+      item.productId?.variant?.[0]?.title;
 
-  // 2️⃣ Find the selected color variant from product data
-  const matchedVariant =
-    item.productId?.variant?.find(v => v.title === colorName) ||
-    item.variant?.find(v => v.title === colorName);
+    // 2️⃣ Find the selected color variant from product data
+    const matchedVariant =
+      item.productId?.variant?.find(v => v.title === colorName) ||
+      item.variant?.find(v => v.title === colorName);
 
-  // 3️⃣ Find the selected size inside that variant
-  const selectedSize =
-    matchedVariant?.sizes?.find(s => s.label === item.sizeLabel);
+    // 3️⃣ Find the selected size inside that variant
+    const selectedSize =
+      matchedVariant?.sizes?.find(s => s.label === item.sizeLabel);
 
-  const sizePrice = selectedSize?.sellingPrice;
+    const sizePrice = selectedSize?.sellingPrice;
 
-  // 4️⃣ Fallback price if size not found
-  const fallbackPrice =
-    item.price ||
-    item.sellingPrice ||
-    matchedVariant?.sizes?.[0]?.sellingPrice ||
-    item.productId?.variant?.[0]?.sizes?.[0]?.sellingPrice ||
-    0;
+    // 4️⃣ Fallback price if size not found
+    const fallbackPrice =
+      item.price ||
+      item.sellingPrice ||
+      matchedVariant?.sizes?.[0]?.sellingPrice ||
+      item.productId?.variant?.[0]?.sizes?.[0]?.sellingPrice ||
+      0;
 
-  const finalPrice = sizePrice || fallbackPrice;
+    const finalPrice = sizePrice || fallbackPrice;
 
-  // 5️⃣ Add to total
-  return sum + finalPrice * (item.quantity || 1);
-}, 0);
+    // 5️⃣ Add to total
+    return sum + finalPrice * (item.quantity || 1);
+  }, 0);
 
 
   const handleCheckout = () => {
@@ -118,10 +118,10 @@ const CartDrawer = ({
     updateCartItemQuantity(item, 1);
   };
 
-const handleDecrement = (item) => {
-  if (item.quantity <= 0) return;
-  updateCartItemQuantity(item, -1);
-};
+  const handleDecrement = (item) => {
+    if (item.quantity <= 0) return;
+    updateCartItemQuantity(item, -1);
+  };
 
   return (
     <>
@@ -172,124 +172,136 @@ const handleDecrement = (item) => {
             </div>
           ) : (
             <>
-              {cartItems.map((item) => (
-                <div
-                  key={item._id || item.id || item.productId?._id}
-                  className="d-flex my-3"
-                >
-                  <img
-                    src={
-                      item.image ||
-                      item.images?.[0] ||
-                      item.variant?.[0]?.images?.[0]?.url ||
-                      item.productId?.images?.[0] ||
-                      "/fallback.png"
-                    }
-                    alt={item.title || item.name}
-                    className="me-3"
-                    style={{
-                      width: "100px",
-                      height: "100px",
-                      objectFit: "contain",
-                      border: "1px dashed #ccc",
-                      background: "white",
-                      borderRadius: "5px",
-                      padding: "5px",
-                    }}
-                  />
-                  <div className="flex-grow-1">
-                    <h6 className="mb-1">
-                      {item.title?.trim().split(" ").slice(0, 3).join(" ") ||
-                        item.name?.trim().split(" ").slice(0, 3).join(" ") ||
-                        item.productId?.name
-                          ?.trim()
-                          .split(" ")
-                          .slice(0, 3)
-                          .join(" ") ||
-                        item.productName
-                          ?.trim()
-                          .split(" ")
-                          .slice(0, 3)
-                          .join(" ")}
-                    </h6>
-                    <p className="mb-1">
-                      <strong>color:</strong>{" "}
-                      <span style={{ color: "#d6791f" }}>
-                        {item.colorsText ||
-                          item.colorName ||
-                          item.variant?.[0]?.title ||
-                          item.productId?.variant?.[0]?.title}
-                      </span>
-                      {item.sizeLabel && (
-                        <span className="ms-1">
-                          <strong>Size:</strong>{" "}
-                          <span style={{ color: "#d6791f" }}>
-                            {item.sizeLabel}
-                          </span>{" "}
-                        </span>
-                      )}
-                    </p>
+              {cartItems.map((item) => {
+                const selectedColorName =
+                  item.colorsText ||
+                  item.colorName ||
+                  item.variant?.[0]?.title ||
+                  item.productId?.variant?.[0]?.title;
 
-                    <div className="d-flex justify-content-between align-items-center">
-                      <span
-                        className="fw-semibold"
-                        style={{ color: "#d6791f" }}
-                      >
-                        ₹
-                        {(() => {
-                          // 1️⃣ Detect selected color text
-                          const colorName =
-                            item.colorsText ||
+                const matchedVariant =
+                  item.productId?.variant?.find(v => v.title === selectedColorName) ||
+                  item.variant?.find(v => v.title === selectedColorName);
+
+                const displayImage =
+                  matchedVariant?.images?.[0]?.url ||
+                  matchedVariant?.images?.[0] ||
+                  item.image ||
+                  item.productId?.images?.[0] ||
+                  "/fallback.png";
+                return (
+                  <div
+                    key={item._id || item.id || item.productId?._id}
+                    className="d-flex my-3"
+                  >
+                    <img
+                      src={displayImage}
+                      alt={item.title || item.name}
+                      className="me-3"
+                      style={{
+                        width: "100px",
+                        height: "100px",
+                        objectFit: "contain",
+                        border: "1px dashed #ccc",
+                        background: "white",
+                        borderRadius: "5px",
+                        padding: "5px",
+                      }}
+                    />
+                    <div className="flex-grow-1">
+                      <h6 className="mb-1">
+                        {item.title?.trim().split(" ").slice(0, 3).join(" ") ||
+                          item.name?.trim().split(" ").slice(0, 3).join(" ") ||
+                          item.productId?.name
+                            ?.trim()
+                            .split(" ")
+                            .slice(0, 3)
+                            .join(" ") ||
+                          item.productName
+                            ?.trim()
+                            .split(" ")
+                            .slice(0, 3)
+                            .join(" ")}
+                      </h6>
+                      <p className="mb-1">
+                        <strong>color:</strong>{" "}
+                        <span style={{ color: "#d6791f" }}>
+                          {item.colorsText ||
                             item.colorName ||
                             item.variant?.[0]?.title ||
-                            item.productId?.variant?.[0]?.title;
+                            item.productId?.variant?.[0]?.title}
+                        </span>
+                        {item.sizeLabel && (
+                          <span className="ms-1">
+                            <strong>Size:</strong>{" "}
+                            <span style={{ color: "#d6791f" }}>
+                              {item.sizeLabel}
+                            </span>{" "}
+                          </span>
+                        )}
+                      </p>
 
-                          // 2️⃣ Find the matching color variant
-                          const matchedColorVariant =
-                            item.productId?.variant?.find(
-                              (v) => v.title === colorName
-                            ) ||
-                            item.variant?.find((v) => v.title === colorName);
+                      <div className="d-flex justify-content-between align-items-center">
+                        <span
+                          className="fw-semibold"
+                          style={{ color: "#d6791f" }}
+                        >
+                          ₹
+                          {(() => {
+                            // 1️⃣ Detect selected color text
+                            const colorName =
+                              item.colorsText ||
+                              item.colorName ||
+                              item.variant?.[0]?.title ||
+                              item.productId?.variant?.[0]?.title;
 
-                          // 3️⃣ Find size inside the matched color
-                          const selectedSize = matchedColorVariant?.sizes?.find(
-                            (s) => s.label === item.sizeLabel
-                          );
+                            // 2️⃣ Find the matching color variant
+                            const matchedColorVariant =
+                              item.productId?.variant?.find(
+                                (v) => v.title === colorName
+                              ) ||
+                              item.variant?.find((v) => v.title === colorName);
 
-                          // 4️⃣ Priority price logic
-                          const finalPrice =
-                            selectedSize?.sellingPrice || // matched size price
-                            item.price || // fallback saved price
-                            matchedColorVariant?.sizes?.[0]?.sellingPrice || // fallback 1st size
-                            0;
+                            // 3️⃣ Find size inside the matched color
+                            const selectedSize = matchedColorVariant?.sizes?.find(
+                              (s) => s.label === item.sizeLabel
+                            );
 
-                          return finalPrice.toLocaleString("en-IN");
-                        })()}
-                        X {item.quantity}
-                      </span>
+                            // 4️⃣ Priority price logic
+                            const finalPrice =
+                              selectedSize?.sellingPrice || // matched size price
+                              item.price || // fallback saved price
+                              matchedColorVariant?.sizes?.[0]?.sellingPrice || // fallback 1st size
+                              0;
 
-                      <button
-                        className="btn btn-link btn-sm text-danger p-0"
-                        onClick={() => {
-                          onRemove(item);
-                        }}
-                      >
-                        <Trash2 color="red" />
-                      </button>
-                    </div>
-                    <div className="quantity-box-cart-drawer">
-                      <button
-                        onClick={() => handleDecrement(item)}
-                        disabled={item.quantity === 1}
-                      >
-                        -
-                      </button>
-                      <span>{item.quantity}</span>
-                      <button onClick={() => handleIncrement(item)}>+</button>
+                            return finalPrice.toLocaleString("en-IN");
+                          })()}
+                          X {item.quantity}
+                        </span>
+
+                        <button
+                          className="btn btn-link btn-sm text-danger p-0"
+                          onClick={() => {
+                            onRemove(item);
+                          }}
+                        >
+                          <Trash2 color="red" />
+                        </button>
+                      </div>
+                      <div className="quantity-box-cart-drawer">
+                        <button
+                          onClick={() => handleDecrement(item)}
+                          disabled={item.quantity === 1}
+                        >
+                          -
+                        </button>
+                        <span>{item.quantity}</span>
+                        <button onClick={() => handleIncrement(item)}>+</button>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                )
+              })}
               {(!activeTab || cartItems.length === 0) && (
                 <RecommendedSlider
                   recommendedItems={recommendedItems}
@@ -446,9 +458,8 @@ const handleDecrement = (item) => {
 
             {/* Footer Buttons */}
             <div
-              className={`cart-drawer-footer p-3 ${
-                !show ? "mobile-footer-hidden" : ""
-              }`}
+              className={`cart-drawer-footer p-3 ${!show ? "mobile-footer-hidden" : ""
+                }`}
             >
               <button
                 className="btn btn-outline-dark rounded-0 py-2 w-100 m-0"

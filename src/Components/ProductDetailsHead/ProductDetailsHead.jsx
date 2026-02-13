@@ -123,7 +123,7 @@ export default function ProductDetailsHead() {
 
     taxPercentage: selectedSizeObj?.tax || product?.tax || 0,
 
-    image: product?.images?.[0] || "https://via.placeholder.com/300",
+image: selectedVariant?.images?.[0]?.url,
 
     // Optional — keep for UI but not used in API
     title: product?.name,
@@ -177,6 +177,16 @@ export default function ProductDetailsHead() {
     }
   };
 
+  // Log selected variant image whenever color or size changes
+useEffect(() => {
+  if (selectedVariant) {
+    console.log("Selected Variant:", selectedVariant);
+    console.log(
+      "Selected Variant Image:",
+      selectedVariant.images?.[0]?.url || "No image available"
+    );
+  }
+}, [selectedVariant, selectedSize]);
   const handleShare = async () => {
     const shareData = {
       title: document.title,
