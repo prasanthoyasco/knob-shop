@@ -159,65 +159,52 @@ const paginatedProducts = filteredProducts;
       dynamicFilterConfigs.map((f) => f.name)
     );
 
-    dynamicFilterConfigs.forEach((config) => {
-      const filterName = config.name.toLowerCase();
-      const filterType = config.type;
-      const filterValues = dynamicFilters[config.name];
+dynamicFilterConfigs.forEach((config) => {
+    const filterName = config.name.trim().toLowerCase();
+    const filterType = config.type;
+    const filterValues = dynamicFilters[config.name];
 
-      console.log(`- Filtering by: ${config.name}`);
-      console.log(`- Selected values:`, filterValues);
+    if (!filterValues || filterValues.length === 0) return;
 
-      if (!filterValues || filterValues.length === 0) {
-        console.log(`- No values selected for ${config.name}, skipping.`);
-        return;
-      }
+    result = result.filter((p) => {
+      if (!p?.tech_spec || p.tech_spec.length === 0) return false;
 
-      result = result.filter((p) => {
-        console.log(p);
+      // Get ALL matching tech_spec entries
+      const matchingSpecs = p.tech_spec.filter(
+        (ts) =>
+          ts.title?.trim().toLowerCase() === filterName
+      );
 
-        if (!p) {
-          return false;
-        }
-        const techSpecEntry = p.tech_spec?.find(
-          (ts) => ts.title.toLowerCase() === filterName
-        );
+      if (matchingSpecs.length === 0) return false;
 
-        // Log the comparison to see if a match is found
-        console.log(`-- Checking product '${p.title}'`);
-        console.log(
-          `-- Does '${p.name}' have a tech_spec with title matching '${config.name}'?`,
-          !!techSpecEntry
-        );
+      if (filterType === "range") {
+        const [min, max] = filterValues;
 
-        if (!techSpecEntry) {
-          return false;
-        }
-
-        const techSpecValue = techSpecEntry.value.toLowerCase();
-        console.log(`-- Product tech_spec value is: '${techSpecValue}'`);
-
-        if (filterType === "range") {
+        return matchingSpecs.some((spec) => {
           const numericValue = parseFloat(
-            techSpecValue.replace(/[^0-9.]/g, "")
+            spec.value.replace(/[^0-9.]/g, "")
           );
-          const [min, max] = filterValues;
-          // Log the range comparison
-          console.log(
-            `-- Comparing numeric value (${numericValue}) with range [${min}, ${max}]`
-          );
+
+          if (isNaN(numericValue)) return false;
+
           return numericValue >= min && numericValue <= max;
-        } else {
-          const lowerCaseFilterValues = filterValues.map((v) =>
-            v.toLowerCase()
+        });
+      } else {
+        const lowerCaseFilterValues = filterValues.map((v) =>
+          v.toLowerCase()
+        );
+
+        return matchingSpecs.some((spec) => {
+          const techSpecValue = spec.value.toLowerCase();
+
+          return lowerCaseFilterValues.some((selected) =>
+            techSpecValue.includes(selected)
           );
-          // Log the list comparison
-          console.log(
-            `-- Checking if selected values [${lowerCaseFilterValues}] include product value '${techSpecValue}'`
-          );
-          return lowerCaseFilterValues.includes(techSpecValue);
-        }
-      });
+        });
+      }
     });
+  });
+
 
     // Sort
     const normalizedSortOrder = sortOrder
