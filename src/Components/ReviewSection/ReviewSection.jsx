@@ -3,18 +3,19 @@ import './ReviewSection.css';
 import { User, User2Icon } from 'lucide-react';
 import { PiUserFill } from 'react-icons/pi';
 import { getReviewsByProduct, createOrUpdateReview } from '../../API/reviewApi';
-import {  useEffect } from "react";
+import { useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import { useLocation } from "react-router-dom";
+import ImageUploader from '../ImageUploader';
 function ReviewSection() {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const location = useLocation();
-  const [reviewImage, setReviewImage] = useState(null);
+  const [reviewImages, setReviewImages] = useState([]);
 
-const handleImageChange = (e) => {
-  setReviewImage(e.target.files[0]);
-};
+  const handleImageChange = (e) => {
+    setReviewImage(e.target.files[0]);
+  };
 
   const productId = location.pathname.split("/").pop();
   const [showTextArea, setShowTextArea] = useState(false);
@@ -52,6 +53,7 @@ const handleImageChange = (e) => {
       getReviewsByProduct(productId)
         .then((data) => {
           setReviews(data);
+          console.log("📥 Fetched Reviews:", data);
         })
         .catch((err) => {
           console.error("Error fetching reviews:", err);
@@ -64,63 +66,71 @@ const handleImageChange = (e) => {
       alert("Please provide a rating and comment.");
       return;
     }
-  
+
+    const reviewPayload = {
+      userId,
+      rating: userRating,
+      comment: reviewText,
+      image: reviewImages,
+    };
+
+    console.log("🚀 Creating Review Payload:", reviewPayload);
+
     try {
-      const formData = new FormData();
-      formData.append("userId", userId);
-      formData.append("rating", userRating);
-      formData.append("comment", reviewText);
-      if (reviewImage) {
-        formData.append("image", reviewImage);
-      }
-  
-      await createOrUpdateReview(productId, formData);
-  
+      const response = await createOrUpdateReview(productId, reviewPayload);
+
+      console.log("✅ Review Create API Response:", response);
+
       const updatedReviews = await getReviewsByProduct(productId);
+
+      console.log("📦 Updated Reviews After Create:", updatedReviews);
+
       setReviews(updatedReviews);
-  
+
+      // Reset form
       setUserRating(0);
       setReviewText("");
-      setReviewImage(null);
+      setReviewImages([]);
       setShowTextArea(false);
+
     } catch (error) {
-      console.error("Error creating/updating review:", error);
+      console.error("❌ Error creating/updating review:", error);
       alert("Something went wrong while submitting your review.");
     }
   };
-  
-  
+
+
   const filteredReviews = reviews
-  .filter((review) => {
-    if (!review.createdAt) return false; // skip if date is missing
+    .filter((review) => {
+      if (!review.createdAt) return false; // skip if date is missing
 
-    const reviewDate = new Date(review.createdAt);
-    const now = new Date();
-    const diffInMs = now - reviewDate;
+      const reviewDate = new Date(review.createdAt);
+      const now = new Date();
+      const diffInMs = now - reviewDate;
 
-    const oneDay = 24 * 60 * 60 * 1000;
-    const oneWeek = 7 * oneDay;
-    const oneMonth = 30 * oneDay;
-    const oneYear = 365 * oneDay;
+      const oneDay = 24 * 60 * 60 * 1000;
+      const oneWeek = 7 * oneDay;
+      const oneMonth = 30 * oneDay;
+      const oneYear = 365 * oneDay;
 
-    switch (sortBy) {
-      case "1 day ago":
-        return diffInMs <= oneDay;
-      case "1 week ago":
-        return diffInMs <= oneWeek;
-      case "1 month ago":
-        return diffInMs <= oneMonth;
-      case "1 year ago":
-        return diffInMs <= oneYear;
-      default: // "Recent" or any other value
-        return true;
-    }
-  })
-  .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)); // latest first
+      switch (sortBy) {
+        case "1 day ago":
+          return diffInMs <= oneDay;
+        case "1 week ago":
+          return diffInMs <= oneWeek;
+        case "1 month ago":
+          return diffInMs <= oneMonth;
+        case "1 year ago":
+          return diffInMs <= oneYear;
+        default: // "Recent" or any other value
+          return true;
+      }
+    })
+    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)); // latest first
 
-const visibleReviews = filteredReviews.slice(0, reviewCount);
-const averageRating =
-  visibleReviews.reduce((sum, r) => sum + r.rating, 0) / visibleReviews.length || 0;
+  const visibleReviews = filteredReviews.slice(0, reviewCount);
+  const averageRating =
+    visibleReviews.reduce((sum, r) => sum + r.rating, 0) / visibleReviews.length || 0;
   // const visibleReviews = reviews.slice(0, reviewCount);
   // const averageRating =
   //   visibleReviews.reduce((sum, r) => sum + r.rating, 0) / visibleReviews.length || 0;
@@ -131,7 +141,7 @@ const averageRating =
       (review) => Math.floor(review.rating) === star
     );
   });
-const handleClick = () => {
+  const handleClick = () => {
     if (!userId) {
       alert("You must be logged in to write a review.");
       navigate("/auth/login"); // redirect to login page
@@ -142,7 +152,15 @@ const handleClick = () => {
     setShowTextArea(!showTextArea);
   };
 
-  
+  const handleVariantImagesAdded = (uploadedImagesData, hex) => {
+    setColors((prev) =>
+      prev.map((c) =>
+        c.hex === hex
+          ? { ...c, images: [...c.images, ...uploadedImagesData] }
+          : c
+      )
+    );
+  };
   return (
     <div className="review-section-container">
       <div className="review-select-box-container">
@@ -183,7 +201,7 @@ const handleClick = () => {
                         <div className="filled" style={{ width: `${count * 20}%` }} />
                       )}
                     </div>
-                    <span className='d-flex align-items-center gap-1'><PiUserFill/>{count}</span>
+                    <span className='d-flex align-items-center gap-1'><PiUserFill />{count}</span>
                   </div>
                 );
               })}
@@ -192,7 +210,7 @@ const handleClick = () => {
 
           <div
             className={`write-review ${showTextArea ? 'no-decoration' : 'underline'}`}
-             onClick={handleClick}
+            onClick={handleClick}
             style={{ cursor: 'pointer' }}
           >
             Write a review
@@ -209,11 +227,23 @@ const handleClick = () => {
                   ></i>
                 ))}
               </div>
-              <input type="file" accept="image/*" onChange={handleImageChange} />
+              <div className="mb-3">
+                <label className="block text-xs font-medium text-gray-700 mb-2">
+                  Upload Variant Images
+                </label>
+                <ImageUploader
+                  multiple={true}
+                  onImageUpload={(uploadedImagesData) => {
+                    const urls = uploadedImagesData.map((img) => img.url);
+
+                    setReviewImages((prev) => [...prev, ...urls]);
+                  }}
+                />
+              </div>
               <textarea placeholder="Text Your Comment" className="comment-box" value={reviewText}
                 onChange={(e) => setReviewText(e.target.value)}>
-                </textarea>
-                <button onClick={handleSubmitReview} className="submit-review-btn">
+              </textarea>
+              <button onClick={handleSubmitReview} className="submit-review-btn">
                 Submit Review
               </button>
             </div>
@@ -228,7 +258,6 @@ const handleClick = () => {
                   <div className="review-box" key={review.id}>
                     <div className="profile-section">
                       <div className="profile-image-and-name-div">
-                        <img src={review.image || "https://cdn-icons-png.flaticon.com/512/847/847969.png"} alt="profile" className="profile-img" />
                         <div className="profile-info">
                           <div className="profile-name">{review.user?.name || "Anonymous"}</div>
                         </div>
@@ -239,17 +268,34 @@ const handleClick = () => {
                       {[1, 2, 3, 4, 5].map((s) => (
                         <i
                           key={s}
-                          className={`bi ${
-                            s <= Math.floor(review.rating)
-                              ? 'bi-star-fill'
-                              : s - review.rating < 1
+                          className={`bi ${s <= Math.floor(review.rating)
+                            ? 'bi-star-fill'
+                            : s - review.rating < 1
                               ? 'bi-star-half'
                               : 'bi-star'
-                          }`}
+                            }`}
                         ></i>
                       ))}
                     </div>
                     <p className="review-text">{review.comment}</p>
+                    <div className="review-images">
+                      {review.image && review.image.length > 0 ? (
+                        review.image.map((imgUrl, index) => (
+                          <img
+                            key={index}
+                            src={imgUrl}
+                            alt={`review-${index}`}
+                            className="profile-img"
+                          />
+                        ))
+                      ) : (
+                        <img
+                          src="https://cdn-icons-png.flaticon.com/512/847/847969.png"
+                          alt="fallback"
+                          className="profile-img"
+                        />
+                      )}
+                    </div>
                   </div>
                 ))}
               </div>

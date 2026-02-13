@@ -195,6 +195,7 @@ const CartDrawer = ({
                     className="d-flex my-3"
                   >
                     <img
+                    onClick={()=>navigate(`/product/${item.productId?._id}`)}
                       src={displayImage}
                       alt={item.title || item.name}
                       className="me-3"
@@ -206,10 +207,11 @@ const CartDrawer = ({
                         background: "white",
                         borderRadius: "5px",
                         padding: "5px",
+                        cursor:"pointer"
                       }}
                     />
                     <div className="flex-grow-1">
-                      <h6 className="mb-1">
+                      <h6 onClick={()=>navigate(`/product/${item.productId?._id}`)} className="mb-1 CD-Title">
                         {item.title?.trim().split(" ").slice(0, 3).join(" ") ||
                           item.name?.trim().split(" ").slice(0, 3).join(" ") ||
                           item.productId?.name

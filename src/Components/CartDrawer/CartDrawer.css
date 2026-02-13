@@ -12,6 +12,9 @@
   flex-direction: column;
   transition: right 0.3s ease-in-out;
 }
+.CD-Title{
+  cursor: pointer;
+}
 .quantity-box-cart-drawer{ 
   width: 50%;
   display: flex

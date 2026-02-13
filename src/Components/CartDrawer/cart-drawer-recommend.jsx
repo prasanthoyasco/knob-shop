@@ -1,6 +1,7 @@
 import React, { useRef } from "react";
-
+import { useNavigate } from "react-router-dom";
 const RecommendedSlider = ({ recommendedItems = [], onAddToCart }) => {
+  const navigate = useNavigate()
   const scrollRef = useRef(null);
   const scroll = (offset) => {
     scrollRef.current.scrollBy({ left: offset, behavior: "smooth" });
@@ -38,6 +39,7 @@ const RecommendedSlider = ({ recommendedItems = [], onAddToCart }) => {
             style={{ width: "350px", minWidth: "300px" }}
           >
             <img
+            onClick={()=>navigate(`/product/${item._id}`)}
               src={item.images?.[0]}
               alt={item.name}
               style={{
@@ -48,12 +50,13 @@ const RecommendedSlider = ({ recommendedItems = [], onAddToCart }) => {
                 background: "white",
                 borderRadius: "5px",
                 padding: "5px",
+                cursor:"pointer"
               }}
               className="me-3"
             />
             <div className="d-flex justify-content-between w-100">
               <div>
-                <p className="mb-1 fw-semibold">
+                <p  onClick={()=>navigate(`/product/${item._id}`)} style={{cursor:"pointer"}} className="mb-1 fw-semibold">
                   {item.name?.trim().split(" ").slice(0, 3).join(" ")}
                 </p>
                 <p className="mb-1 small text-decoration-line-through text-muted">

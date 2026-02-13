@@ -129,8 +129,10 @@
     border-radius: 4px;
     padding: 15px;
     width: 900px;
-    height: 188px;
     margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
   }
   
   .profile-section {
@@ -145,9 +147,9 @@
   }
   
   .profile-img {
-    width: 52px;
-    height: 52px;
-    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    border-radius:10px;
     object-fit: cover;
   }
   
@@ -159,11 +161,8 @@
     line-height: 15px;
   }
   .stars{
-    margin-top: 10px;
-    margin-bottom: 20px;
     display: flex;
     gap: 10px;
-    margin-left: 10px;
   }
   .stars i {
     color: #FFC107;
@@ -176,7 +175,6 @@
     line-height: 26px;
     margin-top: 10px;
     color: #333;
-    height: 52px;
   }
   
   .write-review {
@@ -221,7 +219,11 @@
   .rating-stars-input i.bi-star-fill {
     color: #f5a623;
   }
-  
+  .review-images{
+    display: grid;
+    grid-template-columns: repeat(6,1fr);
+    gap: 10px;
+  }
 
   @media (max-width: 1024px) {
     .review-container {
@@ -285,7 +287,18 @@
       font-size: 14px;
       line-height: 22px;
       height: auto;
-      text-align: center;
+    }
+    .review-left{
+      position: relative;
+      top: 0;
+    }
+    .review-box{
+              display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    .stars{
+      margin: 0;
     }
   }
   
@@ -296,6 +309,11 @@
         flex-direction: column;
         justify-content: center;
     }
+      .review-images{
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 10px;
+  }
     .review-text {
         font-size: 14px;
         line-height: 22px;
@@ -311,6 +329,9 @@
     .review-box{
         width: 300px;
         height: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
     }
     .profile-section {
       align-items:center;
