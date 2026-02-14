@@ -6,11 +6,11 @@ import footerImage from "../../Assets/footer-logo.png";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 const shopContent = [
-  { text: "Living room", href: "/essentials-details/living-room" },
-  { text: "Bed room", href: "/essentials-details/bed-room" },
-  { text: "Dining room", href: "/essentials-details/dining-room" },
-  { text: "Home office", href: "/essentials-details/home-office" },
-  { text: "Kitchen", href: "/essentials-details/kitchen" },
+  { text: "Limo Coat ", href: "/essentials-details/limo-coat" },
+  { text: "Modular Kitchen ", href: "/essentials-details/modular-kitchen" },
+  { text: "Bedroom ", href: "/essentials-details/bedroom" },
+  { text: "Glass Partition ", href: "/essentials-details/glass-partition" },
+  // { text: "Kitchen", href: "/essentials-details/kitchen" },
 ];
 const aboutContent = [
   { text: "About Us", href: "#about-section" },

@@ -71,7 +71,7 @@ function BookConsultForm() {
     "Ladakh", "Lakshadweep", "Puducherry"
   ];
   const categoryList = [
-    "Living Room", "Bedroom", "Kitchen", "Limo Coat", "Dinning Room", "Sofa", "Lightning", "Coffee Tables", "Storage Cabinets",
+    "Limo Coat", "Living Room ", "Bedroom ", "Kitchen ", "Study Room ", "Glass Partition ", "Balcony ", "Hotels & Hospitals ", "Others",
   ];
 
   return (

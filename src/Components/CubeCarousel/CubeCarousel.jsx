@@ -29,16 +29,16 @@ const carouselData = [
       "Elegant glass partitions create open, bright spaces while maintaining privacy and enhancing modern interior design.",
   },
   {
-    leftImage: collectionCarosal2left,
-    rightImage: collectionCarosal2right,
+    leftImage: "/Knobs_1.png",
+    rightImage: "/cubeSec/KitRight.png",
     title: "DESIGN THAT COOKS WITH YOU",
     subtitle: "MODULAR KITCHENS",
     description:
       "Modular kitchens offer efficient layouts, sleek storage, and customizable designs for a stylish, organized cooking space.",
   },
   {
-    leftImage: collectionCarosal3left,
-    rightImage: collectionCarosal3right,
+    leftImage: "/cubeSec/WardLeft.png",
+    rightImage: "/cubeSec/WardRight.png",
     title: "SEAMLESS STORAGE WITH STYLE",
     subtitle: "WARDROBES",
     description:
