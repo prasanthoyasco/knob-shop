@@ -11,7 +11,7 @@ const WishlistDrawer = ({
   onMoveToCart,
 }) => {
   const navigate = useNavigate();
-  const { addToCart } = useCart();
+  const { addToCart, toggleDrawer } = useCart();
   // const [addedItemIds, setAddedItemIds] = useState([]);
 
   return (
@@ -66,30 +66,53 @@ const WishlistDrawer = ({
                         ₹{item.variant?.[0]?.sizes?.[0].mrp.toLocaleString()}
                       </span>
                       <div>
-                          <button
-                            className="btn btn-sm btn-dark me-2"
-                            onClick={() => {
-                              const variant = item.variant?.[0];
-                              const sellingPrice =
-                                variant?.sizes?.[0]?.sellingPrice ||
-                                item.price ||
-                                0;
-                              const cartItem = {
-                                id: item._id,
-                                title: item.name,
-                                price: sellingPrice,
-                                quantity: 1,
-                                variant: variant,
-                                image:
-                                  variant?.images?.[0]?.url || item.images?.[0],
-                              };
+                        <button
+                          className="btn btn-sm btn-dark me-2"
+                          onClick={() => {
+                            const variant = item.variant?.[0];
+                            const sizeObj = variant?.sizes?.[0];
 
-                              addToCart(cartItem);
-                              onClose();
-                            }}
-                          >
-                            Add to Cart
-                          </button>
+                            const cartItem = {
+                              // Backend required fields
+                              productId: item._id,
+                              quantity: 1,
+                              colorName: variant?.title || "",
+                              colorCode: variant?.value || "",
+                              sizeLabel: sizeObj?.label || "",
+
+                              mrp: sizeObj?.mrp || 0,
+                              sellingPrice: sizeObj?.sellingPrice || 0,
+
+                              discountPercentage: sizeObj?.mrp
+                                ? Math.round(
+                                  ((sizeObj.mrp - sizeObj.sellingPrice) / sizeObj.mrp) * 100
+                                )
+                                : 0,
+
+                              taxPercentage: sizeObj?.tax || 0,
+
+                              image: variant?.images?.[0]?.url || item.images?.[0],
+
+                              // Optional UI fields
+                              title: item.name,
+                              sku: item.productId,
+                              categoryId: item.category?._id,
+                              brand: item.brand,
+                              category: item.category?.category_name || "",
+                              colorsText: variant?.title || "",
+
+                              savePrice:
+                                (sizeObj?.mrp || 0) -
+                                (sizeObj?.sellingPrice || 0),
+                            };
+
+                            addToCart(cartItem);
+                            toggleDrawer(true);   // 🔥 This opens cart drawer like product page
+                            onClose();            // Close wishlist
+                          }}
+                        >
+                          Add to Cart
+                        </button>
 
                         <button
                           className="btn btn-sm btn-link text-danger p-0"

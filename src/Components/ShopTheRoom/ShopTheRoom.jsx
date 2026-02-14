@@ -87,6 +87,7 @@ const decorPoints = [
     price: '₹ 9750',
     image: "https://img.freepik.com/premium-photo/elegant-side-view-classic-door-handle-isolated-white-background-aspect-ratio-32_983420-235216.jpg?uid=R175611833&ga=GA1.1.1276842385.1760516584&semt=ais_hybrid&w=740&q=80",
     position: { top: '54%', left: '62%' },
+    link:"/category/68e3b3ef2fd5b8167441a5bb"
   },
   {
     id: 11,
@@ -103,6 +104,7 @@ const decorPoints = [
     price: '₹ 200',
     image: "https://img.freepik.com/premium-photo/minimalist-2d-illustration-acrylic-door-handle-white-background_899449-93908.jpg?uid=R175611833&ga=GA1.1.1276842385.1760516584&semt=ais_hybrid&w=740&q=80",
     position: { top: '47%', left: '87%' },
+    link:"/category/68e4f55e34adbedb5930bf3a"
   },
 ];
 
@@ -177,6 +179,7 @@ const ShopTheRoom = () => {
                   className={`shop-the-room__card ${cardClass} ${direction === 'bottom' ? 'bottom' : ''}`}
                   ref={ref}
                   style={cardStyle}
+                  onClick={()=>navigate(item.link)}
                 >
                   <div className="w-50 shop-the-room-image-wrapper">
                     <img src={item.image} alt={item.title} />

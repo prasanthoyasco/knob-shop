@@ -22,7 +22,7 @@ import YMI70AYHImage from "../../Assets/Product Categories and its Product (Knob
 const baseSlides = [
   {
     id: 1,
-    route: "digital lock",
+    route: "/category/688a008ceb18e197cb94839d",
     img: "/HeroBanner/DL.png",
     imgheight: 400,
     bg: "/slider/bg-1.jpg",
@@ -42,7 +42,7 @@ const baseSlides = [
   },
   {
     id: 2,
-    route: "Safe Lock",
+    route: "/category/6888f4bea016fb31bad48e26",
     img: "/HeroBanner/Safe.png",
     imgheight: 400,
     bg: "/slider/bg-2.jpg",
@@ -55,7 +55,7 @@ const baseSlides = [
   },
   {
     id: 3,
-    route: "Mortice Handle",
+    route: "/category/68d43cc795364359eb541b38",
     img: "/HeroBanner/MH.png",
     imgheight: 400,
     bg: "/slider/bg-6.jpg",
@@ -68,7 +68,7 @@ const baseSlides = [
   },
   {
     id: 4,
-    route: "Knobs",
+    route: "/category/68e36ef0f20278111c26aacb",
     img: "/HeroBanner/Knob.png",
     imgheight: 200,
     bg: "/slider/bg-5.jpg",
@@ -81,7 +81,7 @@ const baseSlides = [
   },
   {
     id: 5,
-    route: "Pull Handle ",
+    route: "/category/68e3b3ef2fd5b8167441a5bb ",
     img: "/HeroBanner/MDH.png",
     imgheight: 330,
     bg: "/slider/bg-6.jpg",
@@ -250,7 +250,8 @@ const NewHero = () => {
                   </p>
                   <button
                     className="shop-btn animate-on-slide-left text-animation-delay-4"
-                    onClick={() => handleShopNow(slide)}
+                    onClick={() => navigate(slide.route)}
+                    // onClick={() => handleShopNow(slide)}
                   >
                     SHOP NOW
                   </button>
