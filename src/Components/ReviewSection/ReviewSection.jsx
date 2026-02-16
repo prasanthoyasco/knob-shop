@@ -29,6 +29,41 @@ function ReviewSection() {
   const handleCountChange = (e) => setReviewCount(Number(e.target.value));
   const handleStarClick = (rating) => setUserRating(rating);
 
+  // Gallery State
+  const [gallery, setGallery] = useState({
+    isOpen: false,
+    images: [],
+    currentIndex: 0,
+  });
+
+  const openGallery = (images, index) => {
+    setGallery({
+      isOpen: true,
+      images: images,
+      currentIndex: index,
+    });
+  };
+
+  const closeGallery = () => {
+    setGallery({ ...gallery, isOpen: false });
+  };
+
+  const nextImage = (e) => {
+    e.stopPropagation();
+    setGallery((prev) => ({
+      ...prev,
+      currentIndex: (prev.currentIndex + 1) % prev.images.length,
+    }));
+  };
+
+  const prevImage = (e) => {
+    e.stopPropagation();
+    setGallery((prev) => ({
+      ...prev,
+      currentIndex: (prev.currentIndex - 1 + prev.images.length) % prev.images.length,
+    }));
+  };
+
   console.log("Params productId:", productId);
 
   useEffect(() => {
@@ -286,6 +321,8 @@ function ReviewSection() {
                             src={imgUrl}
                             alt={`review-${index}`}
                             className="profile-img"
+                            onClick={() => openGallery(review.image, index)}
+                            style={{ cursor: 'pointer' }}
                           />
                         ))
                       ) : (
@@ -302,6 +339,39 @@ function ReviewSection() {
             )
           ))}
         </div>
+
+        {/* Image Gallery Modal */}
+        {gallery.isOpen && (
+          <div className="image-gallery-overlay" onClick={closeGallery}>
+            <div className="image-gallery-content" onClick={(e) => e.stopPropagation()}>
+              <button className="gallery-close-btn" onClick={closeGallery}>
+                &times;
+              </button>
+
+              {gallery.images.length > 1 && (
+                <button className="gallery-nav-btn prev" onClick={prevImage}>
+                  &#10094;
+                </button>
+              )}
+
+              <img
+                src={gallery.images[gallery.currentIndex]}
+                alt={`Gallery ${gallery.currentIndex}`}
+                className="gallery-full-img"
+              />
+
+              {gallery.images.length > 1 && (
+                <button className="gallery-nav-btn next" onClick={nextImage}>
+                  &#10095;
+                </button>
+              )}
+
+              <div className="gallery-paginator">
+                {gallery.currentIndex + 1} / {gallery.images.length}
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
