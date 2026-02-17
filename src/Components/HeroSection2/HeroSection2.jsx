@@ -1,11 +1,11 @@
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 import './HeroSection2.css';
-import img1 from '../../Assets/animation_section_image/1755772264497-8_0b161210-1660-4b8c-a55b-09682d7487a0.webp';
+import img1 from '../../Assets/animation_section_image/1755772264497-8_0b161210-1660-4b8c-a55b-09682d7487a0.png';
 import img2 from '../../Assets/animation_section_image/1979470651_xl.jpg';
 import img3 from '../../Assets/animation_section_image/201358888_xl.jpg';
 import img4 from '../../Assets/animation_section_image/3G6A9926.jpg';
-import img5 from '../../Assets/animation_section_image/PICV2023-01.jpg';
+import img5 from '../../Assets/animation_section_image/PICV2023-01.png';
 
 const HeroSection2 = () => {
   const targetRef = useRef(null);

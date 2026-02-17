@@ -205,6 +205,9 @@ text-align: center;
   .wt-parallax__content{
     height: 100vh;
   }
+  .hero-section-2-wrap{
+    height: 580px !important;
+  }
 }
 
 @media (max-width:380px) {
