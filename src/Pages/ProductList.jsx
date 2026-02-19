@@ -53,19 +53,21 @@ export const ProductList = () => {
 
         // 🔍 Search query case
         if (queryParam) {
+          console.log("Searching for query:", queryParam);
           res = await searchProductsByParam(queryParam, {
             page: currentPage,
             limit: itemsPerPage,
           });
 
-          const data = res?.products || [];
+          const data = res?.results  || [];
           const backendTotal =
             res?.pagination?.totalProducts ||
             res?.total ||
             res?.count ||
             0;
 
-
+        console.log("API Response for query:", res); // ✅ log full response
+        console.log("Mapped products:", data.map(mapProduct)); // ✅ log mapped products
           setProducts(data.map(mapProduct));
           setCount(backendTotal);
           setTotalCount(backendTotal);
