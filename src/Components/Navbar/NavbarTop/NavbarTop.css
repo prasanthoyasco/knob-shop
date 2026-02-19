@@ -4,7 +4,7 @@
     background-color: #ECECEC;
     height: 40px;
     padding: 10px;
-    flex-wrap: wrap; 
+    /* flex-wrap: wrap;  */
     animation: fadeInTop 0.6s ease-in-out;
 }
 

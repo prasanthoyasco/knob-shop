@@ -24,7 +24,7 @@ const baseSlides = [
     id: 1,
     route: "/category/688a008ceb18e197cb94839d",
     img: "/HeroBanner/DL.png",
-    imgheight: 400,
+    imgheight: 700,
     bg: "/slider/bg-1.jpg",
     offer: "Flat 15% Off All Items",
     text: "Digital Lock ",
@@ -44,7 +44,7 @@ const baseSlides = [
     id: 2,
     route: "/category/6888f4bea016fb31bad48e26",
     img: "/HeroBanner/Safe.png",
-    imgheight: 400,
+    imgheight: 700,
     bg: "/slider/bg-2.jpg",
     offer: "NEW SEASON ARRIVAL",
     text: "Safe  Lockers",
@@ -57,7 +57,7 @@ const baseSlides = [
     id: 3,
     route: "/category/68d43cc795364359eb541b38",
     img: "/HeroBanner/MH.png",
-    imgheight: 400,
+    imgheight: 600,
     bg: "/slider/bg-6.jpg",
     offer: "Flat 15% Off All Items",
     text: "Mortise Handle ",
@@ -70,7 +70,7 @@ const baseSlides = [
     id: 4,
     route: "/category/68e36ef0f20278111c26aacb",
     img: "/HeroBanner/Knob.png",
-    imgheight: 200,
+    imgheight: 700,
     bg: "/slider/bg-5.jpg",
     offer: "Flat 15% Off All Items",
     text: "Knobs",
@@ -83,7 +83,7 @@ const baseSlides = [
     id: 5,
     route: "/category/68e3b3ef2fd5b8167441a5bb ",
     img: "/HeroBanner/MDH.png",
-    imgheight: 330,
+    imgheight: 700,
     bg: "/slider/bg-6.jpg",
     offer: "Flat 15% Off All Items",
     text: "Main Door Handle  ",
@@ -193,7 +193,7 @@ const NewHero = () => {
             </span>
           `,
         }}
-        autoplay={{ delay: 3000, disableOnInteraction: false }}
+        autoplay={{ delay: 300000, disableOnInteraction: false }}
         effect="fade"
         loop
       >
@@ -278,10 +278,10 @@ const NewHero = () => {
                       src={slide.img}
                       alt={slide.text}
                       className="product-img img-fluid animate-on-slide product-animation-delay"
-                      height={slide.imgheight}
+                      // height={slide.imgheight}
                       style={{
-                        maxHeight: "500px",
-                        height: slide.img === img4 ? "350px" : "initial",
+                        maxHeight: "700px",
+                        height: `${slide.imgheight}px`,
                         display: "block",
                       }}
                     />

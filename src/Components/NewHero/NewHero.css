@@ -84,10 +84,10 @@ video.product-img {
   opacity: 0;
   transform: translateX(100px) scale(0.8);
 }
-.animate-on-slide-left{
+/* .animate-on-slide-left{
   opacity: 0;
   transform: translateX(-100px) scale(0.8);
-}
+} */
 /* Class that triggers the animation */
 .animate-on-slide.active-zoom-in {
   animation: zoomInRight 0.8s ease-out forwards;
