@@ -18,8 +18,8 @@ export const getProductById = async (id) => {
   const res = await axios.get(`${BASE_URL}/${id}`);
   return res.data;
 };
-export const fetchProductsByCategory = async (categoryId) => {
-  const res = await axios.get(`${BASE_URL}/category/${categoryId}`);
+export const fetchProductsByCategory = async (categoryId, params = {}) => {
+  const res = await axios.get(`${BASE_URL}/category/${categoryId}`, { params });
   return res.data;
 };
 export const getProductBroucher = async () => {

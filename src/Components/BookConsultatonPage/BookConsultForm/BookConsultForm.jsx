@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 function BookConsultForm() {
   const navigate = useNavigate()
   const [submissionMessage, setSubmissionMessage] = useState('');
+  const [submissionStatus, setSubmissionStatus] = useState(''); // 'success' | 'error'
   const [errorMessage, setErrorMessage] = useState('');
   const [formData, setFormData] = useState({
     location: '',
@@ -25,6 +26,8 @@ function BookConsultForm() {
     });
   };
 
+  const GOOGLE_SHEET_URL = import.meta.env.VITE_GOOGLE_SHEET_URL;
+
   const handleSubmit = async () => {
     if (
       !formData.name.trim() ||
@@ -41,6 +44,28 @@ function BookConsultForm() {
     try {
       const response = await createConsultation(formData);
       console.log(response);
+
+      // ✅ Send to Google Sheet via GET (no CORS/401 issues from browser)
+      if (GOOGLE_SHEET_URL) {
+        const params = new URLSearchParams({
+          name: formData.name,
+          email: formData.email,
+          mobile: formData.mobile,
+          whatsapp: formData.whatsapp ? 'Yes' : 'No',
+          location: formData.location,
+          category: formData.category,
+          budget: formData.budget,
+          interest: formData.interest,
+        });
+
+        fetch(`${GOOGLE_SHEET_URL}?${params.toString()}`, {
+          method: 'GET',
+          mode: 'no-cors',
+        })
+          .then(() => console.log('✅ Google Sheet entry saved'))
+          .catch((err) => console.error('❌ Google Sheet error:', err.message));
+      }
+
       setFormData({
         location: '',
         category: '',
@@ -51,14 +76,14 @@ function BookConsultForm() {
         budget: '',
         interest: '',
       });
+      setSubmissionStatus('success');
       setSubmissionMessage('Your booking has been submitted successfully! We will call you soon.');
 
-      navigate('/')
+      // navigate('/')
     } catch (err) {
       console.error(err);
+      setSubmissionStatus('error');
       setSubmissionMessage('Failed to submit. Please try again.');
-
-
     }
   };
   const indianStates = [
@@ -154,8 +179,20 @@ function BookConsultForm() {
           )}
 
           {submissionMessage && (
-            <div className='submission-message'>
-              <p>{submissionMessage}</p>
+            <div
+              className='submission-message'
+              style={{
+                marginTop: '10px',
+                padding: '10px 14px',
+                borderRadius: '6px',
+                fontWeight: '600',
+                fontSize: '14px',
+                backgroundColor: submissionStatus === 'success' ? '#e6f9f0' : '#fff0f0',
+                color: submissionStatus === 'success' ? '#1a8a4a' : '#d9363e',
+                border: `1px solid ${submissionStatus === 'success' ? '#a3d9b8' : '#f5b8b8'}`,
+              }}
+            >
+              {submissionMessage}
             </div>
           )}
 

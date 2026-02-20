@@ -59,15 +59,15 @@ export const ProductList = () => {
             limit: itemsPerPage,
           });
 
-          const data = res?.results  || [];
+          const data = res?.results || [];
           const backendTotal =
             res?.pagination?.totalProducts ||
             res?.total ||
             res?.count ||
             0;
 
-        console.log("API Response for query:", res); // ✅ log full response
-        console.log("Mapped products:", data.map(mapProduct)); // ✅ log mapped products
+          console.log("API Response for query:", res); // ✅ log full response
+          console.log("Mapped products:", data.map(mapProduct)); // ✅ log mapped products
           setProducts(data.map(mapProduct));
           setCount(backendTotal);
           setTotalCount(backendTotal);
@@ -130,10 +130,11 @@ export const ProductList = () => {
         });
 
         const data = res?.products || res?.data || [];
+        const backendTotal = res?.total || res?.pagination?.totalProducts || data.length;
         setProducts(data.map(mapProduct));
-        setCount(res?.total || data.length);
-        setTotalCount(res?.total || data.length);
-        console.log("Total Products Count:", res?.total || data.length);
+        setCount(backendTotal);
+        setTotalCount(backendTotal);
+        console.log("Total Products Count:", backendTotal);
 
 
       } catch (err) {
