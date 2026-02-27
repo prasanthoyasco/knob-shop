@@ -16,7 +16,11 @@ export const ProductList = () => {
   const { categoryId, brandName, query } = useParams();
   const location = useLocation();
   const passedState = location.state?.product;
-
+  const [filters, setFilters] = useState({
+    brand: [],
+    colors: [],
+    priceRange: [0, 100000],
+  });
   // unified query (from either URL param or search param)
   const queryParam = query || new URLSearchParams(location.search).get("query");
 
@@ -44,6 +48,31 @@ export const ProductList = () => {
     icons: item.key_features,
     variant: item.variant,
   });
+  // 🔥 Build API query params from filters
+  const buildQueryParams = () => {
+    const queryParams = {
+      page: currentPage,
+      limit: itemsPerPage,
+    };
+
+    if (filters.brand?.length > 0) {
+      queryParams.brand = filters.brand.join(",");
+    }
+
+    if (filters.colors?.length > 0) {
+      queryParams.color = filters.colors.join(",");
+    }
+
+    if (filters.priceRange?.length === 2) {
+      queryParams.minPrice = filters.priceRange[0];
+      queryParams.maxPrice = filters.priceRange[1];
+    }
+
+    return queryParams;
+  };
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [filters]);
 
   useEffect(() => {
     const loadProducts = async () => {
@@ -54,10 +83,10 @@ export const ProductList = () => {
         // 🔍 Search query case
         if (queryParam) {
           console.log("Searching for query:", queryParam);
-          res = await searchProductsByParam(queryParam, {
-            page: currentPage,
-            limit: itemsPerPage,
-          });
+          res = await searchProductsByParam(
+            queryParam,
+            buildQueryParams()
+          );
 
           const data = res?.results || [];
           const backendTotal =
@@ -77,18 +106,13 @@ export const ProductList = () => {
 
         // 🏷️ Brand filter
         if (brandName) {
-          res = await getProductsByBrand(brandName, {
-            page: currentPage,
-            limit: itemsPerPage,
-          });
+          res = await getProductsByBrand(
+            brandName,
+            buildQueryParams()
+          );
 
-          const data = res?.products || [];
-          const backendTotal =
-            res?.pagination?.totalProducts ||
-            res?.total ||
-            res?.count ||
-            0;
-
+          const data = res?.data || [];
+          const backendTotal = res?.pagination?.totalProducts || 0;
 
           setProducts(data.map(mapProduct));
           setCount(backendTotal);
@@ -99,38 +123,44 @@ export const ProductList = () => {
 
         // 📦 All products with API pagination
         if (categoryId === "all-products") {
-          res = await getAllProducts({ page: currentPage, limit: itemsPerPage });
+          const queryParams = {
+            page: currentPage,
+            limit: itemsPerPage,
+          };
 
-          const data = res?.products || res?.data || [];
+          // 🔥 Add filters to API call
+          if (filters.brand.length > 0) {
+            queryParams.brand = filters.brand.join(",");
+          }
 
-          console.log("API Response:", res);
-          console.log("Products returned (current page):", data.length);
-          console.log("Backend total:", res?.total);
+          if (filters.colors.length > 0) {
+            queryParams.color = filters.colors.join(",");
+          }
 
+          if (filters.priceRange) {
+            queryParams.minPrice = filters.priceRange[0];
+            queryParams.maxPrice = filters.priceRange[1];
+          }
+
+          res = await getAllProducts(queryParams);
+
+          const data = res?.data || [];
 
           setProducts(data.map(mapProduct));
-
-          const backendTotal = res?.pagination?.totalProducts || data.length;
-
-          console.log("Correct backend total:", backendTotal);
-
-          setCount(backendTotal);
-          setTotalCount(backendTotal);
-
-
+          setTotalCount(res?.pagination?.totalProducts || 0);
           return;
         }
 
 
 
         // 🧭 Category filter
-        res = await fetchProductsByCategory(categoryId, {
-          page: currentPage,
-          limit: itemsPerPage,
-        });
+        res = await fetchProductsByCategory(
+          categoryId,
+          buildQueryParams()
+        );
 
-        const data = res?.products || res?.data || [];
-        const backendTotal = res?.total || res?.pagination?.totalProducts || data.length;
+        const data = res?.data || [];
+        const backendTotal = res?.pagination?.totalProducts || 0;
         setProducts(data.map(mapProduct));
         setCount(backendTotal);
         setTotalCount(backendTotal);
@@ -148,7 +178,7 @@ export const ProductList = () => {
 
     // ✅ Depend on location so it refreshes whenever query/path changes
     loadProducts();
-  }, [location, currentPage]);
+  }, [location, currentPage, filters]);
 
   // Pagination handler for all-products
   const handlePageChange = (page) => {
@@ -201,6 +231,9 @@ export const ProductList = () => {
         currentPage={currentPage}
         onPageChange={handlePageChange}
         itemsPerPage={itemsPerPage}
+
+        filters={filters}
+        setFilters={setFilters}
       />
       <Footer />
     </>

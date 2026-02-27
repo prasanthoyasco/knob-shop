@@ -26,11 +26,16 @@ export const getProductBroucher = async () => {
   const res = await axios.get(`${BASE_URL}/brochures`);
   return res.data;
 };
-export const getProductsByBrand = async (brandName) => {
-  const res = await axios.get(`${BASE_URL}/brand/${brandName}`);
+export const getProductsByBrand = async (brandName, params = {}) => {
+  const res = await axios.get(`${BASE_URL}/brand/${brandName}`, {
+    params,
+  });
   return res.data;
 };
-export const searchProductsByParam = async (query) => {
-  const res = await axios.get(`${BASE_URL}/search/${query}`);
+
+export const searchProductsByParam = async (query, params = {}) => {
+  const res = await axios.get(`${BASE_URL}/search/${query}`, {
+    params,
+  });
   return res.data;
 };

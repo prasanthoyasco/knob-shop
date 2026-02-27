@@ -1,7 +1,7 @@
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
 import "./PriceFilter.css";
-
+import { useState, useEffect } from "react";
 const CategoryFilters = ({
   products,
   filters,
@@ -20,7 +20,45 @@ const CategoryFilters = ({
 
     return [...new Set(values)];
   };
+const [localMin, setLocalMin] = useState(filters.priceRange[0]);
+const [localMax, setLocalMax] = useState(filters.priceRange[1]);
 
+// Sync when filters change externally (reset etc.)
+useEffect(() => {
+  setLocalMin(filters.priceRange[0]);
+  setLocalMax(filters.priceRange[1]);
+}, [filters.priceRange]);
+
+const applyMin = () => {
+  let min = Number(localMin);
+  let max = filters.priceRange[1];
+
+  if (isNaN(min) || min < 0) min = 0;
+  if (min > max) min = max;
+
+  setLocalMin(min);
+
+  setFilters((prev) => ({
+    ...prev,
+    priceRange: [min, max],
+  }));
+};
+
+const applyMax = () => {
+  let max = Number(localMax);
+  let min = filters.priceRange[0];
+
+  if (isNaN(max) || max < 0) max = 0;
+  if (max > maxPrice) max = maxPrice;
+  if (max < min) max = min;
+
+  setLocalMax(max);
+
+  setFilters((prev) => ({
+    ...prev,
+    priceRange: [min, max],
+  }));
+};
   // Remove duplicates by color name
   const colorSwatches = [
     ...new Map(
@@ -140,62 +178,64 @@ const CategoryFilters = ({
                         </div>
                       ))}
 
-                  {filter === "Price" && (
-                    <div className="my-4">
-                      <Slider
-                        range
-                        min={0}
-                        max={maxPrice}
-                        step={100}
-                        value={filters.priceRange}
-                        className="custom-slider my-4"
-                        onChange={(value) =>
-                          setFilters((prev) => ({ ...prev, priceRange: value }))
-                        }
-                      />
-                      <div className="d-flex justify-content-between align-items-center mt-3 gap-2">
-                        <div className="input-group">
-                          <span className="input-group-text">
-                            <i className="bi bi-currency-rupee"></i>
-                          </span>
-                          <input
-                            type="text"
-                            className="form-control"
-                            value={filters.priceRange[0]}
-                            onChange={(e) =>
-                              setFilters((prev) => ({
-                                ...prev,
-                                priceRange: [
-                                  Number(e.target.value),
-                                  prev.priceRange[1],
-                                ],
-                              }))
-                            }
-                          />
-                        </div>
-                        <span className="fw-bold">–</span>
-                        <div className="input-group">
-                          <span className="input-group-text">
-                            <i className="bi bi-currency-rupee"></i>
-                          </span>
-                          <input
-                            type="text"
-                            className="form-control"
-                            value={filters.priceRange[1]}
-                            onChange={(e) =>
-                              setFilters((prev) => ({
-                                ...prev,
-                                priceRange: [
-                                  prev.priceRange[0],
-                                  Number(e.target.value),
-                                ],
-                              }))
-                            }
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  )}
+{filter === "Price" && (
+  <div className="my-4">
+    <Slider
+      range
+      min={0}
+      max={maxPrice}
+      step={100}
+      value={[Number(localMin) || 0, Number(localMax) || maxPrice]}
+      className="custom-slider my-4"
+      onChange={(value) => {
+        setLocalMin(value[0]);
+        setLocalMax(value[1]);
+      }}
+      onAfterChange={(value) => {
+        setFilters((prev) => ({
+          ...prev,
+          priceRange: value,
+        }));
+      }}
+    />
+
+    <div className="d-flex justify-content-between align-items-center mt-3 gap-2">
+      <div className="input-group">
+        <span className="input-group-text">
+          <i className="bi bi-currency-rupee"></i>
+        </span>
+        <input
+          type="text"
+          className="form-control"
+          value={localMin}
+          onChange={(e) => setLocalMin(e.target.value)}
+          onBlur={applyMin}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") applyMin();
+          }}
+        />
+      </div>
+
+      <span className="fw-bold">–</span>
+
+      <div className="input-group">
+        <span className="input-group-text">
+          <i className="bi bi-currency-rupee"></i>
+        </span>
+        <input
+          type="text"
+          className="form-control"
+          value={localMax}
+          onChange={(e) => setLocalMax(e.target.value)}
+          onBlur={applyMax}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") applyMax();
+          }}
+        />
+      </div>
+    </div>
+  </div>
+)}
 
                   {filter === "Colors" && (
                     <div className="d-flex flex-wrap gap-2">

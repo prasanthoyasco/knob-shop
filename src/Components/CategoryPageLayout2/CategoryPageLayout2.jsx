@@ -5,31 +5,30 @@ import SortDropdown from "./SortDropdown";
 import CategoryFilters from "./CategoryFilters";
 import { getCategoryById } from "../../API/categoriesApi";
 
-const CategoryPageLayout2 = ({ products = [], categoryData, totalCount = 0, currentPage = 1, onPageChange, itemsPerPage = 12 }) => {
+const CategoryPageLayout2 = ({ products = [], categoryData, totalCount = 0, currentPage = 1, onPageChange, itemsPerPage = 12, filters,setFilters }) => {
   console.log("category", categoryData);
   console.log("product from category", products);
 
-  const [filteredProducts, setFilteredProducts] = useState(products);
+  // const [filteredProducts, setFilteredProducts] = useState(products);
   const [categoryFilters, setCategoryFilters] = useState([]);
   const [loading, setLoading] = useState(false);
   const [openSections, setOpenSections] = useState({});
   const totalPages = Math.ceil(totalCount / itemsPerPage);
-const paginatedProducts = filteredProducts;
+const paginatedProducts = products;
 
 
   console.log("totalCount:", totalCount);
   console.log("itemsPerPage:", itemsPerPage);
   console.log("totalPages:", totalPages);
 
-  const [filters, setFilters] = useState({
-    brand: [],
-    availability: [],
-    priceRange: [0, 100000],
-    colors: [],
-    features: [],
-    accessType: [],
-    // dynamic filter keys will be added when applied
-  });
+  // const [filters, setFilters] = useState({
+  //   brand: [],
+  //   availability: [],
+  //   priceRange: [0, 100000],
+  //   colors: [],
+  //   features: [],
+  //   accessType: [],
+  // });
   const [sortOrder, setSortOrder] = useState("");
   const [showMobileFilters, setShowMobileFilters] = useState(false);
 
@@ -84,175 +83,175 @@ const paginatedProducts = filteredProducts;
     }));
   };
 
-  const applyFilters = () => {
-    const getSellingPrice = (product) =>
-      product?.variant?.[0]?.sizes?.[0]?.sellingPrice || 0;
+//   const applyFilters = () => {
+//     const getSellingPrice = (product) =>
+//       product?.variant?.[0]?.sizes?.[0]?.sellingPrice || 0;
 
-    let result = [...products];
-    const {
-      brand,
-      availability,
-      colors,
-      features,
-      accessType,
-      priceRange,
-      ...dynamicFilters
-    } = filters;
+//     let result = [...products];
+//     const {
+//       brand,
+//       availability,
+//       colors,
+//       features,
+//       accessType,
+//       priceRange,
+//       ...dynamicFilters
+//     } = filters;
 
-    if (brand.length > 0) {
-      const selectedBrands = brand.map((b) => b.trim().toLowerCase());
-      result = result.filter((p) =>
-        selectedBrands.includes(p.brand?.trim().toLowerCase())
-      );
-    }
+//     if (brand.length > 0) {
+//       const selectedBrands = brand.map((b) => b.trim().toLowerCase());
+//       result = result.filter((p) =>
+//         selectedBrands.includes(p.brand?.trim().toLowerCase())
+//       );
+//     }
 
-    if (availability.length > 0) {
-      result = result.filter((p) =>
-        availability.includes(p.stock > 0 ? "In Stock" : "Out of Stock")
-      );
-    }
+//     if (availability.length > 0) {
+//       result = result.filter((p) =>
+//         availability.includes(p.stock > 0 ? "In Stock" : "Out of Stock")
+//       );
+//     }
 
-    if (colors.length > 0) {
-      const selectedColors = colors.map((c) => c.trim().toLowerCase());
-      result = result.filter((p) =>
-        (p.variant || []).some((v) =>
-          selectedColors.includes(v.title?.trim().toLowerCase())
-        )
-      );
-    }
+//     if (colors.length > 0) {
+//       const selectedColors = colors.map((c) => c.trim().toLowerCase());
+//       result = result.filter((p) =>
+//         (p.variant || []).some((v) =>
+//           selectedColors.includes(v.title?.trim().toLowerCase())
+//         )
+//       );
+//     }
 
-    if (features.length > 0) {
-      result = result.filter((p) =>
-        p.features?.some((f) =>
-          features.some((selected) =>
-            f.description?.toLowerCase().includes(selected.toLowerCase())
-          )
-        )
-      );
-    }
+//     if (features.length > 0) {
+//       result = result.filter((p) =>
+//         p.features?.some((f) =>
+//           features.some((selected) =>
+//             f.description?.toLowerCase().includes(selected.toLowerCase())
+//           )
+//         )
+//       );
+//     }
 
-    if (accessType.length > 0) {
-      result = result.filter((p) => {
-        const iconNames =
-          p.icons?.map((icon) => icon.name?.toLowerCase()) || [];
-        return accessType.some((type) =>
-          iconNames.some((icon) => icon.includes(type.toLowerCase()))
-        );
-      });
-    }
+//     if (accessType.length > 0) {
+//       result = result.filter((p) => {
+//         const iconNames =
+//           p.icons?.map((icon) => icon.name?.toLowerCase()) || [];
+//         return accessType.some((type) =>
+//           iconNames.some((icon) => icon.includes(type.toLowerCase()))
+//         );
+//       });
+//     }
 
-    // 🔍 Filter by sellingPrice
-    const [minPrice, maxPrice] = priceRange;
-    result = result.filter((p) => {
-      const sellingPrice = getSellingPrice(p);
-      return sellingPrice >= minPrice && sellingPrice <= maxPrice;
-    });
+//     // 🔍 Filter by sellingPrice
+//     const [minPrice, maxPrice] = priceRange;
+//     result = result.filter((p) => {
+//       const sellingPrice = getSellingPrice(p);
+//       return sellingPrice >= minPrice && sellingPrice <= maxPrice;
+//     });
 
-    console.log("Applying dynamic filters...");
-    const dynamicFilterConfigs = categoryFilters.filter((f) =>
-      Object.keys(dynamicFilters).includes(f.name)
-    );
+//     console.log("Applying dynamic filters...");
+//     const dynamicFilterConfigs = categoryFilters.filter((f) =>
+//       Object.keys(dynamicFilters).includes(f.name)
+//     );
 
-    // Check which dynamic filters are being applied
-    console.log(
-      "Dynamic filters being applied:",
-      dynamicFilterConfigs.map((f) => f.name)
-    );
+//     // Check which dynamic filters are being applied
+//     console.log(
+//       "Dynamic filters being applied:",
+//       dynamicFilterConfigs.map((f) => f.name)
+//     );
 
-dynamicFilterConfigs.forEach((config) => {
-    const filterName = config.name.trim().toLowerCase();
-    const filterType = config.type;
-    const filterValues = dynamicFilters[config.name];
+// dynamicFilterConfigs.forEach((config) => {
+//     const filterName = config.name.trim().toLowerCase();
+//     const filterType = config.type;
+//     const filterValues = dynamicFilters[config.name];
 
-    if (!filterValues || filterValues.length === 0) return;
+//     if (!filterValues || filterValues.length === 0) return;
 
-    result = result.filter((p) => {
-      if (!p?.tech_spec || p.tech_spec.length === 0) return false;
+//     result = result.filter((p) => {
+//       if (!p?.tech_spec || p.tech_spec.length === 0) return false;
 
-      // Get ALL matching tech_spec entries
-      const matchingSpecs = p.tech_spec.filter(
-        (ts) =>
-          ts.title?.trim().toLowerCase() === filterName
-      );
+//       // Get ALL matching tech_spec entries
+//       const matchingSpecs = p.tech_spec.filter(
+//         (ts) =>
+//           ts.title?.trim().toLowerCase() === filterName
+//       );
 
-      if (matchingSpecs.length === 0) return false;
+//       if (matchingSpecs.length === 0) return false;
 
-      if (filterType === "range") {
-        const [min, max] = filterValues;
+//       if (filterType === "range") {
+//         const [min, max] = filterValues;
 
-        return matchingSpecs.some((spec) => {
-          const numericValue = parseFloat(
-            spec.value.replace(/[^0-9.]/g, "")
-          );
+//         return matchingSpecs.some((spec) => {
+//           const numericValue = parseFloat(
+//             spec.value.replace(/[^0-9.]/g, "")
+//           );
 
-          if (isNaN(numericValue)) return false;
+//           if (isNaN(numericValue)) return false;
 
-          return numericValue >= min && numericValue <= max;
-        });
-      } else {
-        const lowerCaseFilterValues = filterValues.map((v) =>
-          v.toLowerCase()
-        );
+//           return numericValue >= min && numericValue <= max;
+//         });
+//       } else {
+//         const lowerCaseFilterValues = filterValues.map((v) =>
+//           v.toLowerCase()
+//         );
 
-        return matchingSpecs.some((spec) => {
-          const techSpecValue = spec.value.toLowerCase();
+//         return matchingSpecs.some((spec) => {
+//           const techSpecValue = spec.value.toLowerCase();
 
-          return lowerCaseFilterValues.some((selected) =>
-            techSpecValue.includes(selected)
-          );
-        });
-      }
-    });
-  });
-
-
-    // Sort
-    const normalizedSortOrder = sortOrder
-      ?.trim()
-      .toLowerCase()
-      .replace(/–/g, "-");
-
-    switch (normalizedSortOrder) {
-      case "price, low to high":
-        result.sort((a, b) => getSellingPrice(a) - getSellingPrice(b));
-        break;
-      case "price, high to low":
-        result.sort((a, b) => getSellingPrice(b) - getSellingPrice(a));
-        break;
-      case "alphabetically, a-z":
-        result.sort((a, b) => (a.name || "").localeCompare(b.name || ""));
-        break;
-      case "alphabetically, z-a":
-        result.sort((a, b) => (b.name || "").localeCompare(a.name || ""));
-        break;
-      case "date, old to new":
-        result.sort(
-          (a, b) => new Date(a.createdAt || 0) - new Date(b.createdAt || 0)
-        );
-        break;
-      case "date, new to old":
-        result.sort(
-          (a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0)
-        );
-        break;
-      default:
-        break;
-    }
-
-    // onPageChange(1);
-setFilteredProducts(result);
+//           return lowerCaseFilterValues.some((selected) =>
+//             techSpecValue.includes(selected)
+//           );
+//         });
+//       }
+//     });
+//   });
 
 
-  };
+//     // Sort
+//     const normalizedSortOrder = sortOrder
+//       ?.trim()
+//       .toLowerCase()
+//       .replace(/–/g, "-");
+
+//     switch (normalizedSortOrder) {
+//       case "price, low to high":
+//         result.sort((a, b) => getSellingPrice(a) - getSellingPrice(b));
+//         break;
+//       case "price, high to low":
+//         result.sort((a, b) => getSellingPrice(b) - getSellingPrice(a));
+//         break;
+//       case "alphabetically, a-z":
+//         result.sort((a, b) => (a.name || "").localeCompare(b.name || ""));
+//         break;
+//       case "alphabetically, z-a":
+//         result.sort((a, b) => (b.name || "").localeCompare(a.name || ""));
+//         break;
+//       case "date, old to new":
+//         result.sort(
+//           (a, b) => new Date(a.createdAt || 0) - new Date(b.createdAt || 0)
+//         );
+//         break;
+//       case "date, new to old":
+//         result.sort(
+//           (a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0)
+//         );
+//         break;
+//       default:
+//         break;
+//     }
+
+//     // onPageChange(1);
+// setFilteredProducts(result);
+
+
+//   };
 
   // 🛠️ Main filter effect
-useEffect(() => {
-  setLoading(true);
-  setTimeout(() => {
-    applyFilters();
-    setLoading(false);
-  }, 100);
-}, [filters, sortOrder]);
+// useEffect(() => {
+//   setLoading(true);
+//   setTimeout(() => {
+//     applyFilters();
+//     setLoading(false);
+//   }, 100);
+// }, [filters, sortOrder]);
 
 
 //   useEffect(() => {
@@ -307,9 +306,9 @@ useEffect(() => {
       onPageChange(pageNum);
     }
   };
-useEffect(() => {
-  setFilteredProducts(products);
-}, [products]);
+// useEffect(() => {
+//   setFilteredProducts(products);
+// }, [products]);
 
 
   return (
