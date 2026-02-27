@@ -3,12 +3,12 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import ProductCard from "../ProductCard/ProductCard";
 import { fetchProductsByCategory, getAllProducts } from "../../API/productApi";
 
-const RelatedProductsSection = ({  products = [], categoryId, Title }) => {
+const RelatedProductsSection = ({ products = [], categoryId, Title }) => {
   console.log(categoryId);
   const sliderRef = React.useRef(null);
   const [loading, setLoading] = useState(false);
   const [relatedProducts, setRelatedProducts] = useState([]);
-  const Heading = Title ? Title +" Products" : "You may also like";
+  const Heading = Title ? Title + " Products" : "You may also like";
 
   useEffect(() => {
     const fetchRelatedProducts = async () => {
@@ -22,7 +22,7 @@ const RelatedProductsSection = ({  products = [], categoryId, Title }) => {
         } else if (categoryId) {
           // Fetch by category
           const res = await fetchProductsByCategory(categoryId);
-          setRelatedProducts(res.data);
+          setRelatedProducts(res.products || res.data || []);
         } else {
           // Fallback: random
           const res = await getAllProducts({ random: true, limit: 10 });
