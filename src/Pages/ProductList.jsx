@@ -25,6 +25,7 @@ export const ProductList = () => {
   const queryParam = query || new URLSearchParams(location.search).get("query");
 
   const [products, setProducts] = useState([]);
+  const [allProductsForFilters, setAllProductsForFilters] = useState([]);
   const [count, setCount] = useState(0);
   const [loading, setLoading] = useState(true);
   const [totalCount, setTotalCount] = useState(0);
@@ -103,12 +104,12 @@ export const ProductList = () => {
             buildQueryParams()
           );
 
-          const data = res?.results || [];
+          const data = res?.data || res?.results || [];
           const backendTotal =
             res?.pagination?.totalProducts ||
             res?.total ||
             res?.count ||
-            0;
+            (data ? data.length : 0);
 
           console.log("API Response for query:", res); // ✅ log full response
           console.log("Mapped products:", data.map(mapProduct)); // ✅ log mapped products
@@ -195,6 +196,32 @@ export const ProductList = () => {
     loadProducts();
   }, [location, currentPage, filters]);
 
+  useEffect(() => {
+    const fetchAllForFilters = async () => {
+      try {
+        let res;
+        const noFilterParams = { limit: 1000 };
+        if (queryParam) {
+          res = await searchProductsByParam(queryParam, noFilterParams);
+          setAllProductsForFilters((res?.data || res?.results || []).map(mapProduct));
+        } else if (brandName) {
+          res = await getProductsByBrand(brandName, noFilterParams);
+          setAllProductsForFilters((res?.data || []).map(mapProduct));
+        } else if (categoryId === "all-products") {
+          res = await getAllProducts(noFilterParams);
+          setAllProductsForFilters((res?.data || []).map(mapProduct));
+        } else if (categoryId) {
+          res = await fetchProductsByCategory(categoryId, noFilterParams);
+          setAllProductsForFilters((res?.data || []).map(mapProduct));
+        }
+      } catch (err) {
+        console.error("Error fetching all products for filters:", err);
+        setAllProductsForFilters([]);
+      }
+    };
+    fetchAllForFilters();
+  }, [categoryId, brandName, queryParam]);
+
   // Pagination handler for all-products
   const handlePageChange = (page) => {
     if (page >= 1 && page <= Math.ceil(totalCount / itemsPerPage)) {
@@ -239,6 +266,7 @@ export const ProductList = () => {
       />
       <CategoryPageLayout2
         products={products}
+        allProducts={allProductsForFilters.length > 0 ? allProductsForFilters : products}
         categoryData={categoryId}
         searchQuery={queryParam}
 

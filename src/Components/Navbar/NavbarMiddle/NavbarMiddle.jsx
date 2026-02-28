@@ -68,7 +68,7 @@ function NavbarMiddle() {
     try {
       setLoading(true);
       const res = await searchProductsByParam(query);
-      setResults(res?.results || []);
+      setResults(res?.data || res?.results || []);
     } catch (err) {
       console.error("Search failed:", err);
     } finally {
@@ -183,7 +183,7 @@ function NavbarMiddle() {
             animate={controls}
             className="icon-wrapper"
             whileTap={{ scale: 0.85 }}
-            whileHover={{scale: 1.05 }}
+            whileHover={{ scale: 1.05 }}
             onClick={() => toggleDrawer(true)}
             style={{
               cursor: "pointer",
@@ -230,7 +230,7 @@ function NavbarMiddle() {
             }}
           >
             {user ? (
-              <UserCheck size={26} strokeWidth={2} color="#e18436"  />
+              <UserCheck size={26} strokeWidth={2} color="#e18436" />
             ) : (
               <User size={26} strokeWidth={2} color="#222" />
             )}

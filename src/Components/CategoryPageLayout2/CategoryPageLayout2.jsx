@@ -5,7 +5,7 @@ import SortDropdown from "./SortDropdown";
 import CategoryFilters from "./CategoryFilters";
 import { getCategoryById } from "../../API/categoriesApi";
 
-const CategoryPageLayout2 = ({ products = [], categoryData, totalCount = 0, currentPage = 1, onPageChange, itemsPerPage = 12, filters, setFilters }) => {
+const CategoryPageLayout2 = ({ products = [], allProducts = [], categoryData, totalCount = 0, currentPage = 1, onPageChange, itemsPerPage = 12, filters, setFilters }) => {
   console.log("category", categoryData);
   console.log("product from category", products);
 
@@ -338,7 +338,7 @@ const CategoryPageLayout2 = ({ products = [], categoryData, totalCount = 0, curr
         {showMobileFilters && (
           <div className="col-12 d-md-none mb-3">
             <CategoryFilters
-              products={products}
+              products={allProducts.length > 0 ? allProducts : products}
               filters={filters}
               setFilters={setFilters}
               openSections={openSections}
@@ -353,7 +353,7 @@ const CategoryPageLayout2 = ({ products = [], categoryData, totalCount = 0, curr
         {/* Desktop Filters */}
         <div className="col-md-3 d-none d-md-block">
           <CategoryFilters
-            products={products}
+            products={allProducts.length > 0 ? allProducts : products}
             filters={filters}
             setFilters={setFilters}
             openSections={openSections}

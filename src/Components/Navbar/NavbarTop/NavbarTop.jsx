@@ -60,7 +60,7 @@ function NavbarTop() {
       setLoading(true);
       const res = await searchProductsByParam(query);
       console.log("API Response:", res);
-      setResults(res?.results || []);
+      setResults(res?.data || res?.results || []);
     } catch (error) {
       console.error("Search failed:", error);
     } finally {
