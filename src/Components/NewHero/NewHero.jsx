@@ -71,6 +71,7 @@ const baseSlides = [
     route: "/category/68e36ef0f20278111c26aacb",
     img: "/HeroBanner/Knob.png",
     imgheight: 700,
+    imgClass: "knob-mobile-img", 
     bg: "/slider/bg-5.jpg",
     offer: "Flat 15% Off All Items",
     text: "Knobs",
@@ -277,7 +278,7 @@ const NewHero = () => {
                     <img
                       src={slide.img}
                       alt={slide.text}
-                      className="product-img img-fluid animate-on-slide product-animation-delay"
+                      className={`product-img img-fluid animate-on-slide product-animation-delay ${slide.id === 4 ? "knob-mobile-img" : ""}`}
                       // height={slide.imgheight}
                       style={{
                         maxHeight: "700px",
