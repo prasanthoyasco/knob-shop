@@ -194,7 +194,7 @@ const NewHero = () => {
             </span>
           `,
         }}
-        autoplay={{ delay: 30000000, disableOnInteraction: false }}
+        autoplay={{ delay: 3000, disableOnInteraction: false }}
         effect="fade"
         loop
       >
