@@ -518,15 +518,17 @@ video.product-img {
   }
 
   .img-bg-clr, .circle-border, .product-img {
-      width: 250px;
-      height: 250px;
+      width: 270px;
+      height: 270px;
   }
   .circle-border {
-      width: 280px;
-      height: 280px;
+      width: 310px;
+      height: 310px;
   }
   .product-img {
-      max-height: 200px !important;
+      max-height: 330px !important;
+      object-fit: cover;
+    width: 100%;
   }
 
   .hero-slide-number {
@@ -569,17 +571,19 @@ video.product-img {
   }
 
   .img-bg-clr, .circle-border, .product-img {
-    width: 200px;
-    height: 200px;
-  }
-
-  .circle-border {
     width: 220px;
     height: 220px;
   }
 
+  .circle-border {
+    width: 250px;
+    height: 250px;
+  }
+
   .product-img {
-    max-height: 220px;
+    max-height: 300px !important;
+    object-fit: cover;
+    width: 100%;
   }
 }
 
