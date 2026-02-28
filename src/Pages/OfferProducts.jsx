@@ -13,6 +13,14 @@ const OfferProducts = () => {
   const [loading, setLoading] = useState(false);
   const location = useLocation();
 
+  const [filters, setFilters] = useState({
+    brand: [],
+    colors: [],
+    priceRange: [0, 100000],
+  });
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 12;
+
   useEffect(() => {
     const fetchOfferProducts = async () => {
       setLoading(true);
@@ -58,15 +66,23 @@ const OfferProducts = () => {
                 </div>
               </div>
             ) : (
-              <CategoryPageLayout2 products={products} />
+              <CategoryPageLayout2
+                products={products}
+                totalCount={products.length}
+                currentPage={currentPage}
+                onPageChange={(page) => setCurrentPage(page)}
+                itemsPerPage={itemsPerPage}
+                filters={filters}
+                setFilters={setFilters}
+              />
             )}
           </div>{" "}
         </>
-      ): <>
-      <div className="mx-auto my-4 py-5 text-center">
-        <h1 className="h1 fw-bold">We don't have any deals Today</h1>
-      <p>Connect with our CONSULTATION </p>
-      </div>
+      ) : <>
+        <div className="mx-auto my-4 py-5 text-center">
+          <h1 className="h1 fw-bold">We don't have any deals Today</h1>
+          <p>Connect with our CONSULTATION, To get more Exiting Offers </p>
+        </div>
       </>}
 
       <CategoriesBanner />

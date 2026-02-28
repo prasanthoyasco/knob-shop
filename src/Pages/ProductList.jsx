@@ -48,25 +48,40 @@ export const ProductList = () => {
     icons: item.key_features,
     variant: item.variant,
   });
-  // 🔥 Build API query params from filters
   const buildQueryParams = () => {
+    const { brand, colors, priceRange, ...dynamicFilters } = filters;
     const queryParams = {
       page: currentPage,
       limit: itemsPerPage,
     };
 
-    if (filters.brand?.length > 0) {
-      queryParams.brand = filters.brand.join(",");
+    if (brand?.length > 0) {
+      queryParams.brand = brand.join(",");
     }
 
-    if (filters.colors?.length > 0) {
-      queryParams.color = filters.colors.join(",");
+    if (colors?.length > 0) {
+      queryParams.color = colors.join(",");
     }
 
-    if (filters.priceRange?.length === 2) {
-      queryParams.minPrice = filters.priceRange[0];
-      queryParams.maxPrice = filters.priceRange[1];
+    if (priceRange?.length === 2) {
+      queryParams.minPrice = priceRange[0];
+      queryParams.maxPrice = priceRange[1];
     }
+
+    // Append all dynamic API filters
+    Object.keys(dynamicFilters).forEach((key) => {
+      const filterValue = dynamicFilters[key];
+      if (Array.isArray(filterValue) && filterValue.length > 0) {
+        if (typeof filterValue[0] === "number" && filterValue.length === 2) {
+          // It's a range filter.
+          queryParams[`min_${key}`] = filterValue[0];
+          queryParams[`max_${key}`] = filterValue[1];
+        } else {
+          // Checkbox/Radio string array
+          queryParams[key] = filterValue.join(",");
+        } // Ignore empty strings or values not handled
+      }
+    });
 
     return queryParams;
   };
