@@ -21,14 +21,19 @@ const CategoryPageLayout2 = ({ products = [], allProducts = [], categoryData, to
   console.log("itemsPerPage:", itemsPerPage);
   console.log("totalPages:", totalPages);
 
-  // const [filters, setFilters] = useState({
-  //   brand: [],
-  //   availability: [],
-  //   priceRange: [0, 100000],
-  //   colors: [],
-  //   features: [],
-  //   accessType: [],
-  // });
+  // default filters if undefined
+  const [internalFilters, setInternalFilters] = useState(filters || {
+    brand: [],
+    availability: [],
+    priceRange: [0, 100000],
+    colors: [],
+    features: [],
+    accessType: [],
+  });
+
+  const currentFilters = filters || internalFilters;
+  const currentSetFilters = setFilters || setInternalFilters;
+
   const [sortOrder, setSortOrder] = useState("");
   const [showMobileFilters, setShowMobileFilters] = useState(false);
 
@@ -45,9 +50,9 @@ const CategoryPageLayout2 = ({ products = [], allProducts = [], categoryData, to
         setCategoryFilters(filtersFromApi);
 
         // initialize filters state
-        setFilters((prev) => {
+        currentSetFilters((prev) => {
           let hasChange = false;
-          const newFilters = { ...prev };
+          const newFilters = prev ? { ...prev } : {};
           filtersFromApi.forEach((f) => {
             if (!(f.name in newFilters)) {
               hasChange = true;
@@ -271,11 +276,11 @@ const CategoryPageLayout2 = ({ products = [], allProducts = [], categoryData, to
   // }, [totalPages]);
 
   const handleCheckboxChange = (filterName, value, checked) => {
-    setFilters((prev) => ({
+    currentSetFilters((prev) => ({
       ...prev,
       [filterName]: checked
-        ? [...(prev[filterName] || []), value]
-        : (prev[filterName] || []).filter((item) => item !== value),
+        ? [...(prev?.[filterName] || []), value]
+        : (prev?.[filterName] || []).filter((item) => item !== value),
     }));
   };
 
@@ -294,10 +299,10 @@ const CategoryPageLayout2 = ({ products = [], allProducts = [], categoryData, to
       resetFilters[f.name] = f.type === "range" ? [0, 100000] : [];
     });
 
-    setFilters(resetFilters);
+    currentSetFilters(resetFilters);
     setSortOrder("");
     setOpenSections({});
-    onPageChange(1);
+    if (onPageChange) onPageChange(1);
   };
 
   // const handlePageChange = (pageNum) => {
@@ -339,8 +344,8 @@ const CategoryPageLayout2 = ({ products = [], allProducts = [], categoryData, to
           <div className="col-12 d-md-none mb-3">
             <CategoryFilters
               products={allProducts.length > 0 ? allProducts : products}
-              filters={filters}
-              setFilters={setFilters}
+              filters={currentFilters}
+              setFilters={currentSetFilters}
               openSections={openSections}
               toggleSection={toggleSection}
               handleCheckboxChange={handleCheckboxChange}
@@ -354,8 +359,8 @@ const CategoryPageLayout2 = ({ products = [], allProducts = [], categoryData, to
         <div className="col-md-3 d-none d-md-block">
           <CategoryFilters
             products={allProducts.length > 0 ? allProducts : products}
-            filters={filters}
-            setFilters={setFilters}
+            filters={currentFilters}
+            setFilters={currentSetFilters}
             openSections={openSections}
             toggleSection={toggleSection}
             handleCheckboxChange={handleCheckboxChange}

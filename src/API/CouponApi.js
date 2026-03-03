@@ -24,7 +24,7 @@ export const getAvailableCoupons = async () => {
         Authorization: `Bearer ${token}`,
       },
     });
-    return res.data.coupons; 
+    return res.data.coupons;
   } catch (err) {
     throw err.response?.data || { message: "Failed to fetch available coupons" };
   }
@@ -42,11 +42,11 @@ export const validateCoupon = async (userId, couponCode) => {
     const { data } = await axios.post(`${API_BASE}/validate`, {
       userId,
       couponCode,
-    },{
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+    }, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return data;
   } catch (err) {
     throw err.response?.data || { message: "Coupon validation failed" };
@@ -59,7 +59,12 @@ export const validateCoupon = async (userId, couponCode) => {
  */
 export const markCouponUsed = async (code) => {
   try {
-    const { data } = await axios.post(`${API_BASE}/mark-used`, { code });
+    const token = localStorage.getItem("authToken");
+    const { data } = await axios.post(`${API_BASE}/mark-used`, { code }, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return data;
   } catch (err) {
     throw err.response?.data || { message: "Failed to mark coupon as used" };
@@ -69,9 +74,9 @@ export const markCouponUsed = async (code) => {
 
 export const getAllofferProducts = async () => {
   try {
-    const {data} = await axios.get(`${API_BASE}/all`);
+    const { data } = await axios.get(`${API_BASE}/all`);
     return data;
   } catch (err) {
-    throw err.response?.data || {message: "faild to fetch Offer Products"}
+    throw err.response?.data || { message: "faild to fetch Offer Products" }
   }
 }

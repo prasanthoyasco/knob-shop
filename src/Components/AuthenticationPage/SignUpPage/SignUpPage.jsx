@@ -12,6 +12,45 @@ import {
 import { getGstDetails } from "../../../API/gstApi"; // <-- new API for GST info
 import VerificationSuccess from "./VerificationSuccess";
 
+const indiaStates = [
+  "Andhra Pradesh",
+  "Arunachal Pradesh",
+  "Assam",
+  "Bihar",
+  "Chhattisgarh",
+  "Goa",
+  "Gujarat",
+  "Haryana",
+  "Himachal Pradesh",
+  "Jharkhand",
+  "Karnataka",
+  "Kerala",
+  "Madhya Pradesh",
+  "Maharashtra",
+  "Manipur",
+  "Meghalaya",
+  "Mizoram",
+  "Nagaland",
+  "Odisha",
+  "Punjab",
+  "Rajasthan",
+  "Sikkim",
+  "Tamil Nadu",
+  "Telangana",
+  "Tripura",
+  "Uttar Pradesh",
+  "Uttarakhand",
+  "West Bengal",
+  "Andaman and Nicobar Islands",
+  "Chandigarh",
+  "Dadra and Nagar Haveli and Daman and Diu",
+  "Delhi",
+  "Jammu and Kashmir",
+  "Ladakh",
+  "Lakshadweep",
+  "Puducherry",
+];
+
 function SignUpPage() {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
@@ -203,44 +242,6 @@ function SignUpPage() {
         }
 
         // 2. Extract State (common Indian states)
-        const indiaStates = [
-          "Andhra Pradesh",
-          "Arunachal Pradesh",
-          "Assam",
-          "Bihar",
-          "Chhattisgarh",
-          "Goa",
-          "Gujarat",
-          "Haryana",
-          "Himachal Pradesh",
-          "Jharkhand",
-          "Karnataka",
-          "Kerala",
-          "Madhya Pradesh",
-          "Maharashtra",
-          "Manipur",
-          "Meghalaya",
-          "Mizoram",
-          "Nagaland",
-          "Odisha",
-          "Punjab",
-          "Rajasthan",
-          "Sikkim",
-          "Tamil Nadu",
-          "Telangana",
-          "Tripura",
-          "Uttar Pradesh",
-          "Uttarakhand",
-          "West Bengal",
-          "Andaman and Nicobar Islands",
-          "Chandigarh",
-          "Dadra and Nagar Haveli and Daman and Diu",
-          "Delhi",
-          "Jammu and Kashmir",
-          "Ladakh",
-          "Lakshadweep",
-          "Puducherry",
-        ];
         const stateMatch = indiaStates.find((state) =>
           fullAddress.toLowerCase().includes(state.toLowerCase())
         );
@@ -592,15 +593,15 @@ function SignUpPage() {
               />
 
               <label className="form-label">Address</label>
-                 <div className="address-row">
-              <input
-                placeholder="Address"
-                className="form-input"
-                name="address.street" // Use dot notation for nested state
-                value={formData.address?.street || ""}
-                onChange={handleChange}
-                required 
-              />
+              <div className="address-row">
+                <input
+                  placeholder="Address"
+                  className="form-input"
+                  name="address.street" // Use dot notation for nested state
+                  value={formData.address?.street || ""}
+                  onChange={handleChange}
+                  required
+                />
               </div>
 
               <div className="address-row">
@@ -614,14 +615,20 @@ function SignUpPage() {
                 />
               </div>
               <div className="address-row">
-                <input
-                  placeholder="State"
+                <select
                   className="form-input half"
                   name="address.state"
                   value={formData.address?.state || ""}
                   onChange={handleChange}
                   required
-                />
+                >
+                  <option value="" disabled>Select State</option>
+                  {indiaStates.map((stateName) => (
+                    <option key={stateName} value={stateName}>
+                      {stateName}
+                    </option>
+                  ))}
+                </select>
                 <input
                   placeholder="Pincode"
                   className="form-input half"

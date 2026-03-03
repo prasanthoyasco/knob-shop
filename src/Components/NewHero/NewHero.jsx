@@ -28,7 +28,7 @@ const baseSlides = [
     bg: "/slider/bg-1.jpg",
     offer: "Flat 15% Off All Items",
     text: "Digital Lock ",
-    circleColor: "#C0C0C0",
+    circleColor: "#f0babaff",
     number: "01",
     productList: [
       { name: "YDME 200NxT", image: lunaProImage },
@@ -61,7 +61,7 @@ const baseSlides = [
     bg: "/slider/bg-6.jpg",
     offer: "Flat 15% Off All Items",
     text: "Mortise Handle ",
-    circleColor: "#9a6156",
+    circleColor: "#a2d85aff",
     number: "03",
     description:
       "High-quality mortise handles crafted for durability, smooth operation, and elegant design — perfect for main doors, bedrooms, and premium interiors. ",
@@ -75,7 +75,7 @@ const baseSlides = [
     bg: "/slider/bg-5.jpg",
     offer: "Flat 15% Off All Items",
     text: "Knobs",
-    circleColor: "#A3B18A",
+    circleColor: "#aae9cfff",
     number: "04",
     description:
       "Upgrade your cabinets, wardrobes, and drawers with premium designer knobs built for durability, smooth grip, and timeless design.",
@@ -88,7 +88,7 @@ const baseSlides = [
     bg: "/slider/bg-6.jpg",
     offer: "Flat 15% Off All Items",
     text: "Main Door Handle  ",
-    circleColor: "#ACB7AE",
+    circleColor: "#e8e5f0ff",
     number: "05",
     description:
       "Upgrade your entrance with premium main door handles crafted for strength, durability, and elegant design — the perfect blend of security and style.",

@@ -20,49 +20,59 @@ const CategoryFilters = ({
 
     return [...new Set(values)];
   };
-const [localMin, setLocalMin] = useState(filters.priceRange[0]);
-const [localMax, setLocalMax] = useState(filters.priceRange[1]);
+  const maxPrice = Math.max(
+    0,
+    ...(products || []).flatMap((p) =>
+      (p.variant || []).flatMap((v) =>
+        (v.sizes || []).map((s) => s.sellingPrice || 0)
+      )
+    )
+  );
 
-// Sync when filters change externally (reset etc.)
-useEffect(() => {
-  setLocalMin(filters.priceRange[0]);
-  setLocalMax(filters.priceRange[1]);
-}, [filters.priceRange]);
+  const [localMin, setLocalMin] = useState(filters?.priceRange?.[0] || 0);
+  const [localMax, setLocalMax] = useState(filters?.priceRange?.[1] || maxPrice || 100000);
 
-const applyMin = () => {
-  let min = Number(localMin);
-  let max = filters.priceRange[1];
+  // Sync when filters change externally (reset etc.)
+  useEffect(() => {
+    setLocalMin(filters?.priceRange?.[0] || 0);
+    setLocalMax(filters?.priceRange?.[1] || maxPrice || 100000);
+  }, [filters?.priceRange, maxPrice]);
 
-  if (isNaN(min) || min < 0) min = 0;
-  if (min > max) min = max;
+  const applyMin = () => {
+    let min = Number(localMin);
+    let max = filters?.priceRange?.[1] || maxPrice || 100000;
 
-  setLocalMin(min);
+    if (isNaN(min) || min < 0) min = 0;
+    if (min > max) min = max;
 
-  setFilters((prev) => ({
-    ...prev,
-    priceRange: [min, max],
-  }));
-};
+    setLocalMin(min);
 
-const applyMax = () => {
-  let max = Number(localMax);
-  let min = filters.priceRange[0];
+    setFilters((prev) => ({
+      ...prev,
+      priceRange: [min, max],
+    }));
+  };
 
-  if (isNaN(max) || max < 0) max = 0;
-  if (max > maxPrice) max = maxPrice;
-  if (max < min) max = min;
+  const applyMax = () => {
+    let max = Number(localMax);
+    let min = filters?.priceRange?.[0] || 0;
 
-  setLocalMax(max);
+    if (isNaN(max) || max < 0) max = 0;
+    if (max > maxPrice) max = maxPrice;
+    if (max < min) max = min;
 
-  setFilters((prev) => ({
-    ...prev,
-    priceRange: [min, max],
-  }));
-};
+    setLocalMax(max);
+
+    setFilters((prev) => ({
+      ...prev,
+      priceRange: [min, max],
+    }));
+  };
+
   // Remove duplicates by color name
   const colorSwatches = [
     ...new Map(
-      products
+      (products || [])
         .flatMap((p) =>
           (p.variant || []).map((v) => ({
             name: v.title?.trim().toLowerCase(), // store lowercase for matching
@@ -73,15 +83,6 @@ const applyMax = () => {
         .map((c) => [c.name, c]) // key by name to remove duplicates
     ).values(),
   ];
-
-  const maxPrice = Math.max(
-    0,
-    ...products.flatMap((p) =>
-      (p.variant || []).flatMap((v) =>
-        (v.sizes || []).map((s) => s.sellingPrice || 0)
-      )
-    )
-  );
   console.log("Category filters", categoryFilters);
   return (
     <>
@@ -98,26 +99,26 @@ const applyMax = () => {
 
       {/* Filter Tags */}
       <div className="mb-3 d-flex flex-wrap align-items-center gap-2">
-        {Object.entries(filters).map(([key, value]) =>
+        {Object.entries(filters || {}).map(([key, value]) =>
           key !== "priceRange" && Array.isArray(value)
             ? value.map((v) => (
-                <span
-                  key={`${key}-${v}`}
-                  className="badge bg-light rounded-pill px-3 py-2 d-inline-flex align-items-center text-capitalize"
+              <span
+                key={`${key}-${v}`}
+                className="badge bg-light rounded-pill px-3 py-2 d-inline-flex align-items-center text-capitalize"
+              >
+                {v}
+                <button
+                  type="button"
+                  title="remove filter"
+                  className="btn p-0 bg-transparent btn-small text-dark ms-2 border-0"
+                  aria-label="Remove"
+                  onClick={() => handleCheckboxChange(key, v, false)}
+                  style={{ opacity: 0.5 }}
                 >
-                  {v}
-                  <button
-                    type="button"
-                    title="remove filter"
-                    className="btn p-0 bg-transparent btn-small text-dark ms-2 border-0"
-                    aria-label="Remove"
-                    onClick={() => handleCheckboxChange(key, v, false)}
-                    style={{ opacity: 0.5 }}
-                  >
-                    <i className="bi bi-x fs-5 danger"></i>
-                  </button>
-                </span>
-              ))
+                  <i className="bi bi-x fs-5 danger"></i>
+                </button>
+              </span>
+            ))
             : null
         )}
       </div>
@@ -138,9 +139,8 @@ const applyMax = () => {
           .map((filter, index) => (
             <div className="accordion-section mb-3" key={index}>
               <div
-                className={`accordion-header d-flex justify-content-between align-items-center fw-semibold py-2 border-bottom ${
-                  openSections[filter] ? "open" : ""
-                }`}
+                className={`accordion-header d-flex justify-content-between align-items-center fw-semibold py-2 border-bottom ${openSections[filter] ? "open" : ""
+                  }`}
                 onClick={() => toggleSection(filter)}
                 style={{ cursor: "pointer" }}
               >
@@ -178,64 +178,64 @@ const applyMax = () => {
                         </div>
                       ))}
 
-{filter === "Price" && (
-  <div className="my-4">
-    <Slider
-      range
-      min={0}
-      max={maxPrice}
-      step={100}
-      value={[Number(localMin) || 0, Number(localMax) || maxPrice]}
-      className="custom-slider my-4"
-      onChange={(value) => {
-        setLocalMin(value[0]);
-        setLocalMax(value[1]);
-      }}
-      onAfterChange={(value) => {
-        setFilters((prev) => ({
-          ...prev,
-          priceRange: value,
-        }));
-      }}
-    />
+                  {filter === "Price" && (
+                    <div className="my-4">
+                      <Slider
+                        range
+                        min={0}
+                        max={maxPrice}
+                        step={100}
+                        value={[Number(localMin) || 0, Number(localMax) || maxPrice]}
+                        className="custom-slider my-4"
+                        onChange={(value) => {
+                          setLocalMin(value[0]);
+                          setLocalMax(value[1]);
+                        }}
+                        onAfterChange={(value) => {
+                          setFilters((prev) => ({
+                            ...prev,
+                            priceRange: value,
+                          }));
+                        }}
+                      />
 
-    <div className="d-flex justify-content-between align-items-center mt-3 gap-2">
-      <div className="input-group">
-        <span className="input-group-text">
-          <i className="bi bi-currency-rupee"></i>
-        </span>
-        <input
-          type="text"
-          className="form-control"
-          value={localMin}
-          onChange={(e) => setLocalMin(e.target.value)}
-          onBlur={applyMin}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") applyMin();
-          }}
-        />
-      </div>
+                      <div className="d-flex justify-content-between align-items-center mt-3 gap-2">
+                        <div className="input-group">
+                          <span className="input-group-text">
+                            <i className="bi bi-currency-rupee"></i>
+                          </span>
+                          <input
+                            type="text"
+                            className="form-control"
+                            value={localMin}
+                            onChange={(e) => setLocalMin(e.target.value)}
+                            onBlur={applyMin}
+                            onKeyDown={(e) => {
+                              if (e.key === "Enter") applyMin();
+                            }}
+                          />
+                        </div>
 
-      <span className="fw-bold">–</span>
+                        <span className="fw-bold">–</span>
 
-      <div className="input-group">
-        <span className="input-group-text">
-          <i className="bi bi-currency-rupee"></i>
-        </span>
-        <input
-          type="text"
-          className="form-control"
-          value={localMax}
-          onChange={(e) => setLocalMax(e.target.value)}
-          onBlur={applyMax}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") applyMax();
-          }}
-        />
-      </div>
-    </div>
-  </div>
-)}
+                        <div className="input-group">
+                          <span className="input-group-text">
+                            <i className="bi bi-currency-rupee"></i>
+                          </span>
+                          <input
+                            type="text"
+                            className="form-control"
+                            value={localMax}
+                            onChange={(e) => setLocalMax(e.target.value)}
+                            onBlur={applyMax}
+                            onKeyDown={(e) => {
+                              if (e.key === "Enter") applyMax();
+                            }}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  )}
 
                   {filter === "Colors" && (
                     <div className="d-flex flex-wrap gap-2">
@@ -282,9 +282,8 @@ const applyMax = () => {
           .map((f) => (
             <div className="accordion-section mb-3" key={f._id}>
               <div
-                className={`accordion-header d-flex justify-content-between align-items-center fw-semibold py-2 border-bottom ${
-                  openSections[f.name] ? "open" : ""
-                }`}
+                className={`accordion-header d-flex justify-content-between align-items-center fw-semibold py-2 border-bottom ${openSections[f.name] ? "open" : ""
+                  }`}
                 onClick={() => toggleSection(f.name)}
                 style={{ cursor: "pointer" }}
               >

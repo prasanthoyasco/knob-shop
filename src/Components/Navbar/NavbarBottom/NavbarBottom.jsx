@@ -76,7 +76,9 @@ function NavbarBottom() {
     const fetchAllCategories = async () => {
       try {
         const res = await fetchCategories();
-        const allCategories = [{ _id: "all", name: "All Categories" }, ...res];
+        // Remove categories that are assigned to a subpage
+        const filteredRes = (res || []).filter(cat => !cat.subpageType);
+        const allCategories = [{ _id: "all", name: "All Categories" }, ...filteredRes];
         setCategory(allCategories);
       } catch (err) {
         console.error("Failed to fetch categories", err);
