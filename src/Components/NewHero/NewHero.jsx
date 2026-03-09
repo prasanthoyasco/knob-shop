@@ -61,7 +61,7 @@ const baseSlides = [
     bg: "/slider/bg-6.jpg",
     offer: "Flat 15% Off All Items",
     text: "Mortise Handle ",
-    circleColor: "#a2d85aff",
+    circleColor: "#B8DB80",
     number: "03",
     description:
       "High-quality mortise handles crafted for durability, smooth operation, and elegant design — perfect for main doors, bedrooms, and premium interiors. ",
@@ -70,12 +70,12 @@ const baseSlides = [
     id: 4,
     route: "/category/68e36ef0f20278111c26aacb",
     img: "/HeroBanner/Knob.png",
-    imgheight: 700,
+    imgheight: 250,
     imgClass: "knob-mobile-img", 
     bg: "/slider/bg-5.jpg",
     offer: "Flat 15% Off All Items",
     text: "Knobs",
-    circleColor: "#aae9cfff",
+    circleColor: "#91C6BC",
     number: "04",
     description:
       "Upgrade your cabinets, wardrobes, and drawers with premium designer knobs built for durability, smooth grip, and timeless design.",

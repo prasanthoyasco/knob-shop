@@ -538,8 +538,8 @@ video.product-img {
 @media (max-width: 479px) {
       .knob-mobile-img {
     max-height: none !important;
-    height: 460px !important;
-    object-fit: cover !important;
+    height: 180px !important;
+    object-fit: contain !important;
     transform: scale(1.2);   /* zoom effect */
     margin-top: 20px;        /* adjust position */
   }
@@ -596,8 +596,8 @@ video.product-img {
   }
         .knob-mobile-img {
     max-height: none !important;
-    height: 360px !important;
-    object-fit: cover !important;
+    height: 160px !important;
+    object-fit: contain !important;
     transform: scale(1.2);   /* zoom effect */
     margin-top: 20px;        /* adjust position */
   }
