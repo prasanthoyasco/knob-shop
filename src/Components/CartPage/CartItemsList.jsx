@@ -145,11 +145,11 @@ const CartItemsList = ({
                   item.sellingPrice ||
                   item.price ||
                   null;
-
-                return price
-                  ? `₹${price.toLocaleString("en-IN")}`
-                  : "Price not available";
-              })()}
+const totalPrice = price ? price * item.quantity : null;
+      return totalPrice
+        ? `₹${totalPrice.toLocaleString("en-IN")}`
+        : "Price not available";
+    })()}
             </h3>
           </div>
         </div>
