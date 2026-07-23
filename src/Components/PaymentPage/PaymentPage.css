@@ -68,6 +68,126 @@
   padding-left: 20px;
   color: gray;
 }
+
+.available-coupons-panel {
+  border: 1px solid #d9d8d8;
+  padding: 14px;
+  background: #fff;
+}
+
+.available-coupons-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.available-coupons-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  color: #252525;
+}
+
+.coupon-refresh-btn {
+  min-height: 36px;
+  border-radius: 5px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 7px 10px;
+  border: 1px solid #b89374;
+  background: #b89374;
+  color: #f3f0ee;
+  font-size: 14px;
+  line-height: 1;
+  letter-spacing: 0.5px;
+}
+
+.coupon-refresh-btn:disabled {
+  cursor: wait;
+  opacity: 0.72;
+}
+
+.coupon-refresh-icon {
+  flex: 0 0 auto;
+}
+
+.coupon-refresh-icon.spinning {
+  animation: coupon-spin 0.8s linear infinite;
+}
+
+.coupon-refresh-meta {
+  margin: 8px 0 0 !important;
+  font-size: 9px;
+  font-weight: 400;
+  color: #666 !important;
+}
+.coupon-list-message{
+  font-size: 18px;
+  font-weight: 600;
+  margin: 10px 0 !important;
+  color: #b89374 !important;
+}
+.available-coupons-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.coupon-badge {
+  min-height: 38px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: 5px;
+  padding: 8px 10px;
+  border: 1px solid #b8b8b8;
+  background: #f8f8f8;
+  color: #252525;
+  font-size: 13px;
+  text-align: left;
+}
+
+.coupon-badge:not(:disabled):hover {
+  border-color: #ab7b53;
+  background: #fff;
+}
+
+.coupon-badge:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.coupon-badge-code {
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+.coupon-badge-value {
+  color: #555;
+}
+
+.exclusive-badge {
+  padding: 2px 6px;
+  border: 1px solid #252525;
+  font-size: 11px;
+  color: #252525;
+  background: #fff;
+}
+
+@keyframes coupon-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 .contact-con-checkbox-text {
   display: flex;
   align-items: center;
@@ -260,7 +380,8 @@
   gap: 15px;
 }
 .payment-page-right-side h5 {
-  font-size: 20px;
+  font-size: 22px;
+    font-weight: 900;
   line-height: 27.5px;
 }
 .payment-product-image img {
@@ -458,6 +579,54 @@
 }
 
 @media screen and (max-width: 600px) {
+  .contact-con-head-h3 {
+    font-size: 18px !important;
+  }
+
+  .contact-con-head a,
+  .contact-con-input,
+  .first-name-input,
+  .payment-page-delivery-sec,
+  .radio-btn-delivery-text,
+  .coupon-section input,
+  .coupon-section button,
+  .pay-now-btn,
+  .find-store-btn,
+  .use-my-loction-div p {
+    font-size: 13px !important;
+  }
+
+  .contact-con-checkbox-text p,
+  .coupon-refresh-meta,
+  .coupon-list-message,
+  .payment-product-image-content p,
+  .store-info-right p {
+    font-size: 11px !important;
+  }
+
+  .available-coupons-title,
+  .coupon-badge,
+  .payment-product-image-content h3,
+  .payment-price,
+  .store-info-left p {
+    font-size: 13px !important;
+  }
+
+  .exclusive-badge {
+    font-size: 10px !important;
+  }
+
+  .coupon-refresh-btn {
+    width: 36px;
+    border-radius: 5px;
+    padding: 7px;
+    font-size: 0 !important;
+  }
+
+  .coupon-refresh-text {
+    display: none;
+  }
+
   .contact-con-head {
     align-items: flex-start;
     gap: 10px;
@@ -483,6 +652,163 @@
   .store-info-right {
     width: 100%;
     text-align: left;
+  }
+}
+
+@media screen and (max-width: 360px) {
+  .payment-page-container {
+    gap: 18px !important;
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+  }
+
+  .payment-page-left-side,
+  .payment-page-right-side {
+    padding: 10px !important;
+  }
+
+  .payment-page-right-side {
+    min-height: auto !important;
+  }
+
+  .contact-con-head-h3 {
+    font-size: 17px !important;
+    margin-bottom: 10px !important;
+  }
+
+  .payment-product-image-div {
+    gap: 10px !important;
+    align-items: flex-start !important;
+  }
+
+  .payment-product-image {
+    gap: 10px !important;
+    min-width: 0 !important;
+  }
+
+  .payment-product-image img {
+    width: 64px !important;
+    height: 64px !important;
+  }
+
+  .payment-product-image-content {
+    gap: 5px !important;
+    min-width: 0 !important;
+  }
+
+  .payment-product-image-content h3 {
+    max-width: 190px !important;
+    font-size: 15px !important;
+    font-weight: 800;
+    color: #e18436 !important;
+    line-height: 1.25 !important;
+  }
+
+  .payment-product-image-content p,
+  .sub-cal p,
+  .coupon-refresh-meta,
+  .coupon-list-message {
+    font-size: 10px !important;
+    line-height: 1.35 !important;
+  }
+
+  .payment-price {
+    font-size: 13px !important;
+    white-space: nowrap !important;
+  }
+
+  .contact-con-input,
+  .first-name-input,
+  .select-box {
+    height: 48px !important;
+    padding-left: 12px !important;
+    font-size: 12px !important;
+  }
+
+  .contact-con-checkbox-text {
+    height: auto !important;
+    align-items: flex-start !important;
+    gap: 7px !important;
+  }
+
+  .contact-con-checkbox-text p {
+    font-size: 10px !important;
+    line-height: 1.25 !important;
+  }
+
+  .payment-page-delivery-sec {
+    min-height: 58px !important;
+    height: auto !important;
+    padding: 8px 10px !important;
+    align-items: center !important;
+  }
+
+  .radio-btn-delivery-text {
+    gap: 8px !important;
+    margin-top: 0 !important;
+    font-size: 12px !important;
+    line-height: 1.25 !important;
+  }
+
+  .radio-btn-delivery {
+    width: 20px !important;
+    height: 20px !important;
+    flex: 0 0 20px !important;
+  }
+
+  .payment-page-delivery-sec i {
+    font-size: 22px !important;
+    flex: 0 0 auto !important;
+  }
+
+  .coupon-section {
+    flex-direction: column !important;
+    gap: 8px !important;
+  }
+
+  .coupon-section input,
+  .coupon-section button {
+    width: 100% !important;
+    height: 46px !important;
+    padding: 10px 12px !important;
+    font-size: 12px !important;
+  }
+
+  .available-coupons-panel {
+    padding: 10px !important;
+    border-radius: 5px;
+  }
+
+  .available-coupons-header {
+    gap: 8px !important;
+  }
+
+  .available-coupons-title {
+    font-size: 12px !important;
+    gap: 6px !important;
+  }
+
+  .coupon-badge {
+    width: 100% !important;
+    min-height: 36px !important;
+    gap: 6px !important;
+    padding: 7px 8px !important;
+    font-size: 11px !important;
+  }
+
+  .exclusive-badge {
+    margin-left: auto !important;
+    font-size: 9px !important;
+    border-radius: 4px !important;
+  }
+
+  .pay-now-btn {
+    height: 48px !important;
+    font-size: 12px !important;
+  }
+
+  .card-image-payment {
+    gap: 10px !important;
   }
 }
 .ccavenue-modal-overlay {

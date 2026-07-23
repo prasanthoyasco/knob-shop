@@ -9,12 +9,12 @@ import { WishlistProvider } from './Context/WishlistContext.jsx'
 const queryClient = new QueryClient();
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-     <QueryClientProvider client={queryClient}>
-    <WishlistProvider>
-    <CartProvider>
-    <App />
-    </CartProvider>
-    </WishlistProvider>
+    <QueryClientProvider client={queryClient}>
+      <WishlistProvider>
+        <CartProvider>
+          <App />
+        </CartProvider>
+      </WishlistProvider>
     </QueryClientProvider>
   </StrictMode>,
 )

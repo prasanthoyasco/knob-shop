@@ -5,13 +5,13 @@ import SortDropdown from "./SortDropdown";
 import CategoryFilters from "./CategoryFilters";
 import { getCategoryById } from "../../API/categoriesApi";
 
-const CategoryPageLayout2 = ({ products = [], allProducts = [], categoryData, totalCount = 0, currentPage = 1, onPageChange, itemsPerPage = 12, filters, setFilters }) => {
+const CategoryPageLayout2 = ({ products = [], allProducts = [], categoryData, totalCount = 0, currentPage = 1, onPageChange, itemsPerPage = 12, filters, setFilters, sortOrder, setSortOrder, loading }) => {
   console.log("category", categoryData);
   console.log("product from category", products);
 
   // const [filteredProducts, setFilteredProducts] = useState(products);
   const [categoryFilters, setCategoryFilters] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [filtersLoading, setFiltersLoading] = useState(false);
   const [openSections, setOpenSections] = useState({});
   const totalPages = Math.ceil(totalCount / itemsPerPage);
   const paginatedProducts = products;
@@ -25,7 +25,7 @@ const CategoryPageLayout2 = ({ products = [], allProducts = [], categoryData, to
   const [internalFilters, setInternalFilters] = useState(filters || {
     brand: [],
     availability: [],
-    priceRange: [0, 100000],
+    priceRange: [0, 1000000],
     colors: [],
     features: [],
     accessType: [],
@@ -34,7 +34,11 @@ const CategoryPageLayout2 = ({ products = [], allProducts = [], categoryData, to
   const currentFilters = filters || internalFilters;
   const currentSetFilters = setFilters || setInternalFilters;
 
-  const [sortOrder, setSortOrder] = useState("");
+  // Initial sort state if somehow passed prop is missing
+  const [internalSortOrder, setInternalSortOrder] = useState("");
+  const currentSortOrder = sortOrder !== undefined ? sortOrder : internalSortOrder;
+  const currentSetSortOrder = setSortOrder || setInternalSortOrder;
+
   const [showMobileFilters, setShowMobileFilters] = useState(false);
 
   useEffect(() => {
@@ -42,7 +46,7 @@ const CategoryPageLayout2 = ({ products = [], allProducts = [], categoryData, to
 
     const fetchCategoryFilters = async () => {
       try {
-        setLoading(true);
+        setFiltersLoading(true);
         const res = await getCategoryById(categoryData); // categoryData is ID here
         const filtersFromApi = res?.filters || [];
 
@@ -57,7 +61,7 @@ const CategoryPageLayout2 = ({ products = [], allProducts = [], categoryData, to
             if (!(f.name in newFilters)) {
               hasChange = true;
               if (f.type === "range") {
-                newFilters[f.name] = [0, 100000];
+                newFilters[f.name] = [0, 1000000];
               } else {
                 newFilters[f.name] = [];
               }
@@ -65,11 +69,10 @@ const CategoryPageLayout2 = ({ products = [], allProducts = [], categoryData, to
           });
           return hasChange ? newFilters : prev;
         });
-      } catch (err) {
-        console.error("Failed to fetch category filters", err);
-        setCategoryFilters([]);
+      } catch (error) {
+        console.error("Error fetching filters:", error);
       } finally {
-        setLoading(false);
+        setFiltersLoading(false);
       }
     };
 
@@ -290,18 +293,19 @@ const CategoryPageLayout2 = ({ products = [], allProducts = [], categoryData, to
       availability: [],
       features: [],
       accessType: [],
-      priceRange: [0, 10000],
+      priceRange: [0, 1000000],
       colors: [],
     };
 
     // Reset dynamic API filters
     categoryFilters?.forEach((f) => {
-      resetFilters[f.name] = f.type === "range" ? [0, 100000] : [];
+      resetFilters[f.name] = f.type === "range" ? [0, 1000000] : [];
     });
 
     currentSetFilters(resetFilters);
-    setSortOrder("");
+    currentSetSortOrder("");
     setOpenSections({});
+    window.history.replaceState(null, "", window.location.pathname); // Clear URL search params
     if (onPageChange) onPageChange(1);
   };
 
@@ -381,27 +385,53 @@ const CategoryPageLayout2 = ({ products = [], allProducts = [], categoryData, to
 
             <div className="d-flex align-items-center gap-2 sort-control">
               <span className="text-muted small">Sort by:</span>
-              <SortDropdown onChange={(sortValue) => setSortOrder(sortValue)} />
+              <SortDropdown
+                value={currentSortOrder}
+                onChange={(sortValue) => currentSetSortOrder(sortValue)}
+              />
             </div>
           </div>
 
           {/* Product Grid */}
-          <div className="row g-3">
-            {loading ? (
-              <div className="text-center py-5">Loading...</div>
-            ) : paginatedProducts.length > 0 ? (
-              paginatedProducts.map((product) => (
-
-                <div
-                  className="col-12 col-sm-6 col-md-4 col-lg-4 products"
-                  key={product._id}
-                >
-                  <ProductCard product={product} />
+          <div className="row g-3 position-relative" style={{ minHeight: "400px" }}>
+            {loading && (
+              <div
+                className="position-absolute w-100 h-100 d-flex justify-content-center align-items-center"
+                style={{
+                  background: "rgba(255, 255, 255, 0.6)",
+                  zIndex: 10,
+                  top: 0,
+                  left: 0,
+                }}
+              >
+                <div className="text-center">
+                  <div className="spinner-border text-dark" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                  </div>
+                  <p className="mt-2 fw-medium text-dark">Updating products...</p>
                 </div>
-              ))
-            ) : (
-              <div className="text-center py-5">No products found.</div>
+              </div>
             )}
+
+            <div
+              className={`row g-3 m-0 p-0 ${loading ? "opacity-50" : ""}`}
+              style={{ transition: "opacity 0.3s ease" }}
+            >
+              {paginatedProducts.length > 0 ? (
+                paginatedProducts.map((product) => (
+                  <div
+                    className="col-12 col-sm-6 col-md-4 col-lg-4 products"
+                    key={product.id || product._id}
+                  >
+                    <ProductCard product={product} />
+                  </div>
+                ))
+              ) : !loading && (
+                <div className="col-12 text-center py-5">
+                  <p className="text-muted w-100 max-w-full">No products found matching your criteria. <br /> <span style={{ marginTop: "1rem" }}>Try Changing the Filter</span> </p>
+                </div>
+              )}
+            </div>
           </div>
 
           {/* Pagination */}

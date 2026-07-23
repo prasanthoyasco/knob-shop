@@ -7,6 +7,8 @@ import {
 } from "../API/cartApi";
 import { useRef } from "react";
 import { getSharedCart, shareCart } from "../API/cartShareApi";
+import { copyToClipboard } from "../utils/clipboard";
+import ShareModal from "../Components/ShareModal/ShareModal";
 
 const CartContext = createContext();
 export const useCart = () => useContext(CartContext);
@@ -16,6 +18,7 @@ export const CartProvider = ({ children }) => {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [cartItems, setCartItems] = useState([]);
   const skipInitialCartLoad = /^\/share-cart\//.test(window.location.pathname);
+  const [shareModal, setShareModal] = useState({ open: false, link: "", title: "" });
 
 
   // -----------------------------
@@ -180,12 +183,38 @@ export const CartProvider = ({ children }) => {
     try {
       const response = await shareCart(cartItems);
       if (response.link) {
-        await navigator.clipboard.writeText(response.link);
-        alert("Share link copied!");
+        // Detect if we're on mobile
+        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+        // Try native share only on mobile (better for iPhone/Android integration)
+        if (isMobile && navigator.share) {
+          try {
+            await navigator.share({
+              title: "My Shared Cart",
+              text: "Check out my shopping cart at knobsshop!",
+              url: response.link,
+            });
+            return;
+          } catch (err) {
+            if (err.name === 'AbortError') return;
+            console.error("Native share failed:", err);
+          }
+        }
+
+        // Desktop (or mobile share failed): Open the custom share modal
+        setShareModal({
+          open: true,
+          link: response.link,
+          title: "Check out my shopping cart at knobsshop!"
+        });
       }
     } catch (error) {
       console.error("Share cart failed:", error);
     }
+  };
+
+  const openShareModal = (link, title) => {
+    setShareModal({ open: true, link, title });
   };
 
   // -----------------------------
@@ -304,10 +333,17 @@ export const CartProvider = ({ children }) => {
         toggleDrawer,
         shareCurrentCart,
         loadSharedCart,
+        openShareModal,
         recommendedItems,
       }}
     >
       {children}
+      <ShareModal
+        open={shareModal.open}
+        link={shareModal.link}
+        title={shareModal.title}
+        onClose={() => setShareModal({ ...shareModal, open: false })}
+      />
     </CartContext.Provider>
   );
 };

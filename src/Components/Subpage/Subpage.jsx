@@ -20,7 +20,7 @@ export function Subpage() {
   const [filters, setFilters] = useState({
     brand: [],
     colors: [],
-    priceRange: [0, 100000],
+    priceRange: [0, 1000000],
   });
   const itemsPerPage = 12;
 
@@ -66,7 +66,7 @@ export function Subpage() {
       queryParams.color = colors.join(",");
     }
 
-    if (priceRange?.length === 2 && (priceRange[0] > 0 || priceRange[1] < 100000)) {
+    if (priceRange?.length === 2 && (priceRange[0] > 0 || priceRange[1] < 1000000)) {
       queryParams.minPrice = priceRange[0];
       queryParams.maxPrice = priceRange[1];
     }

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useParams, useSearchParams } from "react-router-dom";
 import NavbarTop from "../Components/Navbar/NavbarTop/NavbarTop";
 import CategoryHero from "../Components/CategoryHero/CategoryHero";
 import CategoryPageLayout2 from "../Components/CategoryPageLayout2/CategoryPageLayout2";
@@ -14,15 +14,34 @@ import {
 
 export const ProductList = () => {
   const { categoryId, brandName, query } = useParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const location = useLocation();
-  const passedState = location.state?.product;
-  const [filters, setFilters] = useState({
-    brand: [],
-    colors: [],
-    priceRange: [0, 100000],
+
+  // Initialize filters from URL search params
+  const [filters, setFilters] = useState(() => {
+    const params = new URLSearchParams(location.search);
+    const initialFilters = {
+      brand: params.get("brand")?.split(",").filter(Boolean) || [],
+      colors: params.get("colors")?.split(",").filter(Boolean) || [],
+      priceRange: [
+        Number(params.get("minPrice")) || 0,
+        Number(params.get("maxPrice")) || 1000000,
+      ],
+    };
+
+    // Any other key in URL is treated as a dynamic filter
+    params.forEach((value, key) => {
+      if (!["brand", "colors", "minPrice", "maxPrice", "sortBy", "query", "page", "limit"].includes(key)) {
+        initialFilters[key] = value.split(",").filter(Boolean);
+      }
+    });
+
+    return initialFilters;
   });
+
+  const [sortOrder, setSortOrder] = useState(searchParams.get("sortBy") || "");
   // unified query (from either URL param or search param)
-  const queryParam = query || new URLSearchParams(location.search).get("query");
+  const queryParam = query || searchParams.get("query");
 
   const [products, setProducts] = useState([]);
   const [allProductsForFilters, setAllProductsForFilters] = useState([]);
@@ -31,6 +50,7 @@ export const ProductList = () => {
   const [totalCount, setTotalCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 12;
+
   const mapProduct = (item) => ({
     id: item._id,
     title: item.name,
@@ -49,6 +69,7 @@ export const ProductList = () => {
     icons: item.key_features,
     variant: item.variant,
   });
+
   const buildQueryParams = () => {
     const { brand, colors, priceRange, ...dynamicFilters } = filters;
     const queryParams = {
@@ -65,8 +86,16 @@ export const ProductList = () => {
     }
 
     if (priceRange?.length === 2) {
-      queryParams.minPrice = priceRange[0];
-      queryParams.maxPrice = priceRange[1];
+      if (priceRange[0] > 0) {
+        queryParams.minPrice = priceRange[0];
+      }
+      if (priceRange[1] < 1000000) {
+        queryParams.maxPrice = priceRange[1];
+      }
+    }
+
+    if (sortOrder) {
+      queryParams.sortBy = sortOrder;
     }
 
     // Append all dynamic API filters
@@ -86,9 +115,11 @@ export const ProductList = () => {
 
     return queryParams;
   };
+
   useEffect(() => {
+    console.log("Filters or Sort changed, resetting to page 1");
     setCurrentPage(1);
-  }, [filters]);
+  }, [filters, sortOrder]);
 
   useEffect(() => {
     const loadProducts = async () => {
@@ -99,10 +130,7 @@ export const ProductList = () => {
         // 🔍 Search query case
         if (queryParam) {
           console.log("Searching for query:", queryParam);
-          res = await searchProductsByParam(
-            queryParam,
-            buildQueryParams()
-          );
+          res = await searchProductsByParam(queryParam, buildQueryParams());
 
           const data = res?.data || res?.results || [];
           const backendTotal =
@@ -111,78 +139,42 @@ export const ProductList = () => {
             res?.count ||
             (data ? data.length : 0);
 
-          console.log("API Response for query:", res); // ✅ log full response
-          console.log("Mapped products:", data.map(mapProduct)); // ✅ log mapped products
           setProducts(data.map(mapProduct));
           setCount(backendTotal);
           setTotalCount(backendTotal);
           return;
         }
-
 
         // 🏷️ Brand filter
         if (brandName) {
-          res = await getProductsByBrand(
-            brandName,
-            buildQueryParams()
-          );
-
+          res = await getProductsByBrand(brandName, buildQueryParams());
           const data = res?.data || [];
           const backendTotal = res?.pagination?.totalProducts || 0;
-
           setProducts(data.map(mapProduct));
           setCount(backendTotal);
           setTotalCount(backendTotal);
           return;
         }
 
-
         // 📦 All products with API pagination
         if (categoryId === "all-products") {
-          const queryParams = {
-            page: currentPage,
-            limit: itemsPerPage,
-          };
-
-          // 🔥 Add filters to API call
-          if (filters.brand.length > 0) {
-            queryParams.brand = filters.brand.join(",");
-          }
-
-          if (filters.colors.length > 0) {
-            queryParams.color = filters.colors.join(",");
-          }
-
-          if (filters.priceRange) {
-            queryParams.minPrice = filters.priceRange[0];
-            queryParams.maxPrice = filters.priceRange[1];
-          }
-
+          const queryParams = buildQueryParams();
           res = await getAllProducts(queryParams);
-
           const data = res?.data || [];
-
           setProducts(data.map(mapProduct));
-          setTotalCount(res?.pagination?.totalProducts || 0);
+          const total = res?.pagination?.totalProducts || 0;
+          setCount(total);
+          setTotalCount(total);
           return;
         }
 
-
-
         // 🧭 Category filter
-        res = await fetchProductsByCategory(
-          categoryId,
-          buildQueryParams()
-        );
-
+        res = await fetchProductsByCategory(categoryId, buildQueryParams());
         const data = res?.data || [];
         const backendTotal = res?.pagination?.totalProducts || 0;
         setProducts(data.map(mapProduct));
         setCount(backendTotal);
         setTotalCount(backendTotal);
-        console.log("Total Products Count:", backendTotal);
-
-
       } catch (err) {
         console.error("Error fetching products:", err);
         setProducts([]);
@@ -192,9 +184,38 @@ export const ProductList = () => {
       }
     };
 
-    // ✅ Depend on location so it refreshes whenever query/path changes
     loadProducts();
-  }, [location, currentPage, filters]);
+  }, [location.pathname, currentPage, filters, sortOrder]);
+
+  // 🔄 Sync filters state back to URL search params
+  useEffect(() => {
+    const newParams = new URLSearchParams();
+
+    // Preserve existing special params like query
+    if (queryParam) newParams.set("query", queryParam);
+
+    // Sync static filters
+    if (filters.brand?.length > 0) newParams.set("brand", filters.brand.join(","));
+    if (filters.colors?.length > 0) newParams.set("colors", filters.colors.join(","));
+
+    if (filters.priceRange?.[0] > 0) newParams.set("minPrice", filters.priceRange[0]);
+    if (filters.priceRange?.[1] < 1000000) newParams.set("maxPrice", filters.priceRange[1]);
+
+    // Sync dynamic filters
+    Object.keys(filters).forEach((key) => {
+      if (!["brand", "colors", "priceRange"].includes(key)) {
+        const val = filters[key];
+        if (Array.isArray(val) && val.length > 0) {
+          newParams.set(key, val.join(","));
+        }
+      }
+    });
+
+    if (sortOrder) newParams.set("sortBy", sortOrder);
+
+    // Update URL without triggering a full page reload or unnecessary state updates
+    setSearchParams(newParams, { replace: true });
+  }, [filters, sortOrder]);
 
   useEffect(() => {
     const fetchAllForFilters = async () => {
@@ -222,31 +243,11 @@ export const ProductList = () => {
     fetchAllForFilters();
   }, [categoryId, brandName, queryParam]);
 
-  // Pagination handler for all-products
   const handlePageChange = (page) => {
     if (page >= 1 && page <= Math.ceil(totalCount / itemsPerPage)) {
       setCurrentPage(page);
     }
   };
-  useEffect(() => {
-    console.log("Current Page Changed:", currentPage);
-  }, [currentPage, categoryId, brandName, queryParam]);
-
-  if (loading) {
-    return (
-      <div className="d-flex justify-content-center align-items-center vh-100">
-        <div className="text-center">
-          <img
-            src="/favIcon.png"
-            alt="logo"
-            className="spinner-border"
-            style={{ width: "60px", height: "60px", border: "none" }}
-          />
-          <p className="mt-3 fw-semibold">Loading products...</p>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <>
@@ -269,16 +270,19 @@ export const ProductList = () => {
         allProducts={allProductsForFilters.length > 0 ? allProductsForFilters : products}
         categoryData={categoryId}
         searchQuery={queryParam}
-
         totalCount={totalCount}
         currentPage={currentPage}
         onPageChange={handlePageChange}
         itemsPerPage={itemsPerPage}
-
         filters={filters}
         setFilters={setFilters}
+        sortOrder={sortOrder}
+        setSortOrder={setSortOrder}
+        loading={loading}
       />
       <Footer />
     </>
   );
 };
+
+export default ProductList;

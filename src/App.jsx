@@ -1,6 +1,5 @@
 import "modern-css-reset/dist/reset.min.css";
 import "./App.css";
-import "bootstrap-icons/font/bootstrap-icons.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -52,6 +51,7 @@ import OfferProducts from "./Pages/OfferProducts";
 import { useEffect } from "react";
 import EssentailsDetailsSubpage from "./Pages/EssentailsDetailsSubpage";
 import SharedCartLoader from "./Pages/SharedCartLoader";
+import InvoiceVerification from "./Pages/InvoiceVerification";
 // import NavbarTop from './Components/Navbar/NavbarTop/NavbarTop';
 
 function App() {
@@ -126,6 +126,7 @@ function App() {
           <Route path="/auth/reset" element={<ResetPassPage />} />
           <Route path="/account" element={<ProfilePage />} />
           <Route path="/invoice" element={<Invoice />} />
+          <Route path="/invoice/verify/:orderId" element={<InvoiceVerification />} />
           <Route path="/offer" element={<OfferProducts />} />
           <Route path="/offer/todaysdeal" element={<OfferProducts />} />
           <Route path="*" element={<Notfound />} />

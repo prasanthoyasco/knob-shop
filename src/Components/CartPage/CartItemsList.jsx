@@ -48,12 +48,29 @@ const CartItemsList = ({
             >
               <img
                 src={
-                  item.productId?.variant?.[0]?.images?.[0]?.url ||
-                  item.image ||
-                  item.images?.[0] ||
-                  item.variant?.[0]?.images?.[0]?.url
+                  (() => {
+                    const selectedColorName =
+                      item.colorsText ||
+                      item.colorName ||
+                      item.productId?.variant?.find((v) => v.value === item.colorCode)?.title ||
+                      item.variant?.[0]?.title ||
+                      item.productId?.variant?.[0]?.title;
+
+                    const matchedVariant =
+                      item.productId?.variant?.find((v) => v.title === selectedColorName || v.value === item.colorCode) ||
+                      item.variant?.find((v) => v.title === selectedColorName || v.value === item.colorCode);
+
+                    return (
+                      matchedVariant?.images?.[0]?.url ||
+                      matchedVariant?.images?.[0] ||
+                      item.image ||
+                      item.images?.[0] ||
+                      item.productId?.images?.[0] ||
+                      "/fallback.png"
+                    );
+                  })()
                 }
-                alt={item.title}
+                alt={item.title || item.name}
                 loading="lazy"
               />
               <div className="shopping-cart-table-product-image-content">
@@ -192,10 +209,29 @@ const totalPrice = price ? price * item.quantity : null;
                     )
                   }
                 >
-                  <img src={item.productId?.variant?.[0]?.images?.[0]?.url ||
-                    item.image ||
-                    item.images?.[0] ||
-                    item.variant?.[0]?.images?.[0]?.url} alt={item.title} loading="lazy" />
+                  <img src={
+                    (() => {
+                      const selectedColorName =
+                        item.colorsText ||
+                        item.colorName ||
+                        item.productId?.variant?.find((v) => v.value === item.colorCode)?.title ||
+                        item.variant?.[0]?.title ||
+                        item.productId?.variant?.[0]?.title;
+
+                      const matchedVariant =
+                        item.productId?.variant?.find((v) => v.title === selectedColorName || v.value === item.colorCode) ||
+                        item.variant?.find((v) => v.title === selectedColorName || v.value === item.colorCode);
+
+                      return (
+                        matchedVariant?.images?.[0]?.url ||
+                        matchedVariant?.images?.[0] ||
+                        item.image ||
+                        item.images?.[0] ||
+                        item.productId?.images?.[0] ||
+                        "/fallback.png"
+                      );
+                    })()
+                  } alt={item.title} loading="lazy" />
                 </div>
                 <div className="cart-mobile-right">
                   <h3

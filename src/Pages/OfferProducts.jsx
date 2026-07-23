@@ -16,7 +16,7 @@ const OfferProducts = () => {
   const [filters, setFilters] = useState({
     brand: [],
     colors: [],
-    priceRange: [0, 100000],
+    priceRange: [0, 1000000],
   });
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 12;

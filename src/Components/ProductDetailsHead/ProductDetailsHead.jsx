@@ -8,6 +8,7 @@ import { useWishlist } from "../../Context/WishlistContext";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { getReviewsByProduct } from "../../API/reviewApi";
+import { copyToClipboard } from "../../utils/clipboard";
 export default function ProductDetailsHead() {
   const navigate = useNavigate();
   const { id } = useParams(); // get product id from URL
@@ -27,7 +28,7 @@ export default function ProductDetailsHead() {
   const [loading, setLoading] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
   // Removed the unused 'selectedVariant' state variable as it's a derived value
-  const { addToCart, toggleDrawer } = useCart();
+  const { addToCart, toggleDrawer, openShareModal } = useCart();
 
   const handleWishlistClick = () => {
     const authUser = localStorage.getItem("authUser");
@@ -195,13 +196,15 @@ useEffect(() => {
     };
 
     try {
-      if (navigator.share) {
+      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+      
+      if (isMobile && navigator.share) {
         await navigator.share(shareData);
       } else {
-        await navigator.clipboard.writeText(window.location.href);
-        alert("Link copied to clipboard!");
+        openShareModal(window.location.href, "Check out this product!");
       }
     } catch (err) {
+      if (err.name === 'AbortError') return;
       console.error("Sharing failed:", err);
     }
   };

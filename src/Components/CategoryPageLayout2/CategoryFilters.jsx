@@ -30,17 +30,17 @@ const CategoryFilters = ({
   );
 
   const [localMin, setLocalMin] = useState(filters?.priceRange?.[0] || 0);
-  const [localMax, setLocalMax] = useState(filters?.priceRange?.[1] || maxPrice || 100000);
+  const [localMax, setLocalMax] = useState(filters?.priceRange?.[1] || maxPrice || 1000000);
 
   // Sync when filters change externally (reset etc.)
   useEffect(() => {
     setLocalMin(filters?.priceRange?.[0] || 0);
-    setLocalMax(filters?.priceRange?.[1] || maxPrice || 100000);
+    setLocalMax(filters?.priceRange?.[1] || maxPrice || 1000000);
   }, [filters?.priceRange, maxPrice]);
 
   const applyMin = () => {
     let min = Number(localMin);
-    let max = filters?.priceRange?.[1] || maxPrice || 100000;
+    let max = filters?.priceRange?.[1] || maxPrice || 1000000;
 
     if (isNaN(min) || min < 0) min = 0;
     if (min > max) min = max;
@@ -225,7 +225,7 @@ const CategoryFilters = ({
                           <input
                             type="text"
                             className="form-control"
-                            value={localMax}
+                            value={localMax === 1000000 ? maxPrice : localMax}
                             onChange={(e) => setLocalMax(e.target.value)}
                             onBlur={applyMax}
                             onKeyDown={(e) => {
@@ -297,10 +297,10 @@ const CategoryFilters = ({
                     <Slider
                       range
                       min={0}
-                      max={100000}
+                      max={1000000}
                       className="custom-slider my-4"
                       step={1000}
-                      value={filters[f.name] || [0, 100000]}
+                      value={filters[f.name] || [0, 1000000]}
                       onChange={(value) =>
                         setFilters((prev) => ({ ...prev, [f.name]: value }))
                       }
@@ -308,22 +308,26 @@ const CategoryFilters = ({
                   )}
 
                   {f.type === "checkbox" &&
-                    f.options.map((opt) => (
-                      <div className="form-check mb-2" key={opt}>
-                        <input
-                          className="form-check-input custom-checkbox"
-                          type="checkbox"
-                          value={opt}
-                          onChange={(e) =>
-                            handleCheckboxChange(f.name, opt, e.target.checked)
-                          }
-                          checked={filters[f.name]?.includes(opt)}
-                        />
-                        <label className="form-check-label ms-2 text-capitalize">
-                          {opt}
-                        </label>
-                      </div>
-                    ))}
+                    f.options.map((opt) => {
+                      const checkboxId = `checkbox-${f.name}-${opt}`.replace(/\s+/g, '-').toLowerCase();
+                      return (
+                        <div className="form-check mb-2" key={opt}>
+                          <input
+                            className="form-check-input custom-checkbox"
+                            type="checkbox"
+                            value={opt}
+                            id={checkboxId}
+                            onChange={(e) =>
+                              handleCheckboxChange(f.name, opt, e.target.checked)
+                            }
+                            checked={filters[f.name]?.includes(opt)}
+                          />
+                          <label className="form-check-label ms-2 text-capitalize" htmlFor={checkboxId}>
+                            {opt}
+                          </label>
+                        </div>
+                      );
+                    })}
 
                   {f.type === "radio" &&
                     f.options.map((opt) => (

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import "./PaymentPage.css";
 import Footer from "../Footer/Footer";
 import NavbarTop from "../Navbar/NavbarTop/NavbarTop";
@@ -14,6 +14,7 @@ import { getAvailableCoupons, validateCoupon } from "../../API/CouponApi";
 import Lottie from "lottie-react";
 import { getAddressByUserId } from "../../API/addressApi";
 import axios from "axios";
+import { RefreshCw, Ticket } from "lucide-react";
 const indianStates = [
   "Andhra Pradesh",
   "Arunachal Pradesh",
@@ -104,6 +105,9 @@ function PaymentPage() {
   const [accessCode, setAccessCode] = useState("");
   const [merchantId, setMerchantId] = useState("");
   const [availableCoupons, setAvailableCoupons] = useState([]);
+  const [couponsLoading, setCouponsLoading] = useState(false);
+  const [couponListError, setCouponListError] = useState("");
+  const [lastCouponRefresh, setLastCouponRefresh] = useState(null);
   const [paying, setPaying] = useState(false);
 
   const [showFields, setShowFields] = useState(false);
@@ -116,7 +120,10 @@ function PaymentPage() {
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
 
   const location = useLocation();
-  const cartItems = location.state?.cartItems || [];
+  const cartItems = React.useMemo(
+    () => location.state?.cartItems || [],
+    [location.state?.cartItems]
+  );
   const navigate = useNavigate();
   const API_KEY = "848cf9974177b193fdcae5d1a8ab5efb";
 
@@ -306,34 +313,53 @@ function PaymentPage() {
 
     fetchUserAddress();
   }, [Userid, deliveryOption]);
-  useEffect(() => {
-    if (!cartItems?.length) return;
-    getAvailableCoupons()
-      .then((coupons) => {
-        console.log(coupons);
-        const filteredCoupons = coupons.filter((coupon) => {
-          if (coupon.appliesTo === "all") return true;
+  const refreshAvailableCoupons = useCallback(async () => {
+    if (!cartItems?.length) {
+      setAvailableCoupons([]);
+      setCouponListError("Add products to your cart to view matching coupons.");
+      return;
+    }
 
-          if (coupon.appliesTo === "single" && coupon.productId) {
-            return cartItems.some((item) => {
-              console.log("couponcheck item:", item);
-              const itemId =
-                item.productId?._id ??
-                item.productId ??
-                item._id ??
-                item.id ??
-                null;
+    setCouponsLoading(true);
+    setCouponListError("");
 
-              return String(itemId) === String(coupon.productId);
-            });
-          }
-          return false;
-        });
+    try {
+      const coupons = await getAvailableCoupons();
+      const filteredCoupons = coupons.filter((coupon) => {
+        if (coupon.appliesTo === "all") return true;
 
-        setAvailableCoupons(filteredCoupons);
-      })
-      .catch(console.error);
+        if (coupon.appliesTo === "single" && coupon.productId) {
+          return cartItems.some((item) => {
+            const itemId =
+              item.productId?._id ??
+              item.productId ??
+              item._id ??
+              item.id ??
+              null;
+
+            return String(itemId) === String(coupon.productId);
+          });
+        }
+        return false;
+      });
+
+      setAvailableCoupons(filteredCoupons);
+      setLastCouponRefresh(new Date());
+      if (!filteredCoupons.length) {
+        setCouponListError("No coupons are available right now...");
+      }
+    } catch (err) {
+      console.error(err);
+      setAvailableCoupons([]);
+      setCouponListError("Could not refresh coupons. Please try again.");
+    } finally {
+      setCouponsLoading(false);
+    }
   }, [cartItems]);
+
+  useEffect(() => {
+    refreshAvailableCoupons();
+  }, [refreshAvailableCoupons]);
 
   useEffect(() => {
     const savedUser = JSON.parse(localStorage.getItem("authUser") || "{}");
@@ -992,6 +1018,7 @@ function PaymentPage() {
           </div>
           {deliveryOption === "ship" && (
             <div className="shop-conatiner">
+              <h3 className="contact-con-head-h3">SHIPPING ADDRESS</h3>
               <div className="first-last-name-input-div">
                 <input
                   type="text"
@@ -1046,10 +1073,6 @@ function PaymentPage() {
                   onChange={(e) => setShippingZip(e.target.value)}
                   onBlur={() => setDeliveryCompleted(true)}
                 />
-              </div>
-              <div className="contact-con-checkbox-text">
-                <input type="checkbox" />
-                <p>Save the information for the next time</p>
               </div>
             </div>
           )}
@@ -1174,10 +1197,11 @@ function PaymentPage() {
 
           {deliveryOption === "ship" && (
             <div className="shipping-method-container">
-              <h3 className="contact-con-head-h3">SHIPPING METHOD</h3>
+              {/* <h3 className="contact-con-head-h3">SHIPPING METHOD</h3>
               <div className="shipping-method-containe-text">
                 Enter your shipping address to view available shipping methods
-              </div>
+              </div> */}
+              <div className="d-flex flex-column flex-lg-row gap-1 gap-md-4">
               <div className="contact-con-checkbox-text">
                 <input
                   type="checkbox"
@@ -1186,8 +1210,14 @@ function PaymentPage() {
                 />
                 <p>Use Shipping address as billing address</p>
               </div>
+              <div className="contact-con-checkbox-text">
+                <input type="checkbox" checked/>
+                <p>Save the information for the next time</p>
+              </div>
+              </div>
 
               <div className="shop-conatiner">
+                <h3 className="contact-con-head-h3">BILLING ADDRESS</h3>
                 <div className="first-last-name-input-div">
                   <input
                     type="text"
@@ -1280,17 +1310,52 @@ function PaymentPage() {
             </button>
           </div>
 
-          {/* Available Coupons */}
-          {availableCoupons?.length > 0 && (
-            <div className="mt-3">
-              <p className="mb-1 fw-bold">Available Coupons:</p>
-              <div className="d-flex flex-wrap gap-2">
+          <div className="available-coupons-panel mt-3">
+            <div className="available-coupons-header">
+              <div className="available-coupons-title">
+                <Ticket size={18} aria-hidden="true" />
+                <span>Available Coupons</span>
+              </div>
+              <button
+                type="button"
+                className="coupon-refresh-btn"
+                onClick={refreshAvailableCoupons}
+                disabled={couponsLoading}
+                title="Refresh available coupons"
+                aria-label="Refresh available coupons"
+              >
+                <RefreshCw
+                  size={16}
+                  aria-hidden="true"
+                  className={
+                    couponsLoading
+                      ? "coupon-refresh-icon spinning"
+                      : "coupon-refresh-icon"
+                  }
+                />
+                <span className="coupon-refresh-text">
+                  {couponsLoading ? "Refreshing..." : "Refresh"}
+                </span>
+              </button>
+            </div>
+
+            {couponListError && (
+              <p className="coupon-list-message">{couponListError}</p>
+            )}
+
+            {availableCoupons?.length > 0 && (
+              <div className="available-coupons-list">
                 {availableCoupons?.map((coupon) => (
-                  <span
+                  <button
+                    type="button"
                     key={coupon.code}
-                    className="badge bg-light text-dark border border-secondary p-2 coupon-badge"
-                    style={{ cursor: "pointer" }}
-                    disabled={couponApplied}
+                    className="coupon-badge"
+                    disabled={couponApplied || Applying}
+                    title={
+                      couponApplied
+                        ? "Remove the applied coupon before choosing another"
+                        : `Apply coupon ${coupon.code}`
+                    }
                     onClick={() => {
                       if (!couponApplied) {
                         setCouponCode(coupon.code);
@@ -1298,18 +1363,28 @@ function PaymentPage() {
                       }
                     }}
                   >
-                    {coupon.code} —{" "}
-                    {coupon.type === "percentage"
-                      ? `${coupon.value}% Off`
-                      : `₹${coupon.value} Off`}
+                    <span className="coupon-badge-code">{coupon.code}</span>
+                    <span className="coupon-badge-value">
+                      {coupon.type === "percentage"
+                        ? `${coupon.value}% Off`
+                        : `₹${coupon.value} Off`}
+                    </span>
                     {coupon.appliesTo === "single" && (
                       <span className="exclusive-badge">Exclusive</span>
                     )}
-                  </span>
+                  </button>
                 ))}
               </div>
-            </div>
-          )}
+            )}
+            {lastCouponRefresh && (
+              <p className="coupon-refresh-meta">
+                Updated {lastCouponRefresh.toLocaleTimeString([], {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}
+              </p>
+            )}
+          </div>
 
           <button
             className="btn pay-now-btn rounded-0"
@@ -1336,7 +1411,7 @@ function PaymentPage() {
               <p>If you order in the next 20 hours and 34 minutes</p>
             </>
           ) : (
-            <strong style={{ color: "red" }}>Please Select a Delivery Method</strong>
+            <strong style={{ color: "#f16363" }}>Please Select a Delivery Method</strong>
           )}
           <div
             className="cart-items-wrapper"
@@ -1427,7 +1502,7 @@ function PaymentPage() {
                 </div>
                 <p className="payment-price">
                   <strong>
-                    {(() => {
+                    ₹ {(() => {
                       // 1️⃣ Identify selected color
                       const colorName =
                         item.colorsText ||
