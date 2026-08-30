@@ -1,378 +1,461 @@
-.footer-container{
-    display: flex;
-    justify-content: space-around;
-    margin: 0rem 1rem;
+.footer-container {
+  display: flex;
+  justify-content: space-around;
+  margin: 0rem 1rem;
 }
-.footer-menus{
-    justify-content: space-between !important;
-    gap:30px;
+.footer-menus {
+  justify-content: space-between !important;
+  gap: 30px;
 }
-.footer-right-down-background{
-    background-image: url(../../Assets/b4.png);
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    position: absolute;
-    top: 56%;
-    right: 2%;
-    width: 60px;
-    height: 200px;
-    z-index: 0;
-    pointer-events: none; /* Allow clicks to pass through */
+.footer-right-down-background {
+  background-image: url(../../Assets/b4.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  position: absolute;
+  top: 30%;
+  right: 2%;
+  width: 60px;
+  height: 100px;
+  z-index: 0;
+  pointer-events: none; /* Allow clicks to pass through */
 }
-.footer-right-top-background{
-    background-image: url(../../Assets/b5.png);
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    position: absolute;
-    top: -31%;
-    right: 3%;
-    width: 449px;
-    height: 164px;
-    z-index: 0;
-    pointer-events: none; /* Allow clicks to pass through */
+.footer-right-top-background {
+  background-image: url(../../Assets/b5.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  position: absolute;
+  top: 13%;
+  right: 3%;
+  width: 449px;
+  height: 164px;
+  z-index: 0;
+  pointer-events: none; /* Allow clicks to pass through */
 }
-.footer-hall-background{
-    background-image: url(../../Assets/b2.png);
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    position: absolute;
-    top: 44%;
-    right: 25%;
-    width: 550px;
-    height: 250px;
-    z-index: 0;
-    pointer-events: none; /* Allow clicks to pass through */
+.footer-hall-background {
+  background-image: url(../../Assets/b2.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  position: absolute;
+  top: 24%;
+  right: 25%;
+  width: 550px;
+  height: 250px;
+  z-index: 0;
+  pointer-events: none; /* Allow clicks to pass through */
 }
-.footer-buliding-background{
-    background-image: url(../../Assets/b1.png);
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    position: absolute;
-    top: 35%;
-    right: 78%;
-    width: 108px;
-    height:270px;
-    z-index: 0;
-    pointer-events: none; /* Allow clicks to pass through */
+.footer-buliding-background {
+  background-image: url(../../Assets/b1.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  position: absolute;
+  top: 25%;
+  right: 78%;
+  width: 108px;
+  height: 270px;
+  z-index: 0;
+  pointer-events: none; /* Allow clicks to pass through */
 }
-.footer-bottom-background{
-    background-image: url(../../Assets/backgroundleft.png);
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    position: absolute;
-    top: 72%;
-    right: 81%;
-    width: 19%;
-    height: 32%;
-    z-index: 0;
-    pointer-events: none; /* Allow clicks to pass through */
+.footer-bottom-background {
+  background-image: url(../../Assets/backgroundleft.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  position: absolute;
+  top: 72%;
+  right: 81%;
+  width: 19%;
+  height: 32%;
+  z-index: 0;
+  pointer-events: none; /* Allow clicks to pass through */
 }
 .logo-background {
-    background-image: url(../../Assets/logobackground.png);
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    position: absolute;
-    top: -12%;
-    right: 79%;
-    width: 19%;
-    height: 32%;
-    z-index: 0;
-    pointer-events: none; /* Allow clicks to pass through */
+  background-image: url(../../Assets/logobackground.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  position: absolute;
+  top: 0;
+  right: 77%;
+  width: 19%;
+  height: 32%;
+  z-index: 0;
+  pointer-events: none; /* Allow clicks to pass through */
 }
 
-.footer{
-    background-color:#F8F8F8;
-    position: relative;
-    z-index: 1;
+.footer {
+  background-color: #f8f8f8;
+  position: relative;
+  z-index: 1;
+  /* overflow: hidden; */
 }
-.footer-container h2{
-    color: #B3B3B3 !important;
+.footer-container h2 {
+  color: #b3b3b3 !important;
 }
 .footer-logo img {
-    width: 146.01px;
-    height: 77.87px;
+  width: 146.01px;
+  height: 77.87px;
 }
 
-.footer-logo-text{
-    width: 200px;
-    display: flex;
-    flex-direction: column;
+.footer-logo-text {
+  width: 200px;
+  display: flex;
+  flex-direction: column;
 }
-.footer-logo-text p{
-    width: 235px;
-    height: 64px;
-    font-size: 18px;
-    line-height: auto;
-    letter-spacing: 0%;
-    margin-top: 30px !important;
+.footer-logo-text p {
+  width: 235px;
+  height: 64px;
+  font-size: 18px;
+  line-height: auto;
+  letter-spacing: 0%;
+  margin-top: 30px !important;
 }
 .about-content,
 .policy-content,
 .policy-content,
 .policy-content,
 .help-content,
-.shop-content{
-    display: flex;
-    flex-direction: column;
+.shop-content {
+  display: flex;
+  flex-direction: column;
 }
 
 .shop-content a,
 .about-content a,
 .help-content a,
-.policy-content a{
-    text-decoration: none;
-    color: #252525;
+.policy-content a {
+  text-decoration: none;
+  color: #252525;
 }
-.shop-content{
-    margin-top: 30px;
-    width: 103px;
-    line-height: 30px;
-    letter-spacing: 0%;
-    font-size: 18px;
+.shop-content {
+  margin-top: 30px;
+  width: 145px;
+  line-height: 30px;
+  letter-spacing: 0%;
+  font-size: 18px;
 }
 
-.help-content{
-    margin-top: 30px;
-    width: 103px;
-    height: 30px;
-    line-height: 30px;
-    letter-spacing: 0%;
-    font-size: 16px;
+.help-content {
+  margin-top: 30px;
+  width: 103px;
+  height: 30px;
+  line-height: 30px;
+  letter-spacing: 0%;
+  font-size: 16px;
 }
-.about-content{
-    margin-top: 30px;
-    width: 103px;
-    height: 30px;
-    line-height: 30px;
-    letter-spacing: 0%;
-    font-size: 16px;
+.about-content {
+  margin-top: 30px;
+  width: 103px;
+  height: 30px;
+  line-height: 30px;
+  letter-spacing: 0%;
+  font-size: 16px;
 }
-.policy-content{
-    margin-top: 30px;
-    width: 162px;
-    height: 89px;
-    line-height: 30px;
-    letter-spacing: 0%;
-    font-size: 16px;
+.policy-content {
+  margin-top: 30px;
+  width: 162px;
+  height: 89px;
+  line-height: 30px;
+  letter-spacing: 0%;
+  font-size: 16px;
 }
-.icon-phone-number{
-    display: flex;
-    margin-top: 30px;
-    align-items: center;
-    gap: 17px;
-    width: 191px;
-    height: 40px;
-    color: #252525;
-    line-height: 20px;
-    letter-spacing: 0%;
+.icon-phone-number {
+  display: flex;
+  margin-top: 30px;
+  align-items: center;
+  gap: 17px;
+  width: 191px;
+  height: 40px;
+  color: #252525;
+  line-height: 20px;
+  letter-spacing: 0%;
 }
-.phone-number p{
-    margin: 0 !important;
-    font-size: 16px;
+.phone-number p {
+  margin: 0 !important;
+  font-size: 16px;
 }
-.phone-number{
-    line-height: 20px;
-    letter-spacing: 0%;
+.phone-number {
+  line-height: 20px;
+  letter-spacing: 0%;
 }
-.icon-and-mail-id i{
-    font-size: 40px;
-    color: #252525;
+.icon-and-mail-id i {
+  font-size: 40px;
+  color: #252525;
 }
-.icon-phone-number i{
-    font-size: 32.94px;
-    color: #252525;
+.icon-phone-number i {
+  font-size: 32.94px;
+  color: #252525;
 }
-.icon-and-mail-id{
-    display: flex;
-    align-items: center;
-    gap: 17px;
-    margin-top: 20px;
+.icon-and-mail-id {
+  display: flex;
+  align-items: center;
+  gap: 17px;
+  margin-top: 20px;
 }
-.email-id p{
-    margin: 0 !important;
-    font-size: 16px;
-    color: #252525;
+.email-id p {
+  margin: 0 !important;
+  font-size: 16px;
+  color: #252525;
 }
-.email-id{
-    line-height: 20px;
-    letter-spacing: 0%;
+.email-id {
+  line-height: 20px;
+  letter-spacing: 0%;
 }
 .footer-search-box-text input {
-    width: 300px;
-    height: 52px;
-    padding-left: 30px;
-    border-top-left-radius: 30px;
-    border-bottom-left-radius: 30px;
-    border: 1px solid #444444;
-    background-color: white;
-    transition: border-color 0.3s ease;
-    margin-top: 20px;
+  width: 300px;
+  height: 52px;
+  padding-left: 30px;
+  border-top-left-radius: 30px;
+  border-bottom-left-radius: 30px;
+  border: 1px solid #444444;
+  background-color: white;
+  transition: border-color 0.3s ease;
+  margin-top: 20px;
 }
 .footer-search-box-text input:focus {
-    outline: none;
-    border-color: #000;
+  outline: none;
+  border-color: #000;
 }
 .footer-search-box-text button {
-    background-color: black;
-    color: white;
-    height: 52px;
-    padding: 5px 24px 4px 24px;
-    border-top-right-radius: 30px;
-    border-bottom-right-radius: 30px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.3s ease;
+  background-color: black;
+  color: white;
+  height: 52px;
+  padding: 5px 24px 4px 24px;
+  border-top-right-radius: 30px;
+  border-bottom-right-radius: 30px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
 }
-.email-section-footer{
-    position: absolute;
-    right: 0;
-    margin-right: 80px;
-    margin-top: 20px;
+.email-section-footer {
+  position: absolute;
+  right: 0;
+  margin-right: 80px;
+  margin-top: 20px;
 }
-.email-section-footer p{
-    width: 355px;
-    font-size: 16px !important;
-    letter-spacing: 0%;
-    line-height: auto;
-    color: #222321;
+.email-section-footer p {
+  width: 355px;
+  font-size: 16px !important;
+  letter-spacing: 0%;
+  line-height: auto;
+  color: #222321;
 }
-.fb-insta-youTube-icon{
-    margin: 13% 0px 0px 55px;
+.fb-insta-youTube-icon {
+  margin: 5% 0px 0px 55px;
 }
-.fb-insta-youTube-icon img{
-    margin-bottom: 20px;
+.fb-insta-youTube-icon img {
+  margin-bottom: 20px;
 }
-.fb-insta-youTube-icon p{
-    font-size: 16px;
+.fb-insta-youTube-icon p {
+  font-size: 16px;
 }
-.email-section-footer h4{
-    font-size: 22px;
-    line-height: auto;
-    letter-spacing: 0%;
-    color: #000000;
-    font-weight: bolder;
+.insta-gram-icon {
+  background-color: #ab7b53;
+  font-size: 20px;
+  padding: 8px 12px;
+  border-radius: 50%;
+  color: white;
+}
+.email-section-footer h4 {
+  font-size: 22px;
+  line-height: auto;
+  letter-spacing: 0%;
+  color: #000000;
+  font-weight: bolder;
 }
 @media (max-width: 1024px) {
-    .footer-container {
-      flex-wrap: wrap;
-      gap: 40px;
-      justify-content: center;
-      padding: 2rem 0 !important;
-    }
-  
-    .email-section-footer {
-      position: static;
-      margin: 40px 0 0 0;
-      text-align: center;
-    }
-  
-    .email-section-footer p,
-    .footer-logo-text p,
-    .footer-search-box-text input {
-      width: 100%;
-      max-width: 300px;
-    }
-  
-    .footer-search-box-text {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      margin-top: 20px;
-    }
-  
-    .footer-search-box-text input,
-    .footer-search-box-text button {
-      width: 100%;
-      max-width: 300px;
-      border-radius: 30px;
-      margin: 5px 0;
-    }
-  
-    .fb-insta-youTube-icon {
-      margin: unset !important;
-        text-align: center;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-    .fb-insta-youTube-icon img{
-        margin-left: unset !important;
-    }
-    .footer-about-container{
-        margin-bottom: unset !important;
-    }
-    .icon-phone-number i,
-    .icon-and-mail-id i{
-        font-size: 22px;
-    }
+  .footer-container {
+    flex-wrap: wrap;
+    gap: 40px;
+    justify-content: center;
+    padding: 2rem 0 !important;
   }
-  
-  @media (max-width: 600px) {
-    .footer-container {
-      gap: 40px;  /* add spacing between footer sections */
-      padding: 20px; /* optional for breathing room */
-    }
-  
-    /* Center all content inside each footer section */
-    .shop-content,
-    .about-content,
-    .policy-content,
-    .help-content {
-      align-items:baseline;
-      text-align: center; /* ensure text centers */
-      width: 100%; /* make them full width for better stacking */
-      max-width: 320px; /* limit max width so it doesn't stretch too much */
-      margin: 0 auto 20px auto; /* center each section with bottom spacing */
-    }
-    .icon-phone-number{
-        margin-top: unset !important;
-    }
-  
-    /* Center phone and email icon groups */
-    .icon-phone-number,
-    .icon-and-mail-id {
-      justify-content: center;
-      gap: 10px; /* slightly smaller gap for mobile */
-      width: auto; /* let them shrink-wrap */
-    }
-  
-    /* Footer logo and text */
-    .footer-logo-text,
-    .footer-logo img {
-      align-items: center;
-        text-align: center;
-        width: unset !important;
-    }
-  
-    /* Ensure email section is centered and responsive */
-    .email-section-footer {
-      position: static;
-      margin: 20px auto 0 auto;
-      text-align: center;
-      width: 100%;
-      max-width: 320px;
-    }
-    .contact-info-container{
-        padding: 10px;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-    }
-    .email-section-footer{
-        display: none;
-    }
-    .fb-insta-youTube-icon img{
-        margin-left: 35%;
-    }
-    .footer-menus{
-        flex-wrap: wrap;
-        align-items: baseline;
-        justify-content: space-evenly !important;
-    }
+
+  .email-section-footer {
+    position: static;
+    margin: 40px 0 0 0;
+    text-align: center;
   }
-  
+
+  .email-section-footer p,
+  .footer-logo-text p,
+  .footer-search-box-text input {
+    width: 100%;
+    max-width: 300px;
+  }
+
+  .footer-search-box-text {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 20px;
+  }
+
+  .footer-search-box-text input,
+  .footer-search-box-text button {
+    width: 100%;
+    max-width: 300px;
+    border-radius: 30px;
+    margin: 5px 0;
+  }
+
+  .fb-insta-youTube-icon {
+    margin: unset !important;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .fb-insta-youTube-icon img {
+    margin-left: unset !important;
+  }
+  .footer-about-container {
+    margin-bottom: unset !important;
+  }
+  .icon-phone-number i,
+  .icon-and-mail-id i {
+    font-size: 22px;
+  }
+}
+
+@media (max-width: 600px) {
+  .footer-container {
+    gap: 40px; /* add spacing between footer sections */
+    padding: 20px; /* optional for breathing room */
+  }
+
+  /* Center all content inside each footer section */
+  .shop-content,
+  .about-content,
+  .policy-content,
+  .help-content {
+    align-items: baseline;
+    text-align: center; /* ensure text centers */
+    width: 100%; /* make them full width for better stacking */
+    max-width: 320px; /* limit max width so it doesn't stretch too much */
+    margin: 0 auto 20px auto; /* center each section with bottom spacing */
+  }
+  .icon-phone-number {
+    margin-top: unset !important;
+  }
+
+  /* Center phone and email icon groups */
+  .icon-phone-number,
+  .icon-and-mail-id {
+    justify-content: center;
+    gap: 10px; /* slightly smaller gap for mobile */
+    width: auto; /* let them shrink-wrap */
+  }
+  .icon-and-mail-id {
+    margin: 0 !important;
+  }
+
+  /* Footer logo and text */
+  .footer-logo-text,
+  .footer-logo img {
+    align-items: center;
+    text-align: center;
+    width: unset !important;
+  }
+
+  /* Ensure email section is centered and responsive */
+  .email-section-footer {
+    position: static;
+    margin: 20px auto 0 auto;
+    text-align: center;
+    width: 100%;
+    max-width: 320px;
+  }
+  .contact-info-container {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10%;
+  }
+  .email-section-footer {
+    display: none;
+  }
+  .fb-insta-youTube-icon img {
+    margin-left: 35%;
+  }
+  .footer-menus {
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-evenly !important;
+  }
+  .footer-about-container {
+    width: 34% !important;
+    margin-left: 10% !important;
+  }
+  .icon-phone-number i,
+  .icon-and-mail-id i {
+    display: none;
+  }
+  .fb-insta-youTube-icon a {
+    margin-top: -15px !important;
+  }
+  .insta-gram-icon {
+    padding: 6px 10px;
+  }
+}
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  padding: 30px;
+  border-radius: 8px;
+  text-align: center;
+  max-width: 400px;
+  width: 90%;
+}
+
+.modal-heading {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.modal-text {
+  font-size: 1rem;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.login-button,
+.close-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.login-button {
+  background-color: #ab7b53;
+  color: white;
+}
+
+.close-button {
+  background-color: #ccc;
+  color: #333;
+}

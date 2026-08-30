@@ -5,11 +5,17 @@ import { Navigation, Autoplay } from "swiper/modules";
 import "swiper/css";
 import './ProductCarosal.css'
 import "swiper/css/navigation";
-
+import { useNavigate } from "react-router-dom";
 const ProductCarouselSwiper = ({ products = [] }) => {
+  console.log(products);
+  
   const prevRef = useRef(null);
   const nextRef = useRef(null);
-
+  const navigate = useNavigate()
+  const handleClick = (item) => {
+    console.log("Clicked:", item);
+    navigate(`/category/${item.id}`,{ state: { product: item } });
+  };
   return (
     <section className="py-1 bg-white mt-3 container-fluid product-carosal"> {/* Changed container-fluied to container-fluid */}
       <div className="d-flex align-items-center my-2 px-2"> {/* Removed justify-content-between */}
@@ -62,20 +68,19 @@ const ProductCarouselSwiper = ({ products = [] }) => {
       >
         {products.map((item, idx) => (
           <SwiperSlide key={idx}>
-            <div className="text-center p-3 h-100 d-flex flex-column slides">
+            <div className="text-center p-3 h-100 d-flex flex-column slides" onClick={() => handleClick(item)}>
               <img
                 src={item.image}
-                alt={item.title}
+                alt={item.text}
                 className="img-fluid mb-3"
                 style={{ maxHeight: "250px", objectFit: "contain" }}
               />
-              <h6 className="mb-1">{item.title}</h6>
-              <small className="text-muted">Items ({item.count})</small>
+              <h6 className="mb-1">{item.text}</h6>
             </div>
           </SwiperSlide>
         ))}
       </Swiper>
-     <div className="d-flex justify-content-center mt-2"> <button className="ctn big-ctn">Shop Now</button></div>
+     <div className="d-flex justify-content-center mt-2"> <button className="ctn big-ctn" onClick={()=>navigate('/categories')}>Explore Now</button></div>
     </section>
   );
 };

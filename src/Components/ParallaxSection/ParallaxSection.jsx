@@ -1,5 +1,7 @@
 import React, { useRef, useEffect, useCallback, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./ParallaxSection.css";
+import HeroSection2 from "../HeroSection2/HeroSection2";
 
 const ArrowDownIcon = () => (
   <svg
@@ -21,9 +23,12 @@ const ArrowDownIcon = () => (
 
 const ParallaxSection = ({
   text = "See our latest inspirations",
-  // title = 'Check over 10,000 Inspirations',
   buttonText = "Check now",
-  buttonLink = "/pages/inspired",
+  buttonLink = "/categories",
+  leftData,
+  rightData,
+  leftData1,
+  rightData1,
   leftImage,
   rightImage,
   leftImage1,
@@ -33,52 +38,59 @@ const ParallaxSection = ({
   target = 50000,
   duration = 2000,
 }) => {
+  const navigate = useNavigate();
   const sectionRef = useRef(null);
   const titleRef = useRef();
   const leftImgRef = useRef(null);
   const leftImgRef1 = useRef(null);
   const rightImgRef = useRef(null);
   const rightImgRef1 = useRef(null);
+
   const [displayNumber, setDisplayNumber] = useState("00000");
+  const [hasAnimated, setHasAnimated] = useState(false);
 
- const rotateImagesOnScroll = useCallback(() => {
-  if (!sectionRef.current || !leftImgRef.current || !leftImgRef1.current || !rightImgRef.current || !titleRef.current)
-    return;
+  const rotateImagesOnScroll = useCallback(() => {
+    if (
+      !sectionRef.current ||
+      !leftImgRef.current ||
+      !leftImgRef1.current ||
+      !rightImgRef.current ||
+      !rightImgRef1.current ||
+      !titleRef.current
+    )
+      return;
 
-  const sectionRect = sectionRef.current.getBoundingClientRect();
-  const viewportHeight = window.innerHeight;
-  const scrollProgress =
-    (viewportHeight - sectionRect.top) /
-    (viewportHeight + sectionRect.height);
-  const clampedProgress = Math.max(0, Math.min(1, scrollProgress));
-  const maxRotation = parseInt(rotation, 10) || 10;
+    const sectionRect = sectionRef.current.getBoundingClientRect();
+    const viewportHeight = window.innerHeight;
+    const scrollProgress =
+      (viewportHeight - sectionRect.top) /
+      (viewportHeight + sectionRect.height);
+    const clampedProgress = Math.max(0, Math.min(1, scrollProgress));
+    const maxRotation = parseInt(rotation, 10) || 10;
 
-  // Rotate images
-  [
-    { ref: leftImgRef.current, reverse: true },
-    { ref: rightImgRef.current, reverse: false },
-    { ref: rightImgRef1.current, reverse: false },
-    { ref: leftImgRef1.current, reverse: true },
-  ].forEach(({ ref, reverse }) => {
-    const angle = clampedProgress * maxRotation * (reverse ? -1 : 1);
-    window.requestAnimationFrame(() => {
-      ref.style.transform = `translate3d(0px, 0px, 0px) rotate(${angle}deg)`;
+    [
+      { ref: leftImgRef.current, reverse: true },
+      { ref: rightImgRef.current, reverse: false },
+      { ref: rightImgRef1.current, reverse: false },
+      { ref: leftImgRef1.current, reverse: true },
+    ].forEach(({ ref, reverse }) => {
+      const angle = clampedProgress * maxRotation * (reverse ? -1 : 1);
+      window.requestAnimationFrame(() => {
+        ref.style.transform = `translate3d(0, 0, 0) rotate(${angle}deg)`;
+      });
     });
-  });
 
-  // Blur title synced with scrollProgress
-  const maxBlur = 10; // max blur in px
-  const blurStartThreshold = 0.1736385392957558;
-  let blurValue = 0;
+    const maxBlur = 10;
+    const blurStartThreshold = 0.1736;
+    let blurValue = 0;
 
-  if (clampedProgress > blurStartThreshold) {
-    const normalizedProgress = (clampedProgress - blurStartThreshold) / (1 - blurStartThreshold);
-    blurValue = normalizedProgress * maxBlur;
-  }
+    if (clampedProgress > blurStartThreshold) {
+      const normalized = (clampedProgress - blurStartThreshold) / (1 - blurStartThreshold);
+      blurValue = normalized * maxBlur;
+    }
 
-  titleRef.current.style.filter = `blur(${blurValue}px)`;
-}, [rotation]);
-
+    titleRef.current.style.filter = `blur(${blurValue}px)`;
+  }, [rotation]);
 
   useEffect(() => {
     window.addEventListener("scroll", rotateImagesOnScroll);
@@ -86,163 +98,152 @@ const ParallaxSection = ({
     return () => window.removeEventListener("scroll", rotateImagesOnScroll);
   }, [rotateImagesOnScroll]);
 
-  const [hasAnimated, setHasAnimated] = useState(false);
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!sectionRef.current || hasAnimated) return;
 
-useEffect(() => {
-  const handleScroll = () => {
-    if (!sectionRef.current || hasAnimated) return;
+      const rect = sectionRef.current.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
 
-    const rect = sectionRef.current.getBoundingClientRect();
-    const windowHeight = window.innerHeight;
+      if (rect.top < windowHeight && rect.bottom > 0) {
+        setHasAnimated(true);
 
-    if (rect.top < windowHeight && rect.bottom > 0) {
-      setHasAnimated(true);
+        let step = 0;
+        const end = parseInt(target.toString().padStart(5, "0"), 10);
+        const range = end;
+        const incrementTime = 90;
+        const totalSteps = Math.ceil(duration / incrementTime);
 
-      let start = 0;
-      const end = parseInt(target.toString().padStart(5, "0"));
-      const range = end - start;
-      const incrementTime = 90;
-      const totalSteps = Math.ceil(duration / incrementTime);
-      let step = 0;
+        const interval = setInterval(() => {
+          step++;
+          if (step >= totalSteps) {
+            setDisplayNumber(end.toLocaleString("en-IN"));
+            clearInterval(interval);
+          } else {
+            const value = Math.floor((step / totalSteps) * range);
+            setDisplayNumber(value.toLocaleString("en-IN"));
+          }
+        }, incrementTime);
+      }
+    };
 
-      const interval = setInterval(() => {
-        step++;
-
-        if (step >= totalSteps) {
-          setDisplayNumber(end.toLocaleString("en-IN")); // stop exactly at 50,000
-          clearInterval(interval);
-        } else {
-          const progress = step / totalSteps;
-          const value = Math.floor(progress * range);
-          setDisplayNumber(value.toLocaleString("en-IN"));
-        }
-      }, incrementTime);
-    }
-  };
-
-  window.addEventListener("scroll", handleScroll);
-  return () => window.removeEventListener("scroll", handleScroll);
-}, [hasAnimated, target, duration]);
-
-
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [hasAnimated, target, duration]);
 
   return (
-    <section
-      className="parallax-section"
-      data-rotation={rotation}
-      ref={sectionRef}
-    >
+    <section className="parallax-section" data-rotation={rotation} ref={sectionRef}>
       <div className="wt-parallax__content" data-section-id={sectionId}>
         <div className="scroll-trigger animate--slide-in disabled-on-mobile rich-text">
           <div className="hero__wrapper">
             <div className="hero hero--video-background">
               <div className="hero__pic-container disabled-on-mobile"></div>
-              <div
-                className="hero__overlay hero__overlay--center hero__overlay--mobile--"
-                href={buttonLink}
-              >
-                <div ref={titleRef} className="hero__overlay__content hero__overlay__content--center hero__overlay__content--mobile-- rte">
+              <div className="hero__overlay hero__overlay--center hero__overlay--mobile--">
+                <div
+                  ref={titleRef}
+                  className="w-screen"
+                >
                   <div className="hero__text rte d-flex justify-content-center">
                     <div className="d-flex align-items-end gap-2">
                       <img src="/checkover_icon.svg" alt="" />
                       <p>{text}</p>
                     </div>
                   </div>
-                  <h2  className="hero__title hero">
+                  <h2 className="hero__title hero">
                     Check over{" "}
                     {displayNumber.split("").map((digit, index) => (
                       <span key={index} className="digit">
                         {digit}
                       </span>
                     ))}{" "}
-                    <span style={{ color: "#AB7B53"}}>Products</span>
+                    
+                    <span style={{ color: "#AB7B53", display:"inline-block" }}>Products</span>
                   </h2>
                 </div>
+                <HeroSection2/>
                 <div className="hero__button--gap">
-                    <a
-                      href={buttonLink}
-                      aria-label={buttonText}
-                      className="hero__button--primary ctn big-ctn "
-                    >
-                      <span>{buttonText}</span>
-                    </a>
-                  </div>
+                  <a href='/categories' className="hero__button--primary ctn big-ctn">
+                    <span>{buttonText}</span>
+                  </a>
+                </div>
               </div>
             </div>
           </div>
         </div>
-        <div className="wt-parallax__additional">
+
+        
+        </div>
+        {/* <div className="wt-parallax__additional">
           <div className="wt-parallax__additional__icon">
             <ArrowDownIcon />
           </div>
         </div>
       </div>
 
-      {/* Background Gallery */}
       <div className="wt-parallax__gallery">
         <ul className="wt-parallax__gallery__list">
-          <li className="wt-parallax__gallery__item">
-            <a href="/collections/chairs" tabIndex="0">
-              <img
-                src={leftImage1}
-                loading="lazy"
-                className="wt-parallax__img wt-parallax__img--odd"
-                alt="Left"
-                ref={leftImgRef}
-                onError={(e) => {
-                  e.target.src =
-                    "https://placehold.co/600x400/FF0000/FFFFFF?text=Image+Error";
-                }}
-              />
-            </a>
-          </li>
-          <li className="wt-parallax__gallery__item wt-parallax__gallery__item--even">
-            <a href="/collections/dining-room" tabIndex="0">
-              <img
-                src={rightImage}
-                loading="lazy"
-                className="wt-parallax__img wt-parallax__img--even"
-                alt="Right"
-                ref={rightImgRef}
-                onError={(e) => {
-                  e.target.src =
-                    "https://placehold.co/600x400/FF0000/FFFFFF?text=Image+Error";
-                }}
-              />
-            </a>
-          </li>
-          <li className="wt-parallax__gallery__item">
-            <a href="/collections/chairs" tabIndex="0">
+          <li className="wt-parallax__gallery__item cursor-pointer">
+            <div
+              tabIndex="0"
+              onClick={() => navigate(`/category/${leftData?.text}`, { state: { product: leftData } })}
+            >
               <img
                 src={leftImage}
                 loading="lazy"
                 className="wt-parallax__img wt-parallax__img--odd"
-                alt="Left"
-                ref={leftImgRef1}
-                onError={(e) => {
-                  e.target.src =
-                    "https://placehold.co/600x400/FF0000/FFFFFF?text=Image+Error";
-                }}
+                alt="Left Product"
+                ref={leftImgRef}
+                onError={(e) => (e.target.src = "https://placehold.co/600x400/FF0000/FFFFFF?text=Image+Error")}
               />
-            </a>
+            </div>
           </li>
-           <li className="wt-parallax__gallery__item wt-parallax__gallery__item--even">
-            <a href="/collections/dining-room" tabIndex="0">
+          <li className="wt-parallax__gallery__item wt-parallax__gallery__item--even cursor-pointer">
+            <div
+              tabIndex="0"
+              onClick={() => navigate(`/category/${rightData?.text}`, { state: { product: rightData } })}
+            >
+              <img
+                src={rightImage}
+                loading="lazy"
+                className="wt-parallax__img wt-parallax__img--even"
+                alt="Right Product"
+                ref={rightImgRef}
+                onError={(e) => (e.target.src = "https://placehold.co/600x400/FF0000/FFFFFF?text=Image+Error")}
+              />
+            </div>
+          </li>
+          <li className="wt-parallax__gallery__item cursor-pointer">
+            <div
+              tabIndex="0"
+              onClick={() => navigate(`/category/${leftData1?.text}`, { state: { product: leftData1 } })}
+            >
+              <img
+                src={leftImage1}
+                loading="lazy"
+                className="wt-parallax__img wt-parallax__img--odd"
+                alt="Left Product 2"
+                ref={leftImgRef1}
+                onError={(e) => (e.target.src = "https://placehold.co/600x400/FF0000/FFFFFF?text=Image+Error")}
+              />
+            </div>
+          </li>
+          <li className="wt-parallax__gallery__item wt-parallax__gallery__item--even cursor-pointer">
+            <div
+              tabIndex="0"
+              onClick={() => navigate(`/category/${rightData1?.text}`, { state: { product: rightData1 } })}
+            >
               <img
                 src={rightImage1}
                 loading="lazy"
                 className="wt-parallax__img wt-parallax__img--even"
-                alt="Right"
+                alt="Right Product 2"
                 ref={rightImgRef1}
-                onError={(e) => {
-                  e.target.src =
-                    "https://placehold.co/600x400/FF0000/FFFFFF?text=Image+Error";
-                }}
+                onError={(e) => (e.target.src = "https://placehold.co/600x400/FF0000/FFFFFF?text=Image+Error")}
               />
-            </a>
+            </div>
           </li>
         </ul>
-      </div>
+      </div> */}
     </section>
   );
 };

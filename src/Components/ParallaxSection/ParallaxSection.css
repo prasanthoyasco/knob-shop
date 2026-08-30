@@ -1,9 +1,32 @@
 @import url('https://fonts.googleapis.com/css2?family=Abril+Fatface&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
 /* --- Start of new/updated CSS from user's snippet --- */
 .parallax-section {
-  min-height: 450vh; /* Crucial for extended scroll area */
-  position: relative; /* Ensure proper positioning for children */
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  margin: 2rem 0;
+  background-color: #fff;
 }
+
+/* background image layer */
+.parallax-section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("/bg_ptn_01.png");
+  background-position: 50%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  opacity: 0.4;              /* 👈 IMAGE OPACITY */
+  z-index: 0;
+}
+
+/* content stays above */
+.parallax-section > * {
+  position: relative;
+  z-index: 1;
+}
+
 .wt-parallax__content {
   position: sticky;
   height: 100vh;
@@ -14,6 +37,11 @@
   /* margin-top:var(--section-gap-top); margin-bottom:var(--section-gap-bottom); - using Tailwind gap */
 }
 .wt-parallax__content .hero__button--gap {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  z-index: 50;
+  transform: translateX(-50%);
   margin-block: 16px; /* calc(var(--gap, 8px) * 2) = 16px */
 }
 .wt-parallax__content .hero__button--gap:last-child {
@@ -49,7 +77,8 @@
   display: block;
   border-radius: 20px; /* Assuming var(--border-radius) is around 8px */
       box-shadow: 4px 6px 13px #00000052;
-  transition: transform .1s ease;
+  will-change: transform;
+  transition: transform 0.2s ease-out;
   width: 50vw;
   max-width: 460px;
   height: auto;
@@ -124,17 +153,27 @@ text-align: center;
     padding: 0.7rem 3rem !important;
     text-decoration: none;
     z-index: 2001;
+    border-radius: 100px !important;
 }
 .hero__title{
-  margin: 2rem 0rem;
+  margin: 0rem auto;
+}
+.w-screen{
+  width: 100vw;
 }
 .hero__title,.hero__title span{
-    font-size: 8rem;
+    font-size: 7rem;
     font-weight: 800;
+    width: 100%;
+    max-width: 1200px;
 }
 @media (max-width: 768px) {
+  .parallax-section {
+  min-height: 70vh !important;
+ }
 .wt-parallax__content{
-  align-items: center !important;
+  align-items: flex-start !important;
+  height: 75vh;
 }
   .wt-parallax__gallery__list{
     gap: 15vh;
@@ -143,6 +182,36 @@ text-align: center;
     font-size: 3rem;
   }
   .wt-parallax__additional{
-    width: 10%;
+    width: 8%;
+  }
+  .hero__title{
+    margin: 2rem 0 !important;
+  }
+  .hero-section-2-wrap{
+    margin-top: -15vh !important;
+    align-items: center !important;
+  }
+  .hero__button--gap {
+    bottom: 8px !important;
+    
+    z-index: 50;
+  }
+}
+
+@media (max-width:480px) {
+  .big-ctn{
+    padding: 0.7rem 1rem !important;
+  }
+  .wt-parallax__content{
+    height: 100vh;
+  }
+  .hero-section-2-wrap{
+    height: 580px !important;
+  }
+}
+
+@media (max-width:380px) {
+  .big-ctn{
+    padding: 0.7rem 1rem !important;
   }
 }

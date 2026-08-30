@@ -18,14 +18,13 @@
   .brand-slide {
     display: flex;
     justify-content: center;
-    align-items: center;
-    padding: 10px;
+    align-items: baseline;
   }
-  .brand-slide.greyed img {
+  /* .brand-slide.greyed img {
     filter: grayscale(80%) brightness(70%);
     opacity: 0.5;
     transition: filter 0.4s ease, opacity 0.4s ease;
-  }
+  } */
   
   .brand-carousel {
     margin-top: 3%;
@@ -36,13 +35,7 @@
   .brand-slide {
     display: flex !important;
     justify-content: center;
-    align-items: center;
-  }
-  
-  .brand-slide img {
-    width: 147px;
-    height: 125px;
-    object-fit: contain;
+    align-items: center !important;
   }
   
   .brand-images{
@@ -53,10 +46,16 @@
     justify-content: space-around;
   }
   .brands-container img {
-    width: 147px;
-    height: 125px;
+    width: 80% !important;
+    height: 90px;
+    padding: 20px 20px;
     margin-bottom: 20px;
+    cursor: pointer;
+    object-fit: contain;
     transition: transform 0.4s ease, box-shadow 0.4s ease;
+    background-color: #f0f0f0;
+    border-radius: 10px;
+    box-shadow: 2px 3px 12px rgba(145, 145, 145, 0.24);
   }
   .brands-container img:hover {
     transform: scale(1.05);
@@ -171,5 +170,51 @@
       filter: none !important;
       opacity: 1 !important;
     }
+    .brand-carousel{
+      padding: 0 !important;
+    }
+  }
+  /* .labacha-size img {
+    width: 110px !important;
+  }
+  .Golden-size img {
+    width: 80px !important;
+  }
+  .dorset-size img {
+    width: 90px !important;
+  }
+  .Dorma-size img {
+    width: 80px !important;
+  }
+  .PlusPoint-size img {
+    width: 110px !important;
+  } */
+
+  .brand-slide:focus,
+  .brand-slide:focus-visible,
+  .brand-slide img:focus,
+  .brand-slide img:focus-visible {
+    outline: none;
+    border: none;
   }
   
+  .brand-slide a,
+  .brand-slide a:focus,
+  .brand-slide a:focus-visible {
+    outline: none;
+    border: none;
+  }
+  
+  .Sris-ma-fils-trademark-and-logo-size img{
+    padding: 10px !important;
+  }
+  .pankaj-size img{
+    padding: 0 !important;
+  }
+  
+  .brand3 img{
+    padding: 0 !important;
+  }
+  .archis-size img{
+    padding: 10px 0 !important;
+  }

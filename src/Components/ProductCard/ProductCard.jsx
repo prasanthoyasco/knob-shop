@@ -1,123 +1,278 @@
-// components/ProductCard.jsx
 import { FaStar, FaHeart } from "react-icons/fa";
 import "./ProductCard.css";
-// import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
-// import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useCart } from "../../Context/CartContext";
+import { useWishlist } from "../../Context/WishlistContext";
+import { useState } from "react";
+import chair2 from "../../Assets/product-category/p6.jpg";
 
 const ProductCard = ({ product }) => {
-    // const [isWishlisted, setIsWishlisted] = useState(false);
+  // ✅ Removed the local state and useEffect for fetching reviews
+  const navigate = useNavigate();
 
-  // const toggleWishlist = () => {
-  //   setIsWishlisted(!isWishlisted);
-  // };
-  const {
-    title,
-    price,
-    oldPrice,
-    discount,
-    rating,
-    icons,
-    image,
-  } = product;
-console.log(icons);
+  const { addToCart, toggleDrawer } = useCart();
+  const { addToWishlist, removeFromWishlist, wishlistItems } = useWishlist();
+  const isWished = wishlistItems.some((w) => w.id === product.id);
+
+  const [selectedColorIndex, setSelectedColorIndex] = useState(0);
+  const initialSizeLabel = product.variant?.[0]?.sizes?.[0]?.label ?? null;
+
+  const [selectedSizeLabel, setSelectedSizeLabel] = useState(initialSizeLabel);
+
+  const id = product.id || product._id;
+  const title = product?.title || product?.name || "Untitled Product";
+  const handleWishlistClick = () => {
+    const authToken = localStorage.getItem("authToken");
+    const authUser = localStorage.getItem("authUser");
+
+    if (!authToken || !authUser) {
+      // Optionally show a toast or redirect to login
+      alert("Please login to add items to your wishlist.");
+      navigate("/auth/register");
+      // Or use a toast library: toast.error("Please login first.");
+      return;
+    }
+
+    if (isWished) {
+      removeFromWishlist(product.id);
+    } else {
+      addToWishlist(product);
+    }
+  };
+
+  // Use default icons if not present
+  const icons =
+    Array.isArray(product.key_features) && product.key_features.length > 0
+      ? product.key_features.map((f) => ({
+          title: f.title,
+          image: f.image,
+        }))
+      : product.icons;
+
+  const selectedVariant = product.variant?.[selectedColorIndex] ?? {};
+  const selectedSize =
+    selectedVariant?.sizes?.find((s) => s.label === selectedSizeLabel) ??
+    selectedVariant?.sizes?.[0] ??
+    {};
+  const calculatedDiscount =
+    selectedSize.mrp && selectedSize.sellingPrice
+      ? Math.round(
+          ((selectedSize.mrp - selectedSize.sellingPrice) / selectedSize.mrp) *
+            100
+        )
+      : 0;
 
   return (
-   <div className="card product-card h-100 position-relative">
-  {discount && (
-    <span className="badge bg-dark text-white position-absolute top-0 start-0 m-2">
-      {discount}% off
-    </span>
-  )}
-
-  <div className="position-absolute top-0 end-0 m-2 d-flex align-items-center rounded px-2 py-1 rating-overlay">
-  <FaStar className="text-warning me-1" size={18} />
-  <span className="normal">{rating}</span>
-</div>
-
-
-  <div className="image-wrapper position-relative">
-  <img src={image} alt={title} className="card-img-top default-img" />
-  <img src={product.hoverImage} alt={title} className="card-img-top hover-img position-absolute top-0 start-0" />
-  {/* <div className="hover-button-wrapper">
-    <button className="hover-button">Choose Option</button>
-  </div> */}
-</div>
-
-
-  <div className="card-body d-flex flex-column">
-   <div className="icons">
-    {icons?.length > 0 ? (
-      icons.map((icon, index) => (
-        <div className="icon" key={index}>
-          <img src={icon.imgUrl} alt={icon.name} />
-          <span className="tooltip">{icon.name}</span>
-        </div>
-      ))
-    ) : (
-      // Render empty placeholders if needed, or leave div empty to preserve space
-      null
-    )}
-    
-  </div>
-   <hr />
-    <div className="mt-2">
-      <h5 className="card-title">{title}</h5>
-
-    <p className="mb-2">
-     
-      <del className="text-muted">
-        ₹ {oldPrice.toLocaleString("en-IN")}
-      </del>{" "}
-       <strong style={{ color: "#D6791F" }}>
-        ₹ {(price ? +price : 0).toLocaleString("en-IN")}
-      </strong>
-    </p>
-    <p className="text-success mb-2">
-      You Save ₹ {(oldPrice - price).toLocaleString("en-IN")}
-    </p>
-
-<div className="product-colors d-flex gap-2 my-2">
-  <input type="radio" name="color" className="color-dot brown" />
-  <input type="radio" name="color" className="color-dot gray" />
-  <input type="radio" name="color" className="color-dot red" />
-</div>
-<div className="card-buttons mt-3">
-  <button className="View-detail">View Details</button>
-  <button className="Addtocart">Add To cart</button>
-</div>
-    </div>
-    {/* <div className="product-colors">
-      <span className="color-dot brown"></span>
-      <span className="color-dot grey"></span>
-      <span className="color-dot red"></span>
-      <input type="radio" className="color-dot brown" />
-      <input type="radio" className="color-dot gray" />
-      <input type="radio" className="color-dot red" />
-    </div> */}
-
-    {/* <div className="card-actions mt-auto">
-      <button
-        className="btn btn-sm"
-        style={{
-          background: "#B07D51",
-          color: "#fff",
-          padding: "0.4rem 1.5rem",
-          fontSize: "0.75rem",
-        }}
+    <div className="card product-card h-100 position-relative cursor-pointer">
+      {calculatedDiscount > 0 && (
+        <span className="badge bg-dark border-0 text-white position-absolute top-0 start-0 m-2">
+          {calculatedDiscount}% off
+        </span>
+      )}
+      <div
+        className={`wishlist-icon-wrapper position-absolute top-0 end-0 m-2 ${
+          isWished ? "text-danger" : "text-muted"
+        }`}
+        onClick={handleWishlistClick}
       >
-        Choose Option
-      </button>
-      <div onClick={toggleWishlist} className="wishlist-icon-wrapper">
-        {isWishlisted ? (
-          <AiFillHeart className="wishlist-icon animate" color="#ff002b" />
-        ) : (
-          <AiOutlineHeart className="wishlist-icon animate" />
-        )}
+        <FaHeart
+          size={20}
+          className={`wishlist-icon ${isWished ? "active" : ""}`}
+        />
       </div>
-    </div> */}
-  </div>
-</div>
+      {/* ✅ Use product.avgRating directly */}
+      {product.avgRating > 0 && (
+        <div className="position-absolute bottom-50 end-0 m-2 d-flex align-items-center rounded px-2 py-1 rating-overlay">
+          <FaStar className="text-warning me-1" size={18} />
+          <span className="normal">{product.avgRating?.toFixed(1) ?? 0}</span>
+        </div>
+      )}
+      <div
+        className="image-wrapper position-relative"
+        onClick={() => navigate(`/product/${id}`)}
+      >
+        <img
+          src={selectedVariant.images?.[0]?.url}
+          alt={title?.substring(0, 30)}
+          className="card-img-top default-img"
+        />
+        <img
+          src={
+            selectedVariant.images?.[1]?.url || selectedVariant.images?.[0]?.url
+          }
+          //  selectedVariant.images?.[1]?.url || selectedVariant.images?.[0]?.url
+          alt={selectedVariant.images?.[1]?.url}
+          className="card-img-top hover-img position-absolute top-0 start-0"
+          onError={(e) => {
+            const img = e.target;
+            const originalUrl =
+              selectedVariant.images?.[1]?.url ||
+              selectedVariant.images?.[0]?.url;
 
+            if (!img.dataset.retried) {
+              img.dataset.retried = "true";
+              img.src = originalUrl + `?retry=${Date.now()}`; // retry once
+            } else {
+              img.src = "/fallback.png"; // fallback image path
+            }
+          }}
+        />
+      </div>
+
+      <div className="card-body d-flex flex-column">
+        {/* Icons */}
+
+        {icons?.length > 0 && (
+          <div className="icons">
+            {icons?.map((icon, index) => (
+              <div className="icon" key={icon._id || icon.title || index}>
+                <img src={`/${icon.image}`} alt={icon.title} />
+                <span className="tooltip">{icon.title}</span>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {icons?.length > 0 && <hr />}
+
+        {/* Title & Price */}
+        <div className="mt-5 d-flex flex-column flex-grow-1 mobile-card-align">
+          <h5 className="card-title single-line">{title}</h5>
+
+          <p className="mb-2">
+            <del className="text-muted">
+              ₹{(selectedSize.mrp ?? 0).toLocaleString("en-IN")}
+            </del>{" "}
+            <strong style={{ color: "#D6791F" }}>
+              ₹{(selectedSize.sellingPrice ?? 0).toLocaleString("en-IN")}
+            </strong>
+          </p>
+
+          <p className="text-success mb-2">
+            You Save ₹
+            {Math.max(
+              (selectedSize.mrp ?? 0) - (selectedSize.sellingPrice ?? 0),
+              0
+            ).toLocaleString("en-IN")}
+          </p>
+
+          {/* Color Select */}
+          <div className="product-colors d-flex align-items-center gap-2 my-2 products-color-show">
+            {product.variant?.slice(0, 4).map((color, index) => (
+              <input
+                key={index}
+                type="radio"
+                name={`color-${id}`}
+                title={color.title}
+                style={{
+                  backgroundColor: color.value,
+                  width: "24px",
+                  height: "24px",
+                  borderRadius: "9999px",
+                  border:
+                    selectedColorIndex === index
+                      ? "2px solid gray"
+                      : "1px solid gray",
+                  cursor: "pointer",
+                  appearance: "none",
+                }}
+                onChange={() => {
+                  setSelectedColorIndex(index);
+                  setSelectedSizeLabel(color.sizes?.[0]?.label ?? null);
+                }}
+              />
+            ))}
+          </div>
+
+          {/* Size Select */}
+          <div className="d-flex flex-wrap gap-2 mb-3 align-items-center default-color-button-text">
+            {selectedVariant.sizes?.filter((size) => size.label?.length)
+              .length > 0 ? (
+              <>
+                {selectedVariant.sizes
+                  .filter((size) => size.label?.length)
+                  .slice(0, 1)
+                  .map((size, idx) => (
+                    <button
+                      key={idx}
+                      className={`px-3 py-1 rounded-pill border text-sm ${
+                        selectedSizeLabel === size.label
+                          ? "bg-dark text-white"
+                          : "border-gray-300 hover:bg-gray-100"
+                      }`}
+                      onClick={() => setSelectedSizeLabel(size.label)}
+                    >
+                      {size.label.split(" ")[0].slice(0, 8) + "..."}
+                    </button>
+                  ))}
+
+                {selectedVariant.sizes.filter((s) => s.label?.length).length >
+                  2 && <span className="text-muted text-sm">+ more..</span>}
+              </>
+            ) : (
+              <button
+                className="px-3 py-1 rounded-pill border text-sm border-gray-300 hover:bg-gray-100"
+                onClick={() => setSelectedSizeLabel("Default")}
+              >
+                Default size
+              </button>
+            )}
+          </div>
+
+          {/* Actions */}
+          <div className="card-buttons mt-2">
+            <button
+              className="View-detail"
+              onClick={() => navigate(`/product/${id}`)}
+            >
+              View Details
+            </button>
+            <button
+              className="Addtocart"
+              onClick={() => {
+                console.log(selectedVariant)
+                const itemToAdd = {
+                  // Backend required fields
+                  productId: id,
+                  quantity: 1,
+
+                  colorName: selectedVariant?.title || "",
+                  colorsText: selectedVariant?.title || "",
+                  colorCode: selectedVariant?.value || "",
+                  sizeLabel: selectedSize?.label || "",
+
+                  mrp: selectedSize?.mrp || 0,
+                  sellingPrice: selectedSize?.sellingPrice || 0,
+                  taxPercentage: selectedSize?.taxPercentage || 0,
+
+                  discountPercentage: selectedSize?.mrp
+                    ? Math.round(
+                        ((selectedSize?.mrp - selectedSize?.sellingPrice) /
+                          selectedSize?.mrp) *
+                          100
+                      )
+                    : 0,
+
+                  image: selectedVariant?.images?.[0]?.url || "/fallback.png",
+
+                  // UI-only fields (CartContext uses them but API ignores)
+                  id: id,
+                  title: title,
+                  name: title,
+                  price: selectedSize?.sellingPrice || 0,
+                  total: selectedSize?.sellingPrice || 0,
+                };
+
+                addToCart(itemToAdd);
+                toggleDrawer(true);
+              }}
+            >
+              Add To Cart
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 

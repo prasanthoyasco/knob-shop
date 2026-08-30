@@ -1,0 +1,110 @@
+import axios from "axios";
+
+const BASE_URL = `${import.meta.env.VITE_API_BASE_URI}/user/auth`;
+
+export const Login = async (payload) => {
+  try {
+    const res = await axios.post(`${BASE_URL}/login`, payload);
+    return res.data;
+  } catch (err) {
+    throw err.response?.data || { error: "Network error" };
+  }
+};
+
+export const Signup = async ( payload) => {
+    const res = await axios.post(`${BASE_URL}/signup`, payload);
+    return res.data;
+};
+
+export const checkUser = async ({ email, phone }) => {
+  const params = new URLSearchParams();
+  if (email) params.append("email", email);
+  if (phone) params.append("phone", phone);
+
+  const res = await axios.get(`${BASE_URL}/check?${params.toString()}`);
+  return res.data;
+};
+
+export const getUserById = async (userId) => {
+  try {
+    const res = await axios.get(`${BASE_URL}/${userId}`);
+    return res.data; // contains { user: { ... } }
+  } catch (err) {
+    throw err.response?.data || { error: "Failed to fetch user" };
+  }
+};
+
+export const updateUser = async (id, payload) => {
+  try {
+    const res = await axios.put(`${BASE_URL}/${id}`, payload);
+    return res.data;
+  } catch (err) {
+    throw err.response?.data || { error: "Update failed" };
+  }
+};
+
+export const sendOtpToEmail = async (email) => {
+  try {
+    const res = await axios.post(`${BASE_URL}/send-otp`, { email });
+    return res.data;
+  } catch (err) {
+    throw err.response?.data || { error: "Update failed" };
+  }
+};
+
+export const verifyEmailOtp = async (email,otp) => {
+  try {
+    const res = await axios.post(`${BASE_URL}/verify-otp`, { email, otp });
+    return res.data;
+  } catch (err) {
+   throw err.response?.data || { error: "Update failed" };
+  }
+};
+
+export const phoneAuth = async (payload) => {
+  try {
+    const res = await axios.post(`${BASE_URL}/phone-auth`, payload);
+    return res.data;
+  } catch (err) {
+    throw err.response?.data || { error: "Phone auth failed" };
+  }
+};
+
+export const resetPasswordByEmail = async (email, newPassword) => {
+  try {
+    const res = await axios.post(`${BASE_URL}/forgot-password/reset`, { email, newPassword });
+    return res.data;
+  } catch (err) {
+    throw err.response?.data || { error: "Password reset failed" };
+  }
+};
+
+export const resetPasswordByPhone = async (phone, newPassword) => {
+  try {
+    const res = await axios.post(`${BASE_URL}/forgot-password/phone-reset`, { phone, newPassword });
+    return res.data;
+  } catch (err) {
+    throw err.response?.data || { error: "Password reset failed" };
+  }
+};
+
+
+// Phone Signup (new user)
+export const phoneSignup = async (payload) => {
+  try {
+    const res = await axios.post(`${BASE_URL}/phone-signup`, payload);
+    return res.data;
+  } catch (err) {
+    throw err.response?.data || { error: "Phone signup failed" };
+  }
+};
+
+// Phone Login (existing user)
+export const phoneLogin = async (payload) => {
+  try {
+    const res = await axios.post(`${BASE_URL}/phone-login`, payload);
+    return res.data;
+  } catch (err) {
+    throw err.response?.data || { error: "Phone login failed" };
+  }
+};

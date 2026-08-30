@@ -1,0 +1,136 @@
+import React, { useRef } from "react";
+import { useNavigate } from "react-router-dom";
+const RecommendedSlider = ({ recommendedItems = [], onAddToCart }) => {
+  const navigate = useNavigate()
+  const scrollRef = useRef(null);
+  const scroll = (offset) => {
+    scrollRef.current.scrollBy({ left: offset, behavior: "smooth" });
+  };
+
+  return (
+    <div className="cart-drawer-recommend px-3 py-1 py-md-1 border-top">
+      <div className="d-flex justify-content-between align-items-center mb-3">
+        <h6 className="mb-0">You may also like</h6>
+        <div className="d-flex gap-2">
+          <button
+            className="btn btn-sm btn-outline-secondary rounded-circle"
+            onClick={() => scroll(-350)}
+          >
+            <i className="bi bi-chevron-left" />
+          </button>
+          <button
+            className="btn btn-sm btn-outline-secondary rounded-circle"
+            onClick={() => scroll(365)}
+          >
+            <i className="bi bi-chevron-right" />
+          </button>
+        </div>
+      </div>
+
+      <div
+        className="d-flex overflow-auto flex-nowrap hide-scrollbar gap-3 pb-2"
+        ref={scrollRef}
+        style={{ scrollBehavior: "smooth" }}
+      >
+        {recommendedItems?.slice(0, 10)?.map((item) => (
+          <div
+            key={item._id}
+            className="d-flex flex-shrink-0 rounded p-2"
+            style={{ width: "350px", minWidth: "300px" }}
+          >
+            <img
+            onClick={()=>navigate(`/product/${item._id}`)}
+              src={item.images?.[0]}
+              alt={item.name}
+              style={{
+                width: "100px",
+                height: "100px",
+                objectFit: "contain",
+                border: "1px dashed #ccc",
+                background: "white",
+                borderRadius: "5px",
+                padding: "5px",
+                cursor:"pointer"
+              }}
+              className="me-3"
+            />
+            <div className="d-flex justify-content-between w-100">
+              <div>
+                <p  onClick={()=>navigate(`/product/${item._id}`)} style={{cursor:"pointer"}} className="mb-1 fw-semibold">
+                  {item.name?.trim().split(" ").slice(0, 3).join(" ")}
+                </p>
+                <p className="mb-1 small text-decoration-line-through text-muted">
+                  ₹{item.variant[0].sizes[0].mrp}
+                </p>
+                <p className="mb-1 fw-bold price">
+                  ₹{item.variant[0].sizes[0].sellingPrice}
+                </p>
+              </div>
+              <button
+                className="btn btn-link m-0 btn-sm p-0 text-dark"
+                onClick={() =>
+                  onAddToCart({
+                    // Required fields
+                    productId: item._id,
+                    quantity: 1,
+
+                    colorName: item.variant?.[0]?.title || "",
+                    colorCode: item.variant?.[0]?.value || "",
+                    sizeLabel: item.variant?.[0]?.sizes?.[0]?.label || "",
+
+                    mrp:
+                      item.variant?.[0]?.sizes?.[0]?.mrp ||
+                      item.compare_price ||
+                      0,
+                    sellingPrice:
+                      item.variant?.[0]?.sizes?.[0]?.sellingPrice ||
+                      item.price ||
+                      0,
+
+                    discountPercentage: item.variant?.[0]?.sizes?.[0]?.mrp
+                      ? Math.round(
+                          ((item.variant?.[0]?.sizes?.[0]?.mrp -
+                            item.variant?.[0]?.sizes?.[0]?.sellingPrice) /
+                            item.variant?.[0]?.sizes?.[0]?.mrp) *
+                            100
+                        )
+                      : 0,
+
+                    taxPercentage:
+                      item.variant?.[0]?.sizes?.[0]?.tax || item.tax || 0,
+
+                    image:
+                      item.images?.[0] ||
+                      item.image ||
+                      "https://via.placeholder.com/300",
+
+                    // UI-only fields
+                    id: item._id, // required for CartContext match
+                    productName: item.name,
+                    sku: item.productId,
+                    title: item.name,
+                    categoryId: item.category?._id,
+                    brand: item.brand,
+                    category: item.category?.category_name || "",
+                    colorsText: item.variant?.[0]?.title || "",
+                    savePrice:
+                      (item.variant?.[0]?.sizes?.[0]?.mrp ||
+                        item.compare_price ||
+                        0) -
+                      (item.variant?.[0]?.sizes?.[0]?.sellingPrice ||
+                        item.price ||
+                        0),
+                  })
+                }
+              >
+                + Add to Cart
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default RecommendedSlider;

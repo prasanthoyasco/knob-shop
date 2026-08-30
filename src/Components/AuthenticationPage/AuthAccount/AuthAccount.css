@@ -1,0 +1,200 @@
+.register-page{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    justify-content: center;
+    text-align: center;
+    margin:3% auto;
+    width: 100%;
+    max-width: 500px;
+
+}
+.passwordError-text{
+  color: red !important;
+  font-size: 14px;
+  margin-top: 10px;
+  text-align: left;
+}
+.forgot-password-text{
+  text-align: left;
+  text-decoration: underline;
+  font-size: 16px;
+  margin-top: 10px !important;
+}
+.register-page-heading h1{
+    font-size: 30px;
+    color: #252525;
+    margin: 0;
+    text-align: left;
+}
+.register-page-select-box {
+  width: 50%;
+  position: relative;
+  border: 1px solid #ccc;
+  overflow: hidden;
+  background: white;
+}
+
+.register-page-select-box select {
+  width: 100%;
+  padding: 0px 16px;
+  height: 50px;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  border: none;
+  background: transparent;
+  font-size: 16px;
+  font-family: inherit;
+  cursor: pointer;
+  outline: none;
+}
+.register-page-select-box select:focus {
+  background-color: #ffffff;
+}
+
+.register-page-select-box::after {
+  content: "";
+  background-image: url('../../../Assets/down_arrow.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 16px;
+  height: 16px;
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+
+.register-page-input input{
+    height: 50px;
+    width: 100%;
+    padding-left: 20px;
+    max-width: 630px;
+    border-radius: 2px;
+    border: 1px solid rgb(217, 216, 216);
+}
+.or-text p{
+    font-size: 18px;
+    color: #757581;
+    margin: 0;
+}
+.register-page-policy p{
+    color: #757581;
+    font-size: 18px;
+    line-height: 32px;
+    margin: 0;
+    text-align: left;
+}
+.register-page-policy strong{
+    text-decoration: underline;
+    cursor: pointer;
+}
+.register-page-btn{
+    background-color: black;
+    color: white;
+    border-radius: 2px;
+    padding: 10px;
+    border: none;
+    width: 25%;
+}
+.resend-btn, .back-btn{
+  background-color: white;
+    color: rgb(44, 44, 44);
+    border: 1px solid rgb(44, 44, 44);
+    border-radius: 2px;
+    padding: 10px;
+    width: 25%;
+    margin-right: .5rem;
+}
+.continue-btn-div{
+    text-align: end;
+}
+.confirm-btn-div{
+    text-align: center;
+    width: 100%;
+    margin-top: 10px;
+}
+.confirm-page-btn{
+    background-color: black;
+    color: white;
+    border-radius: 2px;
+    padding: 10px;
+    border: none;
+    width: 20%;
+}
+@media (max-width: 768px) {
+    .register-page {
+      padding: 0 10px;
+    }
+  
+    .register-page-heading h1 {
+      font-size: 24px;
+      text-align: center;
+    }
+  
+    .register-page-select-box select {
+      width: 100%;
+    }
+  
+    .register-page-input input {
+      width: 100%;
+    }
+  
+    .register-page-policy p {
+      font-size: 16px;
+      line-height: 28px;
+      text-align: center;
+    }
+  
+    .register-page-btn,
+    .confirm-page-btn {
+      width: 100%;
+    }
+  
+    .continue-btn-div {
+      text-align: center;
+    }
+  
+    .confirm-btn-div {
+      text-align: center;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .register-page-heading h1 {
+      font-size: 20px;
+    }
+  
+    .or-text p {
+      font-size: 16px;
+    }
+  
+    .register-page-policy p {
+      font-size: 14px;
+    }
+  }
+  
+  .phone-input-wrapper {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  padding: 0px 8px;
+  background-color: white;
+}
+
+.country-code {
+  margin-right: 8px;
+  font-weight: bold;
+  color: #555;
+  min-width: 40px;
+}
+
+.phone-input-wrapper input {
+  border: none;
+  outline: none;
+  flex: 1;
+  font-size: 1rem;
+}

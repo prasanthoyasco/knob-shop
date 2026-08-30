@@ -1,0 +1,131 @@
+import axios from "axios";
+
+// Remove non-ASCII characters and trim
+// remove non-ASCII chars
+const sanitizeASCII = (str) =>
+  str ? str.replace(/[^\u0020-\u007E]/g, "").trim() : "";
+
+
+const fallback = (value, fallbackValue) =>
+  typeof value === "string" && value.trim() ? value.trim() : fallbackValue;
+
+export const createDTDCConsignment = async (orderData) => {
+  try {
+    const {
+      _id,
+      invoiceNo,
+      invoiceDate,
+      totalAmount,
+      ewayBill,
+      shippingAddress,
+      cartItems,
+      dimensions,
+    } = orderData;
+
+    const validStreet = sanitizeASCII(shippingAddress.street);
+    const validCity = sanitizeASCII(shippingAddress.city);
+    const validState = sanitizeASCII(shippingAddress.state);
+
+    if (!validStreet || !validCity || !validState) {
+      throw new Error("Invalid shipping address.");
+    }
+
+    // Format the cart items
+    const formattedItems = cartItems.map((item) => ({
+      item_name: item.name,
+      item_quantity: item.quantity,
+      item_price: item.price,
+      item_sku: item.sku || item._id || "SKU123", // fallback SKU
+    }));
+
+    const payload = {
+      consignments: [
+        {
+          customer_code: import.meta.env.VITE_DTDC_CUSTOMER_CODE,
+          service_type_id: "B2C PRIORITY",
+          load_type: "NON-DOCUMENT",
+          description: cartItems
+            .map((item) => `${item.name} x${item.quantity}`)
+            .join(", "),
+          dimension_unit: "cm",
+          length: String(dimensions.length),
+          width: String(dimensions.width),
+          height: String(dimensions.height),
+          weight_unit: "kg",
+          weight: String(dimensions.weight),
+          declared_value: String(totalAmount),
+          num_pieces: "1",
+          product_code: "E",
+          pieces: [
+            {
+              product_code: "E",
+              items: formattedItems,
+            },
+          ],
+          origin_details: {
+            name: "knobsshop",
+            phone: "917092466600",
+            alternate_phone: "04222550744",
+            address_line_1: "746 747, Mettupalayam Rd, R.S. Puram",
+            address_line_2: "Coimbatore, Tamil Nadu",
+            pincode: "641002",
+            city: "Coimbatore",
+            state: "TamilNadu",
+          },
+          destination_details: {
+            name: fallback(shippingAddress.name, "Receiver"),
+            phone: fallback(shippingAddress.phone, "0000000000"),
+            alternate_phone: fallback(
+              shippingAddress.alternate_phone,
+              "0000000000"
+            ),
+            address_line_1: validStreet,
+            address_line_2: "",
+            pincode: shippingAddress.pincode,
+            city: validCity,
+            state: validState,
+          },
+          return_details: {
+            address_line_1: "746 747, Mettupalayam Rd, R.S. Puram", //746 747, Mettupalayam Rd, R.S. Puram, Coimbatore, Tamil Nadu - 641002
+            address_line_2: "Coimbatore, Tamil Nadu",
+            city_name: "Coimbatore",
+            name: "Knobsshop",
+            phone: "917092466600",
+            pincode: "641002",
+            state_name: "TamilNadu",
+            email: "ecom@knobsshop.store",
+            alternate_phone: "04222550744",
+          },
+          customer_reference_number: _id,
+          cod_collection_mode: "",
+          cod_amount: "",
+          commodity_id: "99",
+          eway_bill: ewayBill,
+          is_risk_surcharge_applicable: "true",
+          invoice_number: invoiceNo,
+          invoice_date: invoiceDate,
+          reference_number: "",
+        },
+      ],
+    };
+
+    console.log("📦 Final Payload to Send to DTDC:", payload);
+
+    const response = await axios.post(
+      "https://dtdcapi.shipsy.io/api/customer/integration/consignment/softdata",
+      payload,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          "api-key": import.meta.env.VITE_DTDC_API_KEY,
+        },
+      }
+    );
+
+    console.log("📦 DTDC Response:", response.data);
+    return response.data;
+  } catch (error) {
+    console.error("❌ Error creating DTDC consignment:", error.message);
+    throw error;
+  }
+};

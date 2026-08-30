@@ -9,47 +9,49 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import "./CubeCarousel.css";
 
-import collectionCarosal1left from "../../Assets/collectionCarosal1left.jpg";
-import collectionCarosal1right from "../../Assets/collectionCarosal1right.jpg";
+import collectionCarosal1left from "../../Assets/Front Page Doc and Images/Front Page Doc and Images/sec- 3/image (1)/image.png";
+import collectionCarosal1right from "../../Assets/Front Page Doc and Images/Front Page Doc and Images/sec- 3/image (1)/image (1).png";
 
-import collectionCarosal2left from "../../Assets/collectionCarosal2left.jpg";
-import collectionCarosal2right from "../../Assets/collectionCarosal2right.jpg";
+import collectionCarosal2left from "../../Assets/Front Page Doc and Images/Front Page Doc and Images/sec- 3/image (1)/image (2).png";
+import collectionCarosal2right from "../../Assets/Front Page Doc and Images/Front Page Doc and Images/sec- 3/image (1)/image (3).png";
 
-import collectionCarosal3left from "../../Assets/collectionCarosal3left.jpg";
-import collectionCarosal3right from "../../Assets/collectionCarosal3right.jpg";
+import collectionCarosal3left from "../../Assets/Front Page Doc and Images/Front Page Doc and Images/sec- 3/image (1)/image (4).png";
+import collectionCarosal3right from "../../Assets/Front Page Doc and Images/Front Page Doc and Images/sec- 3/image (1)/image (5).png";
+import { useNavigate } from "react-router-dom";
 
 const carouselData = [
   {
     leftImage: collectionCarosal1left,
     rightImage: collectionCarosal1right,
-    title: "ENHANCING YOUR SLEEP EXPERIENCE",
-    subtitle: "BEDS & MATTRESSES",
+    title: "ELEGANTLY DIVIDE YOUR SPACES",
+    subtitle: "GLASS PARTITIONS",
     description:
-      "Plywood is renowned for its quality craftsmanship and attention to detail when it comes to beds and mattresses.",
+      "Elegant glass partitions create open, bright spaces while maintaining privacy and enhancing modern interior design.",
   },
   {
-    leftImage: collectionCarosal2left,
-    rightImage: collectionCarosal2right,
-    title: "MAKE A KITCHEN PART OF THE FAMILY",
+    leftImage: "/Knobs_1.png",
+    rightImage: "/cubeSec/KitRight.png",
+    title: "DESIGN THAT COOKS WITH YOU",
     subtitle: "MODULAR KITCHENS",
     description:
-      "Modular kitchens tailor-made for the Indian style of cooking...",
+      "Modular kitchens offer efficient layouts, sleek storage, and customizable designs for a stylish, organized cooking space.",
   },
   {
-    leftImage: collectionCarosal3left,
-    rightImage: collectionCarosal3right,
-    title: "DOOR STEEL LOCKER UNIT ALMIRAH",
-    subtitle: "CABINETS & STORAGE",
+    leftImage: "/cubeSec/WardLeft.png",
+    rightImage: "/cubeSec/WardRight.png",
+    title: "SEAMLESS STORAGE WITH STYLE",
+    subtitle: "WARDROBES",
     description:
-      "Bench suitable for living room Lorem ipsum dolor sit amet consectetur...",
+      "Stylish wardrobes provide ample storage, enhance room aesthetics, and can be tailored to fit any space perfectly.",
   },
 ];
 
-const CubeCarousel = () => {
+const CubeCarousel = ({Title}) => {
+  const navigate = useNavigate()
   const prevRef = useRef(null);
   const nextRef = useRef(null);
    const [isMobile, setIsMobile] = useState(false);
-
+   const Heading = Title ? Title +" Collection" : "New & Tradition Collection";
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth <= 768);
     checkMobile(); // Set on mount
@@ -57,18 +59,23 @@ const CubeCarousel = () => {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
+  const handilClick = (title)=>{
+    const linkprof = title.trim().toLowerCase().replace(/\s+/g, '-');
+    navigate(`/subpage/${linkprof}`)
+  }
+
   return (
     <div className="cube-carousel-wrapper">
       <div className="flex-grow-1 text-center my-4">
-        <h2 className="h5 text-uppercase fw-medium">
-          New & Tradition Collection
+        <h2 className="h5 text-capitalize fw-bold">
+           {Heading}
         </h2>
       </div>
 
       <Swiper
         modules={[Navigation, EffectFade, Pagination, Autoplay]}
         loop={true}
-        // autoplay={{ delay: 4000, disableOnInteraction: false }}
+        autoplay={{ delay: 4000, disableOnInteraction: false }}
         effect="fade"
         fadeEffect={{ crossFade: true }}
         navigation={{
@@ -108,7 +115,7 @@ const CubeCarousel = () => {
                 <h5 className="cube-subtitle">{item.subtitle}</h5>
                 <h2 className="cube-title">{item.title}</h2>
                 <p className="cube-description">{item.description}</p>
-                <button className="cube-button">Shop Now</button>
+                <button className="cube-button" onClick={()=>{handilClick(item.subtitle)}}>Explore Now</button>
               </div>
               <img src={item.rightImage} alt="" className="cube-image right" />
             </div>

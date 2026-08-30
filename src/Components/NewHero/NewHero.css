@@ -3,6 +3,11 @@
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/effect-fade"; */
+video.product-img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
 
 .lighting-home-slider {
   width: 100%;
@@ -79,10 +84,10 @@ import "swiper/css/effect-fade"; */
   opacity: 0;
   transform: translateX(100px) scale(0.8);
 }
-.animate-on-slide-left{
+/* .animate-on-slide-left{
   opacity: 0;
   transform: translateX(-100px) scale(0.8);
-}
+} */
 /* Class that triggers the animation */
 .animate-on-slide.active-zoom-in {
   animation: zoomInRight 0.8s ease-out forwards;
@@ -135,6 +140,8 @@ import "swiper/css/effect-fade"; */
   font-weight: 400;
   border-radius: 3px;
   letter-spacing: 1px;
+  position: relative !important;
+  z-index: 9999 !important;
 }
 
 .shop-btn:hover {
@@ -449,23 +456,20 @@ import "swiper/css/effect-fade"; */
     z-index: 0; /* Changed to 0 so other content can be z-index 1 */
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.329);
+    /* background-color: rgba(0, 0, 0, 0.329); */
   }
 
   .offer {
     font-size: 12px;
-    color: #e4e4e4 !important;
   }
 
   .title {
     font-size: 28px;
-    color: #fff !important;
     margin-bottom: 15px !important;
   }
 
   .description {
     font-size: 13px;
-    color: #dfdfdf !important;
     margin-bottom: 20px !important;
   }
 
@@ -505,38 +509,54 @@ import "swiper/css/effect-fade"; */
 
   .rightImg { /* On mobile, move image below text */
     width: 100%;
-    max-width: 300px; /* Constrain max width for image on mobile */
+    max-width: 350px; /* Constrain max width for image on mobile */
     order: 1; /* Place image after text visually */
-    margin-top: 20px;
+    margin-top: 0;
   }
 
   .img-bg-clr, .circle-border, .product-img {
-      width: 250px;
-      height: 250px;
+      width: 270px;
+      height: 270px;
   }
   .circle-border {
-      width: 280px;
-      height: 280px;
+      width: 310px;
+      height: 310px;
   }
   .product-img {
-      max-height: 200px !important;
+      max-height: 330px !important;
+      object-fit: cover;
+    width: 100%;
   }
 
   .hero-slide-number {
     display: none; /* Hide slide number on mobile */
   }
+
 }
 
 /* For very small mobile screens (e.g., less than 480px) */
 @media (max-width: 479px) {
+      .knob-mobile-img {
+    max-height: none !important;
+    height: 180px !important;
+    object-fit: contain !important;
+    transform: scale(1.2);   /* zoom effect */
+    margin-top: 20px;        /* adjust position */
+  }
   .slide-content {
-    padding: 30px 15px;
-    min-height: 80vh;
-    justify-content: space-evenly;
-    gap: 5rem;
+    padding: 50px 15px 10px 15px;
+    height: 200px !important;
+    min-height: fit-content;
+    justify-content: flex-start;
+    gap: 0;
     background-position: center right !important;
   }
-
+  .rightImg .circle-elements{
+    height: 350px;
+  }
+  .left-section {
+    margin-bottom: 20px !important;
+  }
   .title {
     font-size: 24px;
     letter-spacing: 2px !important;
@@ -560,17 +580,32 @@ import "swiper/css/effect-fade"; */
   }
 
   .img-bg-clr, .circle-border, .product-img {
-    width: 200px;
-    height: 200px;
-  }
-
-  .circle-border {
     width: 220px;
     height: 220px;
   }
 
+  .circle-border {
+    width: 250px;
+    height: 250px;
+  }
+
   .product-img {
-    max-height: 220px;
+    max-height: 300px !important;
+    object-fit: cover;
+    width: 100%;
+  }
+        .knob-mobile-img {
+    max-height: none !important;
+    height: 160px !important;
+    object-fit: contain !important;
+    transform: scale(1.2);   /* zoom effect */
+    margin-top: 20px;        /* adjust position */
   }
 }
 
+.full-banner-video {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}

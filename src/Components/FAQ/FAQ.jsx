@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './FAQ.css';
-import faqImage from '../../Assets/FAQ-image.png';
-import faqImage2 from '../../Assets/sofo3.jpg';
-import faqImage3 from '../../Assets/right-image-interior.png';
+import faqImg1 from '../../Assets/FAQimages/ChatGPT Image Jan 17, 2026, 01_17_11 PM.png';
+import faqImg2 from '../../Assets/FAQimages/ChatGPT Image Jan 17, 2026, 01_27_06 PM.png';
+import faqImg3 from '../../Assets/FAQimages/mjgsly6a1rsehk06aboi.webp';
+
 
 const faqData = [
   {
@@ -23,7 +24,7 @@ const faqData = [
   },
 ];
 
-const images = [faqImage, faqImage2, faqImage3];
+const images = [faqImg1, faqImg2, faqImg3];
 
 function FAQ() {
   const [activeIndex, setActiveIndex] = useState(null);
@@ -112,7 +113,7 @@ function FAQ() {
   };
 
   return (
-    <div className="Faq-container">
+    <div className="Faq-container" id="faq-section">
       <div className="faq-image-carousel">
         {images.map((img, index) => (
           <img

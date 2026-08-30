@@ -7,6 +7,8 @@
   justify-content: center;
   align-items: center;
   z-index: 10000;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
 .newsletter-modal {
@@ -15,7 +17,7 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  width: 80%;
+  width: 100%;
   max-width: 700px;
   position: relative;
   animation: slideZoomIn 0.5s ease-out;
@@ -35,7 +37,7 @@
 .close-button {
   position: absolute;
   top: 10px;
-  right: 10px;
+  right: 20px;
   background: transparent;
   border: none;
   font-size: 24px;
@@ -45,10 +47,12 @@
 .newsletter-content {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
 }
 
 .newsletter-image {
   flex: 1;
+  min-width: 250px;
   background-color: #f0f0f0;
 }
 
@@ -59,21 +63,22 @@
 }
 
 .newsletter-form {
-    flex: 1;
-    padding: 20px;
-    display: flex;
-    gap: 20px;
-    text-align: center;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  flex: 1;
+  min-width: 250px;
+  padding: 20px;
+  display: flex;
+  gap: 20px;
+  text-align: center;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .newsletter-form input[type="email"] {
   padding: 10px;
-  margin: 10px 0;
   font-size: 16px;
   width: 100%;
+  max-width: 300px;
 }
 
 .subscribe-button {
@@ -84,6 +89,7 @@
   font-size: 16px;
   border: none;
   cursor: pointer;
+
 }
 
 .checkbox-row {
@@ -91,4 +97,52 @@
   display: flex;
   align-items: center;
   gap: 8px;
+  font-size: 14px;
+}
+
+/* Responsive breakpoint */
+@media (max-width: 768px) {
+
+  .newsletter-content {
+    flex-direction: column;
+    background: url(/newsletter-image.jpg);
+  }
+  .newsletter-content::before{
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+  width: 100%; height: 100%;
+  background-color: rgba(214, 214, 214, 0.5);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 0;
+  padding: 20px;
+  box-sizing: border-box;
+  }
+
+  .newsletter-image{
+    display: none;
+  }
+  .newsletter-form {
+    position: relative;
+     z-index: 1;
+    width: 100%;
+  }
+  .close-button {
+   z-index: 2;
+  }
+
+  .newsletter-form p {
+    min-width: auto !important;
+    font-weight: 400;
+    color: #000;
+    max-width: 100%;
+  }
+
+  .newsletter-form input[type="email"] {
+    max-width: 100%;
+  }
 }

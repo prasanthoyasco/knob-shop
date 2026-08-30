@@ -1,0 +1,126 @@
+import React from 'react'
+import NavbarTop from '../Navbar/NavbarTop/NavbarTop';
+import Footer from '../Footer/Footer';
+const htmlContent = `
+  <h1>Shipping & Transportation Policy</h1>
+  <p>Below is our shipping and transport policy to ensure transparency and trust in every order.</p>
+
+  <h2>1) Delivery Timelines</h2>
+  <ul>
+    <li>In-stock products are dispatched within 24-48 business days of order confirmation.</li>
+    <li>Bulk orders may require additional processing time (4-6 days) depending on inventory and logistics coordination.</li>
+    <li>Time required for customized order is depends up on nature of work.</li>
+    <li>Delays may occur due to festivals, government restrictions, or natural calamities.</li>
+    <li>Delivery timelines vary based on location:</li>
+    <li>Note: These are average timelines. Certain factors like pincode availability, courier partner performance, or natural calamities may impact actual delivery time.</li>
+  </ul>
+
+  <h2>2) Shipping Charges</h2>
+  <ul>
+    <li>We offer free shipping on orders above ₹</li>
+    <li>Orders below ₹ will attract a nominal shipping fee of ₹</li>
+  </ul>
+  <h3>Important Notes</h3>
+  <ul>
+    <li>Shipping fees are non-refundable once the product is shipped.</li>
+    <li>For failed delivery due to incorrect address or repeated refusal, re-delivery charges may apply.</li>
+    <li>Bulk orders or items requiring special logistics may incur additional handling charges (informed beforehand) as per the items and distance.</li>
+    <li>Special transport arrangements for oversized or fragile products may incur additional costs. These will be clearly communicated prior to order confirmation.</li>
+  </ul>
+
+  <h2>3) Shipping Partner: DTDC</h2>
+  <p>We have partnered with DTDC Express Ltd., one of India's leading logistics and courier companies, to ensure safe and reliable delivery of your hardware products.</p>
+
+  <h2>4) Packaging & Handling</h2>
+  <p><strong>Safe & Secure Packaging</strong> Each order is packaged with utmost care based on product type, quantity, and delivery distance.</p>
+  <p>All metal items are packed with anti-rust bags or silica gel packs or cotton box where necessary.</p>
+
+  <h2>5) Order Consolidation</h2>
+  <p>For multiple products in one order:</p>
+  <ul>
+    <li>We combine items to reduce shipping waste and improve efficiency. Heavy items are separated from fragile ones inside the same carton using internal partitions.</li>
+    <li>All hardware items are packed with protective materials to avoid transit damage. Fragile items include extra cushioning and tamper-proof seals.</li>
+  </ul>
+
+  <h2>6) Order Tracking Details</h2>
+  <p>Once shipped, tracking details will be shared via email/SMS/Whatsapp. You can track your shipment through our website or the courier partner's site.</p>
+
+  <h3 class="icon-title"><i class="bi bi-truck"></i> 1. Tracking ID Generation</h3>
+  <p>Once your order is dispatched, you will receive:</p>
+  <ul>
+    <li>A Tracking ID / AWB number</li>
+    <li>A Courier Partner Name ( DTDC )</li>
+    <li>A tracking link via:
+      <ul>
+        <li>SMS</li>
+        <li>Email</li>
+        <li>WhatsApp</li>
+      </ul>
+    </li>
+  </ul>
+
+  <h3 class="icon-title"><i class="bi bi-globe"></i> 2. How to Track Your Order</h3>
+  <p>You can track your shipment in three ways:</p>
+  <ul>
+    <li><strong>Via Courier Partner’s Website:</strong></li>
+    <ul>
+      <li>Go to <a href="https://www.dtdc.in/trace.asp" target="_blank">https://www.dtdc.in/trace.asp</a></li>
+      <li>Enter your Order ID and registered mobile number or email</li>
+      <li>Click “Track” to see real-time shipment updates</li>
+    </ul>
+  </ul>
+
+  <h2>7) Delivery Issues</h2>
+  <ul>
+    <li>If you receive a damaged package or if items are missing:</li>
+    <ul>
+      <li>Notify us within 24 hours of delivery.</li>
+      <li>Share photos and order details for quick resolution.</li>
+    </ul>
+  </ul>
+
+  <h2>8) Customer Support Assistance</h2>
+  <ul>
+    <li>If you're unable to track or the link shows no update after 48 hours, please contact our team:</li>
+    <li><i class="bi bi-envelope"></i> Email: <a href="mailto:ecom@knobsshop.store">ecom@knobsshop.store</a></li>
+    <li><i class="bi bi-telephone"></i> Phone/WhatsApp: <a href="tel:7092466600">70924 66600</a></li>
+  </ul>
+
+  <h2>9) Safe Delivery & Proof</h2>
+  <ul>
+    <li>Delivery require OTP confirmation.</li>
+    <li>You will be notified once your order is marked “Delivered”.</li>
+  </ul>
+
+  <h2>10) Failed Deliveries</h2>
+  <p>A delivery attempt will be made up to 3 times. If the order is undelivered due to:</p>
+  <ul>
+    <li>Incorrect address</li>
+    <li>Customer unavailability</li>
+    <li>Refused delivery</li>
+    <li>Phone not reachable</li>
+    <li>Unserviceable PIN code</li>
+  </ul>
+  <p>...the package will be returned to us. Re-delivery will require a new shipping charge to be paid by the customer.</p>
+
+  <h3 class="icon-title"><i class="bi bi-clipboard-check"></i> How to Avoid Failed Deliveries</h3>
+  <ul>
+    <li>Double-check your address and PIN code</li>
+    <li>Ensure your phone number is reachable</li>
+    <li>Choose a delivery slot when someone is available</li>
+  </ul>
+`
+function ShippingPage() {
+  return (
+    <>
+    <NavbarTop/>
+    <div
+        className='terms-and-condition-container'
+        dangerouslySetInnerHTML={{ __html: htmlContent }}
+      />
+      <Footer/>
+      </>
+  )
+}
+
+export default ShippingPage

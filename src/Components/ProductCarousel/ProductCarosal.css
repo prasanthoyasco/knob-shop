@@ -1,3 +1,7 @@
+.product-custom-nav-btn i{
+  font-size: 25px;
+  margin: 0 7px;
+}
 .product-custom-nav-btn{
     pointer-events: auto;
     background: white;

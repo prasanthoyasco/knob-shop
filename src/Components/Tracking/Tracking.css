@@ -1,0 +1,271 @@
+.order-tracking {
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.download-invoice {
+  font-size: 14px;
+  color: #000;
+  text-decoration: underline;
+}
+
+.tracking-steps {
+  position: relative;
+  margin-top: 10px;
+}
+
+.step {
+  text-align: center;
+  width: 100%;
+  position: relative;
+}
+
+.step .icon {
+  width: 60px;
+  height: 60px;
+  margin: 0 auto 20px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  opacity: 0.5;
+}
+
+.step.completed .icon,
+.step.current .icon {
+  opacity: 1;
+}
+
+.step .label {
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.step .date {
+  font-size: 12px;
+  color: #888;
+}
+
+.step::after {
+  content: "";
+  position: absolute;
+  height: 3px;
+  background-color: #d2d2d2;
+  top: 20px;
+  left: 50%;
+  width: 100%;
+  z-index: -1;
+}
+
+.step:first-child::after {
+  left: 50%;
+  width: 50%;
+}
+
+.step:last-child::after {
+  width: 50%;
+}
+
+.completed::after {
+  background-color: #A0522D;
+}
+.tracking-steps .icon{
+border: 0;
+margin-bottom: 2rem;
+}
+
+/* Sample placeholder icons */
+.icon.order-placed {
+  background-image: url('/icons/order-placed.png');
+}
+.icon.order-packed {
+  background-image: url('/icons/order-packed.png');
+}
+.icon.in-transport {
+  background-image: url('/icons/in-transport.png');
+}
+.icon.out-delivery {
+  background-image: url('/icons/out-for-delivery.png');
+}
+.icon.delivered {
+  background-image: url('/icons/delivered.png');
+}
+
+
+.order-progress-container {
+  position: relative;
+  width: 100%;
+  top: 6.5rem;
+  /* padding: 30px 0; */
+}
+
+.progress-line {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background-color: #e0e0e0;
+  border-radius: 10px;
+  z-index: 1;
+  transform: translateY(-50%);
+}
+
+.progress-fill {
+  height: 100%;
+  background-color: #a0522d; /* Brown fill color */
+  border-radius: 10px;
+  transition: width 0.3s ease;
+  z-index: 2;
+}
+
+.progress-steps {
+  display: flex;
+  justify-content: space-around;
+  position: relative;
+  z-index: 3;
+}
+
+.circle {
+  width: 24px;
+  height: 24px;
+  border: 4px solid #e0e0e0;
+  background-color: white;
+  border-radius: 50%;
+  z-index: 4;
+}
+
+.circle.completed {
+  border-color: #a0522d;
+}
+.border-top-bottom{
+   border-bottom: 1px solid #B0B0B0;
+    border-top: 1px solid #B0B0B0;
+}
+
+@media (max-width: 768px) {
+  .tracking-steps-wrapper {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+  .order-track-head{
+    font-size: 14px;
+  }
+  .order-track-id{
+    font-size: 11px;
+  }
+.order-head{
+  text-align: center !important;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #ccc;
+}
+  .order-progress-container {
+    position: relative;
+    width: auto;
+    top: 1.5rem;
+    height: 100%;
+    min-height: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .progress-line {
+    position: absolute;
+    width: 6px;
+    height: 100%;
+    top: 0;
+    left: 75%;
+    transform: translateX(-50%);
+    background-color: #e0e0e0;
+    border-radius: 10px;
+  }
+
+  .progress-fill {
+    width: 6px;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 80%; /* adjust based on step progress */
+    background-color: #a0522d;
+    border-radius: 10px;
+  }
+
+  .progress-steps {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 3;
+  }
+
+  .circle {
+    width: 18px;
+    height: 18px;
+    border-width: 3px;
+  }
+
+  .tracking-steps {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 2rem;
+    padding-left: 1rem;
+  }
+
+  .step {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    text-align: left;
+    gap: 1rem;
+  }
+
+  .step .icon {
+    width: 40px;
+    height: 40px;
+    margin: 0;
+  }
+
+  .step .label {
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .step .date {
+    font-size: 12px;
+    color: #888;
+  }
+
+  .step::after {
+    display: none;
+  }
+
+  .download-invoice {
+    display: block;
+    text-align: center;
+    /* padding-left: 10%; */
+    margin-top: 10px;
+  }
+  .fs-7{
+    font-size: .9rem !important;
+  }
+}
+
+@media (min-width: 768px) {
+  .w-md-100 {
+    width: 100% !important;
+  }
+  .fs-7{
+    font-size: 1.2rem !important;
+    font-weight: 800 !important;
+  }
+}

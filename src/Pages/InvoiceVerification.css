@@ -1,0 +1,144 @@
+.invoice-verify-page {
+  min-height: 58vh;
+  padding: 56px 16px;
+  background: #f5f6f7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.invoice-verify-card {
+  width: min(760px, 100%);
+  background: #fff;
+  border: 1px solid #e4e7eb;
+  padding: 32px;
+  box-shadow: 0 16px 45px rgba(15, 23, 42, 0.08);
+}
+
+.invoice-verify-status {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 10px;
+  background: #e8f7ef;
+  color: #137a3f;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.invoice-verify-status.error {
+  background: #fff0f0;
+  color: #b42318;
+}
+
+.invoice-verify-card h1 {
+  margin: 14px 0 8px;
+  color: #111827;
+  font-size: 32px;
+  font-weight: 800;
+}
+
+.invoice-verify-subtitle,
+.invoice-verify-card p {
+  color: #5b6472;
+  margin-bottom: 24px;
+}
+
+.invoice-verify-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border: 1px solid #e4e7eb;
+  margin: 24px 0;
+}
+
+.invoice-verify-grid div {
+  padding: 16px;
+  border-right: 1px solid #e4e7eb;
+  border-bottom: 1px solid #e4e7eb;
+}
+
+.invoice-verify-grid div:nth-child(2n) {
+  border-right: 0;
+}
+
+.invoice-verify-grid div:nth-last-child(-n + 2) {
+  border-bottom: 0;
+}
+
+.invoice-verify-grid span {
+  display: block;
+  color: #7b8491;
+  font-size: 12px;
+  margin-bottom: 4px;
+}
+
+.invoice-verify-grid strong {
+  color: #111827;
+  font-size: 15px;
+}
+
+.invoice-verify-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.invoice-verify-btn {
+  border-radius: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  padding: 0 18px;
+  background: #111827;
+  color: #fff;
+  text-decoration: none;
+  border: 1px solid #111827;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.invoice-verify-btn:disabled {
+  cursor: wait;
+  opacity: 0.7;
+}
+
+.invoice-verify-btn:hover {
+  color: #fff;
+}
+
+.invoice-verify-btn.secondary {
+  background: #fff;
+  color: #111827;
+}
+
+.invoice-verify-loading {
+  color: #5b6472;
+  font-weight: 700;
+}
+
+@media (max-width: 560px) {
+  .invoice-verify-card {
+    padding: 22px;
+  }
+
+  .invoice-verify-card h1 {
+    font-size: 25px;
+  }
+
+  .invoice-verify-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .invoice-verify-grid div,
+  .invoice-verify-grid div:nth-child(2n),
+  .invoice-verify-grid div:nth-last-child(-n + 2) {
+    border-right: 0;
+    border-bottom: 1px solid #e4e7eb;
+  }
+
+  .invoice-verify-grid div:last-child {
+    border-bottom: 0;
+  }
+}

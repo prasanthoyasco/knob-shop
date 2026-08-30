@@ -1,62 +1,95 @@
 .map-wrapper {
-    padding: 3% 40px 0 40px;
-    background: #f9f9f9;
-    display: flex;
-    justify-content: center;
-  }
-  
-  .map-container {
-    position: relative;
-    width: 100%;
-    height: 500px;
-    border-radius: 16px;
-    overflow: hidden;
-    z-index: 1001;
-  }
-  .map-container iframe{
-    border: 3px solid #C3C3C3;
-    border-radius: 16px;
+  padding: 3% 40px 0 40px;
+  background: #f9f9f9;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
+.tab-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.tab-button {
+  background-color: #e0e0e0;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 0px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.tab-button:hover,
+.tab-button.active {
+  background-color: black;
+  color: white;
+}
+
+.map-container {
+  position: relative;
+  width: 100%;
+  height: 500px;
+  border-radius: 16px;
+  overflow: hidden;
+  z-index: 1001 !important;
+}
+
+.map-container iframe {
+  border: 3px solid #c3c3c3;
+  border-radius: 16px;
+  z-index: 1001 !important;
+}
+
+.map-overlay {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  max-width: 310px;
+}
+
+.map-overlay h3 {
+  margin: 0 0 10px;
+  font-size: 22px;
+  font-weight: bolder;
+  letter-spacing: 1px;
+}
+
+.map-overlay p {
+  font-size: 14px;
+  line-height: 25px;
+  white-space: pre-line;
+}
+
+.direction-button {
+  background: black;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  margin-top: 10px;
+  border-radius: 1.52px;
+  cursor: pointer;
+}
+
+@media (max-width: 600px) {
+  .map-wrapper {
+    padding: 3% 10px 0 10px;
   }
+
   .map-overlay {
-    position: absolute;
-    top: 250px;
-    left: 20px;
-    background: white;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-    max-width: 290px;
-  }
-  
-  .map-overlay h3 {
-    margin: 0 0 10px;
-    font-size: 22px;
-    font-weight: bolder;
-    letter-spacing: 1px;
-  }
-  .map-overlay p{
-    font-size: 14px;
-    line-height: 25px;
-  }
-  
-  .direction-button {
-    background: black;
-    color: white;
-    border: none;
-    padding: 10px 16px;
-    margin-top: 10px;
-    border-radius: 1.52px;
-    cursor: pointer;
-  }
-  @media (max-width: 600px) {
-    .map-wrapper{
-      padding: 3% 10px 0 10px;
-    }
-    .map-overlay {
-          top: 230px;
+    top: 230px;
     left: 10px;
     right: 10px;
-    }
   }
-  
+
+  .tab-buttons {
+    justify-content: center;
+  }
+}

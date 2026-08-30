@@ -147,10 +147,10 @@
   cursor: pointer;
 }
 .custom-swiper-button-prev {
-  left: 10px;
+  left: 1.5%;
 }
 .custom-swiper-button-next {
-  right: 10px;
+  right: 1.5%;
 }
 
 /* Animations for desktop images */
@@ -202,13 +202,13 @@
 
   /* Set the left image as background for each slide */
   .swiper-slide:nth-child(1) .cube-carousel-slide {
-    background-image: url('../../Assets/collectionCarosal1left.jpg') !important;
+    background-image: url('../../Assets/Front Page Doc and Images/Front Page Doc and Images/sec- 3/image (1)/image.png') !important;
   }
   .swiper-slide:nth-child(2) .cube-carousel-slide {
-    background-image: url('../../Assets/collectionCarosal2left.jpg') !important;
+    background-image: url('../../Assets/Front Page Doc and Images/Front Page Doc and Images/sec- 3/image (1)/Kitchen.png') !important;
   }
   .swiper-slide:nth-child(3) .cube-carousel-slide {
-    background-image: url('../../Assets/collectionCarosal3left.jpg') !important;
+    background-image: url('../../Assets/Front Page Doc and Images/Front Page Doc and Images/sec- 3/image (1)/wardrobe.jpeg') !important;
   }
   /* Add more .swiper-slide:nth-child(X) for additional slides if needed */
 

@@ -43,7 +43,11 @@ const slides = [
 const Hero = () => {
   const prevRef = useRef(null);
   const nextRef = useRef(null);
-
+  const handleShopNow = (slide) => {
+    const query = slide.route || slide.text || "all";
+    navigate(`/products/search/${encodeURIComponent(query)}`);
+  };
+  
   return (
     <div className="lighting-home-slider">
       {/* Custom navigation buttons */}

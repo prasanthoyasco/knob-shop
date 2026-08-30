@@ -1,14 +1,10 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
 import ProductCard from "../ProductCard/ProductCard";
 import "./TrendingProducts.css";
-
-import chair from "../../Assets/product-category/p1.jpg";
+import { useNavigate } from "react-router-dom";
+import { getAllProducts } from "../../API/productApi";
 import chair2 from "../../Assets/product-category/p6.jpg";
-import sofa from "../../Assets/product-category/p2.jpg";
-import sofa2 from "../../Assets/product-category/p3.jpg";
-import sofa3 from "../../Assets/product-category/p4.jpg";
-import bchair from "../../Assets/product-category/p3.jpg";
-import bchair1 from "../../Assets/product-category/p7.jpg";
 
 const tabs = [
   "All Products",
@@ -17,70 +13,14 @@ const tabs = [
   "Featured Products",
 ];
 
-const products = [
-  {
-    id: 1,
-    title: "Door Knob",
-    price: 22490,
-    oldPrice: 23599,
-    discount: 5,
-    rating: 4.9,
-    image: bchair,
-    icons: [
-      { name: "Card Key", imgUrl: "/product-icon/card_key.svg" },
-      { name: "Pin Code", imgUrl: "/product-icon/pin_code.svg" },
-      { name: "Fingerprint", imgUrl: "/product-icon/fingerprint.svg" },
-      { name: "Machnic Key", imgUrl: "/product-icon/machnic_key.svg" },
-    ],
-    hoverImage: bchair1,
-  },
-  {
-    id: 3,
-    title: "Safty Locker",
-    price: 9490,
-    oldPrice: 17997,
-    discount: 47,
-    rating: 4.9,
-    image: chair,
-    hoverImage: chair2,
-  },
-  {
-    id: 4,
-    title: "Door Hinje",
-    price: 12290,
-    oldPrice: 14412,
-    discount: 15,
-    rating: 4.8,
-    image: sofa3,
-    hoverImage: sofa3,
-  },
-  {
-    id: 2,
-    title: "Knobs- Door Knob",
-    price: 16290,
-    oldPrice: 19412,
-    discount: 25,
-    rating: 4.9,
-    icons: [
-      { name: "Card Key", imgUrl: "/product-icon/card_key.svg" },
-      { name: "Pin Code", imgUrl: "/product-icon/pin_code.svg" },
-      { name: "Fingerprint", imgUrl: "/product-icon/fingerprint.svg" },
-      { name: "Machnic Key", imgUrl: "/product-icon/machnic_key.svg" },
-    ],
-    image: sofa2,
-    hoverImage: sofa,
-  },
-  {
-    id: 5,
-    title: "Knobs",
-    price: 19490,
-    oldPrice: 23997,
-    discount: 19,
-    rating: 4.9,
-    image: sofa,
-    hoverImage: sofa2,
-  },
-];
+// helper: deterministic "random" index generator
+function seededRandom(seed, max) {
+  let h = 0;
+  for (let i = 0; i < seed.length; i++) {
+    h = (Math.imul(31, h) + seed.charCodeAt(i)) | 0;
+  }
+  return Math.abs(h) % max;
+}
 
 const TrendingProducts = () => {
   const [activeTab, setActiveTab] = useState("All Products");
@@ -89,7 +29,78 @@ const TrendingProducts = () => {
   const isDragging = useRef(false);
   const startPos = useRef(0);
   const scrollLeft = useRef(0);
+  const navigate = useNavigate();
 
+  // ✅ Updated React Query hook
+  const {
+    data: products = [],
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ["products", { random: true, limit: 60 }],
+    queryFn: async () => {
+      // The backend now handles the avgRating, so we can remove the extra API calls
+      const response = await getAllProducts({ random: true, limit: 60 });
+      return response.data;
+    },
+    staleTime: 1000 * 60 * 5, // 5 minutes
+  });
+
+  const handleTabChange = (tab) => setActiveTab(tab);
+
+  const getFilteredProducts = () => {
+    if (!products.length) return [];
+
+    // Group by categoryId
+    const categoryMap = {};
+    products.forEach((product) => {
+      const categoryId = product.category?._id || "Others";
+      if (!categoryMap[categoryId]) {
+        categoryMap[categoryId] = [];
+      }
+      categoryMap[categoryId].push(product);
+    });
+
+    // Deterministic daily seed
+    const today = new Date().toISOString().split("T")[0];
+
+    // Pick one product per category
+    const onePerCategory = Object.keys(categoryMap).map((categoryId) => {
+      const items = categoryMap[categoryId];
+      const idx = seededRandom(today + categoryId, items.length);
+      return items[idx];
+    });
+
+    switch (activeTab) {
+      case "Latest Products":
+        return onePerCategory
+          .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+          .slice(0, 10);
+      case "Best Sellers":
+        return onePerCategory.filter(
+          (product) => product.variant?.[0]?.sizes?.[0]?.sellingPrice > 1000
+        );
+      case "Featured Products":
+        return onePerCategory.filter(
+          (product) => product.discount?.isActive || product.discount
+        );
+      default:
+        return onePerCategory;
+    }
+  };
+
+  const handleViewAll = () => {
+    navigate("/category/all-products", {
+      state: {
+        product: {
+          productList: products,
+          text: "All Products",
+        },
+      },
+    });
+  };
+
+  // auto-scroll carousel
   const startAutoScroll = () => {
     const container = scrollRef.current;
     if (!container) return;
@@ -100,13 +111,10 @@ const TrendingProducts = () => {
 
     autoScrollRef.current = setInterval(() => {
       if (!container) return;
-
       scrollAmount += cardWidth + gap;
-
       if (scrollAmount >= container.scrollWidth - container.clientWidth) {
         scrollAmount = 0;
       }
-
       container.scrollTo({ left: scrollAmount, behavior: "smooth" });
     }, 2000);
   };
@@ -120,7 +128,7 @@ const TrendingProducts = () => {
     isDragging.current = true;
     startPos.current = e.pageX - scrollRef.current.offsetLeft;
     scrollLeft.current = scrollRef.current.scrollLeft;
-    clearInterval(autoScrollRef.current); // Stop auto-scroll on drag
+    clearInterval(autoScrollRef.current);
     scrollRef.current.classList.add("dragging");
   };
 
@@ -128,13 +136,13 @@ const TrendingProducts = () => {
     if (!isDragging.current) return;
     e.preventDefault();
     const x = e.pageX - scrollRef.current.offsetLeft;
-    const walk = (x - startPos.current) * 2; // Adjust multiplier for drag speed
+    const walk = (x - startPos.current) * 2;
     scrollRef.current.scrollLeft = scrollLeft.current - walk;
   };
 
   const onMouseUp = () => {
     isDragging.current = false;
-    startAutoScroll(); // Resume auto-scroll after drag ends
+    startAutoScroll();
     scrollRef.current.classList.remove("dragging");
   };
 
@@ -142,28 +150,34 @@ const TrendingProducts = () => {
     if (isDragging.current) {
       isDragging.current = false;
       scrollRef.current.classList.remove("dragging");
-      startAutoScroll(); // Resume auto-scroll if mouse leaves while dragging
+      startAutoScroll();
     }
   };
+
+  if (isLoading) {
+    return <div className="text-center py-10"></div>;
+  }
+
+  if (isError) {
+    return <div className="text-center py-10 text-red-500">Failed to load products</div>;
+  }
 
   return (
     <section className="container-fluied mx-4 py-5 trending-products">
       <div className="row mb-4">
         <div className="col-md-12">
-          <div className="">
-            <div className="d-flex flex-column align-items-center mb-3 text-center">
-              <h2 className="h5 text-uppercase fw-semibold product-head">
-                <div className="section-line me-2"></div> Our Products
-              </h2>
-            </div>
+          <div className="d-flex flex-column align-items-center mb-3 text-center">
+            <h2 className="h5 text-uppercase fw-semibold product-head">
+              <div className="section-line me-2"></div> Our Products
+            </h2>
           </div>
 
           <ul className="custom-tabs mb-4">
-            {tabs.map((tab) => (
+            {tabs?.map((tab) => (
               <li className="nav-item" key={tab}>
                 <button
                   className={`nav-link ${activeTab === tab ? "active" : ""}`}
-                  onClick={() => setActiveTab(tab)}
+                  onClick={() => handleTabChange(tab)}
                 >
                   {tab}
                 </button>
@@ -179,19 +193,46 @@ const TrendingProducts = () => {
               onMouseMove={onMouseMove}
               onMouseUp={onMouseUp}
               onMouseLeave={onMouseLeave}
-              // You can keep these if you still want auto-scroll to pause on hover
-              // onMouseEnter={() => clearInterval(autoScrollRef.current)}
-              // onMouseLeave={startAutoScroll}
             >
-              {products.map((product, index) => (
-                <div key={index} className="product-scroll-item">
-                  <ProductCard product={product} />
-                </div>
-              ))}
+              {getFilteredProducts()?.map((product, index) => {
+                const {
+                  _id,
+                  name,
+                  price,
+                  compare_price,
+                  images,
+                  variant,
+                  key_features,
+                  discount,
+                  features,
+                  avgRating,
+                } = product;
+
+                const transformedProduct = {
+                  id: _id,
+                  title: name,
+                  price: price || 0,
+                  oldPrice: compare_price || price || 0,
+                  discount: discount?.isActive ? discount.value : "",
+                  rating: avgRating,
+                  variant: variant,
+                  hoverImage: images?.[1] || images?.[0] || chair2,
+                  features: features || [],
+                  icons: key_features,
+                };
+
+                return (
+                  <div key={index} className="product-scroll-item">
+                    <ProductCard product={transformedProduct} />
+                  </div>
+                );
+              })}
             </div>
           </div>
           <div className="d-flex align-items-center justify-content-center mt-3">
-            <button className="ctn btn-animation"> view All Products</button>
+            <button className="ctn btn-animation" onClick={handleViewAll}>
+              view All Products
+            </button>
           </div>
         </div>
       </div>
